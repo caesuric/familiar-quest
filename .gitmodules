@@ -1,0 +1,24 @@
+[submodule "Personal Notes"]
+	path = Personal Notes
+	url = https://github.com/caesuric/familiar-quest-personal-notes.git
+[submodule "server"]
+	path = server
+	url = https://github.com/caesuric/familiar-quest-server.git
+[submodule "FamiliarQuestMainGame/Assets/External/Store Assets"]
+	path = FamiliarQuestMainGame/Assets/External/Store Assets
+	url = https://github.com/caesuric/familiar-quest-external-store-assets.git
+[submodule "FamiliarQuestMainGame/Assets/=IN DEVELOPMENT"]
+	path = FamiliarQuestMainGame/Assets/=IN DEVELOPMENT
+	url = https://github.com/caesuric/familiar-quest-scenes-in-development.git
+[submodule "FamiliarQuestMainGame/Assets/WebPlayerTemplates"]
+	path = FamiliarQuestMainGame/Assets/WebPlayerTemplates
+	url = https://github.com/caesuric/familiar-quest-unused-scripts.git
+[submodule "FamiliarQuestMainGame/Assets/Icons"]
+	path = FamiliarQuestMainGame/Assets/Icons
+	url = https://github.com/caesuric/familiar-quest-icons.git
+[submodule "FamiliarQuestMainGame/Assets/Materials"]
+	path = FamiliarQuestMainGame/Assets/Materials
+	url = https://github.com/caesuric/familiar-quest-materials.git
+[submodule "FamiliarQuestMainGame/Assets/Resources/Icons"]
+	path = FamiliarQuestMainGame/Assets/Resources/Icons
+	url = https://github.com/caesuric/familiar-quest-resources-icons.git
