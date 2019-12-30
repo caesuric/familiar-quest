@@ -1,0 +1,7 @@
+archer,bow
+infernoMage,wand
+warlock,wand
+paladin,sword
+fighter,sword
+cleric,sword
+thief,sword

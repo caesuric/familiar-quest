@@ -1,0 +1,11 @@
+0,Spike Trap,spike,normal,normal,normal
+1,Repeated Spike Trap,spike,normal,repeated,normal
+2,Lava Trap,lava,normal,normal,normal
+3,Arrow Trap,arrow,wall,normal,normal
+4,Arrow Trap,arrow,wall,repeated,normal
+5,Arrow Spread Trap,arrowSpread,wall,normal,normal
+6,Arrow Spread Trap,arrowSpread,wall,repeated,normal
+7,Fireball Trap,fireball,wall,normal,normal
+8,Fireball Trap,fireball,wall,repeated,normal
+9,Pit Trap,pit,normal,repeated,moveDown
+10,Teleport Trap,teleport,normal,normal,teleport

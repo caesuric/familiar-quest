@@ -1,0 +1,7 @@
+archer
+infernoMage
+warlock
+paladin
+fighter
+cleric
+thief

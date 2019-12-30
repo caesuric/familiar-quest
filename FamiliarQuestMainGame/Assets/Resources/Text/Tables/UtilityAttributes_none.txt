@@ -1,0 +1,9 @@
+2,offGCD
+1,usableWhileParalyzed
+4,disableDevice
+4,stealth
+4,stealthy
+4,grapplingHook
+6,speed-
+2,paralyze
+2,immobilizeSelf

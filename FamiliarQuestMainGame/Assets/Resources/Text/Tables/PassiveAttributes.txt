@@ -1,0 +1,11 @@
+21,damageEnemiesOnScreen
+25,experienceBoost
+2,knockback
+4,charge
+2,pullEnemies
+26,goldBoost
+388,boostStat
+64,boostDamage
+64,reduceDamage
+364,reduceElementalDamage
+364,boostElementalDamage

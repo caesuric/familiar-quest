@@ -1,0 +1,9 @@
+﻿acid,13
+bashing,14
+dark,15
+fire,16
+ice,17
+light,18
+none,19
+piercing,20
+slashing,21

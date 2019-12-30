@@ -1,0 +1,46 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
+
+    public string slotType;
+    public int equipNumber = 0;
+    private Color startingColor;
+	// Use this for initialization
+	void Start () {
+        startingColor = GetComponent<Image>().color;
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+    public void OnPointerEnter(PointerEventData data) {
+        if (data.pointerDrag!=null && data.pointerDrag.GetComponent<InventoryItemUpdater>()!=null) {
+            var itemUpdater = data.pointerDrag.GetComponent<InventoryItemUpdater>();
+            if (MatchesSlotType(itemUpdater)) GetComponent<Image>().color = Color.yellow;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData data) {
+        GetComponent<Image>().color = startingColor;
+    }
+
+    public void OnDrop(PointerEventData data) {
+        if (data.pointerDrag!=null && data.pointerDrag.GetComponent<InventoryItemUpdater>()!=null) {
+            var itemUpdater = data.pointerDrag.GetComponent<InventoryItemUpdater>();
+            if (MatchesSlotType(itemUpdater)) {
+                itemUpdater.inventory.EquipItem(itemUpdater.number, equipNumber: equipNumber);
+            }
+        }
+    }
+
+    private bool MatchesSlotType(InventoryItemUpdater iiu) {
+        if (iiu.type == slotType) return true;
+        return false;
+    }
+}

@@ -1,0 +1,8 @@
+1951,damageNearbyEnemies
+1951,hot
+1951,mpOverTime
+488,findSecretDoors
+244,resurrectOnDeath
+975,knockback
+976,pullEnemies
+976,charge

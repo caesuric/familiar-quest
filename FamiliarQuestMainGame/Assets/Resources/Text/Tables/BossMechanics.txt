@@ -1,0 +1,12 @@
+1,damageZones
+1,circleAoe
+1,lineAoe
+1,rage
+1,bulletHell
+1,homingProjectiles
+1,projectileSpreads
+1,jumpAndShoot
+1,charges
+1,teleports
+1,eatMinions
+1,spawnAdds

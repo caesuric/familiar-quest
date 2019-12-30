@@ -1,0 +1,14 @@
+paralysis,0
+mpOverTime,1
+blunting,2
+vulnerable,3
+shield,4
+bashingDamageBuff,5
+slashingDamageBuff,6
+piercingDamageBuff,7
+acidDamageBuff,8
+fireDamageBuff,9
+iceDamageBuff,10
+ligthDamageBuff,11
+darkDamageBuff,12
+bossRage,22

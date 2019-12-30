@@ -1,0 +1,14 @@
+W,Wall,2.5,2,5,2
+D,Door,2.5,2,5,0.5
+RD,Rotated Door,2.5,0.5,5,2
+LD,Locked Door,2.5,2,5,0.5
+RLD,Rotated Locked Door,2.5,0.5,5,2
+S,Secret Door,2.5,2,5,2
+>,Stairs Down,0.0625,2,0.125,2
+<,Stairs Up,0.8764124,1,1,1
+<<,Dungeon Exit,0.8764124,1,1,1
+F,Fountain,0,1,1,1
+@,Statue,1.25,1,1,1
+A,Altar,1.25,1,1,1
+C,Chest,0,1,1,1
+LC,Locked Chest,0,1,1,1

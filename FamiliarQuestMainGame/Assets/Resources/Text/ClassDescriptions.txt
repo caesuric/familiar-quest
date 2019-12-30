@@ -1,0 +1,7 @@
+archer,Archer,Uses ranged Attacks.
+infernoMage,Inferno Mage,Throws MP-using fireballs with an explosion radius.
+warlock,Warlock,Attacks with damage over time and heals self from damage done to enemies.
+paladin,Paladin,Uses a high damage melee attack that consumes MP and a weak melee attack that draws enemy attention from party members.
+fighter,Fighter,Fights using melee attacks. Can shield self from damage.
+cleric,Cleric,Fights using melee attacks. Can cast healing spells.
+thief,Thief,Fights using melee attacks. Can sneak and detect/disarm hidden mechanisms.

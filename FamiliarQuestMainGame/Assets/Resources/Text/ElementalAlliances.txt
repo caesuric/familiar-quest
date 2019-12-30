@@ -1,0 +1,9 @@
+bashing,piercing,slashing
+piercing,bashing,slashing
+slashing,piercing,bashing
+acid,dark,fire
+dark,acid,ice
+fire,acid,light
+ice,dark,light
+light,ice,fire
+none,slashing,piercing,bashing,acid,dark,fire,ice,light

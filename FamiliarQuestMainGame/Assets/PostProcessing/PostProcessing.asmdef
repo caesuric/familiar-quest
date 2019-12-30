@@ -1,0 +1,16 @@
+{
+    "name": "PostProcessing",
+    "references": [
+        "GUID:a35efad8797223d499f8c68b1f545dbc",
+        "GUID:d60799ab2a985554ea1a39cd38695018"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

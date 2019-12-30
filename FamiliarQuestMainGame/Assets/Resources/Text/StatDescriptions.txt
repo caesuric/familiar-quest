@@ -1,0 +1,6 @@
+strength,Improves melee attack damage and slightly increases healing received.
+dexterity,Improves ranged attack damage and slightly increases critical hit rate.
+constitution,Improves hit points and physical saves.
+intelligence,Improves magical attack damage and increases MP.
+wisdom,Improves healing ability and mental saves.
+luck,More advantageous status effect durations. Better rewards may be found.

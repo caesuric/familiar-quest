@@ -1,0 +1,14 @@
+2,offGCD
+1,usableWhileParalyzed
+2,mpOverTime
+4,elementalDamageBuff
+4,heal
+4,hot
+2,shield
+4,restoreMP
+4,stealthy
+2,immobilizeSelf
+4,removeDebuff
+2,removeAllDebuffs
+1,eatDebuff
+5,speed+

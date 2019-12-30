@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: cfe90a9ee540b5e448291d74d3dda50a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_PlayerPrefab: {fileID: 1350960040594250, guid: 5f1f11e03b35bdf4e95ed7bdda7f74f3,
+      type: 2}
+  - matchMaker: {instanceID: 0}
+  - gameTypeScreen: {instanceID: 0}
+  - internetGameScreen: {instanceID: 0}
+  - lanGameScreen: {instanceID: 0}
+  - matchCreationScreen: {instanceID: 0}
+  - searchScreen: {instanceID: 0}
+  - worldScreen: {instanceID: 0}
+  - newWorldScreen: {instanceID: 0}
+  - hud: {instanceID: 0}
+  - hudStatusText: {instanceID: 0}
+  - hudDisconnect: {instanceID: 0}
+  - hudEndGame: {instanceID: 0}
+  - matchNameInput: {instanceID: 0}
+  - worldNameInput: {instanceID: 0}
+  - serverListBox: {instanceID: 0}
+  - worldListBox: {instanceID: 0}
+  - serverEntryPrefab: {instanceID: 0}
+  - worldEntryPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

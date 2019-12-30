@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Fire
+  - Collide
+  - Wall
+  - MeleeHitbox
+  - Enemy
+  - RotatingMask
+  - ConfigObject
+  - CanDestroy
+  - Robot
+  - Floor
+  - Door
+  - TrapTrigger
+  - Inventory
+  - SpiritScreen
+  - Minimap
+  - HotbarButton
+  - LevelUpMenu
+  - LobbyCurtain
+  - KittenBody
+  - KittenEyes
+  - dirt
+  - PlayerInterface
+  - OverlordInterface
+  - FPSBar
+  - CharacterSheet
+  - InventoryDetails
+  - DungeonDressing
+  - Canvas
+  - AbilityScreen
+  - SettingsMenu
+  - ControlsReference
+  - ObjectHelpText
+  - ReadingPane
+  - AbilityGuide
+  - Changelog
+  - MouseOverPanel
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Enemy
+  - Player
+  - Wall
+  - DungeonMappable
+  - Floor
+  - Dressing
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

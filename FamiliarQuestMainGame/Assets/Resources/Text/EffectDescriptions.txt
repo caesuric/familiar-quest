@@ -1,0 +1,22 @@
+paralysis,Cannot move
+blind,Vision limited
+poison,Taking damage over time
+damage+,Damage dealt increased
+speed+,Movement speed increased
+shield,Shielded from a certain amount of total damage
+bashingDamageBuff,Bashing damage dealt increased
+slashingDamageBuff,Slashing damage dealt increased
+piercingDamageBuff,Piercing damage dealt increased
+fireDamageBuff,Fire damage dealt increased
+iceDamageBuff,Ice damage dealt increased
+acidDamageBuff,Acid damage dealt increased
+lightDamageBuff,Light damage dealt increased
+darkDamageBuff,Dark damage dealt increased
+mpOverTime,MP being restored gradually
+blunting,All damage dealt prevented up to a certain total limit
+vulnerability,Damage taken increased
+dde,Will take damage when effect ends
+dot,Taking gradual damage
+hot,HP being restored gradually
+stealth,Hiding from sight and moving silently.
+speed-,Movement speed decreased

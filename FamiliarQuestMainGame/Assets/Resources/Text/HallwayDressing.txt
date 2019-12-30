@@ -1,0 +1,7 @@
+banner,wallsRandom,1,1
+banner,allWallsEven,1,1
+banner,oneWallEven,3,3
+torch,oneWallEven,1,1
+torch,allWallsEven,1,3
+hangingRope,middleRandom,1,1
+hangingChain,middleRandom,1,1

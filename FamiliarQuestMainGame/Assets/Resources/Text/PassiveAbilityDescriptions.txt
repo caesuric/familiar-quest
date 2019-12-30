@@ -1,0 +1,8 @@
+damageNearbyEnemies,Damages all nearby enemies
+hot,Regenerates your health slowly
+mpOverTime,Regenerates your MP slowly
+findSecretDoors,Detect secret doors
+resurrectOnDeath,Resurrect with full health upon death once per hour
+knockback,All non-weapon attacks gain knockback
+pullEnemies,All non-weapon ranged attacks pull enemies to you
+charge,All non-weapon melee attacks cause you to charge forward

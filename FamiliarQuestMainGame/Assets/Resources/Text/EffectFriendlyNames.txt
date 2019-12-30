@@ -1,0 +1,22 @@
+paralysis,Paralysis
+blind,Blinded
+poison,Poisoned
+damage+,Damage Boost
+speed+,Speed Boost
+shield,Shield
+bashingDamageBuff,Bashing Damage Boost
+slashingDamageBuff,Slashing Damage Boost
+piercingDamageBuff,Piercing Damage Boost
+fireDamageBuff,Fire Damage Boost
+iceDamageBuff,Ice Damage Boost
+acidDamageBuff,Acid Damage Boost
+lightDamageBuff,Light Damage Boost
+darkDamageBuff,Dark Damage Boost
+mpOverTime,MP Restoration
+blunting,Blunting
+vulnerability,Vulnerability
+dde,Delayed Damage Effect
+dot,Damage Over Time
+hot,Healing Over Time
+stealth,Stealth
+speed-,Speed Reduction
