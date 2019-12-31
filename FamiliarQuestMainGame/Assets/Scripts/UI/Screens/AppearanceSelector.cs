@@ -8,15 +8,6 @@ using UnityEngine.SceneManagement;
 public class AppearanceSelector : MonoBehaviour {
 
     public string characterName;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void SelectKitten(int furType) {
         var character = SavedCharacter.BrandNewCharacter(characterName, furType);

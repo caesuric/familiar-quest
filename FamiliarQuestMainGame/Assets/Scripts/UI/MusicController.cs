@@ -16,12 +16,12 @@ public class MusicController : MonoBehaviour {
     public AudioClip templeMusic;
     public AudioClip tombMusic;
     public AudioClip treasureMusic;
-    private AudioSource audio;
+    private AudioSource audioSource;
 
     void Awake() {
         if (instance == null) {
             instance = this;
-            audio = GetComponent<AudioSource>();
+            audioSource = GetComponent<AudioSource>();
         }
         else if (instance != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
@@ -34,13 +34,13 @@ public class MusicController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (audio.clip == dungeonMusic && audio.time >= 262) audio.time = 18f;
+        if (audioSource.clip == dungeonMusic && audioSource.time >= 262) audioSource.time = 18f;
 	}
 
     public void PlayMusic(AudioClip music) {
-        if (audio.clip != music) {
-            audio.clip = music;
-            audio.Play();
+        if (audioSource.clip != music) {
+            audioSource.clip = music;
+            audioSource.Play();
         }
     }
 }

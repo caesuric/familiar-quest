@@ -136,10 +136,10 @@ public class InputController : MonoBehaviour {
             var euler = hips.transform.eulerAngles;
             hips.transform.eulerAngles = new Vector3(0, euler.y, euler.z);
         }
-        if (hotbarButtons==null || hotbarButtons.Length==0 || hotbarButtons[0] == null) Restart();
+        if (hotbarButtons == null || hotbarButtons.Length == 0 || hotbarButtons[0] == null) Restart();
         if (inventory == null || characterSheet == null || rigidbody == null || character == null) Initialize();
         if (inventory == null || characterSheet == null || rigidbody == null || character == null) return;
-        if (character.GetComponent<Health>().hp<=0 || character==null) return;
+        if (character.GetComponent<Health>().hp <= 0 || character == null) return;
         GetComponent<InputAbilities>().KeyboardCheck();
         GetComponent<InputAbilities>().RightStickCheck();
         GetComponent<InputAbilities>().DPadCheck();
@@ -223,13 +223,12 @@ public class InputController : MonoBehaviour {
         fpsBar.SetActive(fpsActive);
     }
 
-    void LateUpdate () {
+    void LateUpdate() {
         animationController.Animate();
-        //if (!isLocalPlayer || character == null || character.GetComponent<Health>().hp <= 0) return;
         if (!GetComponent<PlayerCharacter>().isMe || GetComponent<Health>().hp <= 0) return;
         InputMovement.KeyboardCheck();
         InputMovement.MouseCheck();
-	}
+    }
 
     //[Command]
     public void CmdSetMoving(bool state) {
@@ -274,20 +273,6 @@ public class InputController : MonoBehaviour {
         GetComponent<HotbarUser>().UseHotbarAbility(0, currentAltAbility);
     }
 
-    //private void FuseIfPossible() {
-    //    if (GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget1] is AttackAbility && GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget2] is AttackAbility) Fuse();
-    //    fusionMode = false;
-    //    fusionTarget1 = -1;
-    //    fusionTarget2 = -1;
-    //}
-
-    //private void Fuse() {
-    //    var newAbility = AttackAbility.Fuse((AttackAbility)GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget1], (AttackAbility)GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget2]);
-    //    GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget1] = newAbility;
-    //    GetComponent<SpiritUser>().spirits[0].activeAbilities.Remove(GetComponent<SpiritUser>().spirits[0].activeAbilities[fusionTarget2]);
-    //    GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
-    //}
-
     //[Command]
     public void CmdAttack() {
         if (character.GetComponent<AbilityUser>().GCDTime > 0 || character.GetComponent<Health>().hp <= 0) return;
@@ -327,14 +312,11 @@ public class InputController : MonoBehaviour {
     }
 
     //[Command]
-    public void CmdSwitchTarget()
-    {
+    public void CmdSwitchTarget() {
         var pst = GameObject.FindGameObjectWithTag("ConfigObject").GetComponent<PartyStatusTracker>();
         var player = GetComponent<PlayerCharacter>();
-        for (int i = 0; i < pst.id.Count; i++)
-        {
-            if (player.target == pst.id[i])
-            {
+        for (int i = 0; i < pst.id.Count; i++) {
+            if (player.target == pst.id[i]) {
                 if (i < pst.id.Count - 1) player.target = pst.id[i + 1];
                 else player.target = pst.id[0];
                 return;

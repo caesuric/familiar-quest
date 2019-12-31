@@ -27,9 +27,4 @@ public class MenuUser : MonoBehaviour {
         var dependencies = new List<string>() { "PlayerCharacter", "Character" };
         Dependencies.Check(gameObject, dependencies);
     }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
 }

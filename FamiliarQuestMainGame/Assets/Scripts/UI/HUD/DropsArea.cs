@@ -16,11 +16,6 @@ public class DropsArea : MonoBehaviour {
     void Start () {
         if (instance == null) instance = this;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public static void AddItemDrop(Equipment item) {
         var obj = Instantiate(instance.itemPrefab, instance.transform);

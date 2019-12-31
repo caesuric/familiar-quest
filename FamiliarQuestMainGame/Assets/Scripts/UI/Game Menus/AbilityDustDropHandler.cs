@@ -13,11 +13,6 @@ public class AbilityDustDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
         startingColor = GetComponent<Image>().color;
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void OnPointerEnter(PointerEventData data) {
         if (IsValid(data.pointerDrag)) {
             GetComponent<Image>().color = Color.yellow;

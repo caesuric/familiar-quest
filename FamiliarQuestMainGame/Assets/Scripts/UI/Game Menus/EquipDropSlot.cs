@@ -13,11 +13,6 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
 	void Start () {
         startingColor = GetComponent<Image>().color;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void OnPointerEnter(PointerEventData data) {
         if (data.pointerDrag!=null && data.pointerDrag.GetComponent<InventoryItemUpdater>()!=null) {

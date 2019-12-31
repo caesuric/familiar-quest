@@ -24,6 +24,8 @@ Runs on Windows, Linux, and Mac, with Android builds confirmed working and comin
 
 Running the server requires Python 3.x. To install the requirements, navigate to the `server` folder and run `pip install -r requirements.txt`
 
+The game files are compatible with Unity 2019.3.0f1+
+
 ## Cloning the repository
 
 This repository uses Git LFS (Large File Storage) and submodules, so there are a few steps involved in getting started:

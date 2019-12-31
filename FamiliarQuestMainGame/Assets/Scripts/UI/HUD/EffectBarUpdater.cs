@@ -8,10 +8,6 @@ public class EffectBarUpdater : MonoBehaviour {
 
     public Character character;
     public GameObject effectIcon;
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

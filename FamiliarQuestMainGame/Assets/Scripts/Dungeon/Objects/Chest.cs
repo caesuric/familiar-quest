@@ -10,17 +10,6 @@ public class Chest : Hideable {
         items.Add(this);
 	}
 
-    //private void OnTriggerStay(Collider other) {
-    //    if (!NetworkServer.active) return;
-    //    var pc = other.GetComponent<PlayerCharacter>();
-    //    if (pc != null) {
-    //        prune = true;
-    //        GetComponent<RewardGiver>().DropLoot(pc.GetComponent<Character>(), guaranteed: true);
-    //        pc.GetComponent<AudioGenerator>().PlaySoundByName("sfx_chest_open3");
-    //        Destroy(gameObject);
-    //    }
-    //}
-
     public void Use() {
         //if (!NetworkServer.active) return;
         var pc = GetComponent<UsableObject>().user;

@@ -6,12 +6,6 @@ using UnityEngine.Networking;
 public class LandSquid : MonoBehaviour {
 
     private bool initialized = false;
-    // Use this for initialization
-    void Start()
-    {
-
-
-    }
 
     // Update is called once per frame
     void Update()

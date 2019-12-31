@@ -135,7 +135,7 @@ public class SecondaryStatUtility {
     private static int DetermineAverage(int level) {
         int primaryStat = 10;
         for (int i = 1; i < level; i++) {
-            int bonusPoints = (int)((primaryStat *6) * 0.02f); //1.02f
+            int bonusPoints = (int)((primaryStat *6) * 0.02f);
             if (bonusPoints < 1) bonusPoints = 1;
             primaryStat = (int)Mathf.Max(primaryStat + 1f, primaryStat * 1.08f);
             primaryStat += (int)Mathf.Round(bonusPoints / 6);

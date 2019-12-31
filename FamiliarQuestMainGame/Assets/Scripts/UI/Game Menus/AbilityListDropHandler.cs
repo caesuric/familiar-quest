@@ -12,11 +12,6 @@ public class AbilityListDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
 	void Start () {
         startingColor = GetComponent<Image>().color;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void OnPointerEnter(PointerEventData data) {
         if (IsValid(data.pointerDrag)) {

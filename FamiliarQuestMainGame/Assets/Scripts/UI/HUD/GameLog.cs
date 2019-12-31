@@ -21,10 +21,10 @@ public class GameLog : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	//void Update () {
         //var value = scrollbar.value;
         //if (value == 0) scrollRect.verticalNormalizedPosition = 0;
-    }
+    //}
 
     public static void AddText(string textToAdd) {
         textToAdd = textToAdd.Replace("(Clone)", "");

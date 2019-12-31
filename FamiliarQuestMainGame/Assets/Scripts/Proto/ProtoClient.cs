@@ -88,10 +88,10 @@ public class ProtoClient {
     }
 
     private static void RemoveOldCharacters(CharacterWorldStates states) {
-
+        // STUB: TODO
     }
 
     private static void RemoveOldPlayers(CharacterWorldStates states) {
-
+        // STUB: TODO
     }
 }

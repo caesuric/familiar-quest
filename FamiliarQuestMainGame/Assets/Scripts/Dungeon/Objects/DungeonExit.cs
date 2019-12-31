@@ -8,10 +8,6 @@ public class DungeonExit : MonoBehaviour {
     public bool onWayUp = false;
     AutoSaver saveBlocker = null;
     bool used = false;
-    // Use this for initialization
-    void Start() {
-        
-    }
 
     // Update is called once per frame
     void Update() {
@@ -24,21 +20,6 @@ public class DungeonExit : MonoBehaviour {
             onWayUp = false;
         }
     }
-
-    //private void OnTriggerEnter(Collider other) {
-    //    if (!NetworkServer.active) return;
-    //    var otherPlayerCharacter = other.GetComponent<PlayerCharacter>();
-    //    if (otherPlayerCharacter != null) {
-    //        InitializeLevel.currentFloor = 0;
-    //        InitializeLevel.instance.CmdSetCurrentFloor(0);
-    //        otherPlayerCharacter.configLoaded = false;
-    //        SceneInitializer.instance.inside = true;
-    //        otherPlayerCharacter.GetComponent<AutoSaver>().SaveCharacter();
-    //        character = otherPlayerCharacter;
-    //        saveBlocker = otherPlayerCharacter.GetComponent<AutoSaver>();
-    //        onWayUp = true;
-    //    }
-    //}
 
     public void Use() {
         //if (!NetworkServer.active) return;

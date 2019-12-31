@@ -36,7 +36,7 @@ public class Hider : MonoBehaviour //: NetworkBehaviour
     }
 
     public bool IsSeen(Hideable item) {
-        if (item.GetComponent<GoblinRogue>()!=null) {
+        if (item.GetComponent<GoblinRogue>() != null) {
             var gr = item.GetComponent<GoblinRogue>();
             if (gr.hidden) return false;
         }

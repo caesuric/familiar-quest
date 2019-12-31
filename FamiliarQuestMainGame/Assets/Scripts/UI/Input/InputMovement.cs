@@ -33,7 +33,6 @@ public class InputMovement {
         if (character == null || character.GetComponent<StatusEffectHost>().CheckForEffect("paralysis")) return;
         CheckForStealthAndApplyEffect();
         MoveCharacter();
-        //SyncPosition();
     }
 
     public static void MouseCheck() {
@@ -43,7 +42,6 @@ public class InputMovement {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit)) character.transform.LookAt(hit.point, character.transform.up);
             character.transform.eulerAngles = new Vector3(0, character.transform.eulerAngles.y, 0);
-            //MoveCharacterWithoutFacing();
             controller.CmdUsePrimaryAbility(character.transform.eulerAngles);
         }
         else if (Input.GetMouseButton(1) && !ClickIsOnUi()) {
@@ -123,29 +121,14 @@ public class InputMovement {
         }
     }
 
-    private static void SyncPosition() {
-        if (updateRate == 0) {
-            var obj = controller.GetComponent<NetworkInterpolatePlayerPosition>();
-            if (obj != null) updateRate = obj.syncRate;
-        }
-        timer += Time.deltaTime;
-        if (timer >= updateRate) {
-            timer -= updateRate;
-            if (lastPosX != controller.transform.position.x || lastPosY != controller.transform.position.z || lastRotation != controller.transform.eulerAngles.y) controller.CmdSetPosition(controller.transform.position.x, controller.transform.position.z, controller.transform.eulerAngles.y);
-            lastPosX = controller.transform.position.x;
-            lastPosY = controller.transform.position.z;
-            lastRotation = controller.transform.eulerAngles.y;
-        }
-    }
-
     public static bool ClickIsOnUi() {
-        if (canvas==null) canvas = GameObject.FindGameObjectWithTag("Canvas");
+        if (canvas == null) canvas = GameObject.FindGameObjectWithTag("Canvas");
         var caster = canvas.GetComponent<GraphicRaycaster>();
         var pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         caster.Raycast(pointerEventData, results);
-        if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name!="Minimap" && results[0].gameObject.name!="Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;
+        if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name != "Minimap" && results[0].gameObject.name != "Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;
         return false;
     }
 }

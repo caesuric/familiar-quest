@@ -13,18 +13,7 @@ public class ButtonBar : MonoBehaviour {
     public GameObject settings;
     public GameObject canvas;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void ToggleCharacterSheet() {
-        //characterSheet.SetActive(!characterSheet.activeSelf);
         SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
@@ -33,7 +22,6 @@ public class ButtonBar : MonoBehaviour {
     public void ToggleInventory() {
         SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
-        //inventory.SetActive(!inventory.activeSelf);
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
     }
 

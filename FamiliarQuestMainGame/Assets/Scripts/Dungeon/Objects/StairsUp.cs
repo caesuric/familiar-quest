@@ -10,11 +10,6 @@ public class StairsUp : MonoBehaviour {
     AutoSaver saveBlocker = null;
     public bool used = false;
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
 	// Update is called once per frame
 	void Update () {
         if (onWayUpstairs && !saveBlocker.currentlySaving) {
@@ -27,24 +22,6 @@ public class StairsUp : MonoBehaviour {
             onWayUpstairs = false;
         }
 	}
-    //private void OnTriggerEnter(Collider other) {
-    //    if (!NetworkServer.active) return;
-    //    var otherPlayerCharacter = other.GetComponent<PlayerCharacter>();
-    //    if (otherPlayerCharacter != null) {
-    //        otherPlayerCharacter.configLoaded = false;
-    //        //InitializeLevel.targetLevel -= 1;
-    //        InitializeLevel.currentFloor -= 1;
-    //        InitializeLevel.instance.CmdSetTargetLevel(InitializeLevel.targetLevel);
-    //        InitializeLevel.instance.CmdSetCurrentFloor(InitializeLevel.currentFloor);
-    //        InitializeLevel.SetEndingPosition();
-    //        InitializeLevel.goingDown = true;
-    //        InitializeLevel.ClearObjectLists();
-    //        otherPlayerCharacter.GetComponent<AutoSaver>().SaveCharacter();
-    //        character = otherPlayerCharacter;
-    //        saveBlocker = otherPlayerCharacter.GetComponent<AutoSaver>();
-    //        onWayUpstairs = true;
-    //    }
-    //}
 
     public void Use() {
         //if (!NetworkServer.active) return;
