@@ -12,11 +12,6 @@ public class AutoSaver : DependencyUser {
     public bool currentlySaving = false;
     private float autoSaveTimer = 0;
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
     // Update is called once per frame
     void Update() {
         //if (NetworkServer.active) {

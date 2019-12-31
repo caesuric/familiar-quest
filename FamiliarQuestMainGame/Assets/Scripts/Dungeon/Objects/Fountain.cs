@@ -11,24 +11,6 @@ public class Fountain : Hideable {
         items.Add(this);
     }
 
-    //private void OnTriggerStay(Collider other) {
-    //    if (!NetworkServer.active) return;
-    //    if (fountainUsed) return;
-    //    var otherPlayerCharacter = other.GetComponent<PlayerCharacter>();
-    //    if (otherPlayerCharacter != null) {
-    //        fountainUsed = true;
-    //        int roll = Random.Range(0, 2);
-    //        if (roll == 0) {
-    //            otherPlayerCharacter.GetComponent<StatusEffectHost>().AddStatusEffect("poison", 9f);
-    //            otherPlayerCharacter.GetComponent<ObjectSpawner>().CreateFloatingStatusText("POISONED BY FOUNTAIN!", "Poisoned by fountain!");
-    //        }
-    //        else {
-    //            otherPlayerCharacter.GetComponent<Health>().hp = otherPlayerCharacter.GetComponent<Health>().maxHP;
-    //            otherPlayerCharacter.GetComponent<ObjectSpawner>().CreateFloatingStatusText("HEALED TO FULL BY FOUNTAIN!", "Healed to full by fountain!");
-    //        }
-    //    }
-    //}
-
     public void Use() {
         //if (!NetworkServer.active) return;
         if (fountainUsed) return;

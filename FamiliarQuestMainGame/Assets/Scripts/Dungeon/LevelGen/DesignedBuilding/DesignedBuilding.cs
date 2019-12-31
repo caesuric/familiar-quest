@@ -41,7 +41,6 @@ public class DesignedBuilding : Dungeon {
         socialStructure.population[0].associatedRooms = new List<Room> { bossRoom };
         layout = new DesignedBuildingLayout(this);
         layout.LayoutRooms();
-        //Debug.Log(Print(livingQuarters, commonSpaces));
     }
 
     private int GetMaxSocialTier(SocialStructure socialStructure) {

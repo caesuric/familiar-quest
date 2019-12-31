@@ -11,24 +11,6 @@ public class Altar : Hideable {
         items.Add(this);
 	}
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (!NetworkServer.active) return;
-    //    if (used) return;
-    //    var playerCharacter = other.GetComponent<PlayerCharacter>();
-    //    if (playerCharacter != null)
-    //    {
-    //        used = true;
-    //        //playerCharacter.GetComponent<ConfigGrabber>().sharedInventory.spareSpirits.Add(new Spirit());
-    //        var spirit = new Spirit(InitializeLevel.targetLevel);
-    //        foreach (var ability in spirit.activeAbilities) playerCharacter.GetComponent<SpiritUser>().spirits[0].activeAbilities.Add(ability);
-    //        prune = true;
-    //        Destroy(gameObject);
-    //        playerCharacter.GetComponent<ObjectSpawner>().CreateFloatingStatusText("ABILITY FOUND", "Ability found!");
-    //        playerCharacter.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
-    //    }
-    //}
-
     public void Use() {
         //if (!NetworkServer.active) return;
         if (used) return;

@@ -9,11 +9,6 @@ public class TownExit : MonoBehaviour {
     AutoSaver saveBlocker = null;
     bool used = false;
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
     // Update is called once per frame
     void Update() {
         if (onWayUp && !saveBlocker.currentlySaving) {

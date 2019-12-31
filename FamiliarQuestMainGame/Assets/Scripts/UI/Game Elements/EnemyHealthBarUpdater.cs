@@ -6,10 +6,6 @@ using UnityEngine.Networking;
 public class EnemyHealthBarUpdater : MonoBehaviour {
 
     public Character attr;
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

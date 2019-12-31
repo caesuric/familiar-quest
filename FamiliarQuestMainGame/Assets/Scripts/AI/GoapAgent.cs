@@ -22,11 +22,6 @@ public abstract class GoapAgent : MonoBehaviour {
         foreach (var sensor in sensors) sensor.Run(this);
         if (!busy && !planning) {
             planning = true;
-            //planner.Plan(this);
-
-            //var coroutine = planner.Plan(this);
-            //StartCoroutine(coroutine);
-
             plannerTask = new Task(() => planner.Plan(this));
             plannerTask.Start();
         }

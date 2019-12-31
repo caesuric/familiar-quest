@@ -28,24 +28,6 @@ public class StairsDown : MonoBehaviour {
 
         }
 	}
-    //private void OnTriggerEnter(Collider other) {
-    //    if (!NetworkServer.active) return;
-    //    var otherPlayerCharacter = other.GetComponent<PlayerCharacter>();
-    //    if (otherPlayerCharacter != null) {
-    //        otherPlayerCharacter.configLoaded = false;
-    //        //InitializeLevel.targetLevel += 1;
-    //        InitializeLevel.currentFloor += 1;
-    //        InitializeLevel.instance.CmdSetTargetLevel(InitializeLevel.targetLevel);
-    //        InitializeLevel.instance.CmdSetCurrentFloor(InitializeLevel.currentFloor);
-    //        InitializeLevel.SetStartingPosition();
-    //        InitializeLevel.goingDown = true;
-    //        InitializeLevel.ClearObjectLists();
-    //        otherPlayerCharacter.GetComponent<AutoSaver>().SaveCharacter();
-    //        character = otherPlayerCharacter;
-    //        saveBlocker = otherPlayerCharacter.GetComponent<AutoSaver>();
-    //        onWayDownstairs = true;
-    //    }
-    //}
 
     public void Use() {
         //if (!NetworkServer.active) return;

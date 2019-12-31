@@ -17,7 +17,6 @@ public class HealthBarUpdater : MonoBehaviour {
         if (attr == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) {
-                //if (item.GetComponent<NetworkIdentity>().isLocalPlayer) {
                 if (item.GetComponent<PlayerCharacter>().isMe) {
                     attr = item.GetComponent<Character>();
                 }

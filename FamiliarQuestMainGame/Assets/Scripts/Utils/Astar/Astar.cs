@@ -8,32 +8,6 @@ class Astar {
     public Dictionary<Coordinates, float> costSoFar = new Dictionary<Coordinates, float>();
     public Coordinates end = null;
 
-    //public Dictionary<Coordinates, Coordinates> SearchToRoom(Graph graph, Coordinates start, Room endRoom) {
-    //    var frontier = new Priority_Queue.FastPriorityQueue<Coordinates>(10000);
-    //    frontier.Enqueue(start, 0);
-    //    cameFrom[start] = start;
-    //    costSoFar[start] = 0;
-    //    var endRoomCenter = new Coordinates((endRoom.x + endRoom.xSize) / 2, (endRoom.y + endRoom.ySize) / 2);
-    //    while (frontier.Count>0) {
-    //        var current = frontier.Dequeue();
-    //        //Debug.Log(current.x + "," + current.y + ": " + costSoFar[current]);
-    //        if (ReachedEnd(current, endRoom)) {
-    //            end = current;
-    //            break;
-    //        }
-    //        foreach (var next in graph.Neighbors(current)) {
-    //            var newCost = costSoFar[current] + graph.Cost(next);
-    //            if (ContainsKey(costSoFar, next) || newCost < RetrieveKey(costSoFar, next)) {
-    //                SetKey(costSoFar, next, newCost);
-    //                float priority = newCost + Heuristic(next, endRoomCenter);
-    //                frontier.Enqueue(next, priority);
-    //                cameFrom[next] = current;
-    //            }
-    //        }
-    //    }
-    //    return cameFrom;
-    //}
-
     public Dictionary<Coordinates, Coordinates> SearchUnfilled(Graph graph, Coordinates start, Coordinates end) {
         var frontier = new Priority_Queue.FastPriorityQueue<Coordinates>(10000);
         frontier.Enqueue(start, 0);
@@ -237,10 +211,6 @@ public class InverseGraph {
 
     public int Cost(Coordinates c) {
         var cost = 1;
-        //var neighbors = Neighbors(c);
-        //var neighborsCount = 0;
-        //foreach (var neighbor in neighbors) neighborsCount++;
-        //if (neighborsCount < 4) cost += 50;
         return cost;
     }
 };

@@ -139,9 +139,6 @@ public static class LevelGenConnectorUtils {
         if (chain.Count > 0) chain.Reverse();
         if (chain.Count == 0 || chain[0] != start) return false;
         foreach (var entry in chain) if (entry.x < 0 || entry.y < 0 || entry.x >= 120 || entry.y >= 120) return false;
-        //Debug.Log("Start: " + start.x.ToString() + "," + start.y.ToString());
-        //Debug.Log("End: " + end.x.ToString() + "," + end.y.ToString());
-        //foreach (var entry in chain) Debug.Log("Point: " + entry.x.ToString() + "," + entry.y.ToString());
         Corridor newCorridor = null;
         foreach (var entry in chain) {
             bool first = true;
@@ -348,4 +345,3 @@ public static class LevelGenConnectorUtils {
         else return false;
     }
 }
- 

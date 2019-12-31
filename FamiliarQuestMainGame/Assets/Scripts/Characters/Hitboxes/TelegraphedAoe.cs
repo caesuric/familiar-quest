@@ -10,11 +10,6 @@ public class TelegraphedAoe : MonoBehaviour {
     private float damage = 0;
     private List<GameObject> touching = new List<GameObject>();
     public GameObject creator = null;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

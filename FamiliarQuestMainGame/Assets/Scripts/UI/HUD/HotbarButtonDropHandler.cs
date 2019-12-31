@@ -5,18 +5,8 @@ using UnityEngine.EventSystems;
 
 public class HotbarButtonDropHandler : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void OnPointerEnter(PointerEventData data) {
-        
+
     }
 
     public void OnPointerExit(PointerEventData data) {
@@ -67,4 +57,3 @@ public class HotbarButtonDropHandler : MonoBehaviour, IDropHandler, IPointerEnte
         GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>().UpdateAbilities();
     }
 }
-

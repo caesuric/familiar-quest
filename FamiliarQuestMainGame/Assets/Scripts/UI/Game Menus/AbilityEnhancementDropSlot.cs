@@ -17,11 +17,6 @@ public class AbilityEnhancementDropSlot : MonoBehaviour, IDropHandler, IPointerE
         abilityMenu = GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>();
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void OnPointerEnter(PointerEventData data) {
         if (IsValid(data.pointerDrag)) background.color = Color.yellow;
     }
