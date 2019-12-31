@@ -8,10 +8,6 @@ public class FPSUpdater : MonoBehaviour {
     public Text text;
     public int framesToCount = 300;
     private List<float> counts = new List<float>();
-    // Use this for initialization
-    void Start() {
-
-    }
 
     // Update is called once per frame
     void Update() {

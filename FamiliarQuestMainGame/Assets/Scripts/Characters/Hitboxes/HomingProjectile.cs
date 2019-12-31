@@ -7,11 +7,6 @@ public class HomingProjectile : MonoBehaviour {
 
     public GameObject player = null;
     public NavMeshAgent agent = null;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

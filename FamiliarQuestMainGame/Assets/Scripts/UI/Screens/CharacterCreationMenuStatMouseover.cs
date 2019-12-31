@@ -12,11 +12,6 @@ public class CharacterCreationMenuStatMouseover : MonoBehaviour {
 	void Start () {
         baseColor = highlightElements[0].color;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void MouseEnter() {
         foreach (var text in highlightElements) text.color = highlightColor;

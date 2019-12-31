@@ -16,10 +16,6 @@ public class CharacterSheetUpdater : MonoBehaviour {
     public Text mpRegenText;
     public Text hpRegenText;
     public Text hpRegenOutOfCombatText;
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

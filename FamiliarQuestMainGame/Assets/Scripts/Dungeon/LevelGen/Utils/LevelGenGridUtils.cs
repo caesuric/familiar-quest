@@ -150,7 +150,7 @@ public static class LevelGenGridUtils {
 
     public static bool IsStairs(int x, int y, int floor, string[,,] grid) {
         if (x < 0 || y < 0 || x >= grid.GetLength(1) || y >= grid.GetLength(2)) return false;
-        var valid = new List<string> {"E", "<", ">" };
+        var valid = new List<string> { "E", "<", ">" };
         return (valid.Contains(grid[floor, x, y]));
     }
 

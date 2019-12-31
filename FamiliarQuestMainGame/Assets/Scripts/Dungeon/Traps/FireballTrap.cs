@@ -17,9 +17,4 @@ public class FireballTrap : MonoBehaviour {
         Destroy(gameObject, 2);
         Destroy(this, 2);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

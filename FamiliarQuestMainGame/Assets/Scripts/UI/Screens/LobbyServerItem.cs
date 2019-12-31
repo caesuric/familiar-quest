@@ -11,15 +11,6 @@ public class LobbyServerItem : MonoBehaviour {
     private NetworkID networkID;
     public Text nameText;
     public Text playersText;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Initialize(string name, int numPlayers, NetworkID networkID, LobbyManager lobbyManager) {
         this.lobbyManager = lobbyManager;
@@ -29,7 +20,6 @@ public class LobbyServerItem : MonoBehaviour {
     }
     
     public void Click() {
-        //lobbyManager.matchMaker.JoinMatch(networkID, "", "", "", 0, 0, lobbyManager.OnMatchJoined);
         lobbyManager.searchScreen.SetActive(false);
         lobbyManager.ActivateHud(false);
     }

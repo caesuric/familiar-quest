@@ -14,14 +14,9 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         abilityScreen = GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Initialize(Ability abilityParam) {
         ability = abilityParam;

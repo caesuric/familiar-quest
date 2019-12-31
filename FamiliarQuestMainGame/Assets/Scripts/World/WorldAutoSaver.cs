@@ -10,21 +10,14 @@ public class WorldAutoSaver : MonoBehaviour {
     private float autoSaveTimer = 0;
     public string worldName = "";
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        //if (NetworkServer.active) {
-            autoSaveTimer += Time.deltaTime;
-            if (autoSaveTimer >= 30) {
-                autoSaveTimer = 0;
-                SaveWorld();
-            }
-        //}
-	}
+    // Update is called once per frame
+    void Update() {
+        autoSaveTimer += Time.deltaTime;
+        if (autoSaveTimer >= 30) {
+            autoSaveTimer = 0;
+            SaveWorld();
+        }
+    }
 
     public void SaveWorld() {
         GameLog.AddText("<color=green>Autosaved world state.</color>");

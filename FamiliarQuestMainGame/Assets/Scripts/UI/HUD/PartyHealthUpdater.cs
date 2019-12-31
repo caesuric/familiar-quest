@@ -10,10 +10,6 @@ public class PartyHealthUpdater : MonoBehaviour {
     public Outline outline;
     public string characterName;
     public Text nameText;
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

@@ -15,11 +15,6 @@ public class SettingsMenu : MonoBehaviour {
     public List<Resolution> resolutionOptions = new List<Resolution>();
     private bool initialized = false;
     private bool exiting = false;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

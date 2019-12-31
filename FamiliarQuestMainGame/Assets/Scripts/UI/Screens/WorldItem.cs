@@ -8,16 +8,6 @@ public class WorldItem : MonoBehaviour {
     private string worldName;
     private LobbyManager lobbyManager;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void Initialize(string name, LobbyManager lobbyManager) {
         text.text = name;
         worldName = name;

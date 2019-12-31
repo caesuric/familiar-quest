@@ -8,11 +8,7 @@ public class LevelUpButton : MonoBehaviour {
     private PlayerCharacter player = null;
     public GameObject button;
     public GameObject levelUpMenu;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+
 	// Update is called once per frame
 	void Update () {
         if (player == null) {

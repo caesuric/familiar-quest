@@ -10,9 +10,4 @@ public class AnimatedStatue : MonoBehaviour {
         GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.piercing, 50));
         GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.slashing, 50));
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
