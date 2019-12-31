@@ -98,9 +98,11 @@ UI/Input                -   Input controller code
 UI/Screens              -   Code for various game screens outside the main game (like character creation)
 Utils                   -   Various utilities
 Utils/Astar             -   A* implementations (both for grid and GOAP)
-Utils/PQ                -   [PriorityQueue implementation by Daniel "BlueRaja" Pflughoeft](https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp)
+Utils/PQ                -   PriorityQueue implementation by Daniel "BlueRaja" Pflughoeft
 World                   -   World related scripts (like the World Auto Saver)
 ```
+
+[PriorityQueue implementation by Daniel "BlueRaja" Pflughoeft](https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp)
 
 ## Known Issues
 
