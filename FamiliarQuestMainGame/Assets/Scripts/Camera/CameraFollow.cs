@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
@@ -18,11 +15,8 @@ public class CameraFollow : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        if (player == null) {
-            var players = PlayerCharacter.players;
-            foreach (var item in players) if (item.isMe) player = item.gameObject;
-        }
-        if (player != null) transform.position = player.transform.position + positionOffset;
-	}
+    void Update() {
+        if (player == null) player = PlayerCharacter.localPlayer.gameObject;
+        else transform.position = player.transform.position + positionOffset;
+    }
 }
