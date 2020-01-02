@@ -1,27 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldObjectUser : MonoBehaviour {
-
     //public float checkFrequency = 0.1f;
     //public float checkTimer = 0f;
     public GameObject helpText = null;
     public bool isPlayer = false;
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         //checkTimer += Time.deltaTime;
         //if (checkTimer>=checkFrequency) {
-            //checkTimer = 0;
+        //checkTimer = 0;
         if (isPlayer) CheckForObjects();
         //}
-	}
+    }
 
     private void CheckForObjects() {
         var nearest = GetNearestUsableObject();
@@ -35,7 +27,7 @@ public class WorldObjectUser : MonoBehaviour {
     }
 
     private void SetHelpText(UsableObject obj) {
-        if (helpText==null) helpText = GameObject.FindGameObjectWithTag("ObjectHelpText");
+        if (helpText == null) helpText = GameObject.FindGameObjectWithTag("ObjectHelpText");
         helpText.SetActive(true);
         helpText.GetComponentInChildren<TextMesh>().text = "SPACE: " + obj.helpText;
         helpText.transform.position = obj.transform.position + new Vector3(0, 5, 0);

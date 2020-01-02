@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
 
 public class Hideable : MonoBehaviour {
     public static List<Hideable> items = new List<Hideable>();
