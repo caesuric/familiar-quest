@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 public class TreasureVault : Vault {
 
@@ -17,7 +15,7 @@ public class TreasureVault : Vault {
         "healingOrRegeneration",
         "suddenSpawns"
     };
-    private static List<string> allMonsterTypes = new List<string> {
+    private static readonly List<string> allMonsterTypes = new List<string> {
         "Animated Statue",
         "Ankheg",
         "Bomber",
@@ -64,12 +62,12 @@ public class TreasureVault : Vault {
 
     static TreasureVault() {
         float baseDifficulty = 3f;
-        for (int i=1; i<=50; i++) {
+        for (int i = 1; i <= 50; i++) {
             nishikadoBaseDifficultyLookup.Add(baseDifficulty);
             baseDifficulty *= 1.072f;
         }
         float baseMultiplier = 1f;
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < 7; i++) {
             nishikadoEncounterDifficultyLookup.Add(baseMultiplier);
             baseMultiplier *= 1.31f;
         }
@@ -102,7 +100,7 @@ public class TreasureVault : Vault {
         int roll = RNG.Int(0, 5);
         if (roll > 1) roll = 1;
         roll++;
-        for (int i=0; i<roll; i++) {
+        for (int i = 0; i < roll; i++) {
             int roll2 = RNG.Int(0, possibleEncounterThemes.Count);
             if (!encounterThemes.Contains(possibleEncounterThemes[roll2])) encounterThemes.Add(possibleEncounterThemes[roll2]);
         }
@@ -117,9 +115,9 @@ public class TreasureVault : Vault {
         float scaleFactor = 1;
 
         // determine difficulty of each encounter
-        for (int i=1; i<targetLevel; i++) scaleFactor *= 1.44f;
+        for (int i = 1; i < targetLevel; i++) scaleFactor *= 1.44f;
         for (int i = 0; i < numPathEncounters; i++) {
-            var currentDifficulty = nishikadoBaseDifficultyLookup[targetLevel-1] * nishikadoEncounterDifficultyLookup[i] * scaleFactor;
+            var currentDifficulty = nishikadoBaseDifficultyLookup[targetLevel - 1] * nishikadoEncounterDifficultyLookup[i] * scaleFactor;
             var fudgeFactor = RNG.Float(0.75f, 1.25f);
             difficulties.Add(currentDifficulty * fudgeFactor);
         }
@@ -165,8 +163,7 @@ public class TreasureVault : Vault {
         // create monsters for each encounter
         int encounterNumber = 0;
         foreach (var room in path.rooms) {
-            if (room is VaultRoom) {
-                var vaultRoom = (VaultRoom)room;
+            if (room is VaultRoom vaultRoom) {
                 if (vaultRoom.hasEncounter) {
                     AddMonstersForRoom(room, difficulties[encounterNumber], conceptsUsed[encounterNumber]);
                     encounterNumber++;
@@ -476,8 +473,7 @@ public class TreasureVault : Vault {
     private int GetPathEncounterNumber(VaultPath path) {
         int count = 0;
         foreach (var room in path.rooms) {
-            if (room is VaultRoom) {
-                var vaultRoom = (VaultRoom)room;
+            if (room is VaultRoom vaultRoom) {
                 if (vaultRoom.hasEncounter) count++;
             }
             else if (room is BossRoom) count++;
@@ -488,8 +484,9 @@ public class TreasureVault : Vault {
     public List<Room> CreateRooms() {
         paths = GeneratePaths();
         var startingRoom = new VaultRoom();
-        var roomList = new List<Room>();
-        roomList.Add(startingRoom);
+        var roomList = new List<Room> {
+            startingRoom
+        };
         while (!PathsAcceptable(paths)) paths = GeneratePaths();
         var corridors = LinkPaths(paths, startingRoom);
         var roomList2 = GetRoomsFromPaths(paths, corridors);
@@ -507,14 +504,7 @@ public class TreasureVault : Vault {
     private bool PathsAcceptable(List<VaultPath> paths) {
         int encounterCount = 0;
         foreach (var path in paths) {
-            foreach (var room in path.rooms) {
-                if (room is VaultRoom) {
-                    var vr = (VaultRoom)room;
-                    if (vr.hasEncounter) {
-                        encounterCount++;
-                    }
-                }
-            }
+            foreach (var room in path.rooms) if (room is VaultRoom vr && vr.hasEncounter) encounterCount++;
         }
         if (encounterCount > 15) return false;
         return true;
@@ -536,7 +526,7 @@ public class TreasureVault : Vault {
                     connectedRooms = { room, nextRoom }
                 };
                 corridors.Add(corridor);
-                if (corridorRoll==0) corridor.size = 4;
+                if (corridorRoll == 0) corridor.size = 4;
                 else corridor.size = RNG.Int(6, 22);
             }
         }

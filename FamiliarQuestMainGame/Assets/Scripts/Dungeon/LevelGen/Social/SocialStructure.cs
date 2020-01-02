@@ -5,9 +5,9 @@ public class SocialStructure {
 
     public static List<string> builderSpecies = new List<string> { "kobold", "goblin", "ogre", "troll", "minotaur", "cyclops", "human" };
     private static List<string> petSpecies = new List<string> { "ankheg", "cheetah", "imp", "landSquid", "slime", "spider", "wolf", "dragon" };
-    private static List<string> servantSpecies = new List<string> { "kobold", "goblin", "imp", "ogre", "troll", "minotaur", "cyclops", "human", "golem" };
+    private static readonly List<string> servantSpecies = new List<string> { "kobold", "goblin", "imp", "ogre", "troll", "minotaur", "cyclops", "human", "golem" };
     public static List<string> dungeonSpecies = new List<string> { "ankheg", "bomber", "archon", "cheetah", "human", "cyclops", "dragon", "elemental", "slime", "undead", "goblin", "golem", "gremlin", "imp", "wisplet", "kobold", "landSquid", "mimic", "minotaur", "ogre", "fungus", "spider", "troll", "wolf" };
-    private static Dictionary<string, List<string>> specificTypes = new Dictionary<string, List<string>> {
+    private static readonly Dictionary<string, List<string>> specificTypes = new Dictionary<string, List<string>> {
         { "bomber", new List<string> { "Bomber"} },
         { "kobold", new List<string> { "Kobold" } },
         { "goblin", new List<string> { "GOBLIN", "Goblin Archer", "Goblin Rogue"} },
@@ -34,9 +34,9 @@ public class SocialStructure {
         { "mimic", new List<string> { "Animated Statue", "Mimic" } },
         { "fungus", new List<string> { "Phantom Fungus" } }
     };
-    private List<string> builders = new List<string>();
+    private readonly List<string> builders = new List<string>();
     private List<string> pets = new List<string>();
-    private List<string> servants = new List<string>();
+    private readonly List<string> servants = new List<string>();
     public SocialHierarchy hierarchy;
     public List<MonsterData> population = new List<MonsterData>();
 

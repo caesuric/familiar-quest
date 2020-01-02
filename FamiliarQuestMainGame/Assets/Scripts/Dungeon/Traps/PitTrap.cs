@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PitTrap : DestinationTrap {
-
     public bool tripped = false;
     public bool onWayDownstairs = false;
     public PlayerCharacter character = null;
@@ -23,7 +19,7 @@ public class PitTrap : DestinationTrap {
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
+    //private void OnTriggerEnter(Collider other) {
         //if (!NetworkServer.active) return;
         //var otherPlayerCharacter = other.GetComponent<PlayerCharacter>();
         //if (otherPlayerCharacter != null && !tripped) {
@@ -43,5 +39,5 @@ public class PitTrap : DestinationTrap {
         //    saveBlocker = otherPlayerCharacter.GetComponent<AutoSaver>();
         //    onWayDownstairs = true;
         //}
-    }
+    //}
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class Door : MonoBehaviour { // : Hideable
 
@@ -48,8 +44,7 @@ public class Door : MonoBehaviour { // : Hideable
         Destroy(gameObject);
     }
 
-    public void OpenDoor()
-    {
+    public void OpenDoor() {
         if (!open) {
             GetComponent<BoxCollider>().isTrigger = true;
             //mappable.unmappable = true;
@@ -70,7 +65,7 @@ public class Door : MonoBehaviour { // : Hideable
             //}
             GetComponentInChildren<Animation>().Play("open");
             doorCollider.isTrigger = true;
-            
+
         }
         else {
             GetComponent<AudioSource>().Play();

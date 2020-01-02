@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 public class LevelGen : MonoBehaviour {
 
@@ -24,8 +21,8 @@ public class LevelGen : MonoBehaviour {
         new DungeonType(DungeonSetting.VAULT, "vault"),
         new DungeonType(DungeonSetting.VAULT, "tomb")
     };
-    private static Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
-    private static Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
     public static Dictionary<string, Dictionary<string, string>> blockLookups = new Dictionary<string, Dictionary<string, string>> {
         { "castle", new Dictionary<string, string> {
             { "x", "hallwayFloor" },
@@ -53,7 +50,7 @@ public class LevelGen : MonoBehaviour {
     public List<GameObject> instantiatedObjects = new List<GameObject>();
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         if (settingLevel) CmdSetTargetLevel(targetLevel);
         //if (!NetworkServer.active) return;
         if (instance == null) instance = this;
@@ -81,7 +78,7 @@ public class LevelGen : MonoBehaviour {
 
         if (dungeonType.settingType == DungeonSetting.INCIDENTAL) resettled = true;
         GenerateDungeonLayout();
-	}
+    }
 
     private void GenerateDungeonLayout() {
         switch (dungeonType.settingType) {
@@ -200,7 +197,7 @@ public class LevelGen : MonoBehaviour {
 
     public void MoveFloorBackwards() {
         goingBack = true;
-        ChangeFloors(-1);        
+        ChangeFloors(-1);
     }
 
     private void ChangeFloors(int amount) {
@@ -214,7 +211,7 @@ public class LevelGen : MonoBehaviour {
 
     private void ClearWalls(int floor) {
         for (int x = 0; x < layout.maxDimensions; x++) {
-            for (int y=0; y< layout.maxDimensions; y++) {
+            for (int y = 0; y < layout.maxDimensions; y++) {
                 if (layout.grid[floor, x, y] == "w") layout.grid[floor, x, y] = " ";
             }
         }
@@ -265,11 +262,11 @@ public class LevelGen : MonoBehaviour {
 
     public void InstantiateVaultDungeonLayout() {
         VaultGen.InstantiateLayout((Vault)layout, floor, seeds[floor]);
-        if (dungeonType.environmentType=="vault") {
+        if (dungeonType.environmentType == "vault") {
             levelName = "Vault";
             if (resettled) levelName = "Ancient Vault";
         }
-        else if (dungeonType.environmentType=="tomb") {
+        else if (dungeonType.environmentType == "tomb") {
             levelName = "Tomb";
             if (resettled) levelName = "Decrepit Tomb";
         }

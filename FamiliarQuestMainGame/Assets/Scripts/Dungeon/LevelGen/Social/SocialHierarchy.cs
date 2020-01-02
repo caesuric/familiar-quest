@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 public class SocialHierarchy {
-
     public List<SocialNode> leaders = new List<SocialNode>();
     public List<SocialNode> allNodes = new List<SocialNode>();
 

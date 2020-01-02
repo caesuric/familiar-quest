@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class Fountain : Hideable {
 
     private bool fountainUsed = false;
     // Use this for initialization
-    void Start () {
+    void Start() {
         items.Add(this);
     }
 

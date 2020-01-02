@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public class SocialNode {
-
     private static List<string> bossTypes = new List<string>() { "kobold", "goblin", "ogre", "troll", "dragon", "minotaur", "cyclops", "human", "golem", "ghoul", "archon" };
     private static int counter = 0;
 
@@ -76,4 +75,3 @@ public class SocialNode {
         return count;
     }
 }
-

@@ -124,6 +124,6 @@ public class CommonSpace : AssignedRoom {
 
 }
 
-public class BossRoom: AssignedRoom {
+public class BossRoom : AssignedRoom {
 
 }

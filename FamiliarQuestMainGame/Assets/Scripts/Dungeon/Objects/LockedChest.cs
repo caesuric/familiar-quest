@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class LockedChest : Hideable {
-    
+
     public GameObject floatingText;
     public float hp = 30;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         items.Add(this);
     }
 
@@ -20,8 +17,7 @@ public class LockedChest : Hideable {
         Destroy(this);
     }
 
-    public void TakeDamage(float amount, GameObject attacker)
-    {
+    public void TakeDamage(float amount, GameObject attacker) {
         //if (!NetworkServer.active) return;
         hp -= amount;
         if (hp <= 0) {

@@ -13,12 +13,7 @@ public static class LevelGenRoomUtils {
     }
 
     public static bool RoomUnconnected(List<Room> rooms, Room room, int floor) {
-        foreach (var room2 in rooms) {
-            if (room2 is Corridor) {
-                var corridor = (Corridor)room2;
-                if (corridor.connectedRooms.Contains(room)) return false;
-            }
-        }
+        foreach (var room2 in rooms) if (room2 is Corridor corridor && corridor.connectedRooms.Contains(room)) return false;
         return true;
     }
 
@@ -171,7 +166,7 @@ public static class LevelGenRoomUtils {
                 break;
             }
         }
-        if (bossRoom!=null) {
+        if (bossRoom != null) {
             roomsBySize.Remove(bossRoom);
             roomsBySize.Add(bossRoom);
         }
@@ -204,11 +199,12 @@ public static class LevelGenRoomUtils {
 
     public static bool PackPreConnectedRooms(Dungeon building, List<Room> rooms) {
         PlaceStartingRoom(building, rooms[0]);
-        var connectedRooms = new List<Room>();
-        connectedRooms.Add(rooms[0]);
+        var connectedRooms = new List<Room> {
+            rooms[0]
+        };
         rooms.Remove(rooms[0]);
         int overallTries = 100000;
-        while (rooms.Count > 0 && overallTries>0) {
+        while (rooms.Count > 0 && overallTries > 0) {
             overallTries--;
             int retriesLeft = 1000;
             Room room = null;
@@ -259,14 +255,8 @@ public static class LevelGenRoomUtils {
     }
 
     private static bool AreRoomsConnected(Room room, Room room2) {
-        if (room2 is Corridor) {
-            var corridor2 = (Corridor)room2;
-            if (corridor2.connectedRooms.Contains(room)) return true;
-        }
-        else if (room is Corridor) {
-            var corridor = (Corridor)room;
-            if (corridor.connectedRooms.Contains(room2)) return true;
-        }
+        if (room2 is Corridor corridor2 && corridor2.connectedRooms.Contains(room)) return true;
+        else if (room is Corridor corridor && corridor.connectedRooms.Contains(room2)) return true;
         return false;
     }
 
@@ -276,7 +266,7 @@ public static class LevelGenRoomUtils {
         var result = AttemptToConnectPreConnectedRoomSpecifically(building, room, room2);
         if (!result) JustConnectRoomRandomly(building, room, connectedRooms);
     }
-    
+
     private static bool AttemptToConnectPreConnectedRoom(Dungeon building, Room room, List<Room> connectedRooms) {
         var validRooms = new List<Room>();
         foreach (var room2 in connectedRooms) {
@@ -294,7 +284,7 @@ public static class LevelGenRoomUtils {
     private static bool AttemptToConnectPreConnectedRoomSpecifically(Dungeon building, Room room, Room room2) {
         if (room is Corridor) {
             int directionRoll = RNG.Int(0, 2);
-            if (directionRoll==0) {
+            if (directionRoll == 0) {
                 room.xSize = RNG.Int(2, 7);
                 room.ySize = RNG.Int(1, 3);
             }
@@ -348,7 +338,7 @@ public static class LevelGenRoomUtils {
         int side = RNG.Int(0, 4);
         int x = 0;
         int y = 0;
-        switch(side) {
+        switch (side) {
             case 0:
             default:
                 // top

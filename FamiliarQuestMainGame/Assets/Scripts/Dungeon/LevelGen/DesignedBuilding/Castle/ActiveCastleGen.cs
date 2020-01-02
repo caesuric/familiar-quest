@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Networking;
 
 class ActiveCastleGen : MonoBehaviour {
-    private static Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
-    private static Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
 
     public static void InstantiateLayout(Dungeon layout, int floor) {
         for (int x = 0; x < layout.grid.GetLength(1); x++) {
@@ -37,7 +34,7 @@ class ActiveCastleGen : MonoBehaviour {
 
     private static void InstantiateMonster(MonsterData monster, float xRoll, float yRoll, LevelGen levelGen) {
         var prefab = GetMonsterPrefab(monster);
-        if (prefab!=null) {
+        if (prefab != null) {
             var obj = GameObject.Instantiate(prefab, new Vector3(xRoll, 0, yRoll), new Quaternion());
             obj.transform.parent = LevelGen.instance.dungeonInstance.transform;
             levelGen.instantiatedObjects.Add(obj);
@@ -48,7 +45,7 @@ class ActiveCastleGen : MonoBehaviour {
     private static GameObject GetMonsterPrefab(MonsterData monster) {
         return (GameObject)(Resources.Load("Prefabs/Monsters/" + monster.specificType));
     }
-    
+
     private static void SetupMonster(GameObject obj, int level, int quality, GameObject player) {
         var mob = obj.GetComponent<Monster>();
         //mob.GetComponent<MonsterCombatant>().player = player;
@@ -60,12 +57,12 @@ class ActiveCastleGen : MonoBehaviour {
         if (billboard != null) billboard.mainCamera = Camera.main;
         if (quality == 4) mob.gameObject.AddComponent<Boss>();
     }
-    
+
     private static void InstantiateCastleBlock(int x, int y, string block) {
         LevelGenInstantiationUtils.InstantiateFloorBlock("castle", x, y, block);
     }
 
-    private static void InstantiateCastleWall(int x, int y, int floor, string block, string [,,] grid) {
+    private static void InstantiateCastleWall(int x, int y, int floor, string block, string[,,] grid) {
         LevelGenInstantiationUtils.InstantiateWall("castle", x, y, floor, block, grid);
     }
 
