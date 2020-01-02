@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TextReader
-{
-    public static List<string[]> ReadSets(string filename)
-    {
+public class TextReader {
+    public static List<string[]> ReadSets(string filename) {
         List<string[]> output = new List<string[]>();
         var lines = GetLines(filename);
-        foreach (var line in lines)
-        {
+        foreach (var line in lines) {
             if (line == "" || line == null) continue;
             var parts = line.Split(',');
             output.Add(parts);
@@ -28,7 +22,7 @@ public class TextReader
 
     public static string RandomItem(string filename) {
         var items = ReadItems(filename);
-        int roll = UnityEngine.Random.Range(0, items.Count);
+        int roll = Random.Range(0, items.Count);
         return items[roll];
     }
 
@@ -40,7 +34,7 @@ public class TextReader
             var parts = line.Split(',');
             output.Add(parts);
         }
-        return output[UnityEngine.Random.Range(0, output.Count)];
+        return output[Random.Range(0, output.Count)];
     }
 
     public static string[] GetLines(string filename) {
