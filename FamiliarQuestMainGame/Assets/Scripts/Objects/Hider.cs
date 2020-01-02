@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class Hider : MonoBehaviour //: NetworkBehaviour
 {
-
     public static Hider instance = null;
 
     private void Start() {
