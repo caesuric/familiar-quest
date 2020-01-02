@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RangedWeapon : Weapon
-{
+﻿public class RangedWeapon : Weapon {
     public int range;
     public int projectileModel = 0;
     public bool usesInt = false;
@@ -16,8 +11,8 @@ public class RangedWeapon : Weapon
         displayType = "Weapon - Bow";
     }
 
-    public static RangedWeapon Wand () {
-        var rw = new  RangedWeapon();
+    public static RangedWeapon Wand() {
+        var rw = new RangedWeapon();
         rw.icon = "Weapon_16";
         rw.projectileModel = 1;
         rw.usesInt = true;
