@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -25,9 +22,7 @@ public abstract class GoapAgent : MonoBehaviour {
             plannerTask = new Task(() => planner.Plan(this));
             plannerTask.Start();
         }
-        else if (!planning) {
-            ExecutePlan();
-        }
+        else if (!planning) ExecutePlan();
         else {
             Debug.Log("planning");
             currentAction = "Planning...";
@@ -35,13 +30,12 @@ public abstract class GoapAgent : MonoBehaviour {
     }
 
     private void ExecutePlan() {
-        if (currentActions.Count == 0) {
-            busy = false;
-            return;
+        if (currentActions.Count == 0) busy = false;
+        else {
+            Debug.Log("Executing action: " + currentActions[0].GetType().Name);
+            currentAction = currentActions[0].GetType().Name;
+            currentActions[0].Execute(this);
+            if (currentActions[0].isDone) currentActions.RemoveAt(0);
         }
-        Debug.Log("Executing action: " + currentActions[0].GetType().Name);
-        currentAction = currentActions[0].GetType().Name;
-        currentActions[0].Execute(this);
-        if (currentActions[0].isDone) currentActions.RemoveAt(0);
     }
 }

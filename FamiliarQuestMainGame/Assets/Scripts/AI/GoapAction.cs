@@ -34,6 +34,25 @@ public abstract class GoapAction {
         return true;
     }
 
+    private bool ActionPossible(GoapPlanner planner) {
+        foreach (var kvp in preconditions) {
+            var key = kvp.Key;
+            var value = kvp.Value;
+            if (!planner.state.ContainsKey(key) || !planner.state[key].Equals(value)) return false;
+        }
+        return true;
+    }
+
+    public bool ActionPossible(Dictionary<string, object> state) {
+        foreach (var kvp in preconditions) {
+            var key = kvp.Key;
+            var value = kvp.Value;
+            if (!state.ContainsKey(key)) return false;
+            if (!state[key].Equals(value)) return false;
+        }
+        return true;
+    }
+
     protected void ApplyEffects(GoapAgent agent) {
         foreach (var kvp in effects) {
             var key = kvp.Key;
@@ -45,20 +64,11 @@ public abstract class GoapAction {
     }
 
     public bool PlanExecution(GoapPlanner planner) {
-        if (ActionPlanPossible(planner)) {
+        if (ActionPossible(planner)) {
             ApplyPlanEffects(planner);
             return true;
         }
         else return false;
-    }
-
-    private bool ActionPlanPossible(GoapPlanner planner) {
-        foreach (var kvp in preconditions) {
-            var key = kvp.Key;
-            var value = kvp.Value;
-            if (!planner.state.ContainsKey(key) || !planner.state[key].Equals(value)) return false;
-        }
-        return true;
     }
 
     private void ApplyPlanEffects(GoapPlanner planner) {
@@ -75,16 +85,6 @@ public abstract class GoapAction {
             var value = kvp.Value;
             state[key] = value;
         }
-    }
-
-    public bool AStarActionPossible(Dictionary<string, object> state) {
-        foreach (var kvp in preconditions) {
-            var key = kvp.Key;
-            var value = kvp.Value;
-            if (!state.ContainsKey(key)) return false;
-            if (!state[key].Equals(value)) return false;
-        }
-        return true;
     }
 
     protected void Fail(GoapAgent agent) {

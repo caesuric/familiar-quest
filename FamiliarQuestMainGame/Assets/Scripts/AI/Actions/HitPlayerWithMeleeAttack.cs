@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using System.Collections.Generic;
 
 namespace AI.Actions {
     public class HitPlayerWithMeleeAttack : GoapAction {
 
-        MonsterBaseAbilities mba = null;
-        SpiritUser su = null;
-        private MonsterAnimationController mac = null;
+        MonsterBaseAbilities monsterBaseAbilities = null;
+        SpiritUser spiritUser = null;
+        private MonsterAnimationController monsterAnimationController = null;
 
         public HitPlayerWithMeleeAttack() {
             preconditions = new Dictionary<string, object>() {
@@ -30,15 +24,15 @@ namespace AI.Actions {
         }
 
         public override void Execute(GoapAgent agent) {
-            if (mac == null) mac = agent.GetComponent<MonsterAnimationController>();
-            if (mba==null) mba = agent.GetComponent<MonsterBaseAbilities>();
-            if (su == null) su = agent.GetComponent<SpiritUser>();
+            if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
+            if (monsterBaseAbilities == null) monsterBaseAbilities = agent.GetComponent<MonsterBaseAbilities>();
+            if (spiritUser == null) spiritUser = agent.GetComponent<SpiritUser>();
             if (!ActionPossible(agent)) {
-                mac.attacking = false;
+                monsterAnimationController.attacking = false;
                 Fail(agent);
             }
             else {
-                mac.attacking = true;
+                monsterAnimationController.attacking = true;
                 HitPlayer(agent);
             }
         }
@@ -49,14 +43,14 @@ namespace AI.Actions {
         }
 
         private void UseMeleeAbility(GoapAgent agent) {
-            if (mba == null || su == null) return;
-            foreach (var ability in mba.baseAbilities) {
+            if (monsterBaseAbilities == null || spiritUser == null) return;
+            foreach (var ability in monsterBaseAbilities.baseAbilities) {
                 if (IsMeleeAbility(ability)) {
                     agent.GetComponent<AbilityUser>().UseAbility(ability);
                     return;
                 }
             }
-            foreach (var spirit in su.spirits) {
+            foreach (var spirit in spiritUser.spirits) {
                 foreach (var ability in spirit.activeAbilities) {
                     if (IsMeleeAbility(ability)) {
                         agent.GetComponent<AbilityUser>().UseAbility(ability);
@@ -68,8 +62,8 @@ namespace AI.Actions {
 
         private bool IsMeleeAbility(ActiveAbility ability) {
             if (ability is AttackAbility) {
-                var aa = ability as AttackAbility;
-                if (aa.isRanged == false) return true;
+                var attackAbility = ability as AttackAbility;
+                if (attackAbility.isRanged == false) return true;
             }
             return false;
         }

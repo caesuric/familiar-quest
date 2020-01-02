@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class GoapPlanner {
     public Dictionary<string, object> state = new Dictionary<string, object>();
@@ -18,20 +13,24 @@ public class GoapPlanner {
             var cursor = aas.finalPoint;
             if (cursor != null && cursor.action != null && aas.costSoFar.ContainsKey(cursor) && aas.costSoFar[cursor] / goal.weight < cheapestPlan) {
                 cheapestPlan = aas.costSoFar[cursor] / goal.weight;
-                var i = 0;
-                var limit = 100;
-                var actionList = new List<GoapAction>();
-                while (cursor != null && cursor.action != null && aas.cameFrom.ContainsKey(cursor) && i < limit) {
-                    i++;
-                    actionList.Add(cursor.action);
-                    cursor = aas.cameFrom[cursor];
-                }
-                actionList.Reverse();
-                agent.currentActions = actionList;
-                agent.busy = true;
-                agent.planning = false;
+                UpdateAgentActionList(cursor, aas, agent);
             }
         }
+        agent.planning = false;
+    }
+
+    private void UpdateAgentActionList(GoapActionNode cursor, ActionAStar aas, GoapAgent agent) {
+        var i = 0;
+        var limit = 100;
+        var actionList = new List<GoapAction>();
+        while (cursor != null && cursor.action != null && aas.cameFrom.ContainsKey(cursor) && i < limit) {
+            i++;
+            actionList.Add(cursor.action);
+            cursor = aas.cameFrom[cursor];
+        }
+        actionList.Reverse();
+        agent.currentActions = actionList;
+        agent.busy = true;
         agent.planning = false;
     }
 }
