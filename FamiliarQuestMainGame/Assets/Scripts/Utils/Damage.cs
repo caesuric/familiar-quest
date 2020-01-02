@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class Damage {
     public static void MeleeAttack(Character character, Collider other, string faction) {
@@ -105,11 +101,11 @@ public class Damage {
         var obj = GameObject.Instantiate(character.GetComponent<CacheGrabber>().damageZones[ability.aoe], gameObject.transform.position, gameObject.transform.rotation);
         obj.transform.Rotate(-90f, 0f, 0f);
         obj.GetComponent<DamageZoneDealDamage>().size = radius;
-        var dzdd = obj.GetComponent<DamageZoneDealDamage>();
-        if (dzdd != null) {
-            dzdd.ability = ability;
-            dzdd.character = character;
-            dzdd.faction = faction;
+        var damageZoneDealDamage = obj.GetComponent<DamageZoneDealDamage>();
+        if (damageZoneDealDamage != null) {
+            damageZoneDealDamage.ability = ability;
+            damageZoneDealDamage.character = character;
+            damageZoneDealDamage.faction = faction;
         }
         var noises = new Dictionary<Element, string>() { { Element.acid, "sfx_acid_damage_aoe" }, { Element.bashing, "sfx_bashing_damage1" }, { Element.fire, "sfx_fire_damage_aoe2" }, { Element.ice, "sfx_ice_damage_aoe1" }, { Element.none, "sfx_bashing_damage1" }, { Element.piercing, "sfx_bashing_damage1" }, { Element.slashing, "sfx_slashing_damage1" }, { Element.light, "sfx_holy_damage_aoe1" }, { Element.dark, "sfx_profane_damage_aoe1" } };
         var noise = "";

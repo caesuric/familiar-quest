@@ -16,19 +16,18 @@ public class EquipmentNamer {
         else if (item is Shoes) item.name = "Shoes";
         AddHighestStatText(item);
     }
-    
+
     private static void AddHighestStatText(Equipment item) {
         var highest = Mathf.Max(item.strength, item.dexterity, item.constitution, item.intelligence, item.wisdom, item.luck);
-        if (highest == 0) {
-            item.name = "Common " + item.name;
-            return;
+        if (highest == 0) item.name = "Common " + item.name;
+        else {
+            if (highest == item.strength) item.name = item.name + " of Power";
+            if (highest == item.dexterity) item.name = item.name + " of Grace";
+            if (highest == item.constitution) item.name = item.name + " of Endurance";
+            if (highest == item.intelligence) item.name = item.name + " of Acumen";
+            if (highest == item.wisdom) item.name = item.name + " of Divinity";
+            if (highest == item.luck) item.name = item.name + " of Fortune";
         }
-        if (highest == item.strength) item.name = item.name + " of Power";
-        if (highest == item.dexterity) item.name = item.name + " of Grace";
-        if (highest == item.constitution) item.name = item.name + " of Endurance";
-        if (highest == item.intelligence) item.name = item.name + " of Acumen";
-        if (highest == item.wisdom) item.name = item.name + " of Divinity";
-        if (highest == item.luck) item.name = item.name + " of Fortune";
     }
 
     public static string GetHpAndMp(Armor item) {
@@ -47,9 +46,9 @@ public class EquipmentNamer {
     public static string GetAttackPowerFromStat(float attackPower, string subtype) {
         if (subtype == "") return "Unknown";
         var character = GetCharacter();
-        if (subtype=="strength") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.strength).ToString();
-        else if (subtype=="intelligence") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.intelligence).ToString();
-        else if (subtype=="dexterity") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.dexterity).ToString();
+        if (subtype == "strength") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.strength).ToString();
+        else if (subtype == "intelligence") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.intelligence).ToString();
+        else if (subtype == "dexterity") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.dexterity).ToString();
         return "";
     }
 

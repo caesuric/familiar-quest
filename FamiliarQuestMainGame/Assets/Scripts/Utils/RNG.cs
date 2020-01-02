@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class RNG {
-
     private static Random random = new Random();
 
     public static int Int(int min, int max) {
@@ -18,4 +13,3 @@ public class RNG {
         else return (float)((random.NextDouble() * (max - min)) + min);
     }
 }
-
