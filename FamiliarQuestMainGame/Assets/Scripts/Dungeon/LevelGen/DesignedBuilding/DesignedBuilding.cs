@@ -35,7 +35,7 @@ public class DesignedBuilding : Dungeon {
         DetermineSize(commonSpaces);
         foreach (var room in livingQuarters) rooms.Add(room);
         foreach (var room in commonSpaces) rooms.Add(room);
-        var bossRoom = new BossRoom() { size = 100};
+        var bossRoom = new BossRoom() { size = 100 };
         rooms.Add(bossRoom);
         socialStructure.population[0].quality = 4;
         socialStructure.population[0].associatedRooms = new List<Room> { bossRoom };

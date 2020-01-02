@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class TownExit : MonoBehaviour {
-
     public bool onWayUp = false;
     AutoSaver saveBlocker = null;
     bool used = false;

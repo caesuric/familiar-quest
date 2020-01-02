@@ -1,15 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-
-public class Altar : Hideable {
+﻿public class Altar : Hideable {
 
     private bool used = false;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         items.Add(this);
-	}
+    }
 
     public void Use() {
         //if (!NetworkServer.active) return;

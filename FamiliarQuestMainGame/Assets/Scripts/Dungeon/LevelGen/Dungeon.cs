@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public abstract class Dungeon {
-
     public List<Room> rooms = new List<Room>();
     public int numFloors = 0;
     public string[,,] grid = new string[5, 120, 120];

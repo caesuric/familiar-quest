@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public abstract class BuildingLayout {
@@ -44,7 +43,7 @@ public abstract class BuildingLayout {
         var startRooms = GetRoomsConnectedToPoint(floor, startPosition);
         var endRooms = GetRoomsConnectedToPoint(floor, endPosition);
         int i = 0;
-        while (i<1000) {
+        while (i < 1000) {
             i++;
             if (ConnectRoomSets(floor, startRooms, endRooms) && WalkablePathBetweenPoints(floor, startPosition, endPosition)) return;
         }
@@ -96,15 +95,13 @@ public abstract class BuildingLayout {
 
     private List<Room> GetConnectedRoomsRecursively(Room room, List<Room> roomsSoFar, List<Room> allRooms) {
         var newRooms = new List<Room>();
-        if (room is Corridor) {
-            var corridor = (Corridor)room;
-            foreach (var connectedRoom in corridor.connectedRooms) if (WalkablePathBetweenPoints(room.floor, new Vector2(room.x + (room.xSize/2), room.y + (room.ySize/2)), new Vector2(connectedRoom.x + (connectedRoom.xSize/2), connectedRoom.y + (connectedRoom.ySize/2)))) newRooms.Add(connectedRoom);
+        if (room is Corridor corridor) {
+            foreach (var connectedRoom in corridor.connectedRooms) if (WalkablePathBetweenPoints(room.floor, new Vector2(room.x + (room.xSize / 2), room.y + (room.ySize / 2)), new Vector2(connectedRoom.x + (connectedRoom.xSize / 2), connectedRoom.y + (connectedRoom.ySize / 2)))) newRooms.Add(connectedRoom);
         }
         else {
             foreach (var room2 in allRooms) {
-                if (room2 is Corridor) {
-                    var corridor = (Corridor)room2;
-                    if (corridor.connectedRooms.Contains(room)) if (WalkablePathBetweenPoints(room.floor, new Vector2(room.x + (room.xSize/2), room.y + (room.ySize/2)), new Vector2(room2.x + (room2.xSize/2), room2.y + (room2.ySize/2)))) newRooms.Add(room2);
+                if (room2 is Corridor corridor2) {
+                    if (corridor2.connectedRooms.Contains(room)) if (WalkablePathBetweenPoints(room.floor, new Vector2(room.x + (room.xSize / 2), room.y + (room.ySize / 2)), new Vector2(room2.x + (room2.xSize / 2), room2.y + (room2.ySize / 2)))) newRooms.Add(room2);
                 }
             }
         }

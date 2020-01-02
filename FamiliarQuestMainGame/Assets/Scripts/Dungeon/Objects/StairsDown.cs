@@ -1,22 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class StairsDown : MonoBehaviour {
-
     bool onWayDownstairs = false;
     AutoSaver saveBlocker = null;
     public bool used = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         if (onWayDownstairs && !saveBlocker.currentlySaving) {
             PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_downstairs");
             //foreach (var player in PlayerCharacter.players) player.ready = false;
@@ -27,7 +17,7 @@ public class StairsDown : MonoBehaviour {
             onWayDownstairs = false;
 
         }
-	}
+    }
 
     public void Use() {
         //if (!NetworkServer.active) return;

@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Shop : MonoBehaviour {
-
     List<Item> goods = new List<Item>();
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start() {
         InitializeShopGoods();
-	}
+    }
 
     private void InitializeShopGoods() {
         int numGoods = Random.Range(8, 20);
@@ -19,9 +18,8 @@ public class Shop : MonoBehaviour {
         var item = RewardGiver.GenerateItem(PlayerCharacter.GetAverageLevel());
         goods.Add(item);
     }
-	
-	// Update is called once per frame
-	public void Use() {
+
+    public void Use() {
 
     }
 }

@@ -1,22 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class VaultGen : MonoBehaviour {
-
-    private static Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
-    private static Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = LevelGenPrefabs.prefabs;
+    private static readonly Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = LevelGenPrefabs.prefabProbability;
 
     public static void InstantiateLayout(Vault layout, int floor, int seed) {
         Random.InitState(seed);
         ActiveCastleGen.InstantiateLayout(layout, floor);
         foreach (var room in layout.rooms) {
             if (room is BossRoom) continue;
-            if (room is VaultRoom) {
-                var vr = (VaultRoom)room;
-                if (vr.hasTreasure) AddTreasure(room);
-            }
+            if (room is VaultRoom vr && vr.hasTreasure) AddTreasure(room);
         }
     }
 

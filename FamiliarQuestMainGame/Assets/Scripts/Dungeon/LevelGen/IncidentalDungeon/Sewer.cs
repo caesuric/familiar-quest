@@ -1,6 +1,3 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class Sewer : IncidentalDungeon {
+﻿public class Sewer : IncidentalDungeon {
     
 }

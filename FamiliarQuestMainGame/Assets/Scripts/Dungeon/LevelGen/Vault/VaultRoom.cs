@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class VaultRoom : Room {
+﻿public class VaultRoom : Room {
     public bool isCriticalPath = false;
     public bool hasEncounter = false;
     public bool hasTreasure = false;

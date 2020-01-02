@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class TrapTrigger : MonoBehaviour {
 
@@ -13,16 +11,16 @@ public class TrapTrigger : MonoBehaviour {
     public bool repeatingTrigger = false;
     private float cooldown = 0;
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         //if (!NetworkServer.active) return;
-        if (cooldown>0) cooldown -= Time.deltaTime;
-	}
+        if (cooldown > 0) cooldown -= Time.deltaTime;
+    }
 
     private void OnTriggerStay(Collider other) {
         //if (!NetworkServer.active) return;
         var pc = other.GetComponent<PlayerCharacter>();
-        if (pc==null || cooldown>0) return;
+        if (pc == null || cooldown > 0) return;
         var methods = GetMethods(pc);
         methods[trapType]();
         pc.GetComponent<AudioGenerator>().PlaySoundByName("sfx_trap_trigger2");
@@ -33,8 +31,7 @@ public class TrapTrigger : MonoBehaviour {
         else cooldown = 2f;
     }
 
-    private Dictionary<string, Action> GetMethods(PlayerCharacter pc)
-    {
+    private Dictionary<string, Action> GetMethods(PlayerCharacter pc) {
         return new Dictionary<string, Action>() {
             {"spike", SpawnBasicTrap},
             {"lava", SpawnBasicTrap},
@@ -46,25 +43,22 @@ public class TrapTrigger : MonoBehaviour {
         };
     }
 
-    private void SpawnBasicTrap()
-    {
+    private void SpawnBasicTrap() {
         GameObject obj = Instantiate(trap, transform.position, transform.rotation);
         if (obj.GetComponent<TrapDamage>() != null) obj.GetComponent<TrapDamage>().damage = damage;
         //NetworkServer.Spawn(obj);
     }
 
-    private void SpawnFacingTrap(PlayerCharacter pc)
-    {
+    private void SpawnFacingTrap(PlayerCharacter pc) {
         Quaternion trapRotation;
         trapRotation = Quaternion.LookRotation(pc.transform.position - trapPosition);
         var obj = Instantiate(trap, trapPosition, trapRotation);
         obj.GetComponent<TrapDamage>().damage = damage;
     }
 
-    private void SpawnDestinationTrap<T>() where T: DestinationTrap
-    {
+    private void SpawnDestinationTrap<T>() where T : DestinationTrap {
         GameObject obj = Instantiate(trap, transform.position, transform.rotation);
-        if (obj.GetComponent<TrapDamage>()!=null) obj.GetComponent<TrapDamage>().damage = damage;
+        if (obj.GetComponent<TrapDamage>() != null) obj.GetComponent<TrapDamage>().damage = damage;
         var trapComponent = obj.GetComponent<T>();
         trapComponent.destination = trapPosition;
     }
