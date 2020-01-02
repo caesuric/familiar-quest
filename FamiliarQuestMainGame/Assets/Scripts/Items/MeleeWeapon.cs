@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MeleeWeapon : Weapon
-{
+﻿public class MeleeWeapon : Weapon {
     public float hitboxWidth; //STUB: TODO
     public float hitboxDepth; //STUB: TODO
     public MeleeWeapon() {
