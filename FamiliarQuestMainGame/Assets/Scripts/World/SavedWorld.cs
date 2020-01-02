@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SavedWorld
-{
+public class SavedWorld {
     public List<SavedItem> inventory = new List<SavedItem>();
     public string name = "";
 
     public static SavedWorld BrandNewWorld(string name) {
-        var obj = new SavedWorld();
-        obj.name = name;
+        var obj = new SavedWorld {
+            name = name
+        };
         return obj;
     }
 
@@ -25,8 +22,7 @@ public class SavedWorld
         return obj;
     }
 
-    public void ConvertTo(GameObject go)
-    {
+    public void ConvertTo(GameObject go) {
         var sharedInventory = go.GetComponent<SharedInventory>();
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
         foreach (var item in inventory) sharedInventory.inventory.Add(item.ConvertTo());

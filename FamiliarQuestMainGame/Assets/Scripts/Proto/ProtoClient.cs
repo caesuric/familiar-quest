@@ -1,14 +1,10 @@
-﻿using UnityEngine;
-using Grpc.Core;
+﻿using Grpc.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class ProtoClient {
 
-    private static Channel channel = null;
+    private static readonly Channel channel = null;
     private static Login.LoginClient loginClient = null;
     private static MatchMaker.MatchMakerClient matchMakerClient = null;
     private static CharacterSync.CharacterSyncClient characterSyncClient = null;
@@ -20,8 +16,8 @@ public class ProtoClient {
     public static bool newSyncedCharactersLocked = false;
     public static bool isHost = false;
 
-    static ProtoClient () {
-        channel = new Channel("caesuric.net:50051", ChannelCredentials.Insecure);
+    static ProtoClient() {
+        channel = new Channel("localhost:50051", ChannelCredentials.Insecure);
         loginClient = new Login.LoginClient(channel);
         matchMakerClient = new MatchMaker.MatchMakerClient(channel);
         characterSyncClient = new CharacterSync.CharacterSyncClient(channel);
@@ -44,7 +40,7 @@ public class ProtoClient {
     }
 
     public static async void UpdateCharacterWorldStates() {
-        var data = new CharacterWorldStates { GameId = gameId};
+        var data = new CharacterWorldStates { GameId = gameId };
         TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
         double timestamp = t.TotalSeconds;
         data.UpdateTime = timestamp;
