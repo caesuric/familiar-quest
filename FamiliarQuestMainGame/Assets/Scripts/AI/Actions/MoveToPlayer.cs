@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +7,7 @@ namespace AI.Actions {
 
         private bool started = false;
         private NavMeshAgent navMeshAgent = null;
-        private MonsterAnimationController mac = null;
+        private MonsterAnimationController monsterAnimationController = null;
 
         public MoveToPlayer() {
             preconditions = new Dictionary<string, object>() {
@@ -26,29 +22,39 @@ namespace AI.Actions {
         }
 
         public override void Execute(GoapAgent agent) {
-            if (mac == null) mac = agent.GetComponent<MonsterAnimationController>();
+            if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
             if (!ActionPossible(agent)) {
-                started = false;
-                Fail(agent);
-                mac.moving = false;
+                FailAction(agent);
                 return;
             }
-            if (!started) {
-                SelectTarget(agent);
-                if (target == null) return;
-                started = true;
-                isDone = false;
-                if (navMeshAgent == null) navMeshAgent = agent.GetComponent<NavMeshAgent>();
-                SetDestination();
-            }
-            mac.moving = true;
+            if (!started) StartAction(agent);
+            ContinueAction(agent);
+        }
+
+        private void FailAction(GoapAgent agent) {
+            started = false;
+            Fail(agent);
+            monsterAnimationController.moving = false;
+        }
+
+        private void StartAction(GoapAgent agent) {
+            SelectTarget(agent);
+            if (target == null) return;
+            started = true;
+            isDone = false;
+            if (navMeshAgent == null) navMeshAgent = agent.GetComponent<NavMeshAgent>();
+            SetDestination();
+        }
+
+        private void ContinueAction(GoapAgent agent) {
+            monsterAnimationController.moving = true;
             var distanceBetweenDestinationAndTarget = Vector3.Distance(navMeshAgent.destination, target.transform.position);
             var distanceToTarget = Vector3.Distance(agent.transform.position, navMeshAgent.destination);
             if (!navMeshAgent.pathPending && distanceBetweenDestinationAndTarget > 0.25f) SetDestination();
             if (agent.state["inMeleeRangeOfPlayer"].Equals(true)) {
                 ApplyEffects(agent);
                 started = false;
-                mac.moving = false;
+                monsterAnimationController.moving = false;
             }
             cost = 1f + (distanceToTarget / 2f);
         }

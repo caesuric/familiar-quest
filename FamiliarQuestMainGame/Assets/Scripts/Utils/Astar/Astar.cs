@@ -225,7 +225,7 @@ public class ActionGraph {
 
     public IEnumerable<GoapActionNode> Neighbors(GoapActionNode a) {
         foreach (var action in actions) {
-            if (action.AStarActionPossible(a.state)) {
+            if (action.ActionPossible(a.state)) {
                 var gan = new GoapActionNode() {
                     action = action,
                     state = CopyState(a.state)

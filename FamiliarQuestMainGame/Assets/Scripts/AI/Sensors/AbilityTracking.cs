@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace AI.Sensors {
+﻿namespace AI.Sensors {
     public class AbilityTracking : GoapSensor {
 
         SpiritUser spiritUser = null;
-        MonsterBaseAbilities mba = null;
+        MonsterBaseAbilities monsterBaseAbilities = null;
 
         public override void Run(GoapAgent agent) {
             if (spiritUser == null) spiritUser = agent.GetComponent<SpiritUser>();
-            if (mba == null) mba = agent.GetComponent<MonsterBaseAbilities>();
+            if (monsterBaseAbilities == null) monsterBaseAbilities = agent.GetComponent<MonsterBaseAbilities>();
             agent.state["meleeAttackAvailable"] = IsMeleeAttackAvailable();
             agent.state["rangedAttackAvailable"] = IsRangedAttackAvailable();
         }
@@ -24,7 +17,7 @@ namespace AI.Sensors {
                     if (IsMeleeAbility(ability)) return true;
                 }
             }
-            foreach (var ability in mba.baseAbilities) {
+            foreach (var ability in monsterBaseAbilities.baseAbilities) {
                 if (IsMeleeAbility(ability)) return true;
             }
             return false;
@@ -36,7 +29,7 @@ namespace AI.Sensors {
                     if (IsRangedAbility(ability)) return true;
                 }
             }
-            foreach (var ability in mba.baseAbilities) {
+            foreach (var ability in monsterBaseAbilities.baseAbilities) {
                 if (IsRangedAbility(ability)) return true;
             }
             return false;
@@ -44,16 +37,16 @@ namespace AI.Sensors {
 
         private bool IsMeleeAbility(ActiveAbility ability) {
             if (ability is AttackAbility) {
-                var aa = ability as AttackAbility;
-                if (aa.isRanged == false) return true;
+                var attackAbility = ability as AttackAbility;
+                if (attackAbility.isRanged == false) return true;
             }
             return false;
         }
 
         private bool IsRangedAbility(ActiveAbility ability) {
             if (ability is AttackAbility) {
-                var aa = ability as AttackAbility;
-                if (aa.isRanged) return true;
+                var attackAbility = ability as AttackAbility;
+                if (attackAbility.isRanged) return true;
             }
             return false;
         }
