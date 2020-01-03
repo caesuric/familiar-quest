@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MusicController : MonoBehaviour {
 
@@ -29,13 +27,13 @@ public class MusicController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (audioSource.clip == dungeonMusic && audioSource.time >= 262) audioSource.time = 18f;
-	}
+    }
 
     public void PlayMusic(AudioClip music) {
         if (audioSource.clip != music) {

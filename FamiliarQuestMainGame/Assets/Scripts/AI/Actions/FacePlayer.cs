@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace AI.Actions {
     public class FacePlayer : GoapAction {
@@ -13,8 +8,8 @@ namespace AI.Actions {
         private Quaternion originalRotation = new Quaternion();
         private Quaternion targetLookRotation = new Quaternion();
         private float timer = 0f;
-        private static float turnTime = 0.1f;
-        
+        private static readonly float turnTime = 0.1f;
+
         public FacePlayer() {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", true }
@@ -27,30 +22,31 @@ namespace AI.Actions {
         }
 
         public override void Execute(GoapAgent agent) {
-            if (!ActionPossible(agent)) {
+            if (!ActionPossible(agent)) agent.busy = false;
+            else if (!started) StartAction(agent);
+            else ContinueAction(agent);
+        }
+
+        private void StartAction(GoapAgent agent) {
+            target = SelectTarget(agent);
+            if (target == null) {
                 agent.busy = false;
                 return;
             }
-            if (!started) {
-                target = SelectTarget(agent);
-                if (target==null) {
-                    agent.busy = false;
-                    return;
-                }
-                started = true;
-                isDone = false;
-                originalRotation = agent.transform.rotation;
-                targetLookRotation = Quaternion.LookRotation(target.transform.position - agent.transform.position);
+            started = true;
+            isDone = false;
+            originalRotation = agent.transform.rotation;
+            targetLookRotation = Quaternion.LookRotation(target.transform.position - agent.transform.position);
+            timer = 0f;
+        }
+
+        private void ContinueAction(GoapAgent agent) {
+            timer += Time.deltaTime;
+            agent.transform.rotation = Quaternion.Slerp(originalRotation, targetLookRotation, timer / turnTime);
+            if (timer >= turnTime) {
                 timer = 0f;
-            }
-            else {
-                timer += Time.deltaTime;
-                agent.transform.rotation = Quaternion.Slerp(originalRotation, targetLookRotation, timer / turnTime);
-                if (timer >= turnTime) {
-                    timer = 0f;
-                    started = false;
-                    ApplyEffects(agent);
-                }
+                started = false;
+                ApplyEffects(agent);
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DropsArea : MonoBehaviour {
@@ -13,9 +12,9 @@ public class DropsArea : MonoBehaviour {
     public DuloGames.UI.UIWindow abilitiesWindow;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         if (instance == null) instance = this;
-	}
+    }
 
     public static void AddItemDrop(Equipment item) {
         var obj = Instantiate(instance.itemPrefab, instance.transform);

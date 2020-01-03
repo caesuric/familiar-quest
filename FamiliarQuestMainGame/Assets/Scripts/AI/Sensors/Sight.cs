@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AI.Sensors {
     public class Sight : GoapSensor {
@@ -37,7 +32,7 @@ namespace AI.Sensors {
             memChars.AddFovFrame(fov);
         }
 
-        private bool IsFacingPlayer(GoapAgent agent, float angle=30f) {
+        private bool IsFacingPlayer(GoapAgent agent, float angle = 30f) {
             var fov = agent.memory["fieldOfVision"] as Data.FieldOfVision;
             foreach (var player in fov.players) {
                 if (Mathf.Abs(Vector3.Angle(agent.transform.forward, player.transform.position - agent.transform.position)) <= angle) return true;

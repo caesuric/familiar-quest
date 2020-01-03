@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,8 +28,7 @@ public class ClassSelectMenu : MonoBehaviour {
     public static string selectedClass = "";
 
     private static void AddWeapon(string[] item) {
-        switch (item[1])
-        {
+        switch (item[1]) {
             case "sword":
                 classWeapon.Add(item[0], new MeleeWeapon());
                 break;
@@ -44,7 +42,7 @@ public class ClassSelectMenu : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         spirit = new Spirit(1);
         spirit = Spirit.classDefaults["thief"];
         classDescriptions.Clear();
@@ -80,8 +78,7 @@ public class ClassSelectMenu : MonoBehaviour {
         selectedClass = type;
     }
 
-    private void SetGuiText(string type)
-    {
+    private void SetGuiText(string type) {
         text.text = classDescriptions[type];
         strengthText.text = classStats[type][0].ToString();
         dexterityText.text = classStats[type][1].ToString();

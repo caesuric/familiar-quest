@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -9,13 +7,13 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
     public string slotType;
     public int equipNumber = 0;
     private Color startingColor;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         startingColor = GetComponent<Image>().color;
-	}
+    }
 
     public void OnPointerEnter(PointerEventData data) {
-        if (data.pointerDrag!=null && data.pointerDrag.GetComponent<InventoryItemUpdater>()!=null) {
+        if (data.pointerDrag != null && data.pointerDrag.GetComponent<InventoryItemUpdater>() != null) {
             var itemUpdater = data.pointerDrag.GetComponent<InventoryItemUpdater>();
             if (MatchesSlotType(itemUpdater)) GetComponent<Image>().color = Color.yellow;
         }
@@ -26,7 +24,7 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
     }
 
     public void OnDrop(PointerEventData data) {
-        if (data.pointerDrag!=null && data.pointerDrag.GetComponent<InventoryItemUpdater>()!=null) {
+        if (data.pointerDrag != null && data.pointerDrag.GetComponent<InventoryItemUpdater>() != null) {
             var itemUpdater = data.pointerDrag.GetComponent<InventoryItemUpdater>();
             if (MatchesSlotType(itemUpdater)) {
                 itemUpdater.inventory.EquipItem(itemUpdater.number, equipNumber: equipNumber);
@@ -34,8 +32,8 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
         }
     }
 
-    private bool MatchesSlotType(InventoryItemUpdater iiu) {
-        if (iiu.type == slotType) return true;
+    private bool MatchesSlotType(InventoryItemUpdater inventoryItemUpdater) {
+        if (inventoryItemUpdater.type == slotType) return true;
         return false;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Readable : MonoBehaviour {
 
@@ -9,11 +7,11 @@ public class Readable : MonoBehaviour {
     public string text;
     private ReadingPane readingPane = null;
 
-	void Start () {
+    void Start() {
         readingPane = GameObject.FindGameObjectWithTag("ReadingPane").GetComponent<ReadingPane>();
-	}
-	
-	public void Use() {
+    }
+
+    public void Use() {
         readingPane.gameObject.SetActive(true);
         readingPane.SetText(title, text);
     }

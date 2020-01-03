@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,8 +6,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
 
     private float[,] elevation;
     public int mapSize = 257; //129
-    private float randomValueMax = 10f;
-    private int featureSize = 32; //32
+    private readonly float randomValueMax = 10f;
+    private readonly int featureSize = 32;
     private float highest;
     private float newHighest;
     private List<Vector2> riverPoints = new List<Vector2>();
@@ -516,8 +515,4 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             }
         }
     }
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

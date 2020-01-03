@@ -1,16 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class LockedDoor : Hideable {
-
     public GameObject floatingTextPrefab;
     public float hp = 50;
     public bool reverseHinge = true;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         items.Add(this);
     }
 
@@ -23,8 +19,7 @@ public class LockedDoor : Hideable {
         Destroy(this);
     }
 
-    public void TakeDamage(float amount, GameObject attacker)
-    {
+    public void TakeDamage(float amount, GameObject attacker) {
         //if (!NetworkServer.active) return;
         hp -= amount;
         if (hp <= 0) {

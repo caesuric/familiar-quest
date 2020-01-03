@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +7,7 @@ namespace AI.Actions {
 
         private bool started = false;
         private NavMeshAgent navMeshAgent = null;
-        private MonsterAnimationController mac = null;
+        private MonsterAnimationController monsterAnimationController = null;
 
         public PursuePlayer() {
             preconditions = new Dictionary<string, object>() {
@@ -25,32 +21,41 @@ namespace AI.Actions {
         }
 
         public override void Execute(GoapAgent agent) {
-            if (mac == null) mac = agent.GetComponent<MonsterAnimationController>();
+            if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
             if (!ActionPossible(agent)) {
-                started = false;
-                Fail(agent);
-                mac.moving = false;
+                FailAction(agent);
                 return;
             }
-            if (!started) {
-                if (navMeshAgent == null) navMeshAgent = agent.GetComponent<NavMeshAgent>();
-                var charMems = agent.memory["characters"] as Data.MemoryOfCharacters;
-                var playerMem = charMems.GetClosestPlayerMemory(agent);
-                if (playerMem==null) {
-                    Fail(agent);
-                    return;
-                }
-                started = true;
-                isDone = false;
-                navMeshAgent.SetDestination(playerMem.position);
+            if (!started) StartAction(agent);
+            ContinueAction(agent);
+        }
+
+        private void FailAction(GoapAgent agent) {
+            started = false;
+            Fail(agent);
+            monsterAnimationController.moving = false;
+        }
+
+        private void StartAction(GoapAgent agent) {
+            if (navMeshAgent == null) navMeshAgent = agent.GetComponent<NavMeshAgent>();
+            var charMems = agent.memory["characters"] as Data.MemoryOfCharacters;
+            var playerMem = charMems.GetClosestPlayerMemory(agent);
+            if (playerMem == null) {
+                Fail(agent);
+                return;
             }
-            mac.moving = true;
-            if (started && Vector3.Distance(agent.transform.position, navMeshAgent.destination)<1f) {
+            started = true;
+            isDone = false;
+            navMeshAgent.SetDestination(playerMem.position);
+        }
+
+        private void ContinueAction(GoapAgent agent) {
+            monsterAnimationController.moving = true;
+            if (started && Vector3.Distance(agent.transform.position, navMeshAgent.destination) < 1f) {
                 agent.busy = false;
                 started = false;
-                mac.moving = false;
+                monsterAnimationController.moving = false;
             }
-
             var distance = Vector3.Distance(agent.transform.position, navMeshAgent.destination);
             cost = 1f + (distance / 2f);
         }

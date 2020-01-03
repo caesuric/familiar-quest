@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -55,7 +54,7 @@ public class InputAbilities : MonoBehaviour {
         var horizontal = Input.GetAxis("Right Stick Horizontal");
         var vertical = Input.GetAxis("Right Stick Vertical");
         var direction = new Vector3(horizontal, 0, vertical);
-        if (horizontal!=0 || vertical!=0) {
+        if (horizontal != 0 || vertical != 0) {
             transform.rotation = Quaternion.LookRotation(direction);
             controller.CmdUsePrimaryAbility(direction);
         }
@@ -65,17 +64,17 @@ public class InputAbilities : MonoBehaviour {
         if (!controller.gamepadMode) return;
         var horizontal = Input.GetAxis("D-Pad Horizontal");
         var vertical = Input.GetAxis("D-Pad Vertical");
-        if (controller.dPadActive && (horizontal!=0 || vertical != 0)) return;
+        if (controller.dPadActive && (horizontal != 0 || vertical != 0)) return;
         if (controller.dPadActive && horizontal == 0 && vertical == 0) controller.dPadActive = false;
-        if (horizontal<0) {
+        if (horizontal < 0) {
             controller.dPadActive = true;
             controller.CmdUseItem(0);
         }
-        else if (horizontal>0) {
+        else if (horizontal > 0) {
             controller.dPadActive = true;
             controller.CmdUseItem(1);
         }
-        if (vertical>0) {
+        if (vertical > 0) {
             controller.dPadActive = true;
             controller.minimapActive = !controller.minimapActive;
             controller.minimap.SetActive(controller.minimapActive);

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SecondaryStatUtility {
-
     public static int CalcHp(int stat, int level) {
         float hp = stat * 29f;
         for (int i = 1; i < level; i++) hp *= 1.1f;
@@ -65,7 +63,7 @@ public class SecondaryStatUtility {
     public static float CalcCooldownReduction(int stat, int level) {
         var percent = GetPercent(stat, level);
         if (percent <= 0.5f) return 0;
-        else return (percent - 0.5f)/2f;
+        else return (percent - 0.5f) / 2f;
     }
 
     public static float CalcCriticalHitRate(int stat, int level) {
@@ -109,7 +107,7 @@ public class SecondaryStatUtility {
     private static int DetermineMaximum(int level) {
         int primaryStat = 20;
         int otherStats = 8;
-        for (int i=1; i<level; i++) {
+        for (int i = 1; i < level; i++) {
             int bonusPoints = (int)((primaryStat + (otherStats * 5f)) * 0.02f); //1.02f
             if (bonusPoints < 1) bonusPoints = 1;
             primaryStat = (int)Mathf.Max(primaryStat + 1f, primaryStat * 1.08f);
@@ -135,7 +133,7 @@ public class SecondaryStatUtility {
     private static int DetermineAverage(int level) {
         int primaryStat = 10;
         for (int i = 1; i < level; i++) {
-            int bonusPoints = (int)((primaryStat *6) * 0.02f);
+            int bonusPoints = (int)((primaryStat * 6) * 0.02f);
             if (bonusPoints < 1) bonusPoints = 1;
             primaryStat = (int)Mathf.Max(primaryStat + 1f, primaryStat * 1.08f);
             primaryStat += (int)Mathf.Round(bonusPoints / 6);
@@ -150,7 +148,7 @@ public class SecondaryStatUtility {
         stat = Mathf.Min(max, stat);
         stat = Mathf.Max(min, stat);
         if (stat == avg) return 0.5f;
-        else if (stat<avg) {
+        else if (stat < avg) {
             float range = avg - min;
             stat -= min;
             return stat / range * 0.5f;
@@ -161,5 +159,4 @@ public class SecondaryStatUtility {
             return 0.5f + (stat / range * 0.5f);
         }
     }
-
 }

@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class FloatingText : MonoBehaviour {
 
@@ -11,17 +9,17 @@ public class FloatingText : MonoBehaviour {
     private Color baseColor;
     private bool ready = false;
     private float timeLeft = 6.0f;
-    private float fadeTime = 4f;
-    private float hangTimeMax = 4f;
+    private readonly float fadeTime = 4f;
+    private readonly float hangTimeMax = 4f;
     private float hangTime = 0f;
     private TextMesh textMesh;
     public static List<FloatingText> objects = new List<FloatingText>();
     private float speed = 0.04f;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         textMesh = GetComponent<TextMesh>();
         objects.Add(this);
-	}
+    }
 
     // Update is called once per frame
     void Update() {
@@ -36,7 +34,7 @@ public class FloatingText : MonoBehaviour {
         }
         else {
             hangTime += Time.deltaTime;
-            if (hangTime>=hangTimeMax) {
+            if (hangTime >= hangTimeMax) {
                 hangTime = 0;
                 speed *= 2;
             }
@@ -57,17 +55,15 @@ public class FloatingText : MonoBehaviour {
 
     private void MoveAndDim() {
         gameObject.transform.Translate(0, speed, 0);
-        if (timeLeft < fadeTime)
-        {
+        if (timeLeft < fadeTime) {
             float fade = timeLeft / fadeTime;
             var newColor = baseColor;
             newColor.a = fade;
             textMesh.color = newColor;
         }
-	}
+    }
 
-    private void Initialize()
-    {
+    private void Initialize() {
         ready = true;
         textMesh.text = text;
         textMesh.color = color;

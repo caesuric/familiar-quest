@@ -2,7 +2,7 @@
 using UnityEngine;
 
 class LevelGenInstantiationUtils : MonoBehaviour {
-    public static GameObject InstantiateBlockObject(Dictionary<string, GameObject> parts, Dictionary<string, float> probabilities, float x, float y, bool placeOnNavMesh=false) {
+    public static GameObject InstantiateBlockObject(Dictionary<string, GameObject> parts, Dictionary<string, float> probabilities, float x, float y, bool placeOnNavMesh = false) {
         float roll = Random.Range(0f, 1f);
         var keys = new List<string>();
         foreach (var pair in parts) keys.Add(pair.Key);
@@ -77,7 +77,7 @@ class LevelGenInstantiationUtils : MonoBehaviour {
                 LevelGen.instance.entranceAngle = 90;
             }
             else if (LevelGenGridUtils.IsFloor(x, y - 1, floor, grid) && !LevelGenGridUtils.IsFloor(x, y + 1, floor, grid)) {
-            //else {
+                //else {
                 var obj = InstantiateBlockObject(castleParts[blockType], castleProbabilities[blockType], x, y + 1);
                 obj.transform.Rotate(0, 270, 0);
                 southCovered = true;
@@ -109,7 +109,7 @@ class LevelGenInstantiationUtils : MonoBehaviour {
                 LevelGen.instance.exitAngle = 90;
             }
             else if (LevelGenGridUtils.IsFloor(x, y - 1, floor, grid) && !LevelGenGridUtils.IsFloor(x, y + 1, floor, grid)) {
-            //else {
+                //else {
                 var obj = InstantiateBlockObject(castleParts[blockType], castleProbabilities[blockType], x, y);
                 obj.transform.Rotate(0, 270, 0);
                 LevelGen.instance.exitLocation = new Vector3(x * 5, 0, (y - 1) * 5);
@@ -141,7 +141,7 @@ class LevelGenInstantiationUtils : MonoBehaviour {
                 LevelGen.instance.entranceAngle = 90;
             }
             else if (LevelGenGridUtils.IsFloor(x, y - 1, floor, grid) && !LevelGenGridUtils.IsFloor(x, y + 1, floor, grid)) {
-            //else {
+                //else {
                 var obj = InstantiateBlockObject(castleParts[blockType], castleProbabilities[blockType], x, y + 1.5f);
                 obj.transform.Rotate(0, 90, 0);
                 southCovered = true;
@@ -154,7 +154,7 @@ class LevelGenInstantiationUtils : MonoBehaviour {
             var obj = InstantiateBlockObject(castleParts[blockType], castleProbabilities[blockType], x, y - 1);
             obj.transform.Rotate(0, 90, 0);
             northCovered = true;
-            grid[floor, x, y-1] = "w";
+            grid[floor, x, y - 1] = "w";
         }
         if (LevelGenGridUtils.IsWallSouth(x, y, floor, grid) && LevelGenGridUtils.IsFloor(x, y + 2, floor, grid) && !southCovered) {
             southCovered = true;
@@ -164,7 +164,7 @@ class LevelGenInstantiationUtils : MonoBehaviour {
             var obj = InstantiateBlockObject(castleParts[blockType], castleProbabilities[blockType], x - 1, y);
             obj.transform.Rotate(0, 0, 0);
             westCovered = true;
-            grid[floor, x-1, y] = "w";
+            grid[floor, x - 1, y] = "w";
         }
         if (LevelGenGridUtils.IsWallEast(x, y, floor, grid) && LevelGenGridUtils.IsFloor(x + 2, y, floor, grid) && !eastCovered) {
             eastCovered = true;

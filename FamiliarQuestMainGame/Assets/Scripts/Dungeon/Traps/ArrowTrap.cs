@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class ArrowTrap : MonoBehaviour {
-
     public GameObject arrow;
-    
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start() {
         //if (!NetworkServer.active) return;
         var obj = Instantiate(arrow, transform.position, transform.rotation);
         //NetworkServer.Spawn(obj);
@@ -17,5 +13,5 @@ public class ArrowTrap : MonoBehaviour {
         tadd.projectile = obj;
         Destroy(gameObject, 2);
         Destroy(this, 2);
-	}
+    }
 }

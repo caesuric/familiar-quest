@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class MinimapCameraLock : MonoBehaviour {
 
@@ -10,7 +7,7 @@ public class MinimapCameraLock : MonoBehaviour {
     public Vector3 targetPositionOffset;
     public float timer = 0;
     public static float zoomTime = 0.3f;
-    public Camera camera;
+    public new Camera camera;
     public static GameObject instance = null;
 
     private void Start() {

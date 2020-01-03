@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class RepeatedSpikeTrap : MonoBehaviour {
 
     // Update is called once per frame
-	void Update () {
+    void Update() {
         //if (!NetworkServer.active) return;
-	}
+    }
 
     private void OnTriggerStay(Collider other) {
         //if (!NetworkServer.active) return;

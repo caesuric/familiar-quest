@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterLevelUpdater : MonoBehaviour {
@@ -14,9 +12,9 @@ public class CharacterLevelUpdater : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         if (PlayerCharacter.players.Count == 0) return;
-        if (pc==null) pc = PlayerCharacter.players[0];
+        if (pc == null) pc = PlayerCharacter.players[0];
         text.text = "LEVEL " + pc.GetComponent<ExperienceGainer>().level.ToString();
-	}
+    }
 }

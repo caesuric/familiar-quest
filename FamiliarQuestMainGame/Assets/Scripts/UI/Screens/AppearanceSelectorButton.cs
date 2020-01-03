@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AppearanceSelectorButton : MonoBehaviour {
 
@@ -12,4 +10,3 @@ public class AppearanceSelectorButton : MonoBehaviour {
         characterSelectScreen.ClickAppearanceButton(this);
     }
 }
-

@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class PartyStatusTracker : MonoBehaviour {
 
@@ -21,33 +19,29 @@ public class PartyStatusTracker : MonoBehaviour {
     public List<int> furTypes = new List<int>();
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         //if (localPlayer == null) Initialize();
         //else if (id.Count != PlayerCharacter.players.Count || isTargeted.Count != PlayerCharacter.players.Count) RecreateData();
         //else UpdateData();
-	}
+    }
 
-    private void Initialize()
-    {
+    private void Initialize() {
         //var players = PlayerCharacter.players;
         //foreach (var item in players) if (item.isMe) localPlayer = item.GetComponent<PlayerCharacter>();
     }
 
-    private void RecreateData()
-    {
+    private void RecreateData() {
         //if (NetworkServer.active) ClearAll();
         ClearAll();
         isTargeted.Clear();
-        foreach (var player in PlayerCharacter.players)
-        {
+        foreach (var player in PlayerCharacter.players) {
             //if (NetworkServer.active) AddAll(player);
             AddAll(player);
             //isTargeted.Add(player.netId.Value == localPlayer.target);
         }
     }
 
-    private void ClearAll()
-    {
+    private void ClearAll() {
         hp.Clear();
         id.Clear();
         posX.Clear();
@@ -56,8 +50,7 @@ public class PartyStatusTracker : MonoBehaviour {
         furTypes.Clear();
     }
 
-    private void AddAll(PlayerCharacter player)
-    {
+    private void AddAll(PlayerCharacter player) {
         hp.Add(player.GetComponent<Health>().hp / player.GetComponent<Health>().maxHP);
         posX.Add(player.transform.position.x);
         posY.Add(player.transform.position.z);
@@ -67,18 +60,15 @@ public class PartyStatusTracker : MonoBehaviour {
         //player.RpcSetColor(player.GetComponent<PlayerSyncer>().furType);
     }
 
-    private void UpdateData()
-    {
-        for (int i = 0; i < PlayerCharacter.players.Count; i++)
-        {
+    private void UpdateData() {
+        for (int i = 0; i < PlayerCharacter.players.Count; i++) {
             //if (NetworkServer.active) UpdateAll(i);
             UpdateAll(i);
             //isTargeted[i] = (PlayerCharacter.players[i].netId.Value == localPlayer.target);
         }
     }
 
-    private void UpdateAll(int i)
-    {
+    private void UpdateAll(int i) {
         hp[i] = PlayerCharacter.players[i].GetComponent<Health>().hp / PlayerCharacter.players[i].GetComponent<Health>().maxHP;
         //id[i] = PlayerCharacter.players[i].netId.Value;
         posX[i] = PlayerCharacter.players[i].transform.position.x;

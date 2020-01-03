@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
 
 public class InitializeOverlordMode : MonoBehaviour {
-
     public GameObject overlordCameras;
 
     //[Command]
@@ -16,7 +13,7 @@ public class InitializeOverlordMode : MonoBehaviour {
         foreach (var mesh in go.GetComponentsInChildren<MeshRenderer>()) mesh.enabled = false;
         PlayerCharacter.players.Remove(go.GetComponent<PlayerCharacter>());
         var mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        if (mainCamera!=null) mainCamera.SetActive(false);
+        if (mainCamera != null) mainCamera.SetActive(false);
         overlordCameras.SetActive(true);
         // setup alternate control scheme
         go.GetComponent<InputController>().enabled = false;

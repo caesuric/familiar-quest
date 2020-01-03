@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SettingsMenu : MonoBehaviour {
@@ -15,10 +14,10 @@ public class SettingsMenu : MonoBehaviour {
     public List<Resolution> resolutionOptions = new List<Resolution>();
     private bool initialized = false;
     private bool exiting = false;
-	
-	// Update is called once per frame
-	void Update () {
-		if (!initialized) {
+
+    // Update is called once per frame
+    void Update() {
+        if (!initialized) {
             initialized = true;
         }
 
@@ -26,7 +25,7 @@ public class SettingsMenu : MonoBehaviour {
             exiting = false;
             //InitializeLevel.ResetGame();
         }
-	}
+    }
 
     public void ToggleMinimap() {
         minimap.SetActive(!minimap.activeSelf);

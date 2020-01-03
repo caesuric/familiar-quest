@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class NewManaBarUpdater : MonoBehaviour {
 
-    public Character attr = null;
+    public Character character = null;
     private Image image;
     // Use this for initialization
     void Start() {
@@ -15,10 +12,10 @@ public class NewManaBarUpdater : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (attr == null) {
+        if (character == null) {
             var players = PlayerCharacter.players;
-            foreach (var item in players) if (item.isMe) attr = item.GetComponent<Character>();
+            foreach (var item in players) if (item.isMe) character = item.GetComponent<Character>();
         }
-        else image.fillAmount = attr.GetComponent<Mana>().mp / attr.GetComponent<Mana>().maxMP;
+        else image.fillAmount = character.GetComponent<Mana>().mp / character.GetComponent<Mana>().maxMP;
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class LevelGenPrefabs {
-
     public static Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> prefabs = new Dictionary<string, Dictionary<string, Dictionary<string, GameObject>>> {
         { "castle", new Dictionary<string, Dictionary<string, GameObject>> {
             { "floor", new Dictionary<string, GameObject> {

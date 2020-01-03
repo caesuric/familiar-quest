@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,13 +36,13 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     private bool levelUpModeActive = false;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         character = PlayerCharacter.players[0].GetComponent<Character>();
         eg = character.GetComponent<ExperienceGainer>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         if (eg.sparePoints == 0) {
             strength.text = character.strength.ToString();
             dexterity.text = character.dexterity.ToString();
@@ -99,7 +98,7 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     }
 
     public void StrengthDown() {
-        if (currentStrength>minStrength) {
+        if (currentStrength > minStrength) {
             currentStrength -= 1;
             sparePoints += 1;
         }
@@ -114,7 +113,7 @@ public class CharacterAttributesUpdater : MonoBehaviour {
 
     public void DexterityDown() {
         if (currentDexterity > minDexterity) {
-            currentDexterity-= 1;
+            currentDexterity -= 1;
             sparePoints += 1;
         }
     }

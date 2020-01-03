@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace AI.Data {
@@ -15,7 +12,7 @@ namespace AI.Data {
 
         private void AddPlayerMemory(GameObject player) {
             foreach (var memory in memories) {
-                if (memory.character==player) {
+                if (memory.character == player) {
                     memory.time = DateTime.Now;
                     memory.position = player.transform.position;
                     return;
@@ -30,7 +27,7 @@ namespace AI.Data {
             foreach (var memory in memories) {
                 if (memory.isEnemy) {
                     var distanceToPlayerPosition = Vector3.Distance(agent.transform.position, memory.position);
-                    if (distanceToPlayerPosition<distance) {
+                    if (distanceToPlayerPosition < distance) {
                         distance = distanceToPlayerPosition;
                         target = memory;
                     }

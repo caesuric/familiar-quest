@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public static class WorldGenerator {
     public static List<string> worlds = new List<string>();
+
     public static void FetchWorlds() {
         worlds = new List<string>();
         if (!Directory.Exists(Application.persistentDataPath + "/worlds")) Directory.CreateDirectory(Application.persistentDataPath + "/worlds");

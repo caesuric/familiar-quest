@@ -19,7 +19,7 @@ public class DesignedBuildingLayout : BuildingLayout {
         building.maxDimensions = LevelGenRoomUtils.CalculateMaxDimensions(floorRooms, building.numFloors);
         floorRooms = LevelGenRoomUtils.RandomizeOrder(floorRooms);
         AddStartingCorridors(floor, building.maxDimensions, floorRooms.Count);
-        Vector2 entranceLocation = new Vector2(0,0);
+        Vector2 entranceLocation = new Vector2(0, 0);
         Vector2 exitLocation = new Vector2(0, 0);
         entranceLocation = GetEntranceLocation(floor, building.rooms, building.grid);
         exitLocation = GetExitLocation(floor, building.rooms, building.grid, entranceLocation);
