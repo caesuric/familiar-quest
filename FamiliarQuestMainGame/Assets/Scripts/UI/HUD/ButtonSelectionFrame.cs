@@ -1,6 +1,4 @@
 ﻿using DuloGames.UI;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -25,15 +23,15 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
     private Vector3 aoeScale;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         number = 5;
         originalPosition = transform.position;
         mouseOverCanvasOriginalPosition = mouseOverCanvas.transform.position;
         aoeScale = aoe.transform.localScale;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (PlayerCharacter.localPlayer == null) return;
         if (pc == null && PlayerCharacter.players.Count > 0) pc = PlayerCharacter.localPlayer;
         if (pc != null && hitbox == null) hitbox = pc.gameObject.GetComponentInChildren<HitboxDealDamage>().GetComponent<MeshRenderer>();
@@ -46,13 +44,15 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
         transform.SetAsLastSibling();
         var tooltip = GetComponent<UITooltipShow>();
         tooltip.contentLines = new UITooltipLineContent[2];
-        tooltip.contentLines[0] = new UITooltipLineContent();
-        tooltip.contentLines[0].LineStyle = UITooltipLines.LineStyle.Title;
-        tooltip.contentLines[0].Content = pc.GetComponent<HotbarUser>().abilityNames[number];
-        tooltip.contentLines[1] = new UITooltipLineContent();
-        tooltip.contentLines[1].LineStyle = UITooltipLines.LineStyle.Custom;
-        tooltip.contentLines[1].CustomLineStyle = "ItemAttribute";
-        tooltip.contentLines[1].Content = pc.GetComponent<HotbarUser>().abilityDescriptions[number];
+        tooltip.contentLines[0] = new UITooltipLineContent {
+            LineStyle = UITooltipLines.LineStyle.Title,
+            Content = pc.GetComponent<HotbarUser>().abilityNames[number]
+        };
+        tooltip.contentLines[1] = new UITooltipLineContent {
+            LineStyle = UITooltipLines.LineStyle.Custom,
+            CustomLineStyle = "ItemAttribute",
+            Content = pc.GetComponent<HotbarUser>().abilityDescriptions[number]
+        };
     }
 
     public void OnMouseEnter() {
@@ -85,8 +85,7 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
         aoe.enabled = true;
         aoe.transform.localScale = aoeScale * pc.GetComponent<HotbarUser>().abilityRadii[number];
         if (pc.GetComponent<HotbarUser>().abilityIsRanged[number]) {
-            RaycastHit hitInfo;
-            Physics.Raycast(pc.transform.position, pc.transform.forward, out hitInfo);
+            Physics.Raycast(pc.transform.position, pc.transform.forward, out RaycastHit hitInfo);
             aoe.transform.position = hitInfo.point;
         }
         else aoe.transform.position = pc.transform.position;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class QuestTrackerToggle : MonoBehaviour {
 
@@ -10,13 +8,13 @@ public class QuestTrackerToggle : MonoBehaviour {
     public DuloGames.UI.UIFlippable arrow2;
     public UnityEngine.UI.Toggle toggle;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start() {
+
+    }
+
+    // Update is called once per frame
+    void Update() {
         content.SetActive(toggle.isOn);
         arrow.vertical = !toggle.isOn;
         arrow2.vertical = !toggle.isOn;

@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-    public class DustItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+public class DustItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
     public Dust dust;
     public Text quantityText;
 
-    private Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
+    private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
 
     public void Initialize(Dust dust) {
         this.dust = dust;
@@ -57,8 +56,7 @@ using UnityEngine.UI;
 
     public void SetDraggedPosition(PointerEventData eventData) {
         var rt = GetComponent<RectTransform>();
-        Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out globalMousePos)) {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out Vector3 globalMousePos)) {
             rt.position = globalMousePos;
         }
     }

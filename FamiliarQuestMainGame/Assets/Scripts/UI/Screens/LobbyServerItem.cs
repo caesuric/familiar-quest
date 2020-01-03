@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking.Types;
-using UnityEngine.SceneManagement;
 
 public class LobbyServerItem : MonoBehaviour {
 
@@ -18,7 +15,7 @@ public class LobbyServerItem : MonoBehaviour {
         nameText.text = name;
         playersText.text = "Players: " + numPlayers.ToString();
     }
-    
+
     public void Click() {
         lobbyManager.searchScreen.SetActive(false);
         lobbyManager.ActivateHud(false);

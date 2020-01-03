@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterItemUpdater : MonoBehaviour {
@@ -21,9 +19,7 @@ public class CharacterItemUpdater : MonoBehaviour {
         levelText.text = "L" + level.ToString();
     }
 
-    public void Click()
-    {
+    public void Click() {
         characterSelectScreen.ChooseCharacter(characterName, furType);
     }
 }
-

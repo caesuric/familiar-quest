@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.Networking;
 using System.Collections.Generic;
 
 public class Minimap : MonoBehaviour {
@@ -33,12 +30,11 @@ public class Minimap : MonoBehaviour {
         mapOverallSize = Mathf.Min(mapSizeX, mapSizeY);
         tileSize = mapOverallSize / 30;
         navRect = navDot.GetComponent<RectTransform>();
-        navRect.sizeDelta = new Vector2(tileSize * 5f/2f, tileSize * 5f/2f);
+        navRect.sizeDelta = new Vector2(tileSize * 5f / 2f, tileSize * 5f / 2f);
         InitializePrefabs();
     }
 
-    private void InitializePrefabs()
-    {
+    private void InitializePrefabs() {
         prefabs = new Dictionary<string, GameObject>() {
             {"W", wall},
             {"F", fountain},
@@ -50,56 +46,48 @@ public class Minimap : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (mapper == null|| status==null) Initialize();
+        if (mapper == null || status == null) Initialize();
         if (mapper == null || status == null) return;
         UpdateNavDots();
         AdjustMapPosition();
         AddNewHits();
     }
 
-    private void Initialize()
-    {
+    private void Initialize() {
         var players = PlayerCharacter.players;
         foreach (var item in players) if (item.isMe) mapper = item.GetComponent<Mapper>();
         var obj = GameObject.FindGameObjectWithTag("ConfigObject");
         if (obj != null) status = obj.GetComponent<PartyStatusTracker>();
     }
 
-    private void UpdateNavDots()
-    {
-        if (status.id.Count - 1 != otherPlayerDots.Count)
-        {
+    private void UpdateNavDots() {
+        if (status.id.Count - 1 != otherPlayerDots.Count) {
             foreach (var kvp in otherPlayerDots) Destroy(kvp.Value);
             otherPlayerDots.Clear();
         }
-        for (int i = 0; i < status.id.Count; i++)
-        {
+        for (int i = 0; i < status.id.Count; i++) {
             //if (status.id[i] != status.localPlayer.netId.Value)
             //{
-                if (!otherPlayerDots.ContainsKey(status.id[i])) otherPlayerDots.Add(status.id[i], CreateNewDot());
-                UpdateDot(otherPlayerDots[status.id[i]], status.posX[i], status.posY[i]);
+            if (!otherPlayerDots.ContainsKey(status.id[i])) otherPlayerDots.Add(status.id[i], CreateNewDot());
+            UpdateDot(otherPlayerDots[status.id[i]], status.posX[i], status.posY[i]);
             //}
         }
     }
 
-    private void AdjustMapPosition()
-    {
+    private void AdjustMapPosition() {
         transform.localPosition = -new Vector3(mapper.transform.position.x * tileSize / 2, mapper.transform.position.z * tileSize / 2, 0);
         navRect.localPosition = new Vector2(mapper.transform.position.x * tileSize / 2, mapper.transform.position.z * tileSize / 2);
     }
 
-    private void AddNewHits()
-    {
+    private void AddNewHits() {
         for (int i = 0; i < Mapper.newHits.Count; i++) AddNewHit(i);
         Mapper.newHits.Clear();
         Mapper.newHitsItems.Clear();
     }
 
-    private void AddNewHit(int i)
-    {
+    private void AddNewHit(int i) {
         GameObject newItem = null;
-        switch (Mapper.newHitsItems[i])
-        {
+        switch (Mapper.newHitsItems[i]) {
             case "{REMOVE}":
                 RemoveDot(i);
                 return;
@@ -110,26 +98,22 @@ public class Minimap : MonoBehaviour {
         PositionNewDot(newItem, i);
     }
 
-    private void PositionNewDot(GameObject newItem, int i)
-    {
+    private void PositionNewDot(GameObject newItem, int i) {
         if (newItem == null) return;
         var rect = newItem.GetComponent<RectTransform>();
         //rect.localPosition = new Vector2(((Mapper.newHits[i].x * 2) - 120) * tileSize / 2, ((Mapper.newHits[i].y * 2) - 120) * tileSize / 2);
         rect.localPosition = new Vector2(((Mapper.newHits[i].x * 5)) * tileSize / 2, ((Mapper.newHits[i].y * 5)) * tileSize / 2);
-        rect.sizeDelta = new Vector2(tileSize * 1.1f * 5f/2f, tileSize * 1.1f*5f/2f);
+        rect.sizeDelta = new Vector2(tileSize * 1.1f * 5f / 2f, tileSize * 1.1f * 5f / 2f);
         var script = newItem.GetComponent<MinimapDot>();
         script.x = Mapper.newHits[i].x;
         script.y = Mapper.newHits[i].y;
         dots.Add(newItem);
     }
 
-    private void RemoveDot(int i)
-    {
-        foreach (var dot in dots)
-        {
+    private void RemoveDot(int i) {
+        foreach (var dot in dots) {
             var item = dot.GetComponent<MinimapDot>();
-            if (item != null && item.x == Mapper.newHits[i].x && item.y == Mapper.newHits[i].y)
-            {
+            if (item != null && item.x == Mapper.newHits[i].x && item.y == Mapper.newHits[i].y) {
                 dots.Remove(dot);
                 Destroy(dot);
                 break;
@@ -137,20 +121,17 @@ public class Minimap : MonoBehaviour {
         }
     }
 
-    private GameObject CreateNewDot()
-    {
+    private GameObject CreateNewDot() {
         var obj = Instantiate(playerDotPrefab);
         obj.transform.SetParent(transform);
-        return obj;      
+        return obj;
     }
 
 
-    private void UpdateDot(GameObject obj, float x, float y)
-    {
+    private void UpdateDot(GameObject obj, float x, float y) {
         var rect = obj.GetComponent<RectTransform>();
         //rect.localPosition = new Vector2(((x * 1) - 0) * tileSize / 2, ((y * 1) - 0) * tileSize / 2);
         rect.localPosition = new Vector2(x * tileSize / 2, y * tileSize / 2);
-        rect.sizeDelta = new Vector2(tileSize * 1.1f * 5f/2f, tileSize * 1.1f * 5f/2f);
+        rect.sizeDelta = new Vector2(tileSize * 1.1f * 5f / 2f, tileSize * 1.1f * 5f / 2f);
     }
 }
-

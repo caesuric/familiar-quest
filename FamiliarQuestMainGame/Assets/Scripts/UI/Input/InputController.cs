@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class InputController : MonoBehaviour {
@@ -17,12 +14,12 @@ public class InputController : MonoBehaviour {
     private GameObject fpsBar;
     public GameObject inventoryDetails = null;
     private GameObject abilityScreen = null;
-    private GameObject settingsMenu = null;
-    private GameObject controlsReference = null;
-    private GameObject abilityGuide = null;
+    private readonly GameObject settingsMenu = null;
+    private readonly GameObject controlsReference = null;
+    private readonly GameObject abilityGuide = null;
     private GameObject changelog = null;
     private GameObject readingPane = null;
-    private GameObject mouseOverPanel = null;
+    private readonly GameObject mouseOverPanel = null;
     public new Rigidbody rigidbody = null;
     public Character character = null;
     private bool inventoryActive = false;
@@ -31,7 +28,7 @@ public class InputController : MonoBehaviour {
     public bool minimapActive = true;
     private bool fpsActive = true;
     public bool dPadActive = false;
-    private Inventory inventoryController;
+    private readonly Inventory inventoryController;
     private SpiritScreen spiritScreenController;
     //[SyncVar]
     public bool moving = false;
@@ -288,9 +285,8 @@ public class InputController : MonoBehaviour {
     }
 
     private void FaceMouse() {
-        RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)) transform.LookAt(hit.point, transform.up);
+        if (Physics.Raycast(ray, out RaycastHit hit)) transform.LookAt(hit.point, transform.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
 

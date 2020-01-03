@@ -1,21 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DontDestroyCanvasOnLoad : MonoBehaviour {
 
     public static GameObject instance = null;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         if (instance == null) {
             DontDestroyOnLoad(gameObject);
             instance = gameObject;
         }
-        else Destroy(gameObject);   
-	}	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        else Destroy(gameObject);
+    }
+    // Update is called once per frame
+    void Update() {
+
+    }
 }

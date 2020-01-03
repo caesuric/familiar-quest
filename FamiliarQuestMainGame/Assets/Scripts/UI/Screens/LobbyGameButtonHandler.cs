@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyGameButtonHandler : MonoBehaviour
-{
+public class LobbyGameButtonHandler : MonoBehaviour {
     private GameDescription game = null;
     private NewLobbyMenuManager manager = null;
     public Text text;

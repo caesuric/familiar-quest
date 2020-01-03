@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterStatisticsUpdater : MonoBehaviour {
@@ -24,11 +22,11 @@ public class CharacterStatisticsUpdater : MonoBehaviour {
     public Text itemFindRate;
     public Text elementalResistance;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         c = PlayerCharacter.players[0].GetComponent<Character>();
         eg = c.GetComponent<ExperienceGainer>();
-	}
+    }
 
     // Update is called once per frame
     void Update() {

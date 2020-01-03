@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerAnimation {
     private Animator animator;
@@ -22,7 +21,7 @@ public class PlayerAnimation {
     }
 
     public void AnimateDeath() {
-        if (controller==null) {
+        if (controller == null) {
             if (!deathPlayed) {
                 animation.CrossFade("kitt_DeathA");
                 deathPlayed = true;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
 public class Inventory : MonoBehaviour {
 
@@ -30,7 +29,7 @@ public class Inventory : MonoBehaviour {
     public Toggle upgradesOnlyToggle;
     private List<GameObject> itemObjects = new List<GameObject>();
     private PlayerCharacter player = null;
-    
+
     // Update is called once per frame
     void Update() {
         if (sharedInventory == null) {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -9,7 +7,7 @@ public class DustDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
     public Image background;
     private Color originalColor;
     private AbilityMenu abilityMenu;
-    
+
     // Use this for initialization
     void Start() {
         originalColor = background.color;
@@ -26,7 +24,7 @@ public class DustDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
     public void OnDrop(PointerEventData data) {
         InputMovement.isDragging = false;
-        if (data.pointerDrag!=null && data.pointerDrag.GetComponent<DustItem>()!=null) {
+        if (data.pointerDrag != null && data.pointerDrag.GetComponent<DustItem>() != null) {
             var dust = data.pointerDrag.GetComponent<DustItem>().dust;
             abilityMenu.dustToUse.Add(dust);
             abilityMenu.RefreshDustUsagePanel();

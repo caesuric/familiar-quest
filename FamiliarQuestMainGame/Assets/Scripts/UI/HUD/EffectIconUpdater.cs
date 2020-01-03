@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,8 +25,7 @@ public class EffectIconUpdater : MonoBehaviour {
         image.fillAmount = duration;
     }
 
-    public void Initialize(string icon, float duration, Image image, float fillAmount)
-    {
+    public void Initialize(string icon, float duration, Image image, float fillAmount) {
         this.icon = icon;
         this.duration = duration;
         this.image = image;
@@ -35,12 +33,10 @@ public class EffectIconUpdater : MonoBehaviour {
     }
 }
 
-public class EffectIcons
-{
+public class EffectIcons {
     public static IconCache iconCache;
     public Dictionary<string, Sprite> icons = new Dictionary<string, Sprite>();
-    public EffectIcons()
-    {
+    public EffectIcons() {
         var config = GameObject.FindGameObjectsWithTag("ConfigObject");
         iconCache = config[0].GetComponent<IconCache>();
         var data = TextReader.ReadSets("EffectIcons");

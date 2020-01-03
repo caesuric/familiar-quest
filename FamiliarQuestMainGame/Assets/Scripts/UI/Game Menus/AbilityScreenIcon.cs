@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-
     public Ability ability;
     public bool draggable = true;
     private string title = "";
     private string description = "";
     private AbilityMenu abilityScreen;
-    private Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
+    private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
 
     // Use this for initialization
     void Start() {
@@ -191,8 +189,7 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void SetDraggedPosition(PointerEventData eventData) {
         var rt = GetComponent<RectTransform>();
-        Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out globalMousePos)) {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out Vector3 globalMousePos)) {
             rt.position = globalMousePos;
         }
     }
