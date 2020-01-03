@@ -12,9 +12,5 @@ public class FireballTrap : MonoBehaviour {
         tadd.damage = GetComponent<TrapDamage>().damage;
         Destroy(gameObject, 2);
         Destroy(this, 2);
-<<<<<<< HEAD
-	}
-=======
     }
->>>>>>> code-cleanup
 }
