@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,8 +14,13 @@ public class NewLobbyMenuManager : MonoBehaviour {
     public InputField nameInput;
 
     void Start() {
-        ProtoClient.Login();
-        UpdateGameList();
+        try {
+            ProtoClient.Login();
+            UpdateGameList();
+        }
+        catch (Exception e) {
+            LoadInitialScene();
+        }
     }
 
     private void UpdateGameList() {
@@ -31,6 +37,10 @@ public class NewLobbyMenuManager : MonoBehaviour {
 
     public void SelectGame(GameDescription game) {
         ProtoClient.gameId = game.GameId;
+        LoadInitialScene();
+    }
+
+    private void LoadInitialScene() {
         WorldGenerator.FetchWorlds();
         if (!WorldGenerator.worlds.Contains(CharacterSelectScreen.selectedCharacterName)) WorldGenerator.CreateWorld(CharacterSelectScreen.selectedCharacterName);
         if (LobbyManager.singleton == null) LobbyManager.singleton = new LobbyManager();

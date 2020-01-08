@@ -60,7 +60,7 @@ public class PlayerCharacter : DependencyUser {
     private void Update() {
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
-        if (!ready) { // && GetComponent<ConfigGrabber>().si!=null
+        if (!ready && SharedInventory.instance != null) { // && GetComponent<ConfigGrabber>().si!=null
             //GetComponent<Mapper>().Reset();
             //GetComponent<ConfigGrabber>().si.character = gameObject;
             //if (GetComponent<ConfigGrabber>().il != null && InitializeLevel.currentFloor > 0) {
