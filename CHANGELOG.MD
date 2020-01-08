@@ -1,5 +1,7 @@
 # v0.12
 
+## Miscellaneous Refactoring
+
 * Released code in public repo!
 * Various bits of code cleanup and restructuing related to public release
 * Separated project into git submodules to avoid EULA violations
@@ -14,6 +16,11 @@
 * Added system for managing characters
 * Added in-game menu for managing game resolution and graphics settings
 * Numerous bugfixes
+
+## Known Issues
+
+* Bosses do not currently engage in boss behaviors
+* Network play is currently incomplete and not recommended
 
 # v0.11.2
 
