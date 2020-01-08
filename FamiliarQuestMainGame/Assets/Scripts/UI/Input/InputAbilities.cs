@@ -34,7 +34,7 @@ public class InputAbilities : MonoBehaviour {
         //for (int i = 0; i < 2; i++) abilities.Add(() => controller.CmdUseItem(i)); //same issue
         abilities.Add(() => controller.CmdUseItem(0));
         abilities.Add(() => controller.CmdUseItem(1));
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i <= 12; i++) {
             var key = "Ability " + i.ToString();
             if (!buttons.ContainsKey(key)) buttons.Add(key, abilities[i - 1]);
         }

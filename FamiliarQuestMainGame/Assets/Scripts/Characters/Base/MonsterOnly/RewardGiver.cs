@@ -480,7 +480,7 @@ class RewardGiver : MonoBehaviour {
 
     public void DropConsumable(Character attacker) {
         AddConsumable(attacker);
-        attacker.GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+        SharedInventory.instance.CmdRefresh();
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("POTION FOUND", "Potion found.");
         attacker.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
