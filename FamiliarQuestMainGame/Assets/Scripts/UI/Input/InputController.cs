@@ -113,13 +113,14 @@ public class InputController : MonoBehaviour {
         //settingsMenu.SetActive(false);
         //controlsReference.SetActive(false);
         //abilityGuide.SetActive(false);
+        if (inventory == null || inventoryDetails == null || characterSheet == null || abilityScreen == null || changelog == null || readingPane == null) return;
         changelog.SetActive(false);
         readingPane.SetActive(false);
         //mouseOverPanel.SetActive(false);
         inventoryDetails.SetActive(false);
-        inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
-        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
-        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
         rigidbody = GetComponent<Rigidbody>();
         character = GetComponent<Character>();
         GetComponent<InputAbilities>().Initialize(this);
@@ -134,7 +135,7 @@ public class InputController : MonoBehaviour {
             hips.transform.eulerAngles = new Vector3(0, euler.y, euler.z);
         }
         if (hotbarButtons == null || hotbarButtons.Length == 0 || hotbarButtons[0] == null) Restart();
-        if (inventory == null || characterSheet == null || rigidbody == null || character == null) Initialize();
+        if (inventory == null || inventoryDetails==null || characterSheet == null || abilityScreen==null || changelog==null || readingPane == null || rigidbody == null || character == null) Initialize();
         if (inventory == null || characterSheet == null || rigidbody == null || character == null) return;
         if (character.GetComponent<Health>().hp <= 0 || character == null) return;
         GetComponent<InputAbilities>().KeyboardCheck();
@@ -186,6 +187,12 @@ public class InputController : MonoBehaviour {
         //mouseOverPanel.SetActive(false);
         inventoryDetails.SetActive(false);
         InputMovement.isDragging = false;
+        changelog.SetActive(false);
+        readingPane.SetActive(false);
+        //mouseOverPanel.SetActive(false);
+        inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
     }
 
     private void ToggleSpiritScreen() {

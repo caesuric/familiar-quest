@@ -63,7 +63,7 @@ public class HotbarUser : MonoBehaviour {
             //if (isLocalPlayer) CmdRefreshAbilityInfo();
             CmdRefreshAbilityInfo();
         }
-        if (!ready && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<SpiritUser>().spirits.Count>0) {
+        if (!ready && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<SpiritUser>().spirits.Count > 0) {
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.sprite = images[GetComponent<PlayerCharacter>().weapon.icon];
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.gameObject.SetActive(true);
             //if (isLocalPlayer) CmdRefreshAbilityInfo();
@@ -72,7 +72,7 @@ public class HotbarUser : MonoBehaviour {
         }
         var pc = GetComponent<PlayerCharacter>();
         UpdateCooldowns(); //if (NetworkServer.active) UpdateCooldowns();
-        if (pc.isMe) {
+        if (pc.isMe && hotbarButtons.Count > 0) {
             if (abilityCurrentCDs.Count != currentCooldownPercentages.Count) {
                 currentCooldownPercentages.Clear();
                 for (var i = 0; i < abilityCurrentCDs.Count; i++) FullUpdateAbilityCD(i);

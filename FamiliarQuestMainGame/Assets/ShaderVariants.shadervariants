@@ -1,0 +1,466 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!200 &20000000
+ShaderVariantCollection:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ShaderVariants
+  m_Shaders:
+  - first: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: POINT
+        passType: 0
+      - keywords: SPOT UNITY_HDR_ON
+        passType: 0
+      - keywords: DIRECTIONAL UNITY_HDR_ON
+        passType: 0
+      - keywords: POINT UNITY_HDR_ON
+        passType: 0
+      - keywords: SHADOWS_DEPTH SHADOWS_SOFT SPOT UNITY_HDR_ON
+        passType: 0
+      - keywords: POINT SHADOWS_CUBE SHADOWS_SOFT UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 74, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: UNITY_HDR_ON
+        passType: 0
+  - first: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 10770, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: UNITY_UI_ALPHACLIP
+        passType: 0
+  - first: {fileID: 19, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 65, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHABLEND_ON _EMISSION _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHAPREMULTIPLY_ON _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _NORMALMAP _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _NORMALMAP _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHATEST_ON _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHATEST_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHABLEND_ON _SPECGLOSSMAP
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHABLEND_ON _NORMALMAP
+        passType: 5
+      - keywords: SPOT _ALPHAPREMULTIPLY_ON _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON _NORMALMAP
+        passType: 5
+      - keywords: POINT _ALPHAPREMULTIPLY_ON _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _NORMALMAP _SPECGLOSSMAP
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHATEST_ON _SPECGLOSSMAP
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHATEST_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHABLEND_ON _SPECGLOSSMAP
+        passType: 5
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+      - keywords: SHADOWS_CUBE
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHABLEND_ON
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON
+        passType: 8
+      - keywords: SHADOWS_CUBE _ALPHAPREMULTIPLY_ON
+        passType: 8
+      - keywords: SHADOWS_DEPTH _SPECGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_CUBE _SPECGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHATEST_ON _SPECGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_CUBE _ALPHATEST_ON _SPECGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHABLEND_ON _SPECGLOSSMAP
+        passType: 8
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _EMISSION _NORMALMAP _SPECGLOSSMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _ALPHATEST_ON _NORMALMAP _SPECGLOSSMAP
+        passType: 10
+  - first: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHATEST_ON
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHATEST_ON _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHABLEND_ON
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _ALPHAPREMULTIPLY_ON
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _METALLICGLOSSMAP _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _METALLICGLOSSMAP _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _EMISSION _METALLICGLOSSMAP _NORMALMAP
+          _PARALLAXMAP
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: DIRECTIONAL _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHATEST_ON
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHATEST_ON _NORMALMAP
+        passType: 5
+      - keywords: SPOT _ALPHABLEND_ON
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHABLEND_ON
+        passType: 5
+      - keywords: POINT _ALPHABLEND_ON
+        passType: 5
+      - keywords: DIRECTIONAL _ALPHAPREMULTIPLY_ON
+        passType: 5
+      - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP
+        passType: 5
+      - keywords: DIRECTIONAL _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 5
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+      - keywords: SHADOWS_CUBE
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHATEST_ON
+        passType: 8
+      - keywords: SHADOWS_CUBE _ALPHATEST_ON
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHABLEND_ON
+        passType: 8
+      - keywords: SHADOWS_CUBE _ALPHABLEND_ON
+        passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON
+        passType: 8
+      - keywords: SHADOWS_DEPTH _METALLICGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_CUBE _METALLICGLOSSMAP
+        passType: 8
+      - keywords: SHADOWS_DEPTH _METALLICGLOSSMAP _PARALLAXMAP
+        passType: 8
+      - keywords: SHADOWS_CUBE _METALLICGLOSSMAP _PARALLAXMAP
+        passType: 8
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _EMISSION
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _NORMALMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _EMISSION _NORMALMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _ALPHATEST_ON
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _METALLICGLOSSMAP _NORMALMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _EMISSION _METALLICGLOSSMAP _NORMALMAP
+        passType: 10
+      - keywords: DIRLIGHTMAP_COMBINED DYNAMICLIGHTMAP_ON UNITY_HDR_ON _EMISSION
+          _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+        passType: 10
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON _EMISSION _METALLICGLOSSMAP _NORMALMAP
+          _PARALLAXMAP
+        passType: 10
+  - first: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH _NORMALMAP
+        passType: 4
+      - keywords: DIRECTIONAL _NORMALMAP
+        passType: 5
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 2, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: SHADOWS_CUBE
+        passType: 8
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 10
+  - first: {fileID: 4, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: LIGHTPROBE_SH UNITY_HDR_ON
+        passType: 10
+  - first: {fileID: 10, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+  - first: {fileID: 11, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL
+        passType: 5
+  - first: {fileID: 31, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: SPOT
+        passType: 5
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: POINT
+        passType: 5
+  - first: {fileID: 33, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH VERTEXLIGHT_ON
+        passType: 4
+      - keywords: SPOT
+        passType: 5
+      - keywords: DIRECTIONAL
+        passType: 5
+      - keywords: POINT
+        passType: 5
+  - first: {fileID: 50, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 1
+      - keywords: SHADOWS_DEPTH
+        passType: 8
+  - first: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: _SUNDISK_SIMPLE
+        passType: 0
+  - first: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: SOFTPARTICLES_ON
+        passType: 0
+  - first: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: SOFTPARTICLES_ON
+        passType: 0
+  - first: {fileID: 207, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: SOFTPARTICLES_ON
+        passType: 0
+  - first: {fileID: 9000, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9001, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9002, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9003, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9004, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9006, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 9007, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 10720, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 357ef5c68b3491e46a930fa06c6aaa05, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 2b6a538e428c46a43b25dd43e69ef78f, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: bd67c5f252270884a84536d5b907e31c, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: c6791e756179d53448bf570afcc7bc36, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 6f251f14a09129b4d83e1e3ebf2f749b, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 832bb03cc3939114eab698bbd8707492, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 10f95c037657deb429eefe09ebfcacb2, type: 3}
+    second:
+      variants:
+      - keywords: DIRECTIONAL LIGHTPROBE_SH
+        passType: 4
+      - keywords: DIRECTIONAL LIGHTPROBE_SH VERTEXLIGHT_ON
+        passType: 4
+      - keywords: SPOT
+        passType: 5
+      - keywords: POINT
+        passType: 5
+  - first: {fileID: 4800000, guid: d248d4d1588851f43a9fa18a4e6f0209, type: 3}
+    second:
+      variants:
+      - keywords: TONEMAPPING_NEUTRAL
+        passType: 0
+  - first: {fileID: 4800000, guid: e34f497a257a5d544b106562f4476ad4, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: SOFTPARTICLES_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 663207a90b03e2042951d1a8b903ed7f, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 18cc8fe7d50c89741b56c1ae6a5baa66, type: 3}
+    second:
+      variants:
+      - keywords: SOFTPARTICLES_ON _BLENDMODE_BLEND
+        passType: 0
+      - keywords: SOFTPARTICLES_ON _BLENDMODE_BLEND _FADING_ON
+        passType: 0
+      - keywords: SOFTPARTICLES_ON _BLENDMODE_BLEND _FADING_ON _FLIPBOOK_BLENDING
+        passType: 0
+  - first: {fileID: 4800000, guid: e881ae5627d1cc84395303acfbca6fb2, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: FOG_OFF
+        passType: 0
+  - first: {fileID: 4800000, guid: 2af3c31076662ae498a25d4b411806a2, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: SOFTPARTICLES_ON
+        passType: 0
+  - first: {fileID: 4800000, guid: 4ceb73bc148699b469361531d6062548, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+      - keywords: ANTI_FLICKER
+        passType: 0
+  - first: {fileID: 4800000, guid: 8ce0a6f4c8cae334d8a5617f302b6769, type: 3}
+    second:
+      variants:
+      - keywords: BLOOM
+        passType: 0
+      - keywords: BLOOM COLOR_GRADING
+        passType: 0
+  - first: {fileID: 4800000, guid: 7d89469544dfa214eabdbf37fca76f40, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
