@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class LargeStatusTextUpdater : MonoBehaviour {
@@ -14,15 +11,15 @@ public class LargeStatusTextUpdater : MonoBehaviour {
     public GameObject canvas;
     public GameObject objectHelpText;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         text = GetComponent<Text>();
         text.text = "";
-        if (quitMenu!=null) quitMenu.SetActive(false);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        if (quitMenu != null) quitMenu.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update() {
         if (character == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) {
@@ -44,7 +41,7 @@ public class LargeStatusTextUpdater : MonoBehaviour {
             else if (character.GetComponent<StatusEffectHost>().CheckForEffect("paralysis")) text.text = "PARALYZED";
             else text.text = "";
         }
-	}
+    }
 
     public void ResetGame() {
         foreach (var player in PlayerCharacter.players) Destroy(player.gameObject);

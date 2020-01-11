@@ -60,7 +60,7 @@ public class PlayerCharacter : DependencyUser {
     private void Update() {
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
-        if (!ready) { // && GetComponent<ConfigGrabber>().si!=null
+        if (!ready && SharedInventory.instance != null) { // && GetComponent<ConfigGrabber>().si!=null
             //GetComponent<Mapper>().Reset();
             //GetComponent<ConfigGrabber>().si.character = gameObject;
             //if (GetComponent<ConfigGrabber>().il != null && InitializeLevel.currentFloor > 0) {
@@ -76,7 +76,7 @@ public class PlayerCharacter : DependencyUser {
         }
         else if (!ready && GetComponent<ConfigGrabber>().overworldInitializer!=null) {
             GetComponent<ConfigGrabber>().overworldInitializer.CmdSetCharacterPosition(gameObject);
-            GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+            SharedInventory.instance.CmdRefresh();
             GameObject.FindGameObjectWithTag("LobbyCurtain").SetActive(false);
             ready = true;
         }
@@ -88,7 +88,7 @@ public class PlayerCharacter : DependencyUser {
         //        GetComponent<ConfigGrabber>().initializeOverlordMode.CmdSetupCharacter(gameObject);
         //        GetComponent<ConfigGrabber>().initializeOverlordMode.SetupCharacter();
         //    }
-        //    GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+        //    SharedInventory.instance.CmdRefresh();
         //    GameObject.FindGameObjectWithTag("LobbyCurtain").SetActive(false);
         //    ready = true;
         //}
@@ -131,13 +131,13 @@ public class PlayerCharacter : DependencyUser {
     //[Command]
     public void CmdEquipSpirit(int number, int slotNumber) {
         if (GetComponent<SpiritUser>().spirits.Count > slotNumber) {
-            GetComponent<ConfigGrabber>().sharedInventory.spareSpirits.Add(GetComponent<SpiritUser>().spirits[slotNumber]);
-            GetComponent<SpiritUser>().spirits[slotNumber] = GetComponent<ConfigGrabber>().sharedInventory.spareSpirits[number];
+            SharedInventory.instance.spareSpirits.Add(GetComponent<SpiritUser>().spirits[slotNumber]);
+            GetComponent<SpiritUser>().spirits[slotNumber] = SharedInventory.instance.spareSpirits[number];
         }
         else {
-            GetComponent<SpiritUser>().spirits.Add(GetComponent<ConfigGrabber>().sharedInventory.spareSpirits[number]);
+            GetComponent<SpiritUser>().spirits.Add(SharedInventory.instance.spareSpirits[number]);
         }
-        GetComponent<ConfigGrabber>().sharedInventory.spareSpirits.Remove(GetComponent<ConfigGrabber>().sharedInventory.spareSpirits[number]);
+        SharedInventory.instance.spareSpirits.Remove(SharedInventory.instance.spareSpirits[number]);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -155,9 +155,9 @@ public class PlayerCharacter : DependencyUser {
             {"bracelet", () => EquipBracelet(number, slotNumber) }
         };
         if (number < 0) EquipBracelet(number, slotNumber);
-        else lookup[GetComponent<ConfigGrabber>().sharedInventory.inventoryTypes[number]]();
+        else lookup[SharedInventory.instance.inventoryTypes[number]]();
         GetComponent<Character>().CalculateAll();
-        GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+        SharedInventory.instance.CmdRefresh();
         if (inventory != null) inventory.RefreshInABit();
     }
 
@@ -165,39 +165,39 @@ public class PlayerCharacter : DependencyUser {
     public void CmdEquipBracelet(int number, int targetNumber) {
         EquipBracelet(number, targetNumber);
         GetComponent<Character>().CalculateAll();
-        GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+        SharedInventory.instance.CmdRefresh();
         if (inventory != null) inventory.RefreshInABit();
     }
 
     private void EquipWeapon(int number) {
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(weapon);
-        ModifyStats(weapon, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        weapon = (Weapon)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        SharedInventory.instance.inventory.Add(weapon);
+        ModifyStats(weapon, SharedInventory.instance.inventory[number]);
+        weapon = (Weapon)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipArmor(int number) {
-        if (armor!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(armor);
-        ModifyStats(armor, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        armor = (Armor)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (armor!=null) SharedInventory.instance.inventory.Add(armor);
+        ModifyStats(armor, SharedInventory.instance.inventory[number]);
+        armor = (Armor)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipNecklace(int number) {
-        if (necklace!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(necklace);
-        ModifyStats(necklace, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        necklace = (Necklace)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (necklace!=null) SharedInventory.instance.inventory.Add(necklace);
+        ModifyStats(necklace, SharedInventory.instance.inventory[number]);
+        necklace = (Necklace)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipBelt(int number) {
-        if (belt!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(belt);
-        ModifyStats(belt, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        belt = (Belt)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (belt!=null) SharedInventory.instance.inventory.Add(belt);
+        ModifyStats(belt, SharedInventory.instance.inventory[number]);
+        belt = (Belt)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -206,10 +206,10 @@ public class PlayerCharacter : DependencyUser {
             SwapBracelets(0 - number - 3, targetNumber);
             return;
         }
-        if (bracelets[targetNumber]!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(bracelets[targetNumber]);
-        ModifyStats(bracelets[targetNumber], GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        bracelets[targetNumber] = (Bracelet)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (bracelets[targetNumber]!=null) SharedInventory.instance.inventory.Add(bracelets[targetNumber]);
+        ModifyStats(bracelets[targetNumber], SharedInventory.instance.inventory[number]);
+        bracelets[targetNumber] = (Bracelet)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -221,34 +221,34 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void EquipCloak(int number) {
-        if (cloak!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(cloak);
-        ModifyStats(cloak, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        cloak = (Cloak)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (cloak!=null) SharedInventory.instance.inventory.Add(cloak);
+        ModifyStats(cloak, SharedInventory.instance.inventory[number]);
+        cloak = (Cloak)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipHat(int number) {
-        if (hat!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(hat);
-        ModifyStats(hat, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        hat = (Hat)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (hat!=null) SharedInventory.instance.inventory.Add(hat);
+        ModifyStats(hat, SharedInventory.instance.inventory[number]);
+        hat = (Hat)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipShoes(int number) {
-        if (shoes!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(shoes);
-        ModifyStats(shoes, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        shoes = (Shoes)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (shoes!=null) SharedInventory.instance.inventory.Add(shoes);
+        ModifyStats(shoes, SharedInventory.instance.inventory[number]);
+        shoes = (Shoes)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipEarring(int number) {
-        if (earring!=null) GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(earring);
-        ModifyStats(earring, GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        earring = (Earring)(GetComponent<ConfigGrabber>().sharedInventory.inventory[number]);
-        GetComponent<ConfigGrabber>().sharedInventory.inventory.RemoveAt(number);
+        if (earring!=null) SharedInventory.instance.inventory.Add(earring);
+        ModifyStats(earring, SharedInventory.instance.inventory[number]);
+        earring = (Earring)(SharedInventory.instance.inventory[number]);
+        SharedInventory.instance.inventory.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -306,7 +306,7 @@ public class PlayerCharacter : DependencyUser {
     public void GainSpirits(List<Spirit> spirits) {
         if (spirits.Count == 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND AN ABILITY!", "Found an ability!");
         else if (spirits.Count > 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND " + spirits.Count.ToString() + " ABILITIES!", "Found " + spirits.Count.ToString() + " abilities!");
-        //foreach (var spirit in spirits) GetComponent<ConfigGrabber>().sharedInventory.spareSpirits.Add(spirit);
+        //foreach (var spirit in spirits) SharedInventory.instance.spareSpirits.Add(spirit);
         //foreach (var spirit in spirits) GetComponent<SpiritUser>().spirits[0].activeAbilities.Add(spirit.activeAbilities[0]);
         if (spirits.Count > 0) {
             if (spirits[0].activeAbilities.Count>0) {

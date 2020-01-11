@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -51,10 +50,9 @@ public class CharacterSelectScreen : MonoBehaviour {
     private List<AttackAbility> attackAbilities2 = new List<AttackAbility>();
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
     private List<PassiveAbility> passiveAbilities = new List<PassiveAbility>();
-    private List<Ability> chosenAbilities = new List<Ability>();
+    private readonly List<Ability> chosenAbilities = new List<Ability>();
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         UpdateCharacterNameList();
         UpdateCharacters();
         MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
@@ -71,16 +69,14 @@ public class CharacterSelectScreen : MonoBehaviour {
         }
     }
 
-    private void UpdateCharacters()
-    {
+    private void UpdateCharacters() {
         foreach (var co in contentObjects) Destroy(co);
         contentObjects.RemoveRange(0, contentObjects.Count);
         foreach (var name in characterNames) UpdateCharacter(name);
         scrollRect.verticalNormalizedPosition = 1f;
     }
 
-    private void UpdateCharacter(string name)
-    {
+    private void UpdateCharacter(string name) {
         var obj = Instantiate(characterButtonPrefab, content.transform);
         contentObjects.Add(obj);
         var characterItemUpdater = obj.GetComponent<CharacterItemUpdater>();
@@ -93,8 +89,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         characterItemUpdater.Initialize(characterName, loaded.level, loaded.furType, this);
     }
 
-    public void NewCharacter()
-    {
+    public void NewCharacter() {
         //SceneManager.LoadScene("Class Select Screen");
         characterSelectMenu.SetActive(false);
         characterAppearanceMenu.SetActive(true);
@@ -241,7 +236,7 @@ public class CharacterSelectScreen : MonoBehaviour {
 
     private void GenerateNonCooldownAbility() {
         AttackAbility ability = null;
-        while (ability==null || ability.cooldown > 0 || WrongStat(ability)) {
+        while (ability == null || ability.cooldown > 0 || WrongStat(ability)) {
             var element = Spirit.RandomElement();
             ability = AttackAbility.Generate(new List<Element> { element });
         }
@@ -297,8 +292,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         return false;
     }
 
-    public void ChooseCharacter(string name, int furType)
-    {
+    public void ChooseCharacter(string name, int furType) {
         foreach (var obj in contentObjects) {
             var ciu = obj.GetComponent<CharacterItemUpdater>();
             if (ciu.characterName == name) ciu.selectionFrame.SetActive(true);
@@ -333,7 +327,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void StrengthDown() {
-        if (strength>statMinimum) {
+        if (strength > statMinimum) {
             strength -= 1;
             sparePoints += 1;
             UpdateStats();
@@ -341,7 +335,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void StrengthUp() {
-        if (strength<statMaximum && sparePoints>0) {
+        if (strength < statMaximum && sparePoints > 0) {
             strength += 1;
             sparePoints -= 1;
             UpdateStats();

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class InputController : MonoBehaviour {
@@ -17,12 +14,12 @@ public class InputController : MonoBehaviour {
     private GameObject fpsBar;
     public GameObject inventoryDetails = null;
     private GameObject abilityScreen = null;
-    private GameObject settingsMenu = null;
-    private GameObject controlsReference = null;
-    private GameObject abilityGuide = null;
+    private readonly GameObject settingsMenu = null;
+    private readonly GameObject controlsReference = null;
+    private readonly GameObject abilityGuide = null;
     private GameObject changelog = null;
     private GameObject readingPane = null;
-    private GameObject mouseOverPanel = null;
+    private readonly GameObject mouseOverPanel = null;
     public new Rigidbody rigidbody = null;
     public Character character = null;
     private bool inventoryActive = false;
@@ -31,7 +28,7 @@ public class InputController : MonoBehaviour {
     public bool minimapActive = true;
     private bool fpsActive = true;
     public bool dPadActive = false;
-    private Inventory inventoryController;
+    private readonly Inventory inventoryController;
     private SpiritScreen spiritScreenController;
     //[SyncVar]
     public bool moving = false;
@@ -116,13 +113,14 @@ public class InputController : MonoBehaviour {
         //settingsMenu.SetActive(false);
         //controlsReference.SetActive(false);
         //abilityGuide.SetActive(false);
+        if (inventory == null || inventoryDetails == null || characterSheet == null || abilityScreen == null || changelog == null || readingPane == null) return;
         changelog.SetActive(false);
         readingPane.SetActive(false);
         //mouseOverPanel.SetActive(false);
         inventoryDetails.SetActive(false);
-        inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
-        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
-        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
         rigidbody = GetComponent<Rigidbody>();
         character = GetComponent<Character>();
         GetComponent<InputAbilities>().Initialize(this);
@@ -137,7 +135,7 @@ public class InputController : MonoBehaviour {
             hips.transform.eulerAngles = new Vector3(0, euler.y, euler.z);
         }
         if (hotbarButtons == null || hotbarButtons.Length == 0 || hotbarButtons[0] == null) Restart();
-        if (inventory == null || characterSheet == null || rigidbody == null || character == null) Initialize();
+        if (inventory == null || inventoryDetails==null || characterSheet == null || abilityScreen==null || changelog==null || readingPane == null || rigidbody == null || character == null) Initialize();
         if (inventory == null || characterSheet == null || rigidbody == null || character == null) return;
         if (character.GetComponent<Health>().hp <= 0 || character == null) return;
         GetComponent<InputAbilities>().KeyboardCheck();
@@ -189,6 +187,12 @@ public class InputController : MonoBehaviour {
         //mouseOverPanel.SetActive(false);
         inventoryDetails.SetActive(false);
         InputMovement.isDragging = false;
+        changelog.SetActive(false);
+        readingPane.SetActive(false);
+        //mouseOverPanel.SetActive(false);
+        inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
     }
 
     private void ToggleSpiritScreen() {
@@ -288,9 +292,8 @@ public class InputController : MonoBehaviour {
     }
 
     private void FaceMouse() {
-        RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)) transform.LookAt(hit.point, transform.up);
+        if (Physics.Raycast(ray, out RaycastHit hit)) transform.LookAt(hit.point, transform.up);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
     }
 

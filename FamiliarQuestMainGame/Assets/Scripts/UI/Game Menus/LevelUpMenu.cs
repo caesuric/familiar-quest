@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
 public class LevelUpMenu : MonoBehaviour {
 
@@ -28,25 +25,24 @@ public class LevelUpMenu : MonoBehaviour {
     public int intelligence;
     public int wisdom;
     public int luck;
-    private Character attr = null;
+    private Character character = null;
     private Dictionary<string, string> statDescriptions = new Dictionary<string, string>();
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         var data = TextReader.ReadSets("StatDescriptions");
         foreach (var item in data) statDescriptions.Add(item[0], item[1]);
     }
 
-    public void Initialize(Character character)
-    {
-        attr = character;
-        sparePoints = attr.GetComponent<ExperienceGainer>().sparePoints;
-        strength = strengthMin = attr.strength;
-        dexterity = dexterityMin = attr.dexterity;
-        constitution = constitutionMin = attr.constitution;
-        intelligence = intelligenceMin = attr.intelligence;
-        wisdom = wisdomMin = attr.wisdom;
-        luck = luckMin = attr.luck;
+    public void Initialize(Character character) {
+        this.character = character;
+        sparePoints = this.character.GetComponent<ExperienceGainer>().sparePoints;
+        strength = strengthMin = this.character.strength;
+        dexterity = dexterityMin = this.character.dexterity;
+        constitution = constitutionMin = this.character.constitution;
+        intelligence = intelligenceMin = this.character.intelligence;
+        wisdom = wisdomMin = this.character.wisdom;
+        luck = luckMin = this.character.luck;
         UpdateBoxes();
     }
 
@@ -103,9 +99,9 @@ public class LevelUpMenu : MonoBehaviour {
     }
 
     public void Minus(string type) {
-        switch(type) {
+        switch (type) {
             case "strength":
-                if (strength>strengthMin) {
+                if (strength > strengthMin) {
                     strength -= 1;
                     sparePoints += 1;
                 }
@@ -149,14 +145,13 @@ public class LevelUpMenu : MonoBehaviour {
     }
 
     public void Confirm() {
-        if (sparePoints==0) {
-            attr.CmdSetStats(strength, dexterity, constitution, intelligence, wisdom, luck);
+        if (sparePoints == 0) {
+            character.CmdSetStats(strength, dexterity, constitution, intelligence, wisdom, luck);
             gameObject.SetActive(false);
         }
     }
 
-    public void Cancel()
-    {
+    public void Cancel() {
         gameObject.SetActive(false);
     }
 }

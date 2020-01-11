@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-    private Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
+    private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
 
     public void OnBeginDrag(PointerEventData eventData) {
         var canvas = FindInParents<Canvas>(gameObject);
@@ -31,8 +30,7 @@ public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public void SetDraggedPosition(PointerEventData eventData) {
         var rt = GetComponent<RectTransform>();
-        Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out globalMousePos)) {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out Vector3 globalMousePos)) {
             rt.position = globalMousePos;
         }
     }

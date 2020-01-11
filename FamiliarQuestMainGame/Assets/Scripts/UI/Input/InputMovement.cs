@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
 using System;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ public class InputMovement {
     public static InputController controller;
     public static Character character;
     private static float stepCount = 0;
-    private static float updateRate = 0;
-    private static float timer = 0;
+    private static readonly float updateRate = 0;
+    private static readonly float timer = 0;
     public static float lastPosX = 0;
     public static float lastPosY = 0;
     public static float lastRotation = 0;
@@ -38,16 +37,14 @@ public class InputMovement {
     public static void MouseCheck() {
         if (character == null || character.GetComponent<StatusEffectHost>().CheckForEffect("paralysis") || isDragging) return;
         if (Input.GetMouseButton(0) && !ClickIsOnUi()) {
-            RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) character.transform.LookAt(hit.point, character.transform.up);
+            if (Physics.Raycast(ray, out RaycastHit hit)) character.transform.LookAt(hit.point, character.transform.up);
             character.transform.eulerAngles = new Vector3(0, character.transform.eulerAngles.y, 0);
             controller.CmdUsePrimaryAbility(character.transform.eulerAngles);
         }
         else if (Input.GetMouseButton(1) && !ClickIsOnUi()) {
-            RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) character.transform.LookAt(hit.point, character.transform.up);
+            if (Physics.Raycast(ray, out RaycastHit hit)) character.transform.LookAt(hit.point, character.transform.up);
             character.transform.eulerAngles = new Vector3(0, character.transform.eulerAngles.y, 0);
             controller.CmdUseSecondaryAbility(character.transform.eulerAngles);
         }
@@ -76,7 +73,7 @@ public class InputMovement {
 
     private static void MoveCharacter() {
         if (character.GetComponent<StatusEffectHost>().CheckForEffect("immobilize")) return;
-        var extraMultiplier = 10f;
+        //var extraMultiplier = 10f;
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
         var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
@@ -124,12 +121,12 @@ public class InputMovement {
     public static bool ClickIsOnUi() {
         if (canvas == null) canvas = GameObject.FindGameObjectWithTag("Canvas");
         var caster = canvas.GetComponent<GraphicRaycaster>();
-        var pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = Input.mousePosition;
+        var pointerEventData = new PointerEventData(EventSystem.current) {
+            position = Input.mousePosition
+        };
         List<RaycastResult> results = new List<RaycastResult>();
         caster.Raycast(pointerEventData, results);
         if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name != "Minimap" && results[0].gameObject.name != "Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;
         return false;
     }
 }
-

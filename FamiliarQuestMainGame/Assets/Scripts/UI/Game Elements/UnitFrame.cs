@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitFrame : MonoBehaviour
-{
+public class UnitFrame : MonoBehaviour {
     public MOBAEnergyBar healthBar;
     public Image levelCircle;
     public TextMesh levelText;

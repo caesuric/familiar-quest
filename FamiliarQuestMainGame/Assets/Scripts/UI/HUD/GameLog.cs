@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameLog : MonoBehaviour {
@@ -11,19 +9,19 @@ public class GameLog : MonoBehaviour {
     public Scrollbar scrollbar;
     public ScrollRect scrollRect;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         if (instance != null) Destroy(this);
         else {
             instance = this;
             gameObject.SetActive(false);
         }
-	}
-	
-	// Update is called once per frame
-	//void Update () {
-        //var value = scrollbar.value;
-        //if (value == 0) scrollRect.verticalNormalizedPosition = 0;
+    }
+
+    // Update is called once per frame
+    //void Update () {
+    //var value = scrollbar.value;
+    //if (value == 0) scrollRect.verticalNormalizedPosition = 0;
     //}
 
     public static void AddText(string textToAdd) {

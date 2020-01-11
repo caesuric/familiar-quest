@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -8,10 +6,10 @@ public class AbilityListDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
 
     private Color startingColor;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         startingColor = GetComponent<Image>().color;
-	}
+    }
 
     public void OnPointerEnter(PointerEventData data) {
         if (IsValid(data.pointerDrag)) {
@@ -26,13 +24,13 @@ public class AbilityListDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
     public void OnDrop(PointerEventData data) {
         InputMovement.isDragging = false;
         GetComponent<Image>().color = startingColor;
-        var mohb = data.pointerDrag.GetComponent<MouseOverHotbarButton>();
-        if (mohb != null) {
+        var mouseOverHotbarButton = data.pointerDrag.GetComponent<MouseOverHotbarButton>();
+        if (mouseOverHotbarButton != null) {
             var spiritUser = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
             var abilities = spiritUser.spirits[0].activeAbilities;
-            if (mohb.number < 12) {
-                spiritUser.overflowAbilities.Add(abilities[mohb.number]);
-                abilities[mohb.number] = null;
+            if (mouseOverHotbarButton.number < 12) {
+                spiritUser.overflowAbilities.Add(abilities[mouseOverHotbarButton.number]);
+                abilities[mouseOverHotbarButton.number] = null;
             }
             else {
                 spiritUser.RemovePassive(spiritUser.spirits[0].passiveAbilities[0]);

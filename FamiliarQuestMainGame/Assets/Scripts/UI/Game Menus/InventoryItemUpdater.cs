@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventoryItemUpdater : MonoBehaviour {
@@ -130,7 +128,7 @@ public class InventoryItemUpdater : MonoBehaviour {
     }
 
     //public void Initialize(string name, string description, string type, Inventory inventory, int number, int quality, string icon, Item item) {
-    public void Initialize(string name, string description, string type, Inventory inventory, int number, int quality, string icon, float attackPower = 0, string subtype = "", string displayType="", string flavorText="") {
+    public void Initialize(string name, string description, string type, Inventory inventory, int number, int quality, string icon, float attackPower = 0, string subtype = "", string displayType = "", string flavorText = "") {
         if (images.Count == 0) {
             images.Clear();
             var imagesTemp = Resources.LoadAll<Sprite>("Icons");
@@ -269,7 +267,7 @@ public class InventoryItemUpdater : MonoBehaviour {
             var statText = Instantiate(statTextObj, statTextContainer.transform);
             statText.GetComponent<Text>().text = "Attack:";
         }
-        if (type == "armor" || type=="hat" || type=="shoes") {
+        if (type == "armor" || type == "hat" || type == "shoes") {
             var statText = Instantiate(statTextObj, statTextContainer.transform);
             statText.GetComponent<Text>().text = "Armor:";
         }

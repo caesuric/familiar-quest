@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,10 +8,10 @@ public class FusionAttributeDropSlot : MonoBehaviour, IDropHandler, IPointerEnte
     public int slot = 1;
     private Color originalColor;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         originalColor = background.color;
-	}
+    }
 
     public void OnPointerEnter(PointerEventData data) {
         if (IsValid(data.pointerDrag)) background.color = Color.yellow;

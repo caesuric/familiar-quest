@@ -23,7 +23,7 @@ public class WorldObjectUser : MonoBehaviour {
 
     private void ClearHelpText() {
         if (helpText == null) helpText = GameObject.FindGameObjectWithTag("ObjectHelpText");
-        helpText.SetActive(false);
+        if (helpText != null) helpText.SetActive(false);
     }
 
     private void SetHelpText(UsableObject obj) {

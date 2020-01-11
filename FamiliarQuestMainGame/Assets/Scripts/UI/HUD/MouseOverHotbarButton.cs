@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 
 public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
@@ -25,7 +23,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
     public GameObject hoverOverlay;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         mouseOverCanvasOriginalPosition = mouseOverCanvas.transform.position;
         list.Add(this);
         aoeScale = aoe.transform.localScale;
@@ -33,15 +31,15 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
         originalPosition = transform.position;
         hoverOverlay.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (pc==null) {
+
+    // Update is called once per frame
+    void Update() {
+        if (pc == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) if (item.isMe) pc = item.GetComponent<PlayerCharacter>();
         }
-        if (pc!=null && hitbox==null) hitbox = pc.gameObject.GetComponentInChildren<HitboxDealDamage>().GetComponent<MeshRenderer>();
-	}
+        if (pc != null && hitbox == null) hitbox = pc.gameObject.GetComponentInChildren<HitboxDealDamage>().GetComponent<MeshRenderer>();
+    }
 
     public void OnMouseEnter() {
         //mouseOverCanvas.SetActive(true);
@@ -54,8 +52,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
         hoverOverlay.SetActive(true);
     }
 
-    private void EnableTooltip()
-    {
+    private void EnableTooltip() {
         //if (number==10 || number==11) {
         //    var potionNumber = number - 10;
         //    if (pc.GetComponent<PlayerCharacter>().consumables.Count <= potionNumber) return;
@@ -71,36 +68,30 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
         else aoe.enabled = false;
     }
 
-    private void ShowAoeRadius()
-    {
+    private void ShowAoeRadius() {
         hitbox.enabled = false;
         aoe.enabled = true;
         aoe.transform.localScale = aoeScale * pc.GetComponent<HotbarUser>().abilityRadii[number];
-        if (pc.GetComponent<HotbarUser>().abilityIsRanged[number])
-        {
-            RaycastHit hitInfo;
-            Physics.Raycast(pc.transform.position, pc.transform.forward, out hitInfo);
+        if (pc.GetComponent<HotbarUser>().abilityIsRanged[number]) {
+            Physics.Raycast(pc.transform.position, pc.transform.forward, out RaycastHit hitInfo);
             aoe.transform.position = hitInfo.point;
         }
         else aoe.transform.position = pc.transform.position;
     }
 
-    private void ShowMeleeAttackTooltip()
-    {
+    private void ShowMeleeAttackTooltip() {
         hitbox.enabled = true;
         rangedHitbox.enabled = false;
     }
 
-    private void ShowRangedAttackTooltip()
-    {
+    private void ShowRangedAttackTooltip() {
         hitbox.enabled = false;
         rangedHitbox.enabled = true;
         rangedHitbox.transform.position = pc.transform.position + (pc.transform.forward * 11.06f);
         rangedHitbox.transform.rotation = pc.transform.rotation;
     }
 
-    private void DisableTooltip()
-    {
+    private void DisableTooltip() {
         //mouseOverCanvas.SetActive(false);
         hitbox.enabled = false;
         rangedHitbox.enabled = false;
@@ -143,8 +134,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
 
     public void SetDraggedPosition(PointerEventData eventData) {
         var rt = GetComponent<RectTransform>();
-        Vector3 globalMousePos;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out globalMousePos)) {
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out Vector3 globalMousePos)) {
             rt.position = globalMousePos;
         }
     }

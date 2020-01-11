@@ -20,7 +20,7 @@ Familiar Quest is a fast-paced multiplayer action roguelite adventure featuring 
 
 ## Requirements
 
-Runs on Windows, Linux, and Mac, with Android builds confirmed working and coming when I feel like fiddling with game controller controls. Not sure of the exact specs required but you'd probably want a reasonably modern graphics card.
+Runs on Windows, Linux, and Mac, with Android builds confirmed working and coming when I feel like fiddling with game controller controls. Not sure of the exact specs required but you'd probably want a vaguely modern graphics card.
 
 Running the server requires Python 3.x. To install the requirements, navigate to the `server` folder and run `pip install -r requirements.txt`
 
@@ -39,11 +39,23 @@ The other submodules are unfortunately not available outside of binary releases 
 
 ## Installing and Running
 
-Coming soon. I'll upload binary releases as soon as I repair some urgent game destabilizing bugs that are in the most recent version.
+Download the appropriate binary from [the releases page](https://github.com/caesuric/familiar-quest/releases) and run the executable to get going!
 
 ## Playing the Game
 
-Mouse is used to navigate menus. WASD to move your character, use the mouse to target, left-click, right-click, or number keys to use abilities. Scroll the mouse wheel to zoom the minimap in or out.
+* Create a character and set its stats! You can mouse over any stat to see what it affects.
+* Choose from a set of procedurally generated abilities that are (mostly) unique to your character!
+* Select your character and hit play
+* WASD to move character
+* Space bar to use items in world (like portals or doors)
+* Left/right click to aim and use primary/secondary abilities
+* Left/right click on hotbar to reassign primary/secondary abilities
+* Number keys to use other abilities
+* Mouse scroll to zoom minimap in/out
+* Enter a portal to generate a dungeon of the level printed by the portal (strongly recommend level 1 at first :) )
+* You will acquire new procedurally generated abilities by defeating enemies with a blue particle effect -- this indicates that they are special "miniboss" enemies that have unique abilities
+* At the end of each dungeon is a boss. Normally the boss would draw from a mish-mash of preset mechanics and arrange them in a series of phases, but this is disabled at the moment after a major AI refactor
+* Similarly, defeating the boss should open a portal out of the dungeon, but you can avoid walking all the way back at the moment by opening the settings menu and clicking "I'm Stuck!"
 
 ## Folder Structure
 
@@ -108,7 +120,15 @@ World                   -   World related scripts (like the World Auto Saver)
 
 ## Known Issues
 
-To be filled in when I fix the most glaring issues and then upload binaries.
+* Procedural boss fights are disabled at the moment until I integrate them with the new AI infrastructure
+* Similarly, bosses no longer spawn exit portals or guaranteed loot drops
+* Multiplayer is disabled temporarily until the system is finished
+* Dungeon generation is fairly stripped down at this moment pending some serious thought about how I want it to work
+* Abilities cannot be fused to create new abilities at the moment, as the interface for this is not yet integrated into the new UI
+* Bits of monsters can be seen on the minimap even around corners
+* Item names sometimes have multiple grammatically incompatible modifiers (e.g. "Bracelet of Power of Endurance")
+* "Exit Game" button after dying may not work as intended - game may require restart after death
+* Balance is somewhat off as health no longer regenerates out of combat. This is working as intended but needs better health restoration items to rebalance it.
 
 ## License
 

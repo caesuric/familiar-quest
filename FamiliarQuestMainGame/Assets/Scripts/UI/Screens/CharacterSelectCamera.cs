@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,13 +18,13 @@ public class CharacterSelectCamera : MonoBehaviour {
     private float cameraRadius = 8;
     private GameObject canvas;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         gameObject.transform.LookAt(characterModel.transform);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         var wheel = Input.GetAxis("Mouse ScrollWheel");
         cameraRadius = Mathf.Clamp(cameraRadius - wheel * 20, 3, 10);
         if (ClickIsOnUi()) {
@@ -47,7 +46,7 @@ public class CharacterSelectCamera : MonoBehaviour {
             isDragging = false;
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
-	}
+    }
 
     private void DragCamera() {
         var draggedDiff = Input.mousePosition - lastMousePosition;
@@ -72,8 +71,9 @@ public class CharacterSelectCamera : MonoBehaviour {
     private bool ClickIsOnUi() {
         if (canvas == null) canvas = GameObject.FindGameObjectWithTag("Canvas");
         var caster = canvas.GetComponent<GraphicRaycaster>();
-        var pointerEventData = new PointerEventData(EventSystem.current);
-        pointerEventData.position = Input.mousePosition;
+        var pointerEventData = new PointerEventData(EventSystem.current) {
+            position = Input.mousePosition
+        };
         List<RaycastResult> results = new List<RaycastResult>();
         caster.Raycast(pointerEventData, results);
         if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name != "Minimap" && results[0].gameObject.name != "Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;

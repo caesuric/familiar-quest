@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -26,16 +24,16 @@ public class AbilityDustDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
     public void OnDrop(PointerEventData data) {
         InputMovement.isDragging = false;
         GetComponent<Image>().color = startingColor;
-        var mohb = data.pointerDrag.GetComponent<MouseOverHotbarButton>();
-        var asi = data.pointerDrag.GetComponent<AbilityScreenIcon>();
+        var mouseOverHotbarButton = data.pointerDrag.GetComponent<MouseOverHotbarButton>();
+        var abilityScreenIcon = data.pointerDrag.GetComponent<AbilityScreenIcon>();
         var spiritUser = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
         var abilities = spiritUser.spirits[0].activeAbilities;
-        if (mohb != null) {
-            AbilityMenu.instance.abilitiesToDust.Add(abilities[mohb.number]);
+        if (mouseOverHotbarButton != null) {
+            AbilityMenu.instance.abilitiesToDust.Add(abilities[mouseOverHotbarButton.number]);
             AbilityMenu.instance.RefreshDustPanel();
         }
-        else if (asi!=null) {
-            if (!AbilityMenu.instance.abilitiesToDust.Contains(asi.ability)) AbilityMenu.instance.abilitiesToDust.Add(asi.ability);
+        else if (abilityScreenIcon != null) {
+            if (!AbilityMenu.instance.abilitiesToDust.Contains(abilityScreenIcon.ability)) AbilityMenu.instance.abilitiesToDust.Add(abilityScreenIcon.ability);
             AbilityMenu.instance.RefreshDustPanel();
         }
     }

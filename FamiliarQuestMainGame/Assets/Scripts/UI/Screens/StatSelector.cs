@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,7 +25,7 @@ public class StatSelector : MonoBehaviour {
     private Dictionary<string, string> statDescriptions = new Dictionary<string, string>();
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         var data = TextReader.ReadSets("StatDescriptions");
         foreach (var item in data) statDescriptions.Add(item[0], item[1]);
         strengthMin = ClassSelectMenu.strength;
@@ -95,9 +92,9 @@ public class StatSelector : MonoBehaviour {
     }
 
     public void Minus(string type) {
-        switch(type) {
+        switch (type) {
             case "strength":
-                if (ClassSelectMenu.strength>strengthMin) {
+                if (ClassSelectMenu.strength > strengthMin) {
                     ClassSelectMenu.strength -= 1;
                     ClassSelectMenu.sparePoints += 1;
                 }
@@ -140,17 +137,14 @@ public class StatSelector : MonoBehaviour {
         descriptionText.text = statDescriptions[type];
     }
 
-    public void Confirm()
-    {
-        if (ClassSelectMenu.sparePoints == 0 && nameField.text != "" && nameField.text != null)
-        {
+    public void Confirm() {
+        if (ClassSelectMenu.sparePoints == 0 && nameField.text != "" && nameField.text != null) {
             appearanceSelector.SetActive(true);
             appearanceSelector.GetComponent<AppearanceSelector>().characterName = nameField.text;
         }
     }
 
-    public void Cancel()
-    {
+    public void Cancel() {
         SceneManager.LoadScene("Character Selection");
     }
 }

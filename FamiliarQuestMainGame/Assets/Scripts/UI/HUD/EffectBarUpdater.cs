@@ -1,37 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
 public class EffectBarUpdater : MonoBehaviour {
 
     public Character character;
     public GameObject effectIcon;
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         if (character == null) Initialize();
         else if (character.GetComponent<PlayerCharacter>().effectIconObjects.Count != character.GetComponent<EffectBarUser>().effectIcons.Count) RecreateEffectBar();
         else UpdateEffectBar();
-	}
+    }
 
-    private void Initialize()
-    {
+    private void Initialize() {
         var players = PlayerCharacter.players;
         foreach (var item in players) if (item.isMe) character = item.GetComponent<Character>();
     }
 
-    private void RecreateEffectBar()
-    {
+    private void RecreateEffectBar() {
         List<GameObject> objs = new List<GameObject>();
         foreach (var obj in character.GetComponent<PlayerCharacter>().effectIconObjects) Destroy(obj);
         character.GetComponent<PlayerCharacter>().effectIconObjects.Clear();
         for (int i = 0; i < character.GetComponent<EffectBarUser>().effectIcons.Count; i++) CreateEffectIcon(i);
     }
 
-    private void CreateEffectIcon(int i)
-    {
+    private void CreateEffectIcon(int i) {
         GameObject obj;
         if (character.GetComponent<PlayerCharacter>().effectIconObjects.Count > i) Destroy(character.GetComponent<PlayerCharacter>().effectIconObjects[i]);
         obj = Instantiate(effectIcon);
@@ -42,10 +37,8 @@ public class EffectBarUpdater : MonoBehaviour {
         updater.Initialize(character.GetComponent<EffectBarUser>().effectIcons[i], character.GetComponent<EffectBarUser>().effectDurations[i], updater.GetComponent<Image>(), updater.duration);
     }
 
-    private void UpdateEffectBar()
-    {
-        for (int i = 0; i < character.GetComponent<EffectBarUser>().effectIcons.Count; i++)
-        {
+    private void UpdateEffectBar() {
+        for (int i = 0; i < character.GetComponent<EffectBarUser>().effectIcons.Count; i++) {
             GameObject obj;
             if (character.GetComponent<PlayerCharacter>().effectIconObjects.Count > i) obj = character.GetComponent<PlayerCharacter>().effectIconObjects[i];
             else return;

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,10 +14,10 @@ public class CharacterSheetUpdater : MonoBehaviour {
     public Text mpRegenText;
     public Text hpRegenText;
     public Text hpRegenOutOfCombatText;
-	
-	// Update is called once per frame
-	void Update () {
-		if (gameObject.activeSelf && PlayerCharacter.players.Count>0 && PlayerCharacter.localPlayer!=null) {
+
+    // Update is called once per frame
+    void Update() {
+        if (gameObject.activeSelf && PlayerCharacter.players.Count > 0 && PlayerCharacter.localPlayer != null) {
             var player = PlayerCharacter.localPlayer.GetComponent<Character>();
             levelText.text = player.GetComponent<ExperienceGainer>().level.ToString();
             strText.text = player.strength.ToString();
@@ -32,7 +30,7 @@ public class CharacterSheetUpdater : MonoBehaviour {
             hpRegenText.text = CalculateHpRegen().ToString() + " / sec.";
             hpRegenOutOfCombatText.text = CalculateHpRegenOutOfCombat().ToString() + " / sec.";
         }
-	}
+    }
 
     private float CalculateMpRegen() {
         var total = 0f;

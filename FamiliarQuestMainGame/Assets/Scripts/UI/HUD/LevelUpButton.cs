@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 public class LevelUpButton : MonoBehaviour {
 
@@ -9,8 +6,8 @@ public class LevelUpButton : MonoBehaviour {
     public GameObject button;
     public GameObject levelUpMenu;
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update() {
         if (player == null) {
             button.SetActive(false);
             var players = PlayerCharacter.players;
@@ -24,10 +21,9 @@ public class LevelUpButton : MonoBehaviour {
         else {
             button.SetActive(player.GetComponent<ExperienceGainer>().sparePoints > 0);
         }
-	}
+    }
 
-    public void Click()
-    {
+    public void Click() {
         levelUpMenu.SetActive(true);
         levelUpMenu.GetComponent<LevelUpMenu>().Initialize(player.GetComponent<Character>());
     }
