@@ -40,6 +40,19 @@ public class Boss : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //if (!NetworkServer.active) return;
+        var canSeePlayer = GetComponent<TestMonster>().state["seePlayer"].Equals(true);
+        if (canSeePlayer && !fightStarted) {
+            if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) < 14) {
+                fightStarted = true;
+                fightTime = 0;
+                MusicController.instance.PlayMusic(MusicController.instance.bossMusic);
+                LevelGen.instance.bossFightActive = true;
+                SpawnAdds();
+            }
+        }
+        else if (canSeePlayer) fightTime += Time.deltaTime;
+
+
         //if (GetComponent<MonsterCombatant>().timeSinceEngaged == 0 && !fightStarted) {
         //    if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) < 14) {
         //        fightStarted = true;

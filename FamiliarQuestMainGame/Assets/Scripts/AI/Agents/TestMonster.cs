@@ -28,7 +28,8 @@ public class TestMonster : GoapAgent {
                 { "playerAlive", false },
                 { "playerHurt", false },
                 { "gcdReady", true },
-                { "meleeAttackAvailable", false }
+                { "meleeAttackAvailable", false },
+                { "beingABoss", false }
             };
     }
 }

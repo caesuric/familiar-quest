@@ -130,9 +130,8 @@ public class AbilityUser : DependencyUser {
     public Vector3 GetMouseCursorTargetLocation() {
         if (GetComponent<PlayerCharacter>()!=null && InputMovement.isDragging) return Vector3.positiveInfinity;
         if (GetComponent<PlayerCharacter>() != null && !InputMovement.ClickIsOnUi()) {
-            RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) return hit.point;
+            if (Physics.Raycast(ray, out RaycastHit hit)) return hit.point;
             else return Vector3.positiveInfinity;
         }
         else if (GetComponent<PlayerCharacter>() != null) return Vector3.positiveInfinity;
