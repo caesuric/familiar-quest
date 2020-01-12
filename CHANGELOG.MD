@@ -1,4 +1,4 @@
-# v 0.13
+# v0.13
 
 ## Procedural boss fights
 
