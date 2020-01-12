@@ -47,6 +47,10 @@ public class VaultGen : MonoBehaviour {
             if (room.floor != floor) continue;
             float xRoll = Random.Range(5f * room.x, 5f * (room.x + room.xSize - 1));
             float yRoll = Random.Range(5f * room.y, 5f * (room.y + room.ySize - 1));
+            if (monster.quality==4) {
+                xRoll = (5f * room.x + (5f * (room.x + room.xSize - 1)))/2f;
+                yRoll = (5f * room.y + (5f * (room.y + room.ySize - 1)))/2f;
+            }
             InstantiateMonster(monster, xRoll, yRoll);
         }
     }

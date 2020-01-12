@@ -18,7 +18,7 @@
                 }
             }
             foreach (var ability in monsterBaseAbilities.baseAbilities) {
-                if (IsMeleeAbility(ability)) return true;
+                if (IsMeleeAbility(ability) && ability.currentCooldown == 0) return true;
             }
             return false;
         }
@@ -30,7 +30,7 @@
                 }
             }
             foreach (var ability in monsterBaseAbilities.baseAbilities) {
-                if (IsRangedAbility(ability)) return true;
+                if (IsRangedAbility(ability) && ability.currentCooldown == 0) return true;
             }
             return false;
         }
@@ -46,7 +46,7 @@
         private bool IsRangedAbility(ActiveAbility ability) {
             if (ability is AttackAbility) {
                 var attackAbility = ability as AttackAbility;
-                if (attackAbility.isRanged) return true;
+                if (attackAbility.isRanged || attackAbility.FindAttribute("chargeTowards") != null) return true;
             }
             return false;
         }

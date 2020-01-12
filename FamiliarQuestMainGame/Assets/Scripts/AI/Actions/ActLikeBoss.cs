@@ -9,27 +9,32 @@ namespace AI.Actions {
         private NavMeshAgent navMeshAgent = null;
         private MonsterAnimationController monsterAnimationController = null;
         private Boss boss = null;
-        private List<ActiveAbility> baseAbilities = new List<ActiveAbility>();
         private List<ActiveAbility> bossAbilities = new List<ActiveAbility>();
         private List<float> healthPhaseThresholds = new List<float>();
         private readonly Element element;
-        private bool hasChangedPhases = false;
-
+        
         public ActLikeBoss() {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", true },
-                { "playerAlive", true }
+                { "playerAlive", true },
+                { "gcdReady", true },
+                { "facingPlayerPrecisely", true }
             };
             effects = new Dictionary<string, object>() {
-                { "beingABoss", true }
+                { "beingABoss", true },
+                { "playerHurt", true }
             };
             element = Spirit.RandomElement();
+            cost = 0.001f;
         }
 
         public override void Execute(GoapAgent agent) {
             if (boss == null) {
                 boss = agent.GetComponent<Boss>();
                 if (!boss.phasesTimeBased) SetupHealthThresholds();
+            }
+            if (monsterAnimationController==null) {
+                monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
             }
             if (!ActionPossible(agent)) {
                 FailAction(agent);
@@ -96,17 +101,9 @@ namespace AI.Actions {
         }
 
         private void ChangePhases(BossPhase phase) {
-            if (!hasChangedPhases) {
-                foreach (var ability in boss.GetComponent<MonsterBaseAbilities>().baseAbilities) baseAbilities.Add(ability);
-                hasChangedPhases = true;
-            }
             boss.currentPhase = boss.phases.IndexOf(phase);
-            var mba = boss.GetComponent<MonsterBaseAbilities>();
-            mba.baseAbilities.Clear();
-            SetupPhase(phase);
             bossAbilities.Clear();
-            foreach (var ability in mba.baseAbilities) bossAbilities.Add(ability);
-            foreach (var ability in baseAbilities) mba.baseAbilities.Add(ability);
+            SetupPhase(phase);
         }
 
         private void SetupPhase(BossPhase phase) {
@@ -114,7 +111,7 @@ namespace AI.Actions {
         }
 
         private void AddAbilitiesForMechanic(BossMechanic mechanic) {
-            var abilities = boss.GetComponent<MonsterBaseAbilities>().baseAbilities;
+            var abilities = bossAbilities;
             var baseStat = GetBestStat();
             var proj = GetProjectile(element);
             var hitEffect = GetHitEffect(element);
@@ -204,7 +201,7 @@ namespace AI.Actions {
         }
 
         private bool RightConditionsToFight() {
-            if (boss.PlayersInRoom() && Vector3.Distance(boss.transform.position, boss.originalLocation) < 14) return true;
+            if (boss.PlayersInRoom() && Vector3.Distance(boss.transform.position, boss.originalLocation) < 25f) return true;
             else {
                 var health = boss.GetComponent<Health>();
                 health.hp = health.maxHP;
@@ -214,7 +211,7 @@ namespace AI.Actions {
 
         private void UseAbilityBasedOnMechanics(GoapAgent agent) {
             var ability = FindBestAbility(agent);
-            if (ability != null && boss.GetComponent<AbilityUser>().GCDTime > 0) agent.GetComponent<AbilityUser>().UseAbility(ability);
+            if (ability != null && boss.GetComponent<AbilityUser>().GCDTime == 0) agent.GetComponent<AbilityUser>().UseAbility(ability);
             else {
                 if (navMeshAgent == null) navMeshAgent = agent.GetComponent<NavMeshAgent>();
                 SetDestination();
@@ -231,7 +228,8 @@ namespace AI.Actions {
             ActiveAbility bestAbility = null;
             float bestAbilityValue = 0f;
             foreach (var ability in abilities) {
-                if (ability.cooldown > 0) continue;
+                foreach (var attribute in ability.attributes) Debug.Log(attribute.type);
+                if (ability.currentCooldown > 0) continue;
                 if (ability is AttackAbility attackAbility && attackAbility.damage>bestAbilityValue) {
                     if (!attackAbility.isRanged && agent.state["inMeleeRangeOfPlayer"].Equals(true) && attackAbility.damage > bestAbilityValue) {
                         bestAbilityValue = attackAbility.damage;

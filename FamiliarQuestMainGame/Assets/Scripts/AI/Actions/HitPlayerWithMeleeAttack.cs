@@ -45,14 +45,14 @@ namespace AI.Actions {
         private void UseMeleeAbility(GoapAgent agent) {
             if (monsterBaseAbilities == null || spiritUser == null) return;
             foreach (var ability in monsterBaseAbilities.baseAbilities) {
-                if (IsMeleeAbility(ability)) {
+                if (IsMeleeAbility(ability) && ability.currentCooldown == 0) {
                     agent.GetComponent<AbilityUser>().UseAbility(ability);
                     return;
                 }
             }
             foreach (var spirit in spiritUser.spirits) {
                 foreach (var ability in spirit.activeAbilities) {
-                    if (IsMeleeAbility(ability)) {
+                    if (IsMeleeAbility(ability) && ability.currentCooldown == 0) {
                         agent.GetComponent<AbilityUser>().UseAbility(ability);
                         return;
                     }

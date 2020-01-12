@@ -7196,7 +7196,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 685764916}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -32991,7 +32991,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1101781351}
-        m_MethodName: PressPlay
+        m_MethodName: PressDelete
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

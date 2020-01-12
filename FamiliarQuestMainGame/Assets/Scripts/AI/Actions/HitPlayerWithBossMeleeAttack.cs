@@ -1,32 +1,30 @@
 ﻿using System.Collections.Generic;
 
 namespace AI.Actions {
-    public class HitPlayerWithRangedAttack : GoapAction {
+    public class HitPlayerWithBossMeleeAttack : GoapAction {
 
-        MonsterBaseAbilities monsterBaseAbilities = null;
-        SpiritUser spiritUser = null;
+        private Boss boss = null;
         private MonsterAnimationController monsterAnimationController = null;
 
-        public HitPlayerWithRangedAttack() {
+        public HitPlayerWithBossMeleeAttack() {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", true },
-                { "rangedAttackAvailable", true },
+                { "inMeleeRangeOfPlayer", true },
+                { "bossMeleeAttackAvailable", true },
                 { "gcdReady", true },
                 { "facingPlayer", true },
-                { "facingPlayerPrecisely", true },
                 { "playerAlive", true }
             };
             effects = new Dictionary<string, object>() {
                 { "playerHurt", true },
                 { "gcdReady", false }
             };
-            cost = 2f;
+            cost = 1f;
         }
 
         public override void Execute(GoapAgent agent) {
             if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
-            if (monsterBaseAbilities == null) monsterBaseAbilities = agent.GetComponent<MonsterBaseAbilities>();
-            if (spiritUser == null) spiritUser = agent.GetComponent<SpiritUser>();
+            if (boss == null) boss = agent.GetComponent<Boss>();
             if (!ActionPossible(agent)) {
                 monsterAnimationController.attacking = false;
                 Fail(agent);
@@ -38,32 +36,24 @@ namespace AI.Actions {
         }
 
         private void HitPlayer(GoapAgent agent) {
-            UseRangedAbility(agent);
+            UseMeleeAbility(agent);
             ApplyEffects(agent);
         }
 
-        private void UseRangedAbility(GoapAgent agent) {
-            if (monsterBaseAbilities == null || spiritUser == null) return;
-            foreach (var ability in monsterBaseAbilities.baseAbilities) {
-                if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
+        private void UseMeleeAbility(GoapAgent agent) {
+            if (boss == null) return;
+            foreach (var ability in boss.bossAbilities) {
+                if (IsMeleeAbility(ability) && ability.currentCooldown == 0) {
                     agent.GetComponent<AbilityUser>().UseAbility(ability);
                     return;
                 }
             }
-            foreach (var spirit in spiritUser.spirits) {
-                foreach (var ability in spirit.activeAbilities) {
-                    if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
-                        agent.GetComponent<AbilityUser>().UseAbility(ability);
-                        return;
-                    }
-                }
-            }
         }
 
-        private bool IsRangedAbility(ActiveAbility ability) {
+        private bool IsMeleeAbility(ActiveAbility ability) {
             if (ability is AttackAbility) {
                 var attackAbility = ability as AttackAbility;
-                if (attackAbility.isRanged || attackAbility.FindAttribute("chargeTowards") != null) return true;
+                if (attackAbility.isRanged == false) return true;
             }
             return false;
         }

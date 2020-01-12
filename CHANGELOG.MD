@@ -1,3 +1,10 @@
+# v 0.13
+
+## Procedural boss fights
+
+* Fixed procedural boss fights so they work again with the new AI system
+* Fixed an error where the "delete character" button on the character creation screen didn't work.
+
 # v0.12
 
 ## Miscellaneous Refactoring
