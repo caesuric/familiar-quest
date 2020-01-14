@@ -1,3 +1,14 @@
+# v0.13.1
+
+## Minor bug fixes
+
+* Character sheet and inventory windows no longer overlap by default when opened
+* Canceling character creation now properly resets the stat displays on the stat selection screen
+* Energy Wisplets have been disabled for now until I update the AI that used to make them flee the player
+* Scrolling the mouse wheel no longer zooms the minimap when the cursor is over UI elements
+* The drops panel in the upper-left hand corner now properly clears when the inventory or abilities windows are open
+* The Save & Exit button in the settings window now works as intended
+
 # v0.13
 
 ## Procedural boss fights

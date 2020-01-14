@@ -17,12 +17,14 @@ public class DropsArea : MonoBehaviour {
     }
 
     public static void AddItemDrop(Equipment item) {
+        if (instance.inventoryWindow.IsOpen) return;
         var obj = Instantiate(instance.itemPrefab, instance.transform);
         instance.items.Add(obj);
         obj.GetComponent<ItemDrop>().Initialize(item, instance.inventory);
     }
 
     public static void AddAbilityDrop(Ability ability) {
+        if (instance.abilitiesWindow.IsOpen) return;
         var obj = Instantiate(instance.abilityPrefab, instance.transform);
         instance.items.Add(obj);
         obj.GetComponent<AbilityDrop>().Initialize(ability);

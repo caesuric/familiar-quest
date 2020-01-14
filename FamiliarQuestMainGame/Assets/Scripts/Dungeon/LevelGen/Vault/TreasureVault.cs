@@ -27,7 +27,7 @@ public class TreasureVault : Vault {
         "Dark Knight",
         "Dragon",
         "Elder Dragon",
-        "Energy Wisplet",
+        //"Energy Wisplet",
         "Fire Elemental",
         "Gelatinous Mass",
         "Ghost",
@@ -237,7 +237,7 @@ public class TreasureVault : Vault {
                     "Dark Knight",
                     "Dragon",
                     "Elder Dragon",
-                    "Energy Wisplet",
+                    //"Energy Wisplet",
                     "Fire Elemental",
                     "Ghoul",
                     "GOBLIN",
@@ -454,6 +454,7 @@ public class TreasureVault : Vault {
         difficulty = RNG.Float(difficulty * 0.8f, difficulty * 1.2f);
         difficulty /= 22;
         var monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
+        while (monsterType == "Energy Wisplet") monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
         var monster = new MonsterData(monsterType, monsterType, ConvertDifficultyToLevel(difficulty), 4, null);
         monster.associatedRooms.Add(room);
         monsters.Add(monster);

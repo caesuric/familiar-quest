@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InputController : MonoBehaviour {
@@ -54,7 +55,8 @@ public class InputController : MonoBehaviour {
     public UnityEngine.PostProcessing.PostProcessingProfile normalEffect;
     private Dictionary<string, Action> inputs = new Dictionary<string, Action>();
     private PlayerAnimation animationController;
-    GameObject[] hotbarButtons;
+    private GameObject[] hotbarButtons;
+    private GameObject canvas = null;
 
     // Use this for initialization
     void Start() {
@@ -146,8 +148,20 @@ public class InputController : MonoBehaviour {
     }
 
     private void MinimapScrollCheck() {
-        if (Input.mouseScrollDelta.y > 0) MinimapCameraLock.instance.GetComponent<MinimapCameraLock>().ZoomIn();
-        else if (Input.mouseScrollDelta.y < 0) MinimapCameraLock.instance.GetComponent<MinimapCameraLock>().ZoomOut();
+        if (Input.mouseScrollDelta.y > 0 && !ClickIsOnUi()) MinimapCameraLock.instance.GetComponent<MinimapCameraLock>().ZoomIn();
+        else if (Input.mouseScrollDelta.y < 0 && !ClickIsOnUi()) MinimapCameraLock.instance.GetComponent<MinimapCameraLock>().ZoomOut();
+    }
+
+    private bool ClickIsOnUi() {
+        if (canvas == null) canvas = GameObject.FindGameObjectWithTag("Canvas");
+        var caster = canvas.GetComponent<GraphicRaycaster>();
+        var pointerEventData = new PointerEventData(EventSystem.current) {
+            position = Input.mousePosition
+        };
+        List<RaycastResult> results = new List<RaycastResult>();
+        caster.Raycast(pointerEventData, results);
+        if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name != "Minimap" && results[0].gameObject.name != "Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;
+        return false;
     }
 
     private void ToggleCharacterSheet() {
@@ -155,6 +169,7 @@ public class InputController : MonoBehaviour {
         SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        DropsArea.ClearDrops();
     }
 
     private void ToggleInventory() {
@@ -163,6 +178,7 @@ public class InputController : MonoBehaviour {
         canvas.GetComponent<Inventory>().Refresh();
         //inventory.SetActive(!inventory.activeSelf);
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        DropsArea.ClearDrops();
     }
 
     //private void ToggleInventory() {

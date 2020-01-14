@@ -21,10 +21,12 @@ public class ButtonBar : MonoBehaviour {
         SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        DropsArea.ClearDrops();
     }
 
     public void ToggleAbilityScreen() {
-        abilityScreen.SetActive(!abilityScreen.activeSelf);
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        DropsArea.ClearDrops();
     }
 
     public void ToggleQuestLog() {

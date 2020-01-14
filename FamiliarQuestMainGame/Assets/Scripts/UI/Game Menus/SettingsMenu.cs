@@ -23,6 +23,7 @@ public class SettingsMenu : MonoBehaviour {
 
         if (exiting && !PlayerCharacter.localPlayer.GetComponent<AutoSaver>().currentlySaving) {
             exiting = false;
+            LargeStatusTextUpdater.instance.ResetGame();
             //InitializeLevel.ResetGame();
         }
     }
@@ -61,7 +62,7 @@ public class SettingsMenu : MonoBehaviour {
     }
 
     public void SaveAndExit() {
-        if (!AutoHealer.OutOfCombat()) return;
+        //if (!AutoHealer.OutOfCombat()) return;
         PlayerCharacter.localPlayer.GetComponent<AutoSaver>().CmdSave();
         exiting = true;
     }

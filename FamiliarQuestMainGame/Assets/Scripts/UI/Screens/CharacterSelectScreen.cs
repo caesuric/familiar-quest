@@ -113,6 +113,8 @@ public class CharacterSelectScreen : MonoBehaviour {
         intelligence = 10;
         wisdom = 10;
         luck = 10;
+        sparePoints = 0;
+        UpdateStats();
         subHeaderText.text = "Character Selection";
         kittenOuterModel.SetActive(false);
         foreach (var obj in contentObjects) {
@@ -466,5 +468,6 @@ public class CharacterSelectScreen : MonoBehaviour {
         File.Delete(Application.persistentDataPath + "/worlds/" + selectedCharacterName + ".world");
         UpdateCharacterNameList();
         UpdateCharacters();
+        kittenOuterModel.SetActive(false);
     }
 }

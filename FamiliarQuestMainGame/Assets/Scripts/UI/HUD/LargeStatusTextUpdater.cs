@@ -10,12 +10,15 @@ public class LargeStatusTextUpdater : MonoBehaviour {
     public GameObject quitMenu;
     public GameObject canvas;
     public GameObject objectHelpText;
+    public static LargeStatusTextUpdater instance = null;
 
     // Use this for initialization
     void Start() {
         text = GetComponent<Text>();
         text.text = "";
         if (quitMenu != null) quitMenu.SetActive(false);
+        if (instance == null) instance = this;
+        else Destroy(this);
     }
 
     // Update is called once per frame
@@ -51,8 +54,8 @@ public class LargeStatusTextUpdater : MonoBehaviour {
         CharacterSelectScreen.characterByteArray = null;
         Destroy(canvas);
         Destroy(objectHelpText);
-        MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
         SceneManager.LoadScene("New Character Selection");
+        MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
         //NetworkManager.Shutdown();
     }
 
