@@ -35,6 +35,7 @@ public class AutoSaver : DependencyUser {
         }
         catch (Exception e) {
             GameLog.AddText("<color=red>Autosave failed!</color>");
+            currentlySaving = false;
         }
     }
 
