@@ -41,6 +41,7 @@ public class PlayerCharacter : DependencyUser {
     public GameObject losSource;
     public string characterId = null;
     public bool isMe = false;
+    private bool loaded = false;
 
     // Use this for initialization
     void Start() {
@@ -101,8 +102,10 @@ public class PlayerCharacter : DependencyUser {
 
     public void OnStartLocalPlayer() {
         //base.OnStartLocalPlayer();
+        if (loaded) return;
         CmdLoadCharacter(CharacterSelectScreen.characterByteArray);
         GetComponent<Character>().CalculateAll();
+        loaded = true;
         //var levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
         //levelUpMenu.SetActive(false);
     }

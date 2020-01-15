@@ -332,7 +332,7 @@ class RewardGiver : MonoBehaviour {
         mp = ScaleArmorValue(mp, intendedLevel) * mpRoll;
         var armorObj = GenerateArmor(attacker, hp, mp);
         armorObj.armor = armor;
-        armorObj.description += "Armor: " + armor.ToString();
+        armorObj.description += "Armor: " + armor.ToString() + "\n";
         return armorObj;
     }
 
@@ -345,7 +345,7 @@ class RewardGiver : MonoBehaviour {
         mp = ScaleArmorValue(mp, level) * mpRoll;
         var armorObj = new Armor() { hp = hp, mp = mp, name = "Random Armor", description = "" };
         armorObj.armor = armor;
-        armorObj.description += "Armor: " + armor.ToString();
+        armorObj.description += "Armor: " + armor.ToString() + "\n";
         return armorObj;
     }
 

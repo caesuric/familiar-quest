@@ -168,7 +168,8 @@ public class HotbarUser : MonoBehaviour {
         //SortAbilities();
         PutAbilitiesIntoOverflow();
         var su = GetComponent<SpiritUser>();
-        foreach (var spirit in su.spirits) foreach (var ability in spirit.activeAbilities) AddAbilityInfo(ability);
+        //foreach (var spirit in su.spirits) foreach (var ability in spirit.activeAbilities) AddAbilityInfo(ability);
+        foreach (var ability in su.spirits[0].activeAbilities) AddAbilityInfo(ability);
         AddAbilityBlankPadding(10);
         SortConsumables();
         foreach (var consumable in GetComponent<PlayerCharacter>().consumables) AddHotbarConsumable(consumable);
