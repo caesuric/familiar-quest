@@ -152,7 +152,7 @@ public class Health : DependencyUser {
         amount = ModifyDamageForShield(amount);
         amount = ModifyDamageForArmor(amount, attacker);
         amount = ModifyDamageForLuck(amount, type);
-        amount = ModifyDamageForDamageBoosts(ability, amount, attacker);
+        if (attacker!=null) amount = ModifyDamageForDamageBoosts(ability, amount, attacker);
         amount = ModifyDamageForDamageReduction(ability, amount);
         if (attacker!=null) amount = ModifyDamageForBlunting(amount, attacker);
         return amount;
