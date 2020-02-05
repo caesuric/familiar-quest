@@ -165,7 +165,7 @@ public class TreasureVault : Vault {
         foreach (var room in path.rooms) {
             if (room is VaultRoom vaultRoom) {
                 if (vaultRoom.hasEncounter) {
-                    AddMonstersForRoom(room, difficulties[encounterNumber], conceptsUsed[encounterNumber]);
+                    AddMonstersForRoom(room, difficulties[encounterNumber], conceptsUsed[encounterNumber], scaleFactor);
                     encounterNumber++;
                 }
             }
@@ -182,7 +182,7 @@ public class TreasureVault : Vault {
         concepts[roll] = true;
     }
 
-    private void AddMonstersForRoom(Room room, float difficulty, List<bool> conceptsUsed) {
+    private void AddMonstersForRoom(Room room, float difficulty, List<bool> conceptsUsed, float individualMonsterLimit) {
         var conceptWeights = new List<float>();
         int numConceptsUsed = 0;
         foreach (var concept in conceptsUsed) {
@@ -203,21 +203,23 @@ public class TreasureVault : Vault {
         //Debug.Log("-----");
         //Debug.Log("intended difficulty is " + difficulty.ToString());
         //Debug.Log("difficulty multiplier for weights is " + difficultyFactor.ToString());
-        for (int i = 0; i < conceptDifficulties.Count; i++) if (conceptDifficulties[i] > 0) AddMonstersForConcept(room, conceptDifficulties[i], encounterThemes[i]);
+        for (int i = 0; i < conceptDifficulties.Count; i++) if (conceptDifficulties[i] > 0) AddMonstersForConcept(room, conceptDifficulties[i], encounterThemes[i], individualMonsterLimit);
     }
 
-    private void AddMonstersForConcept(Room room, float difficulty, string concept) {
+    private void AddMonstersForConcept(Room room, float difficulty, string concept, float individualMonsterLimit) {
         //Debug.Log("Adding difficulty " + difficulty.ToString() + " monsters for concept " + concept);
         float accumulatedDifficulty = 0;
         int count = 0;
         while (accumulatedDifficulty < difficulty && count < 30) {
             count++;
-            accumulatedDifficulty += AddMonsterUpToDifficulty(room, difficulty - accumulatedDifficulty, concept);
+            accumulatedDifficulty += AddMonsterUpToDifficulty(room, difficulty - accumulatedDifficulty, concept, individualMonsterLimit);
         }
     }
 
-    private float AddMonsterUpToDifficulty(Room room, float difficultyLimit, string concept) {
+    private float AddMonsterUpToDifficulty(Room room, float difficultyLimit, string concept, float individualMonsterLimit) {
         difficultyLimit = RNG.Float(difficultyLimit / 30f, difficultyLimit * 1.2f);
+        individualMonsterLimit = RNG.Float(individualMonsterLimit / 2, individualMonsterLimit * 2);
+        difficultyLimit = Mathf.Min(difficultyLimit, individualMonsterLimit);
         var validMonsterTypes = new List<string>();
         var secondaryMonsterTypes = new List<string>();
         switch (concept) {
