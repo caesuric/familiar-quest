@@ -48,6 +48,7 @@ public class AutoHealer : DependencyUser {
         int level = 1;
         if (experienceGainer != null) level = experienceGainer.level;
         else level = monsterScaler.level;
-        health.hp = Mathf.Min(health.hp + (timer * SecondaryStatUtility.CalcHpRegen(character.constitution, level)), health.maxHP);
+        //health.hp = Mathf.Min(health.hp + (timer * SecondaryStatUtility.CalcHpRegen(character.constitution, level)), health.maxHP);
+        health.hp = Mathf.Min(health.hp + (timer * CharacterAttribute.attributes["hpRegen"].instances[character].TotalValue), health.maxHP);
     }
 }

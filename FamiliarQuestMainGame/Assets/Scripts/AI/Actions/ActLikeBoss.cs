@@ -163,8 +163,14 @@ namespace AI.Actions {
 
         private BaseStat GetBestStat() {
             var c = boss.GetComponent<Character>();
-            if (c.strength > c.dexterity && c.strength > c.intelligence) return BaseStat.strength;
-            else if (c.dexterity > c.intelligence) return BaseStat.dexterity;
+            //if (c.strength > c.dexterity && c.strength > c.intelligence) return BaseStat.strength;
+            //else if (c.dexterity > c.intelligence) return BaseStat.dexterity;
+            //return BaseStat.intelligence;
+            var strength = CharacterAttribute.attributes["strength"].instances[c].TotalValue;
+            var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].TotalValue;
+            var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].TotalValue;
+            if (strength > dexterity && strength > intelligence) return BaseStat.strength;
+            else if (dexterity > intelligence) return BaseStat.dexterity;
             return BaseStat.intelligence;
         }
 

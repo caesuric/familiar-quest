@@ -192,8 +192,10 @@ public class AbilityUser : DependencyUser {
         int level = 1;
         if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         else level = GetComponent<MonsterScaler>().level;
-        factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
-        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        //factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
+        factor *= CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
+        //var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
         FindTarget(heal: true).GetComponent<Health>().Heal(healingAmount);
         GetComponent<AudioGenerator>().PlaySoundByName("sfx_magic_heal2");
     }
@@ -204,8 +206,10 @@ public class AbilityUser : DependencyUser {
         int level = 1;
         if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         else level = GetComponent<MonsterScaler>().level;
-        factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
-        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        //factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
+        factor *= CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
+        //var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
         //foreach (var monster in Monster.monsters) if (monster.GetComponent<MonsterCombatant>().InCombat()) monster.GetComponent<Health>().Heal(healingAmount);
         foreach (var monster in Monster.monsters) monster.GetComponent<Health>().Heal(healingAmount); // temp
         GetComponent<AudioGenerator>().PlaySoundByName("sfx_magic_heal2");
@@ -332,9 +336,11 @@ public class AbilityUser : DependencyUser {
         int level = 1;
         if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         else level = GetComponent<MonsterScaler>().level;
-        GCDTime = maxGCDTime * (1 - SecondaryStatUtility.CalcCooldownReduction(GetComponent<Character>().wisdom, level));
+        //GCDTime = maxGCDTime * (1 - SecondaryStatUtility.CalcCooldownReduction(GetComponent<Character>().wisdom, level));
+        var cooldownReduction = CharacterAttribute.attributes["cooldownReduction"].instances[GetComponent<Character>()].TotalValue / 100f;
+        GCDTime = maxGCDTime * (1 - cooldownReduction);
         if (ability.FindAttribute("offGCD") != null) GCDTime = 0f;
-        ability.currentCooldown = ability.cooldown * (1 - SecondaryStatUtility.CalcCooldownReduction(GetComponent<Character>().wisdom, level));
+        ability.currentCooldown = ability.cooldown * (1 - cooldownReduction);
     }
 
 

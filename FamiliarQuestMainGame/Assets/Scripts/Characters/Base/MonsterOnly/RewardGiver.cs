@@ -26,7 +26,8 @@ class RewardGiver : MonoBehaviour {
             attacker.GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
             return;
         }
-        var lootChance = SecondaryStatUtility.CalcItemFindRate(attacker.luck, attacker.GetComponent<ExperienceGainer>().level);
+        //var lootChance = SecondaryStatUtility.CalcItemFindRate(attacker.luck, attacker.GetComponent<ExperienceGainer>().level);
+        var lootChance = CharacterAttribute.attributes["itemFindRate"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
         if (GetComponent<Boss>()!=null) {
             guaranteed = true;
             lootChance = lootChance * 0.017752f / 0.2f;
@@ -81,6 +82,10 @@ class RewardGiver : MonoBehaviour {
         int armor = Random.Range(67 + (14 * intendedLevel), 135 + (29 * intendedLevel));
         Equipment item = null;
         int roll = Random.Range(0, 12);
+        var c = attacker.GetComponent<Character>();
+        var strength = CharacterAttribute.attributes["strength"].instances[c].TotalValue;
+        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].TotalValue;
+        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].TotalValue;
         if (roll == 1) item = DropArmor(attacker, armor);
         else if (roll == 2 && quality > 0) item = DropNecklace(attacker);
         else if (roll == 3 && quality > 0) item = DropBelt(attacker);
@@ -89,13 +94,13 @@ class RewardGiver : MonoBehaviour {
         else if (roll == 6) item = DropHat(attacker, armor);
         else if (roll == 7) item = DropShoes(attacker, armor);
         else if (roll > 7 && quality > 0) item = DropBracelet(attacker);
-        else if (roll == 0 && attacker.intelligence >= attacker.dexterity && attacker.intelligence >= attacker.strength) item = DropWand(attacker);
-        else if (roll == 0 && attacker.dexterity >= attacker.intelligence && attacker.dexterity >= attacker.strength) item = DropBow(attacker);
-        else if (roll == 0 && attacker.strength >= attacker.dexterity && attacker.strength >= attacker.intelligence) item = DropSword(attacker);
+        else if (roll == 0 && intelligence >= dexterity && intelligence >= strength) item = DropWand(attacker);
+        else if (roll == 0 && dexterity >= intelligence && dexterity >= strength) item = DropBow(attacker);
+        else if (roll == 0 && strength >= dexterity && strength >= intelligence) item = DropSword(attacker);
         else return;
         if (statAdjusted1>0) {
-            if (attacker.intelligence >= attacker.dexterity && attacker.intelligence >= attacker.strength) item.intelligence += statAdjusted1;
-            else if (attacker.dexterity >= attacker.intelligence && attacker.dexterity >= attacker.strength) item.dexterity += statAdjusted1;
+            if (intelligence >= dexterity && intelligence >= strength) item.intelligence += statAdjusted1;
+            else if (dexterity >= intelligence && dexterity >= strength) item.dexterity += statAdjusted1;
             else item.strength += statAdjusted1;
             item.constitution += (statAdjusted1 / 2);
         }
@@ -300,18 +305,20 @@ class RewardGiver : MonoBehaviour {
     }
 
     private static Weapon GetRandomSword(float baseDamage, float damageRoll) {
-        Weapon weapon = new MeleeWeapon();
-        weapon.attackPower = baseDamage * damageRoll;
-        weapon.name = "Random Sword";
-        weapon.description = "Melee weapon:\n";
+        Weapon weapon = new MeleeWeapon {
+            attackPower = baseDamage * damageRoll,
+            name = "Random Sword",
+            description = "Melee weapon:\n"
+        };
         return weapon;
     }
 
     private static Weapon GetRandomBow(float baseDamage, float damageRoll) {
-        Weapon weapon = new RangedWeapon();
-        weapon.attackPower = baseDamage * damageRoll;
-        weapon.name = "Random Bow";
-        weapon.description = "Ranged weapon:\n";
+        Weapon weapon = new RangedWeapon {
+            attackPower = baseDamage * damageRoll,
+            name = "Random Bow",
+            description = "Ranged weapon:\n"
+        };
         return weapon;
     }
 
@@ -350,125 +357,140 @@ class RewardGiver : MonoBehaviour {
     }
 
     private Armor GenerateArmor(Character attacker, float hp, float mp) {
-        var armor = new Armor();
-        armor.hp = hp;
-        armor.mp = mp;
-        armor.name = "Random Armor";
-        //armor.description = "{{HpAndMp}}";
-        armor.description = "";
+        var armor = new Armor {
+            hp = hp,
+            mp = mp,
+            name = "Random Armor",
+            //armor.description = "{{HpAndMp}}";
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("ARMOR FOUND", "Armor found.");
         return armor;
     }
 
     public Necklace DropNecklace(Character attacker) {
-        var necklace = new Necklace();
-        necklace.name = "Random Necklace";
-        necklace.description = "";
+        var necklace = new Necklace {
+            name = "Random Necklace",
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("NECKLACE FOUND", "Necklace found.");
         return necklace;
     }
 
     public static Necklace GenerateNecklace() {
-        var necklace = new Necklace();
-        necklace.name = "Random Necklace";
-        necklace.description = "";
+        var necklace = new Necklace {
+            name = "Random Necklace",
+            description = ""
+        };
         return necklace;
     }
 
     public Belt DropBelt(Character attacker) {
-        var belt = new Belt();
-        belt.name = "Random Belt";
-        belt.description = "";
+        var belt = new Belt {
+            name = "Random Belt",
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("BELT FOUND", "Belt found.");
         return belt;
     }
 
     public static Belt GenerateBelt() {
-        var belt = new Belt();
-        belt.name = "Random Belt";
-        belt.description = "";
+        var belt = new Belt {
+            name = "Random Belt",
+            description = ""
+        };
         return belt;
     }
 
     public Bracelet DropBracelet(Character attacker) {
-        var bracelet = new Bracelet();
-        bracelet.name = "Random Bracelet";
-        bracelet.description = "";
+        var bracelet = new Bracelet {
+            name = "Random Bracelet",
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("BRACELET FOUND", "Bracelet found.");
         return bracelet;
     }
 
     public static Bracelet GenerateBracelet() {
-        var bracelet = new Bracelet();
-        bracelet.name = "Random Bracelet";
-        bracelet.description = "";
+        var bracelet = new Bracelet {
+            name = "Random Bracelet",
+            description = ""
+        };
         return bracelet;
     }
 
     public Cloak DropCloak(Character attacker) {
-        var cloak = new Cloak();
-        cloak.name = "Random Cloak";
-        cloak.description = "";
+        var cloak = new Cloak {
+            name = "Random Cloak",
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("CLOAK FOUND", "Cloak found.");
         return cloak;
     }
 
     public static Cloak GenerateCloak() {
-        var cloak = new Cloak();
-        cloak.name = "Random Cloak";
-        cloak.description = "";
+        var cloak = new Cloak {
+            name = "Random Cloak",
+            description = ""
+        };
         return cloak;
     }
 
     public Earring DropEarring(Character attacker) {
-        var earring = new Earring();
-        earring.name = "Random Earring";
-        earring.description = "";
+        var earring = new Earring {
+            name = "Random Earring",
+            description = ""
+        };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("EARRING FOUND", "Earring found.");
         return earring;
     }
 
     public static Earring GenerateEarring() {
-        var earring = new Earring();
-        earring.name = "Random Earring";
-        earring.description = "";
+        var earring = new Earring {
+            name = "Random Earring",
+            description = ""
+        };
         return earring;
     }
 
     public Hat DropHat(Character attacker, int armor) {
-        var hat = new Hat();
-        hat.name = "Random Hat";
-        hat.description = "";
-        hat.armor = armor;
+        var hat = new Hat {
+            name = "Random Hat",
+            description = "",
+            armor = armor
+        };
         hat.description += "Armor: " + armor.ToString() + "\n";
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("HAT FOUND", "Hat found.");
         return hat;
     }
 
     public static Hat GenerateHat(int armor) {
-        var hat = new Hat();
-        hat.name = "Random Hat";
-        hat.description = "";
-        hat.armor = armor;
+        var hat = new Hat {
+            name = "Random Hat",
+            description = "",
+            armor = armor
+        };
         hat.description += "Armor: " + armor.ToString() + "\n";
         return hat;
     }
 
     public Shoes DropShoes(Character attacker, int armor) {
-        var shoes = new Shoes();
-        shoes.name = "Random Shoes";
-        shoes.description = "";
-        shoes.armor = armor;
+        var shoes = new Shoes {
+            name = "Random Shoes",
+            description = "",
+            armor = armor
+        };
         shoes.description += "Armor: " + armor.ToString() + "\n";
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("SHOES FOUND", "Shoes found.");
         return shoes;
     }
 
     public static Shoes GenerateShoes(int armor) {
-        var shoes = new Shoes();
-        shoes.name = "Random Shoes";
-        shoes.description = "";
-        shoes.armor = armor;
+        var shoes = new Shoes {
+            name = "Random Shoes",
+            description = "",
+            armor = armor
+        };
         shoes.description += "Armor: " + armor.ToString() + "\n";
         return shoes;
     }

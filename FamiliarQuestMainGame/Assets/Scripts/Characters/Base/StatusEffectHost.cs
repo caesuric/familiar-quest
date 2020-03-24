@@ -7,11 +7,11 @@ using UnityEngine.AI;
 
 public class StatusEffectHost : DependencyUser {
 
-    public float physicalSave;
-    public float mentalSave;
-    public float luckDebuffDivisor;
-    public float luckBuffMultiplier;
-    public float luckDropFactor;
+    //public float physicalSave;
+    //public float mentalSave;
+    //public float luckDebuffDivisor;
+    //public float luckBuffMultiplier;
+    //public float luckDropFactor;
     public List<StatusEffect> statusEffects = new List<StatusEffect>();
     private List<StatusEffect> pruneList = new List<StatusEffect>();
     private Dictionary<string, Action> effectMaintainers;
@@ -79,16 +79,16 @@ public class StatusEffectHost : DependencyUser {
     }
 
     public void Calculate() {
-        int level;
-        var experienceGainer = GetComponent<ExperienceGainer>();
-        var monsterScaler = GetComponent<MonsterScaler>();
-        if (experienceGainer != null) level = experienceGainer.level;
-        else level = monsterScaler.level;
-        physicalSave = SecondaryStatUtility.CalcPhysicalResist(GetComponent<Character>().constitution, level);
-        mentalSave = SecondaryStatUtility.CalcMentalResist(GetComponent<Character>().wisdom, level);
-        var luck = GetComponent<Character>().luck;
-        luckBuffMultiplier = 1 + SecondaryStatUtility.CalcStatusEffectDurationBonus(luck, level);
-        luckDebuffDivisor = 1 - SecondaryStatUtility.CalcStatusEffectDurationBonus(luck, level);
+        //int level;
+        //var experienceGainer = GetComponent<ExperienceGainer>();
+        //var monsterScaler = GetComponent<MonsterScaler>();
+        //if (experienceGainer != null) level = experienceGainer.level;
+        //else level = monsterScaler.level;
+        //physicalSave = SecondaryStatUtility.CalcPhysicalResist(GetComponent<Character>().constitution, level);
+        //mentalSave = SecondaryStatUtility.CalcMentalResist(GetComponent<Character>().wisdom, level);
+        //var luck = GetComponent<Character>().luck;
+        //luckBuffMultiplier = 1 + SecondaryStatUtility.CalcStatusEffectDurationBonus(luck, level);
+        //luckDebuffDivisor = 1 - SecondaryStatUtility.CalcStatusEffectDurationBonus(luck, level);
     }
 
     private void ApplyDde(StatusEffect effect) {
@@ -118,30 +118,36 @@ public class StatusEffectHost : DependencyUser {
         else if (type == "speed-" && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= (1 - degree);
         var visual = GetComponent<CacheGrabber>().GetStatusEffectVisual(type, inflicter, ability);
         //if (visual != null) NetworkServer.Spawn(visual);
-        if (good) duration *= luckBuffMultiplier;
-        else duration *= luckDebuffDivisor;
+        //if (good) duration *= luckBuffMultiplier;
+        //else duration *= luckDebuffDivisor;
+        if (good) duration *= 1 + CharacterAttribute.attributes["statusEffectDuration"].instances[GetComponent<Character>()].TotalValue / 100f;
+        else duration *= 1 - CharacterAttribute.attributes["statusEffectDuration"].instances[GetComponent<Character>()].TotalValue / 100f;
         var effect = new StatusEffect(type, duration, degree, inflicter: inflicter, good: good, ability: ability, visual: visual);
         statusEffects.Add(effect);
     }
 
     private void ApplyBossRage() {
         var c = GetComponent<Character>();
-        c.strength *= 2;
-        c.dexterity *= 2;
-        c.constitution *= 2;
-        c.intelligence *= 2;
-        c.wisdom *= 2;
-        c.luck *= 2;
+        //c.strength *= 2;
+        //c.dexterity *= 2;
+        //c.constitution *= 2;
+        //c.intelligence *= 2;
+        //c.wisdom *= 2;
+        //c.luck *= 2;
+        var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[c].BuffValue += CharacterAttribute.attributes[attr].instances[c].BaseValue;
     }
 
     private void RemoveBossRage() {
         var c = GetComponent<Character>();
-        c.strength /= 2;
-        c.dexterity /= 2;
-        c.constitution /= 2;
-        c.intelligence /= 2;
-        c.wisdom /= 2;
-        c.luck /= 2;
+        //c.strength /= 2;
+        //c.dexterity /= 2;
+        //c.constitution /= 2;
+        //c.intelligence /= 2;
+        //c.wisdom /= 2;
+        //c.luck /= 2;
+        var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[c].BuffValue -= CharacterAttribute.attributes[attr].instances[c].BaseValue;
     }
 
     private string GetSaveType(string type) {
@@ -153,11 +159,13 @@ public class StatusEffectHost : DependencyUser {
     private bool SavedOnEffect(string saveType, string condition, Character inflicter) {
         var name = gameObject.name;
         if (name == "kittenCharacter(Clone)") name = "Player";
-        if (saveType == "mental" && UnityEngine.Random.Range(0f, 1f) < mentalSave) {
+        //if (saveType == "mental" && UnityEngine.Random.Range(0f, 1f) < mentalSave) {
+        if (saveType == "mental" && UnityEngine.Random.Range(0f, 1f) < CharacterAttribute.attributes["mentalResistance"].instances[GetComponent<Character>()].TotalValue) {
             GetComponent<ObjectSpawner>().CreateFloatingSaveText("RESISTED " + condition.ToUpper() + "!", name + " succeeded on mental resist vs. " + condition + "!");
             return true;
         }
-        else if (saveType == "physical" && UnityEngine.Random.Range(0f, 1f) < physicalSave) {
+        //else if (saveType == "physical" && UnityEngine.Random.Range(0f, 1f) < physicalSave) {
+        if (saveType == "mental" && UnityEngine.Random.Range(0f, 1f) < CharacterAttribute.attributes["physicalResistance"].instances[GetComponent<Character>()].TotalValue) {
             GetComponent<ObjectSpawner>().CreateFloatingSaveText("RESISTED " + condition.ToUpper() + "!", name + " succeeded on physical resist vs. " + condition + "!");
             return true;
         }

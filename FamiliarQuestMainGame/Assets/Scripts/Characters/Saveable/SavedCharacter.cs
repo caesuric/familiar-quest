@@ -40,15 +40,16 @@ public class SavedCharacter {
     public int furType;
 
     public static SavedCharacter BrandNewCharacter(string name, int furType) {
-        var obj = new SavedCharacter();
-        obj.xp = 0;
-        obj.level = 1;
-        obj.xpToLevel = 200;
-        obj.gold = 0;
-        obj.weapon = SavedWeapon.StartingWeapon(ClassSelectMenu.selectedClass);
-        obj.armor = null;
-        obj.necklace = null;
-        obj.belt = null;
+        var obj = new SavedCharacter {
+            xp = 0,
+            level = 1,
+            xpToLevel = 200,
+            gold = 0,
+            weapon = SavedWeapon.StartingWeapon(ClassSelectMenu.selectedClass),
+            armor = null,
+            necklace = null,
+            belt = null
+        };
         obj.bracelets[0] = null;
         obj.bracelets[1] = null;
         obj.bracelets[2] = null;
@@ -105,12 +106,18 @@ public class SavedCharacter {
         obj.currentAltAbility = character.GetComponent<InputController>().currentAltAbility;
         obj.selectedClass = pc.selectedClass;
         obj.sparePoints = pc.GetComponent<ExperienceGainer>().sparePoints;
-        obj.strength = character.strength;
-        obj.dexterity = character.dexterity;
-        obj.constitution = character.constitution;
-        obj.intelligence = character.intelligence;
-        obj.wisdom = character.wisdom;
-        obj.luck = character.luck;
+        //obj.strength = character.strength;
+        //obj.dexterity = character.dexterity;
+        //obj.constitution = character.constitution;
+        //obj.intelligence = character.intelligence;
+        //obj.wisdom = character.wisdom;
+        //obj.luck = character.luck;
+        obj.strength = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue;
+        obj.dexterity = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue;
+        obj.constitution = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue;
+        obj.intelligence = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue;
+        obj.wisdom = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue;
+        obj.luck = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue;
         obj.resurrectionTimer = character.GetComponent<SpiritUser>().resurrectionTimer;
         obj.name = pc.GetComponent<PlayerSyncer>().characterName;
         obj.furType = pc.GetComponent<PlayerSyncer>().furType;
@@ -151,12 +158,18 @@ public class SavedCharacter {
         character.GetComponent<InputController>().currentAltAbility = currentAltAbility;
         pc.selectedClass = selectedClass;
         pc.GetComponent<ExperienceGainer>().sparePoints = sparePoints;
-        character.strength = strength;
-        character.dexterity = dexterity;
-        character.constitution = constitution;
-        character.intelligence = intelligence;
-        character.wisdom = wisdom;
-        character.luck = luck;
+        //character.strength = strength;
+        //character.dexterity = dexterity;
+        //character.constitution = constitution;
+        //character.intelligence = intelligence;
+        //character.wisdom = wisdom;
+        //character.luck = luck;
+        CharacterAttribute.attributes["strength"].instances[character].BaseValue = strength;
+        CharacterAttribute.attributes["dexterity"].instances[character].BaseValue = dexterity;
+        CharacterAttribute.attributes["constitution"].instances[character].BaseValue = constitution;
+        CharacterAttribute.attributes["intelligence"].instances[character].BaseValue = intelligence;
+        CharacterAttribute.attributes["wisdom"].instances[character].BaseValue = wisdom;
+        CharacterAttribute.attributes["luck"].instances[character].BaseValue = luck;
         character.GetComponent<SpiritUser>().resurrectionTimer = resurrectionTimer;
         pc.GetComponent<PlayerSyncer>().characterName = name;
         pc.GetComponent<PlayerSyncer>().furType = furType;
@@ -219,30 +232,33 @@ public class SavedWeapon : SavedItem {
             case "rogue":
             case "cleric":
             default:
-                obj = new SavedMeleeWeapon();
-                obj.attackPower = 0.8437f;
-                obj.description = "";
-                obj.icon = "Weapon_01";
-                obj.name = "Starting Sword";
+                obj = new SavedMeleeWeapon {
+                    attackPower = 0.8437f,
+                    description = "",
+                    icon = "Weapon_01",
+                    name = "Starting Sword"
+                };
                 obj.description = "{{AttackPower}}";
                 break;
             case "infernoMage":
             case "warlock":
-                obj = new SavedRangedWeapon();
-                obj.attackPower = 0.8437f;
-                obj.description = "";
-                obj.icon = "Weapon_16";
-                obj.name = "Starting Wand";
+                obj = new SavedRangedWeapon {
+                    attackPower = 0.8437f,
+                    description = "",
+                    icon = "Weapon_16",
+                    name = "Starting Wand"
+                };
                 obj.description = "{{AttackPower}}";
                 ((SavedRangedWeapon)obj).projectileModel = 1;
                 ((SavedRangedWeapon)obj).usesInt = false;
                 break;
             case "archer":
-                obj = new SavedRangedWeapon();
-                obj.attackPower = 0.8437f;
-                obj.description = "";
-                obj.icon = "bow_2";
-                obj.name = "Starting Bow";
+                obj = new SavedRangedWeapon {
+                    attackPower = 0.8437f,
+                    description = "",
+                    icon = "bow_2",
+                    name = "Starting Bow"
+                };
                 obj.description = "{{AttackPower}}";
                 ((SavedRangedWeapon)obj).projectileModel = 0;
                 ((SavedRangedWeapon)obj).usesInt = false;
@@ -265,37 +281,39 @@ public class SavedWeapon : SavedItem {
     }
 
     public static SavedWeapon ConvertFromMeleeWeapon(MeleeWeapon weapon) {
-        var obj = new SavedMeleeWeapon();
-        obj.name = weapon.name;
-        obj.description = weapon.description;
-        obj.attackPower = weapon.attackPower;
-        obj.icon = weapon.icon;
-        obj.strength = weapon.strength;
-        obj.dexterity = weapon.dexterity;
-        obj.constitution = weapon.constitution;
-        obj.intelligence = weapon.intelligence;
-        obj.wisdom = weapon.wisdom;
-        obj.luck = weapon.luck;
-        obj.quality = weapon.quality;
+        var obj = new SavedMeleeWeapon {
+            name = weapon.name,
+            description = weapon.description,
+            attackPower = weapon.attackPower,
+            icon = weapon.icon,
+            strength = weapon.strength,
+            dexterity = weapon.dexterity,
+            constitution = weapon.constitution,
+            intelligence = weapon.intelligence,
+            wisdom = weapon.wisdom,
+            luck = weapon.luck,
+            quality = weapon.quality
+        };
         return obj;
     }
 
     public static SavedWeapon ConvertFromRangedWeapon(RangedWeapon weapon) {
-        var obj = new SavedRangedWeapon();
-        obj.name = weapon.name;
-        obj.description = weapon.description;
-        obj.attackPower = weapon.attackPower;
-        obj.icon = weapon.icon;
-        obj.range = weapon.range;
-        obj.projectileModel = weapon.projectileModel;
-        obj.usesInt = weapon.usesInt;
-        obj.strength = weapon.strength;
-        obj.dexterity = weapon.dexterity;
-        obj.constitution = weapon.constitution;
-        obj.intelligence = weapon.intelligence;
-        obj.wisdom = weapon.wisdom;
-        obj.luck = weapon.luck;
-        obj.quality = weapon.quality;
+        var obj = new SavedRangedWeapon {
+            name = weapon.name,
+            description = weapon.description,
+            attackPower = weapon.attackPower,
+            icon = weapon.icon,
+            range = weapon.range,
+            projectileModel = weapon.projectileModel,
+            usesInt = weapon.usesInt,
+            strength = weapon.strength,
+            dexterity = weapon.dexterity,
+            constitution = weapon.constitution,
+            intelligence = weapon.intelligence,
+            wisdom = weapon.wisdom,
+            luck = weapon.luck,
+            quality = weapon.quality
+        };
         return obj;
     }
 }
@@ -305,18 +323,19 @@ public class SavedMeleeWeapon : SavedWeapon
 {
     public new MeleeWeapon ConvertTo()
     {
-        var obj = new MeleeWeapon();
-        obj.name = name;
-        obj.description = description;
-        obj.attackPower = attackPower;
-        obj.icon = icon;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new MeleeWeapon {
+            name = name,
+            description = description,
+            attackPower = attackPower,
+            icon = icon,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 }
@@ -330,21 +349,22 @@ public class SavedRangedWeapon : SavedWeapon
 
     public new RangedWeapon ConvertTo()
     {
-        var obj = new RangedWeapon();
-        obj.name = name;
-        obj.description = description;
-        obj.attackPower = attackPower;
-        obj.icon = icon;
-        obj.range = range;
-        obj.projectileModel = projectileModel;
-        obj.usesInt = usesInt;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new RangedWeapon {
+            name = name,
+            description = description,
+            attackPower = attackPower,
+            icon = icon,
+            range = range,
+            projectileModel = projectileModel,
+            usesInt = usesInt,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 }
@@ -357,37 +377,39 @@ public class SavedArmor : SavedItem
 
     public Armor ConvertTo()
     {
-        var obj = new Armor();
-        obj.name = name;
-        obj.description = description;
-        obj.hp = hp;
-        obj.mp = mp;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.armor = armor;
-        obj.quality = quality;
+        var obj = new Armor {
+            name = name,
+            description = description,
+            hp = hp,
+            mp = mp,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            armor = armor,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedArmor ConvertFrom(Armor armor) {
         if (armor == null) return null;
-        var obj = new SavedArmor();
-        obj.name = armor.name;
-        obj.description = armor.description;
-        obj.hp = armor.hp;
-        obj.mp = armor.mp;
-        obj.strength = armor.strength;
-        obj.dexterity = armor.dexterity;
-        obj.constitution = armor.constitution;
-        obj.intelligence = armor.intelligence;
-        obj.wisdom = armor.wisdom;
-        obj.luck = armor.luck;
-        obj.armor = armor.armor;
-        obj.quality = armor.quality;
+        var obj = new SavedArmor {
+            name = armor.name,
+            description = armor.description,
+            hp = armor.hp,
+            mp = armor.mp,
+            strength = armor.strength,
+            dexterity = armor.dexterity,
+            constitution = armor.constitution,
+            intelligence = armor.intelligence,
+            wisdom = armor.wisdom,
+            luck = armor.luck,
+            armor = armor.armor,
+            quality = armor.quality
+        };
         return obj;
     }
 }
@@ -395,31 +417,33 @@ public class SavedArmor : SavedItem
 [System.Serializable]
 public class SavedNecklace : SavedItem {
     public Necklace ConvertTo() {
-        var obj = new Necklace();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new Necklace {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedNecklace ConvertFrom(Necklace accessory) {
         if (accessory == null) return null;
-        var obj = new SavedNecklace();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.quality = accessory.quality;
+        var obj = new SavedNecklace {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -427,31 +451,33 @@ public class SavedNecklace : SavedItem {
 [System.Serializable]
 public class SavedBelt: SavedItem {
     public Belt ConvertTo() {
-        var obj = new Belt();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new Belt {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedBelt ConvertFrom(Belt accessory) {
         if (accessory == null) return null;
-        var obj = new SavedBelt();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.quality = accessory.quality;
+        var obj = new SavedBelt {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -459,31 +485,33 @@ public class SavedBelt: SavedItem {
 [System.Serializable]
 public class SavedBracelet : SavedItem {
     public Bracelet ConvertTo() {
-        var obj = new Bracelet();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new Bracelet {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedBracelet ConvertFrom(Bracelet accessory) {
         if (accessory == null) return null;
-        var obj = new SavedBracelet();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.quality = accessory.quality;
+        var obj = new SavedBracelet {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -491,31 +519,33 @@ public class SavedBracelet : SavedItem {
 [System.Serializable]
 public class SavedCloak : SavedItem {
     public Cloak ConvertTo() {
-        var obj = new Cloak();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new Cloak {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedCloak ConvertFrom(Cloak accessory) {
         if (accessory == null) return null;
-        var obj = new SavedCloak();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.quality = accessory.quality;
+        var obj = new SavedCloak {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -523,31 +553,33 @@ public class SavedCloak : SavedItem {
 [System.Serializable]
 public class SavedEarring : SavedItem {
     public Earring ConvertTo() {
-        var obj = new Earring();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.quality = quality;
+        var obj = new Earring {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedEarring ConvertFrom(Earring accessory) {
         if (accessory == null) return null;
-        var obj = new SavedEarring();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.quality = accessory.quality;
+        var obj = new SavedEarring {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -555,33 +587,35 @@ public class SavedEarring : SavedItem {
 [System.Serializable]
 public class SavedHat : SavedItem {
     public Hat ConvertTo() {
-        var obj = new Hat();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.armor = armor;
-        obj.quality = quality;
+        var obj = new Hat {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            armor = armor,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedHat ConvertFrom(Hat accessory) {
         if (accessory == null) return null;
-        var obj = new SavedHat();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.armor = accessory.armor;
-        obj.quality = accessory.quality;
+        var obj = new SavedHat {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            armor = accessory.armor,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -589,33 +623,35 @@ public class SavedHat : SavedItem {
 [System.Serializable]
 public class SavedShoes : SavedItem {
     public Shoes ConvertTo() {
-        var obj = new Shoes();
-        obj.name = name;
-        obj.description = description;
-        obj.strength = strength;
-        obj.dexterity = dexterity;
-        obj.constitution = constitution;
-        obj.intelligence = intelligence;
-        obj.wisdom = wisdom;
-        obj.luck = luck;
-        obj.armor = armor;
-        obj.quality = quality;
+        var obj = new Shoes {
+            name = name,
+            description = description,
+            strength = strength,
+            dexterity = dexterity,
+            constitution = constitution,
+            intelligence = intelligence,
+            wisdom = wisdom,
+            luck = luck,
+            armor = armor,
+            quality = quality
+        };
         return obj;
     }
 
     public static SavedShoes ConvertFrom(Shoes accessory) {
         if (accessory == null) return null;
-        var obj = new SavedShoes();
-        obj.name = accessory.name;
-        obj.description = accessory.description;
-        obj.strength = accessory.strength;
-        obj.dexterity = accessory.dexterity;
-        obj.constitution = accessory.constitution;
-        obj.intelligence = accessory.intelligence;
-        obj.wisdom = accessory.wisdom;
-        obj.luck = accessory.luck;
-        obj.armor = accessory.armor;
-        obj.quality = accessory.quality;
+        var obj = new SavedShoes {
+            name = accessory.name,
+            description = accessory.description,
+            strength = accessory.strength,
+            dexterity = accessory.dexterity,
+            constitution = accessory.constitution,
+            intelligence = accessory.intelligence,
+            wisdom = accessory.wisdom,
+            luck = accessory.luck,
+            armor = accessory.armor,
+            quality = accessory.quality
+        };
         return obj;
     }
 }
@@ -634,17 +670,19 @@ public class SavedConsumable : SavedItem
 
     public static SavedConsumable ConvertFrom(Consumable consumable) {
         if (consumable == null) {
-            var obj = new SavedConsumable();
-            obj.type = ConsumableType.none;
-            obj.degree = 0;
-            obj.quantity = 0;
+            var obj = new SavedConsumable {
+                type = ConsumableType.none,
+                degree = 0,
+                quantity = 0
+            };
             return obj;
         }
         else {
-            var obj = new SavedConsumable();
-            obj.type = consumable.type;
-            obj.degree = consumable.degree;
-            obj.quantity = consumable.quantity;
+            var obj = new SavedConsumable {
+                type = consumable.type,
+                degree = consumable.degree,
+                quantity = consumable.quantity
+            };
             return obj;
         }
     }
@@ -662,10 +700,11 @@ public class SavedSpirit
 
     public static SavedSpirit ConvertFrom(Spirit spirit)
     {
-        var obj = new SavedSpirit();
-        obj.types = spirit.types;
-        obj.name = spirit.name;
-        obj.description = spirit.description;
+        var obj = new SavedSpirit {
+            types = spirit.types,
+            name = spirit.name,
+            description = spirit.description
+        };
         foreach (var affinity in spirit.elements) obj.elements.Add(SavedElementalAffinity.ConvertFrom(affinity));
         //foreach (var ability in spirit.activeAbilities) if (ability != null) obj.activeAbilities.Add(SavedActiveAbility.ConvertFrom(ability));
         foreach (var ability in spirit.activeAbilities) obj.activeAbilities.Add(SavedActiveAbility.ConvertFrom(ability));
@@ -751,11 +790,12 @@ public class SavedActiveAbility : SavedAbility
     public virtual ActiveAbility ConvertTo()
     {
         if (this is SavedAttackAbility) return ((SavedAttackAbility)this).ConvertTo();
-        var obj = new UtilityAbility();
-        obj.targetType = targetType;
-        obj.icon = icon;
-        obj.cooldown = cooldown;
-        obj.mpUsage = mpUsage;
+        var obj = new UtilityAbility {
+            targetType = targetType,
+            icon = icon,
+            cooldown = cooldown,
+            mpUsage = mpUsage
+        };
         if (baseMpUsage == 0) baseMpUsage = mpUsage;
         obj.baseMpUsage = baseMpUsage;
         obj.radius = radius;
@@ -783,24 +823,25 @@ public class SavedAttackAbility : SavedActiveAbility
 
     public static SavedAttackAbility ConvertAttackFrom(AttackAbility ability)
     {
-        var obj = new SavedAttackAbility();
-        obj.icon = ability.icon;
-        obj.cooldown = ability.cooldown;
-        obj.mpUsage = ability.mpUsage;
-        obj.baseMpUsage = ability.baseMpUsage;
-        obj.radius = ability.radius;
-        obj.name = ability.name;
-        obj.description = ability.description;
-        obj.baseStat = ability.baseStat;
-        obj.damage = ability.damage;
-        obj.dotDamage = ability.dotDamage;
-        obj.dotTime = ability.dotTime;
-        obj.element = ability.element;
-        obj.isRanged = ability.isRanged;
-        obj.rangedProjectile = ability.rangedProjectile;
-        obj.hitEffect = ability.hitEffect;
-        obj.aoe = ability.aoe;
-        obj.points = ability.points;
+        var obj = new SavedAttackAbility {
+            icon = ability.icon,
+            cooldown = ability.cooldown,
+            mpUsage = ability.mpUsage,
+            baseMpUsage = ability.baseMpUsage,
+            radius = ability.radius,
+            name = ability.name,
+            description = ability.description,
+            baseStat = ability.baseStat,
+            damage = ability.damage,
+            dotDamage = ability.dotDamage,
+            dotTime = ability.dotTime,
+            element = ability.element,
+            isRanged = ability.isRanged,
+            rangedProjectile = ability.rangedProjectile,
+            hitEffect = ability.hitEffect,
+            aoe = ability.aoe,
+            points = ability.points
+        };
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
     }
@@ -839,8 +880,9 @@ public class SavedPassiveAbility : SavedAbility {
     }
 
     public PassiveAbility ConvertTo() {
-        var obj = new PassiveAbility(name, description);
-        obj.icon = icon;
+        var obj = new PassiveAbility(name, description) {
+            icon = icon
+        };
         if (points == 0) points = 70;
         obj.points = points;
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
@@ -856,16 +898,18 @@ public class SavedElementalAffinity
 
     public static SavedElementalAffinity ConvertFrom(ElementalAffinity affinity)
     {
-        var obj = new SavedElementalAffinity();
-        obj.type = affinity.type;
-        obj.amount = affinity.amount;
+        var obj = new SavedElementalAffinity {
+            type = affinity.type,
+            amount = affinity.amount
+        };
         return obj;
     }
 
     public ElementalAffinity ConvertTo()
     {
-        var obj = new ElementalAffinity(type);
-        obj.amount = amount;
+        var obj = new ElementalAffinity(type) {
+            amount = amount
+        };
         return obj;
     }
 }
@@ -878,8 +922,9 @@ public class SavedAbilityAttribute
 
     public static SavedAbilityAttribute ConvertFrom(AbilityAttribute attribute)
     {
-        var obj = new SavedAbilityAttribute();
-        obj.type = attribute.type;
+        var obj = new SavedAbilityAttribute {
+            type = attribute.type
+        };
         foreach (var parameter in attribute.parameters) obj.parameters.Add(SavedAbilityParameter.ConvertFrom(parameter));
         return obj;
     }
@@ -911,12 +956,13 @@ public class SavedAbilityParameter {
     public string stringVal;
 
     public static SavedAbilityParameter ConvertFrom(AbilityParameter parameter) {
-        var obj = new SavedAbilityParameter();
-        obj.name = parameter.name;
-        obj.type = parameter.type;
-        obj.intVal = parameter.intVal;
-        obj.floatVal = parameter.floatVal;
-        obj.stringVal = parameter.stringVal;
+        var obj = new SavedAbilityParameter {
+            name = parameter.name,
+            type = parameter.type,
+            intVal = parameter.intVal,
+            floatVal = parameter.floatVal,
+            stringVal = parameter.stringVal
+        };
         return obj;
     }
 
@@ -931,9 +977,10 @@ public class SavedDust {
     public float quantity;
 
     public static SavedDust ConvertFrom(Dust dust) {
-        var obj = new SavedDust();
-        obj.type = dust.type;
-        obj.quantity = dust.quantity;
+        var obj = new SavedDust {
+            type = dust.type,
+            quantity = dust.quantity
+        };
         return obj;
     }
 

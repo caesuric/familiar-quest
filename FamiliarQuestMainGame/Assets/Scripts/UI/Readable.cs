@@ -8,10 +8,15 @@ public class Readable : MonoBehaviour {
     private ReadingPane readingPane = null;
 
     void Start() {
+        FindReadingPane();
+    }
+
+    private void FindReadingPane() {
         readingPane = GameObject.FindGameObjectWithTag("ReadingPane").GetComponent<ReadingPane>();
     }
 
     public void Use() {
+        if (readingPane == null) FindReadingPane();
         readingPane.gameObject.SetActive(true);
         readingPane.SetText(title, text);
     }

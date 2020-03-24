@@ -10,7 +10,7 @@ public class Health : DependencyUser {
     public float hp;
     //[SyncVar]
     public float maxHP;
-    public float healingMultiplier;
+    //public float healingMultiplier;
     private UnitFrame unitFrame = null;
     private bool isPlayer = false;
     private delegate void Effect(AbilityAttribute Attribute);
@@ -39,11 +39,12 @@ public class Health : DependencyUser {
         float hpFactor = 29;
         if (GetComponent<Monster>() != null) hpFactor = GetComponent<Monster>().hpFactor;
         else if (GetComponent<PlayerCharacter>() != null) hpFactor = GetHpFactor(hpFactor, GetComponent<ExperienceGainer>().level);
-        int newHP = (int)((float)GetComponent<Character>().constitution * hpFactor);
+        //int newHP = (int)((float)GetComponent<Character>().constitution * hpFactor);
+        int newHP = (int)CharacterAttribute.attributes["bonusHP"].instances[GetComponent<Character>()].TotalValue;
         hp += (newHP - maxHP);
         maxHP = newHP;
         //healingMultiplier = 0.1f * GetComponent<Character>().strength;
-        healingMultiplier = SecondaryStatUtility.CalcReceivedHealing(GetComponent<Character>().strength, SecondaryStatUtility.GetLevel(this));
+        //healingMultiplier = SecondaryStatUtility.CalcReceivedHealing(GetComponent<Character>().strength, SecondaryStatUtility.GetLevel(this));
     }
 
     public float GetHpFactor(float baseFactor, int level) {
@@ -124,7 +125,8 @@ public class Health : DependencyUser {
         if (name == "kittenCharacter(Clone)") name = "Player";
         var attackerName = attacker.gameObject.name;
         if (attackerName == "kittenCharacter(Clone)") attackerName = "Player";
-        var critRate = attacker.GetComponent<Attacker>().critRate;
+        //var critRate = attacker.GetComponent<Attacker>().critRate;
+        var critRate = CharacterAttribute.attributes["criticalHitChance"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
         if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += ability.FindAttribute("increasedCritChance").FindParameter("degree").floatVal;
         if (amount < 0) GetComponent<ObjectSpawner>().CreateFloatingHealingText((int)amount * -1, name + " healed for " + amount.ToString() + ".");
         else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
@@ -142,10 +144,12 @@ public class Health : DependencyUser {
         amount = GetComponent<SpiritUser>().ModifyDamageForSpirits(amount, type);
         if (GetComponent<Monster>() != null) amount = GetComponent<Monster>().ModifyDamageForElements(amount, type);
         float critRate = 0;
-        if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = attacker.GetComponent<Attacker>().critRate;
+        //if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = attacker.GetComponent<Attacker>().critRate;
+        if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = CharacterAttribute.attributes["criticalHitChance"].instances[GetComponent<Character>()].TotalValue / 100f;
         if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += ability.FindAttribute("increasedCritChance").FindParameter("degree").floatVal;
         float critMultiplier = 0;
-        if (attacker != null && attacker.GetComponent<Attacker>() != null) critMultiplier = attacker.GetComponent<Attacker>().critMultiplier;
+        //if (attacker != null && attacker.GetComponent<Attacker>() != null) critMultiplier = attacker.GetComponent<Attacker>().critMultiplier;
+        if (attacker != null && attacker.GetComponent<Attacker>() != null) critMultiplier = CharacterAttribute.attributes["criticalDamage"].instances[GetComponent<Character>()].TotalValue / 100f;
         if (ability != null && ability.FindAttribute("increasedCritDamage") != null) critMultiplier += ability.FindAttribute("increasedCritDamage").FindParameter("degree").floatVal;
         if (attacker != null && criticalRoll <= critRate) amount *= critMultiplier;
         amount = ModifyDamageForVulnerability(amount);
@@ -193,11 +197,23 @@ public class Health : DependencyUser {
     }
 
     private float ModifyDamageForLuck(float amount, Element type) {
-        if (type == Element.bashing || type == Element.piercing || type == Element.slashing || type == Element.none) return amount;
-        var level = 1;
-        if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
-        else level = GetComponent<MonsterScaler>().level;
-        return amount * (1 - SecondaryStatUtility.CalcElementalResistanceFromLuck(GetComponent<Character>().luck, level));
+        //if (type == Element.bashing || type == Element.piercing || type == Element.slashing || type == Element.none) return amount;
+        //var level = 1;
+        //if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
+        //else level = GetComponent<MonsterScaler>().level;
+        //return amount * (1 - SecondaryStatUtility.CalcElementalResistanceFromLuck(GetComponent<Character>().luck, level));
+        var resistances = new Dictionary<Element, string> {
+            {  Element.acid, "acidResistance" },
+            {  Element.fire, "fireResistance" },
+            {  Element.ice, "iceResistance" },
+            {  Element.light, "lightResistance" },
+            {  Element.dark, "darkResistance" },
+            {  Element.piercing, "piercingResistance" },
+            {  Element.bashing, "bashingResistance" },
+            {  Element.slashing, "slashingResistance" }
+        };
+        var resistance = resistances[type];
+        return amount * (1 - CharacterAttribute.attributes[resistance].instances[GetComponent<Character>()].TotalValue / 100f);
     }
 
     private float ModifyDamageForArmor(float amount, Character attacker) {
@@ -212,7 +228,8 @@ public class Health : DependencyUser {
         if (pc.hat != null) armorValue += pc.hat.armor;
         var multiplier = 1f - ((float)armorValue / ((float)armorValue + 400f + (85f * (float)attackerLevel)));
         var prevented = 1f - multiplier;
-        prevented *= SecondaryStatUtility.CalcArmorMultiplier(GetComponent<Character>().constitution, GetComponent<ExperienceGainer>().level);
+        //prevented *= SecondaryStatUtility.CalcArmorMultiplier(GetComponent<Character>().constitution, GetComponent<ExperienceGainer>().level);
+        prevented *= CharacterAttribute.attributes["armorMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
         multiplier = 1f - prevented;
         return amount * multiplier;
     }

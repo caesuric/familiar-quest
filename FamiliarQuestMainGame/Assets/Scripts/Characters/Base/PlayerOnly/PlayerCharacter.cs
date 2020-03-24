@@ -33,7 +33,7 @@ public class PlayerCharacter : DependencyUser {
     public List<GameObject> effectIconObjects = new List<GameObject>();
     public bool configLoaded = false;
     public GameObject playerPrefab;
-    private bool positionSet = false;
+    private readonly bool positionSet = false;
     public Inventory inventory;
     public bool ready = false;
     public GameObject lightObj;
@@ -258,20 +258,32 @@ public class PlayerCharacter : DependencyUser {
     private void ModifyStats(Equipment oldEquip, Item newItem) {
         var newEquip = (Equipment)newItem;
         if (oldEquip != null) {
-            GetComponent<Character>().strength += newEquip.strength - oldEquip.strength;
-            GetComponent<Character>().dexterity += newEquip.dexterity - oldEquip.dexterity;
-            GetComponent<Character>().constitution += newEquip.constitution - oldEquip.constitution;
-            GetComponent<Character>().intelligence += newEquip.intelligence - oldEquip.intelligence;
-            GetComponent<Character>().wisdom += newEquip.wisdom - oldEquip.wisdom;
-            GetComponent<Character>().luck += newEquip.luck - oldEquip.luck;
+            //GetComponent<Character>().strength += newEquip.strength - oldEquip.strength;
+            //GetComponent<Character>().dexterity += newEquip.dexterity - oldEquip.dexterity;
+            //GetComponent<Character>().constitution += newEquip.constitution - oldEquip.constitution;
+            //GetComponent<Character>().intelligence += newEquip.intelligence - oldEquip.intelligence;
+            //GetComponent<Character>().wisdom += newEquip.wisdom - oldEquip.wisdom;
+            //GetComponent<Character>().luck += newEquip.luck - oldEquip.luck;
+            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].ItemValue += newEquip.strength - oldEquip.strength;
+            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].ItemValue += newEquip.dexterity - oldEquip.dexterity;
+            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].ItemValue += newEquip.constitution- oldEquip.constitution;
+            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].ItemValue += newEquip.intelligence - oldEquip.intelligence;
+            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].ItemValue += newEquip.wisdom - oldEquip.wisdom;
+            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].ItemValue += newEquip.luck - oldEquip.luck;
         }
         else {
-            GetComponent<Character>().strength += newEquip.strength;
-            GetComponent<Character>().dexterity += newEquip.dexterity;
-            GetComponent<Character>().constitution += newEquip.constitution;
-            GetComponent<Character>().intelligence += newEquip.intelligence;
-            GetComponent<Character>().wisdom += newEquip.wisdom;
-            GetComponent<Character>().luck += newEquip.luck;
+            //GetComponent<Character>().strength += newEquip.strength;
+            //GetComponent<Character>().dexterity += newEquip.dexterity;
+            //GetComponent<Character>().constitution += newEquip.constitution;
+            //GetComponent<Character>().intelligence += newEquip.intelligence;
+            //GetComponent<Character>().wisdom += newEquip.wisdom;
+            //GetComponent<Character>().luck += newEquip.luck;
+            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].ItemValue += newEquip.strength;
+            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].ItemValue += newEquip.dexterity;
+            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].ItemValue += newEquip.constitution;
+            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].ItemValue += newEquip.intelligence;
+            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].ItemValue += newEquip.wisdom;
+            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].ItemValue += newEquip.luck;
         }
     }
 

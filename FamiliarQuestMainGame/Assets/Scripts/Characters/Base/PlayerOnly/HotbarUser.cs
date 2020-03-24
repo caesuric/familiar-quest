@@ -185,12 +185,14 @@ public class HotbarUser : MonoBehaviour {
             if (abilityNames.Count <= i) continue;
             var tooltip = hotbarButtons[i].GetComponent<UITooltipShow>();
             tooltip.contentLines = new UITooltipLineContent[2];
-            tooltip.contentLines[0] = new UITooltipLineContent();
-            tooltip.contentLines[0].LineStyle = UITooltipLines.LineStyle.Title;
-            tooltip.contentLines[0].Content = abilityNames[i];
-            tooltip.contentLines[1] = new UITooltipLineContent();
-            tooltip.contentLines[1].LineStyle = UITooltipLines.LineStyle.Description;
-            tooltip.contentLines[1].Content = abilityDescriptions[i];
+            tooltip.contentLines[0] = new UITooltipLineContent {
+                LineStyle = UITooltipLines.LineStyle.Title,
+                Content = abilityNames[i]
+            };
+            tooltip.contentLines[1] = new UITooltipLineContent {
+                LineStyle = UITooltipLines.LineStyle.Description,
+                Content = abilityDescriptions[i]
+            };
         }
     }
 
@@ -274,9 +276,10 @@ public class HotbarUser : MonoBehaviour {
         ElementalAffinity match = null;
         foreach (var existingAffinity in affinities) if (existingAffinity.type == affinity.type) match = existingAffinity;
         if (match == null) {
-            var newAffinity = new ElementalAffinity(affinity.type);
-            newAffinity.type = affinity.type;
-            newAffinity.amount = affinity.amount;
+            var newAffinity = new ElementalAffinity(affinity.type) {
+                type = affinity.type,
+                amount = affinity.amount
+            };
             affinities.Add(newAffinity);
         }
         else match.amount += affinity.amount;
@@ -451,10 +454,13 @@ public class HotbarUser : MonoBehaviour {
 
     private string AttackAbilityInterpolate(string text, ActiveAbility ability) {
         Dictionary<BaseStat, int> lookups = new Dictionary<BaseStat, int>() {
-                { BaseStat.strength, GetComponent<Character>().strength},
-                { BaseStat.dexterity, GetComponent<Character>().dexterity},
-                { BaseStat.intelligence, GetComponent<Character>().intelligence},
-            };
+            //{ BaseStat.strength, GetComponent<Character>().strength},
+            //{ BaseStat.dexterity, GetComponent<Character>().dexterity},
+            //{ BaseStat.intelligence, GetComponent<Character>().intelligence},
+            { BaseStat.strength, (int)CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].TotalValue },
+            { BaseStat.dexterity, (int)CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].TotalValue },
+            { BaseStat.intelligence, (int)CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].TotalValue }
+        };
         int baseAttributeScore = lookups[((AttackAbility)ability).baseStat];
         text = text.Replace("{{damage}}", (GetAttackText(ability, baseAttributeScore)));
         return text.Replace("{{dotDamage}}", (Mathf.Floor(GetComponent<PlayerCharacter>().weapon.attackPower * baseAttributeScore * ((AttackAbility)ability).dotDamage).ToString()));
@@ -462,12 +468,18 @@ public class HotbarUser : MonoBehaviour {
 
     private string UtilityAbilityInterpolate(string text, ActiveAbility ability) {
         Dictionary<BaseStat, int> lookups = new Dictionary<BaseStat, int>() {
-                { BaseStat.strength, GetComponent<Character>().strength},
-                { BaseStat.dexterity, GetComponent<Character>().dexterity},
-                { BaseStat.constitution, GetComponent<Character>().constitution},
-                { BaseStat.intelligence, GetComponent<Character>().intelligence},
-                { BaseStat.wisdom, GetComponent<Character>().wisdom},
-                { BaseStat.luck, GetComponent<Character>().luck},
+                //{ BaseStat.strength, GetComponent<Character>().strength},
+                //{ BaseStat.dexterity, GetComponent<Character>().dexterity},
+                //{ BaseStat.constitution, GetComponent<Character>().constitution},
+                //{ BaseStat.intelligence, GetComponent<Character>().intelligence},
+                //{ BaseStat.wisdom, GetComponent<Character>().wisdom},
+                //{ BaseStat.luck, GetComponent<Character>().luck},
+                { BaseStat.strength, (int)CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].TotalValue },
+                { BaseStat.dexterity, (int)CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].TotalValue },
+                { BaseStat.intelligence, (int)CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].TotalValue },
+                { BaseStat.constitution, (int)CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].TotalValue },
+                { BaseStat.wisdom, (int)CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].TotalValue },
+                { BaseStat.luck, (int)CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].TotalValue }
         };
         int baseAttributeScore = lookups[ability.baseStat];
         text = text.Replace("{{healing}}", GetHealingText(ability, baseAttributeScore));
@@ -478,10 +490,12 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private string GetHealingText(ActiveAbility ability, int baseAttributeScore) {
-        float factor = GetComponent<Character>().wisdom;
+        //float factor = GetComponent<Character>().wisdom;
+        float factor = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].TotalValue;
         factor *= GetComponent<PlayerCharacter>().weapon.attackPower;
         float healing = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type=="heal") healing += attribute.FindParameter("degree").floatVal * factor * GetComponent<Health>().healingMultiplier;
+        //foreach (var attribute in ability.attributes) if (attribute.type=="heal") healing += attribute.FindParameter("degree").floatVal * factor * GetComponent<Health>().healingMultiplier;
+        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
         return ((int)healing).ToString();
     }
 

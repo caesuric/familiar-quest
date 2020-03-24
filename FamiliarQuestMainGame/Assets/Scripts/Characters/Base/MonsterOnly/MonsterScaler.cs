@@ -13,8 +13,8 @@ class MonsterScaler : MonoBehaviour {
     private int oldNumPlayers = 1;
     private bool sizeIncreased = false;
     public TextMesh barTextObj;
-    private static float scaleFactor = 1.2f; //1.1f;
-    private static float extraHpScaleFactor = 1.05f;
+    private static readonly float scaleFactor = 1.2f; //1.1f;
+    private static readonly float extraHpScaleFactor = 1.05f;
     private bool unitFrameConfigured = false;
     public float colliderSize = 0f;
 
@@ -42,16 +42,23 @@ class MonsterScaler : MonoBehaviour {
 
     public void AdjustForLevel(int level) {
         var originalLevel = level;
-        if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed /= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, originalLevel);
+        //if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed /= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, originalLevel);
+        if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed /= (CharacterAttribute.attributes["moveSpeed"].instances[GetComponent<Character>()].TotalValue / 100f);
         if (level > this.level) {
             level -= this.level;
             this.level = originalLevel;
-            float tempStrength = GetComponent<Character>().strength;
-            float tempDexterity = GetComponent<Character>().dexterity;
-            float tempConstitution = GetComponent<Character>().constitution;
-            float tempIntelligence = GetComponent<Character>().intelligence;
-            float tempWisdom = GetComponent<Character>().wisdom;
-            float tempLuck = GetComponent<Character>().luck;
+            //float tempStrength = GetComponent<Character>().strength;
+            //float tempDexterity = GetComponent<Character>().dexterity;
+            //float tempConstitution = GetComponent<Character>().constitution;
+            //float tempIntelligence = GetComponent<Character>().intelligence;
+            //float tempWisdom = GetComponent<Character>().wisdom;
+            //float tempLuck = GetComponent<Character>().luck;
+            float tempStrength = CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].BaseValue;
+            float tempDexterity = CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].BaseValue;
+            float tempConstitution = CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].BaseValue;
+            float tempIntelligence = CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].BaseValue;
+            float tempWisdom = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue;
+            float tempLuck = CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue;
             for (int i = 0; i < level; i++) {
                 tempStrength *= scaleFactor;
                 tempDexterity *= scaleFactor;
@@ -64,22 +71,35 @@ class MonsterScaler : MonoBehaviour {
                 multiplier += 0.01f;
             }
             GetComponent<Health>().hp = GetComponent<Health>().maxHP = (int)GetComponent<Health>().maxHP;
-            GetComponent<Character>().strength = (int)tempStrength;
-            GetComponent<Character>().dexterity = (int)tempDexterity;
-            GetComponent<Character>().constitution = (int)tempConstitution;
-            GetComponent<Character>().intelligence = (int)tempIntelligence;
-            GetComponent<Character>().wisdom = (int)tempWisdom;
-            GetComponent<Character>().luck = (int)tempLuck;
+            //GetComponent<Character>().strength = (int)tempStrength;
+            //GetComponent<Character>().dexterity = (int)tempDexterity;
+            //GetComponent<Character>().constitution = (int)tempConstitution;
+            //GetComponent<Character>().intelligence = (int)tempIntelligence;
+            //GetComponent<Character>().wisdom = (int)tempWisdom;
+            //GetComponent<Character>().luck = (int)tempLuck;
+            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].BaseValue = (int)tempStrength;
+            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].BaseValue = (int)tempDexterity;
+            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].BaseValue = (int)tempConstitution;
+            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].BaseValue = (int)tempIntelligence;
+            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue = (int)tempWisdom;
+            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue = (int)tempLuck;
+            if (GetComponent<NavMeshAgent>()!=null) GetComponent<NavMeshAgent>().speed *= CharacterAttribute.attributes["moveSpeed"].instances[GetComponent<Character>()].TotalValue / 100f;
         }
         else if (level < this.level) {
             level = this.level - level;
             this.level = originalLevel;
-            float tempStrength = GetComponent<Character>().strength;
-            float tempDexterity = GetComponent<Character>().dexterity;
-            float tempConstitution = GetComponent<Character>().constitution;
-            float tempIntelligence = GetComponent<Character>().intelligence;
-            float tempWisdom = GetComponent<Character>().wisdom;
-            float tempLuck = GetComponent<Character>().luck;
+            //float tempStrength = GetComponent<Character>().strength;
+            //float tempDexterity = GetComponent<Character>().dexterity;
+            //float tempConstitution = GetComponent<Character>().constitution;
+            //float tempIntelligence = GetComponent<Character>().intelligence;
+            //float tempWisdom = GetComponent<Character>().wisdom;
+            //float tempLuck = GetComponent<Character>().luck;
+            float tempStrength = CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].BaseValue;
+            float tempDexterity = CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].BaseValue;
+            float tempConstitution = CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].BaseValue;
+            float tempIntelligence = CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].BaseValue;
+            float tempWisdom = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue;
+            float tempLuck = CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue;
             for (int i = 0; i < level; i++) {
                 tempStrength /= scaleFactor;
                 tempDexterity /= scaleFactor;
@@ -92,13 +112,20 @@ class MonsterScaler : MonoBehaviour {
                 multiplier -= 0.01f;
             }
             GetComponent<Health>().hp = GetComponent<Health>().maxHP = (int)GetComponent<Health>().maxHP;
-            GetComponent<Character>().strength = (int)tempStrength;
-            GetComponent<Character>().dexterity = (int)tempDexterity;
-            GetComponent<Character>().constitution = (int)tempConstitution;
-            GetComponent<Character>().intelligence = (int)tempIntelligence;
-            GetComponent<Character>().wisdom = (int)tempWisdom;
-            GetComponent<Character>().luck = (int)tempLuck;
-            GetComponent<NavMeshAgent>().speed *= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+            //GetComponent<Character>().strength = (int)tempStrength;
+            //GetComponent<Character>().dexterity = (int)tempDexterity;
+            //GetComponent<Character>().constitution = (int)tempConstitution;
+            //GetComponent<Character>().intelligence = (int)tempIntelligence;
+            //GetComponent<Character>().wisdom = (int)tempWisdom;
+            //GetComponent<Character>().luck = (int)tempLuck;
+            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].BaseValue = (int)tempStrength;
+            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].BaseValue = (int)tempDexterity;
+            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].BaseValue = (int)tempConstitution;
+            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].BaseValue = (int)tempIntelligence;
+            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue = (int)tempWisdom;
+            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue = (int)tempLuck;
+            //GetComponent<NavMeshAgent>().speed *= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+            if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= CharacterAttribute.attributes["moveSpeed"].instances[GetComponent<Character>()].TotalValue / 100f;
         }
         var effectiveLevel = level;
         if (effectiveLevel > 50) effectiveLevel = 50;
@@ -168,21 +195,25 @@ class MonsterScaler : MonoBehaviour {
     }
 
     private void ScaleByFactor(float x, float hpFactor=1) {
-        if (GetComponent<NavMeshAgent>()!=null) GetComponent<NavMeshAgent>().speed /= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+        //if (GetComponent<NavMeshAgent>()!=null) GetComponent<NavMeshAgent>().speed /= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+        if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed /= (CharacterAttribute.attributes["moveSpeed"].instances[GetComponent<Character>()].TotalValue / 100f);
         GetComponent<Health>().maxHP *= x * hpFactor;
         GetComponent<Health>().hp = GetComponent<Health>().maxHP;
         GetComponent<Monster>().attackFactor *= x;
         GetComponent<Monster>().hpFactor *= x * hpFactor;
         GetComponent<Monster>().mpFactor *= x;
-        GetComponent<Character>().strength = (int)(((float)GetComponent<Character>().strength) * x);
-        GetComponent<Character>().dexterity = (int)(((float)GetComponent<Character>().dexterity) * x);
-        GetComponent<Character>().constitution = (int)(((float)GetComponent<Character>().constitution) * x);
-        GetComponent<Character>().intelligence = (int)(((float)GetComponent<Character>().intelligence) * x);
-        GetComponent<Character>().wisdom = (int)(((float)GetComponent<Character>().wisdom) * x);
-        GetComponent<Character>().luck = (int)(((float)GetComponent<Character>().luck) * x);
+        //GetComponent<Character>().strength = (int)(((float)GetComponent<Character>().strength) * x);
+        //GetComponent<Character>().dexterity = (int)(((float)GetComponent<Character>().dexterity) * x);
+        //GetComponent<Character>().constitution = (int)(((float)GetComponent<Character>().constitution) * x);
+        //GetComponent<Character>().intelligence = (int)(((float)GetComponent<Character>().intelligence) * x);
+        //GetComponent<Character>().wisdom = (int)(((float)GetComponent<Character>().wisdom) * x);
+        //GetComponent<Character>().luck = (int)(((float)GetComponent<Character>().luck) * x);
+        var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue = CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue * x;
         //GetComponent<RewardGiver>().xpValue = (int)(((float)GetComponent<RewardGiver>().xpValue) * x * x);
         GetComponent<RewardGiver>().baseGoldValue = (int)(((float)GetComponent<RewardGiver>().baseGoldValue) * x * x);
-        if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+        //if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);
+        if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= CharacterAttribute.attributes["moveSpeed"].instances[GetComponent<Character>()].TotalValue / 100f;
     }
 
     private void AdjustColliderSize() {

@@ -54,26 +54,27 @@ public class SpiritUser : DependencyUser {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type=="boostStat") {
-                switch (attribute.FindParameter("stat").stringVal) {
-                    case "strength":
-                        character.strength -= attribute.FindParameter("degree").intVal;
-                        break;
-                    case "dexterity":
-                        character.dexterity -= attribute.FindParameter("degree").intVal;
-                        break;
-                    case "constitution":
-                        character.constitution -= attribute.FindParameter("degree").intVal;
-                        break;
-                    case "intelligence":
-                        character.intelligence -= attribute.FindParameter("degree").intVal;
-                        break;
-                    case "wisdom":
-                        character.wisdom -= attribute.FindParameter("degree").intVal;
-                        break;
-                    case "luck":
-                        character.luck -= attribute.FindParameter("degree").intVal;
-                        break;
-                }
+                //switch (attribute.FindParameter("stat").stringVal) {
+                //    case "strength":
+                //        character.strength -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "dexterity":
+                //        character.dexterity -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "constitution":
+                //        character.constitution -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "intelligence":
+                //        character.intelligence -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "wisdom":
+                //        character.wisdom -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "luck":
+                //        character.luck -= attribute.FindParameter("degree").intVal;
+                //        break;
+                //}
+                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue -= attribute.FindParameter("degree").intVal;
             }
         }
         character.CalculateAll();
@@ -83,26 +84,27 @@ public class SpiritUser : DependencyUser {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "boostStat") {
-                switch (attribute.FindParameter("stat").stringVal) {
-                    case "strength":
-                        character.strength += attribute.FindParameter("degree").intVal;
-                        break;
-                    case "dexterity":
-                        character.dexterity += attribute.FindParameter("degree").intVal;
-                        break;
-                    case "constitution":
-                        character.constitution += attribute.FindParameter("degree").intVal;
-                        break;
-                    case "intelligence":
-                        character.intelligence += attribute.FindParameter("degree").intVal;
-                        break;
-                    case "wisdom":
-                        character.wisdom += attribute.FindParameter("degree").intVal;
-                        break;
-                    case "luck":
-                        character.luck += attribute.FindParameter("degree").intVal;
-                        break;
-                }
+                //switch (attribute.FindParameter("stat").stringVal) {
+                //    case "strength":
+                //        character.strength += attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "dexterity":
+                //        character.dexterity += attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "constitution":
+                //        character.constitution += attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "intelligence":
+                //        character.intelligence += attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "wisdom":
+                //        character.wisdom += attribute.FindParameter("degree").intVal;
+                //        break;
+                //    case "luck":
+                //        character.luck += attribute.FindParameter("degree").intVal;
+                //        break;
+                //}
+                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue += attribute.FindParameter("degree").intVal;
             }
         }
         character.CalculateAll();

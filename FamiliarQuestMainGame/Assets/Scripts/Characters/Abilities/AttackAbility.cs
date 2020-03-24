@@ -32,14 +32,14 @@ public class AttackAbility : ActiveAbility {
         foreach (var item in attributes) this.attributes.Add(item);
     }
 
-    private static Dictionary<Element, Dictionary<bool, string>> baseNames;
-    private static Dictionary<Element, int> baseHitEffects;
-    private static Dictionary<Element, int> baseProjectiles;
-    private static Dictionary<Element, int> baseAoes;
-    private static Dictionary<Element, int> baseDamageZones;
-    private static Dictionary<Element, int> basicMeleeIcons;
-    private static Dictionary<Element, int> basicRangedIcons;
-    private static Dictionary<Element, int> basicAoeIcons;
+    private static readonly Dictionary<Element, Dictionary<bool, string>> baseNames;
+    private static readonly Dictionary<Element, int> baseHitEffects;
+    private static readonly Dictionary<Element, int> baseProjectiles;
+    private static readonly Dictionary<Element, int> baseAoes;
+    private static readonly Dictionary<Element, int> baseDamageZones;
+    private static readonly Dictionary<Element, int> basicMeleeIcons;
+    private static readonly Dictionary<Element, int> basicRangedIcons;
+    private static readonly Dictionary<Element, int> basicAoeIcons;
     private static Dictionary<string, int> attributeIcons;
 
     static AttackAbility() {
@@ -737,13 +737,16 @@ public class AttackAbility : ActiveAbility {
             attackPower = character.GetComponent<Monster>().attackFactor;
         }
         if (baseStat == BaseStat.strength) {
-            attackPower *= character.strength;
+            attackPower *= CharacterAttribute.attributes["strength"].instances[character].TotalValue;
+            //attackPower *= character.strength;
         }
         else if (baseStat == BaseStat.dexterity) {
-            attackPower *= character.dexterity;
+            attackPower *= CharacterAttribute.attributes["dexterity"].instances[character].TotalValue;
+            //attackPower *= character.dexterity;
         }
         else {
-            attackPower *= character.intelligence;
+            attackPower *= CharacterAttribute.attributes["intelligence"].instances[character].TotalValue;
+            //attackPower *= character.intelligence;
         }
         return attackPower * dotDamage / dotTime;
     }

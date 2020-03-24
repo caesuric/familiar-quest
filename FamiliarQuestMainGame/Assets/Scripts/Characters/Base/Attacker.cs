@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public class Attacker : DependencyUser {
     public bool isAttacking = false;
-    public float critRate;
-    public float critMultiplier;
+    //public float critRate;
+    //public float critMultiplier;
     public AttackAbility meleeAttackAbility = null;
     public float meleeAttackDamage = 0;
     public GameObject invisibleHealingZonePrefab;
@@ -31,8 +31,8 @@ public class Attacker : DependencyUser {
         int level = 1;
         if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         else level = GetComponent<MonsterScaler>().level;
-        critRate = SecondaryStatUtility.CalcCriticalHitRate(GetComponent<Character>().luck, level);
-        critMultiplier = SecondaryStatUtility.CalcCriticalDamage(GetComponent<Character>().luck, level);
+        //critRate = SecondaryStatUtility.CalcCriticalHitRate(GetComponent<Character>().luck, level);
+        //critMultiplier = SecondaryStatUtility.CalcCriticalDamage(GetComponent<Character>().luck, level);
     }
 
     public IEnumerator ActivateMeleeHitbox() {
@@ -70,11 +70,13 @@ public class Attacker : DependencyUser {
         rhdd.character = GetComponent<Character>();
         rhdd.faction = GetComponent<Character>().faction;
         if (((RangedWeapon)(GetComponent<PlayerCharacter>().weapon)).usesInt) {
-            rhdd.damage = (int)(GetComponent<Character>().intelligence * GetComponent<PlayerCharacter>().weapon.attackPower);
+            rhdd.damage = (int)(CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].TotalValue * GetComponent<PlayerCharacter>().weapon.attackPower);
+            //rhdd.damage = (int)(GetComponent<Character>().intelligence * GetComponent<PlayerCharacter>().weapon.attackPower);
             GetComponent<AudioGenerator>().PlaySoundByName("sfx_spell_project");
         }
         else {
-            rhdd.damage = (int)(GetComponent<Character>().dexterity * GetComponent<PlayerCharacter>().weapon.attackPower);
+            //rhdd.damage = (int)(GetComponent<Character>().dexterity * GetComponent<PlayerCharacter>().weapon.attackPower);
+            rhdd.damage = (int)(CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].TotalValue * GetComponent<PlayerCharacter>().weapon.attackPower);
             GetComponent<AudioGenerator>().PlaySoundByName("sfx_bow_release");
         }
     }
@@ -91,11 +93,14 @@ public class Attacker : DependencyUser {
         switch (stat) {
             case BaseStat.strength:
             default:
-                return GetComponent<Character>().strength;
+                return CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].TotalValue;
+                //return GetComponent<Character>().strength;
             case BaseStat.dexterity:
-                return GetComponent<Character>().dexterity;
+                return CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].TotalValue;
+            //return GetComponent<Character>().dexterity;
             case BaseStat.intelligence:
-                return GetComponent<Character>().intelligence;
+                return CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].TotalValue;
+                //return GetComponent<Character>().intelligence;
         }
     }
 

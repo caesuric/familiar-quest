@@ -101,51 +101,56 @@ public class ExperienceGainer : DependencyUser {
 
     private void ActuallyLevelUp() {
         level += 1;
-        RemoveAllEquipmentBonuses();
-        sparePoints += Mathf.Max((int)((GetComponent<Character>().strength + GetComponent<Character>().dexterity + GetComponent<Character>().constitution + GetComponent<Character>().intelligence + GetComponent<Character>().wisdom + GetComponent<Character>().luck + sparePoints) * 0.02), 1);
-        GetComponent<Character>().strength = Mathf.Max((int)(GetComponent<Character>().strength * 1.08f), GetComponent<Character>().strength + 1);
-        GetComponent<Character>().dexterity = Mathf.Max((int)(GetComponent<Character>().dexterity * 1.08f), GetComponent<Character>().dexterity + 1);
-        GetComponent<Character>().constitution = Mathf.Max((int)(GetComponent<Character>().constitution * 1.08f), GetComponent<Character>().constitution + 1);
-        GetComponent<Character>().intelligence = Mathf.Max((int)(GetComponent<Character>().intelligence * 1.08f), GetComponent<Character>().intelligence + 1);
-        GetComponent<Character>().wisdom = Mathf.Max((int)(GetComponent<Character>().wisdom * 1.08f), GetComponent<Character>().wisdom + 1);
-        GetComponent<Character>().luck = Mathf.Max((int)(GetComponent<Character>().luck * 1.08f), GetComponent<Character>().luck + 1);
-        AddAllEquipmentBonuses();
+        //RemoveAllEquipmentBonuses();
+        var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        int totalStats = sparePoints;
+        foreach (var attr in attributes) totalStats += (int)CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue;
+        //sparePoints += Mathf.Max((int)((GetComponent<Character>().strength + GetComponent<Character>().dexterity + GetComponent<Character>().constitution + GetComponent<Character>().intelligence + GetComponent<Character>().wisdom + GetComponent<Character>().luck + sparePoints) * 0.02), 1);
+        sparePoints += Mathf.Max((int)(totalStats * 0.02f), 1);
+        //GetComponent<Character>().strength = Mathf.Max((int)(GetComponent<Character>().strength * 1.08f), GetComponent<Character>().strength + 1);
+        //GetComponent<Character>().dexterity = Mathf.Max((int)(GetComponent<Character>().dexterity * 1.08f), GetComponent<Character>().dexterity + 1);
+        //GetComponent<Character>().constitution = Mathf.Max((int)(GetComponent<Character>().constitution * 1.08f), GetComponent<Character>().constitution + 1);
+        //GetComponent<Character>().intelligence = Mathf.Max((int)(GetComponent<Character>().intelligence * 1.08f), GetComponent<Character>().intelligence + 1);
+        //GetComponent<Character>().wisdom = Mathf.Max((int)(GetComponent<Character>().wisdom * 1.08f), GetComponent<Character>().wisdom + 1);
+        //GetComponent<Character>().luck = Mathf.Max((int)(GetComponent<Character>().luck * 1.08f), GetComponent<Character>().luck + 1);
+        foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue = Mathf.Max((int)(CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue * 1.08f), CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue + 1);
+        //AddAllEquipmentBonuses();
         GetComponent<Character>().CalculateAll();
         GetComponent<Health>().hp = GetComponent<Health>().maxHP;
     }
 
-    private void RemoveAllEquipmentBonuses() {
-        ToggleAllEquipmentBonuses(false);
-    }
+    //private void RemoveAllEquipmentBonuses() {
+    //    ToggleAllEquipmentBonuses(false);
+    //}
 
-    private void AddAllEquipmentBonuses() {
-        ToggleAllEquipmentBonuses(true);
-    }
+    //private void AddAllEquipmentBonuses() {
+    //    ToggleAllEquipmentBonuses(true);
+    //}
 
-    private void ToggleAllEquipmentBonuses(bool add) {
-        var pc = GetComponent<PlayerCharacter>();
-        var c = GetComponent<Character>();
-        var equipment = new List<Equipment>() { pc.weapon, pc.armor, pc.necklace, pc.belt, pc.bracelets[0], pc.bracelets[1], pc.bracelets[2], pc.bracelets[3], pc.cloak, pc.earring, pc.hat, pc.shoes };
-        foreach (var item in equipment) {
-            if (item == null) continue;
-            if (add) {
-                c.strength += item.strength;
-                c.dexterity += item.dexterity;
-                c.constitution += item.constitution;
-                c.intelligence += item.intelligence;
-                c.wisdom += item.wisdom;
-                c.luck += item.luck;
-            }
-            else {
-                c.strength -= item.strength;
-                c.dexterity -= item.dexterity;
-                c.constitution -= item.constitution;
-                c.intelligence -= item.intelligence;
-                c.wisdom -= item.wisdom;
-                c.luck -= item.luck;
-            }
-        }
-    }
+    //private void ToggleAllEquipmentBonuses(bool add) {
+    //    var pc = GetComponent<PlayerCharacter>();
+    //    var c = GetComponent<Character>();
+    //    var equipment = new List<Equipment>() { pc.weapon, pc.armor, pc.necklace, pc.belt, pc.bracelets[0], pc.bracelets[1], pc.bracelets[2], pc.bracelets[3], pc.cloak, pc.earring, pc.hat, pc.shoes };
+    //    foreach (var item in equipment) {
+    //        if (item == null) continue;
+    //        if (add) {
+    //            c.strength += item.strength;
+    //            c.dexterity += item.dexterity;
+    //            c.constitution += item.constitution;
+    //            c.intelligence += item.intelligence;
+    //            c.wisdom += item.wisdom;
+    //            c.luck += item.luck;
+    //        }
+    //        else {
+    //            c.strength -= item.strength;
+    //            c.dexterity -= item.dexterity;
+    //            c.constitution -= item.constitution;
+    //            c.intelligence -= item.intelligence;
+    //            c.wisdom -= item.wisdom;
+    //            c.luck -= item.luck;
+    //        }
+    //    }
+    //}
     
     public float GetXPPercentage() {
         long nextLevelXP = xpTable[level - 1];
