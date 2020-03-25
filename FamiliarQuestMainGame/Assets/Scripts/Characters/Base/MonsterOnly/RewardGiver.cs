@@ -99,21 +99,20 @@ class RewardGiver : MonoBehaviour {
         else if (roll == 0 && strength >= dexterity && strength >= intelligence) item = DropSword(attacker);
         else return;
         if (statAdjusted1>0) {
-            if (intelligence >= dexterity && intelligence >= strength) item.intelligence += statAdjusted1;
-            else if (dexterity >= intelligence && dexterity >= strength) item.dexterity += statAdjusted1;
-            else item.strength += statAdjusted1;
-            item.constitution += (statAdjusted1 / 2);
+            //if (intelligence >= dexterity && intelligence >= strength) item.intelligence += statAdjusted1;
+            //else if (dexterity >= intelligence && dexterity >= strength) item.dexterity += statAdjusted1;
+            //else item.strength += statAdjusted1;
+            //item.constitution += (statAdjusted1 / 2);
+            if (intelligence >= dexterity && intelligence >= strength) item.AddStat("intelligence", statAdjusted1);
+            else if (dexterity >= intelligence && dexterity >= strength) item.AddStat("dexterity", statAdjusted1);
+            else item.AddStat("strength", statAdjusted1);
+            item.AddStat("constitution", statAdjusted1 / 2);
         }
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
+        if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
 
-        if (item.strength > 0) item.description += GetDescriptionText(item.strength, "Strength");
-        if (item.dexterity > 0) item.description += GetDescriptionText(item.dexterity, "Dexterity");
-        if (item.constitution > 0) item.description += GetDescriptionText(item.constitution, "Constitution");
-        if (item.intelligence > 0) item.description += GetDescriptionText(item.intelligence, "Intelligence");
-        if (item.wisdom > 0) item.description += GetDescriptionText(item.wisdom, "Wisdom");
-        if (item.luck > 0) item.description += GetDescriptionText(item.luck, "Luck");
-
+        item.description += GetDescriptionText(item);
         EquipmentNamer.NameEquipment(item);
         item.quality = quality;
         var pc = attacker.GetComponent<PlayerCharacter>();
@@ -176,58 +175,73 @@ class RewardGiver : MonoBehaviour {
         switch (roll3) {
             case 0:
             default:
-                item.intelligence += statAdjusted1;
+                //item.intelligence += statAdjusted1;
+                item.AddStat("intelligence", statAdjusted1);
                 break;
             case 1:
-                item.dexterity += statAdjusted1;
+                //item.dexterity += statAdjusted1;
+                item.AddStat("dexterity", statAdjusted1);
                 break;
             case 2:
-                item.strength += statAdjusted1;
+                //item.strength += statAdjusted1;
+                item.AddStat("strength", statAdjusted1);
                 break;
         }
 
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
+        if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
 
-        if (item.strength > 0) item.description += GetDescriptionText(item.strength, "Strength");
-        if (item.dexterity > 0) item.description += GetDescriptionText(item.dexterity, "Dexterity");
-        if (item.constitution > 0) item.description += GetDescriptionText(item.constitution, "Constitution");
-        if (item.intelligence > 0) item.description += GetDescriptionText(item.intelligence, "Intelligence");
-        if (item.wisdom > 0) item.description += GetDescriptionText(item.wisdom, "Wisdom");
-        if (item.luck > 0) item.description += GetDescriptionText(item.luck, "Luck");
-
+        item.description += GetDescriptionText(item);
         EquipmentNamer.NameEquipment(item);
         item.quality = quality;
         return item;
     }
 
-    private static string GetDescriptionText(int value, string attribute) {
-        return "+" + value.ToString() + " " + attribute + "\n";
+    private static string GetDescriptionText(Equipment item) {
+        var output = "";
+        foreach (var kvp in item.stats) {
+            var key = kvp.Key;
+            var value = kvp.Value;
+            output += "+" + value.ToString() + " " + CharacterAttribute.attributes[key].friendlyName + "\n";
+        }
+        return output;
     }
 
     private static void BuffRandomStat(Equipment item, int amount) {
         int roll = Random.Range(0, 6);
-        switch (roll) {
-            case 0:
-                item.strength += amount;
-                break;
-            case 1:
-                item.dexterity += amount;
-                break;
-            case 2:
-                item.constitution += amount;
-                break;
-            case 3:
-                item.intelligence += amount;
-                break;
-            case 4:
-                item.wisdom += amount;
-                break;
-            case 5:
-            default:
-                item.luck += amount;
-                break;
-        }
+        var lookups = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        item.AddStat(lookups[roll], amount);
+    }
+
+    private static void BuffRandomSecondaryStat(Equipment item, int amount) {
+        int roll = Random.Range(0, 23);
+        var lookups = new List<string>() {
+            "hpRating",
+            "hpRegenRating",
+            "receivedHealingRating",
+            "armorMultiplierRating",
+            "physicalResistRating",
+            "mentalResistRating",
+            "mpRating",
+            "healingMultiplierRating",
+            "moveSpeedRating",
+            "cooldownReductionRating",
+            "mpRegenRating",
+            "criticalHitChanceRating",
+            "criticalDamageRating",
+            "statusEffectDurationRating",
+            "itemFindRating",
+            "fireResistRating",
+            "iceResistRating",
+            "acidResistRating",
+            "lightResistRating",
+            "darkResistRating",
+            "piercingResistRating",
+            "slashingResistRating",
+            "bashingResistRating"
+        };
+        item.AddStat(lookups[roll], amount);
     }
 
     public Weapon DropWand(Character attacker) {

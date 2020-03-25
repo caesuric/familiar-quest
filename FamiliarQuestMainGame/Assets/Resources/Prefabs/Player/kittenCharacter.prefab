@@ -1189,7 +1189,6 @@ GameObject:
   - component: {fileID: 114353114732997418}
   - component: {fileID: 82092643273701914}
   - component: {fileID: 114820153383103738}
-  - component: {fileID: 114989952816582250}
   - component: {fileID: 114491107368638206}
   - component: {fileID: 114002175373596332}
   - component: {fileID: 1543559797605787078}
@@ -1261,12 +1260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 10
-  dexterity: 10
-  constitution: 10
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114380988038712190
@@ -1374,8 +1367,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -1443,7 +1434,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114214201417194594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,11 +1526,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114051082505564152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,32 +1795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e39c612969c9e214db20b524b2c5bfeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114989952816582250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350960040594250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 753c1b35495d5f7488f110251197b8d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  names: []
-  descriptions: []
-  types: []
-  qualities: 
-  icons: []
-  armor: 
-  strength: 
-  dexterity: 
-  constitution: 
-  intelligence: 
-  wisdom: 
-  luck: 
-  attackPower: 0
-  weaponSubtype: 
 --- !u!114 &114491107368638206
 MonoBehaviour:
   m_ObjectHideFlags: 0

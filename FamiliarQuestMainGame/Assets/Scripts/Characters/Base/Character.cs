@@ -54,7 +54,7 @@ public class Character : DependencyUser {
         new CharacterAttribute("mentalResistance", "Mental Resistance", true, new List<string> { "wisdom", "mentalResistRating" }, 0, 30, 60, 0, 50, 100, true);
         new CharacterAttribute("bonusMp", "Bonus MP", true, new List<string> { "intelligence", "mpRating" }, 0, 145, 290, 0, 7500, 15000);
         new CharacterAttribute("healingMultiplier", "Healing Multiplier", true, new List<string> { "wisdom", "healingMultiplierRating" }, 25, 100, 200, 50, 100, 400, true);
-        new CharacterAttribute("mpRegen", "MP Regen Rate", true, new List<string> { "wisdom", "mpRegenRating" }, 0, 5, 10, 10, 250, 500, true);
+        new CharacterAttribute("mpRegen", "MP Regen Rate", true, new List<string> { "wisdom", "mpRegenRating" }, 0, 5, 10, 10, 250, 500);
         new CharacterAttribute("moveSpeed", "Move Speed", true, new List<string> { "dexterity", "moveSpeedRating" }, 75, 100, 150, 75, 100, 200, true);
         new CharacterAttribute("cooldownReduction", "Cooldown Reduction", true, new List<string> { "wisdom", "cooldownReductionRating" }, 0, 0, 25, 0, 0, 50, true);
         new CharacterAttribute("criticalHitChance", "Critical Hit Chance", true, new List<string> { "luck", "criticalHitChanceRating" }, 0, 20, 30, 10, 20, 50, true);
