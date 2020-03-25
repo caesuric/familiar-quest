@@ -37,12 +37,18 @@ public class LevelUpMenu : MonoBehaviour {
     public void Initialize(Character character) {
         this.character = character;
         sparePoints = this.character.GetComponent<ExperienceGainer>().sparePoints;
-        strength = strengthMin = this.character.strength;
-        dexterity = dexterityMin = this.character.dexterity;
-        constitution = constitutionMin = this.character.constitution;
-        intelligence = intelligenceMin = this.character.intelligence;
-        wisdom = wisdomMin = this.character.wisdom;
-        luck = luckMin = this.character.luck;
+        //strength = strengthMin = this.character.strength;
+        //dexterity = dexterityMin = this.character.dexterity;
+        //constitution = constitutionMin = this.character.constitution;
+        //intelligence = intelligenceMin = this.character.intelligence;
+        //wisdom = wisdomMin = this.character.wisdom;
+        //luck = luckMin = this.character.luck;
+        strength = strengthMin = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue;
+        dexterity = dexterityMin = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue;
+        constitution = constitutionMin = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue;
+        intelligence = intelligenceMin = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue;
+        wisdom = wisdomMin = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue;
+        luck = luckMin = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue;
         UpdateBoxes();
     }
 

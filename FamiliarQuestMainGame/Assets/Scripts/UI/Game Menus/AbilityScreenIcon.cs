@@ -56,12 +56,18 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     private string UtilityAbilityInterpolate(string text, ActiveAbility ability) {
         Dictionary<BaseStat, int> lookups = new Dictionary<BaseStat, int>() {
-                { BaseStat.strength, PlayerCharacter.localPlayer.GetComponent<Character>().strength},
-                { BaseStat.dexterity, PlayerCharacter.localPlayer.GetComponent<Character>().dexterity},
-                { BaseStat.constitution, PlayerCharacter.localPlayer.GetComponent<Character>().constitution},
-                { BaseStat.intelligence, PlayerCharacter.localPlayer.GetComponent<Character>().intelligence},
-                { BaseStat.wisdom, PlayerCharacter.localPlayer.GetComponent<Character>().wisdom},
-                { BaseStat.luck, PlayerCharacter.localPlayer.GetComponent<Character>().luck},
+                //{ BaseStat.strength, PlayerCharacter.localPlayer.GetComponent<Character>().strength},
+                //{ BaseStat.dexterity, PlayerCharacter.localPlayer.GetComponent<Character>().dexterity},
+                //{ BaseStat.constitution, PlayerCharacter.localPlayer.GetComponent<Character>().constitution},
+                //{ BaseStat.intelligence, PlayerCharacter.localPlayer.GetComponent<Character>().intelligence},
+                //{ BaseStat.wisdom, PlayerCharacter.localPlayer.GetComponent<Character>().wisdom},
+                //{ BaseStat.luck, PlayerCharacter.localPlayer.GetComponent<Character>().luck},
+                { BaseStat.strength, (int)CharacterAttribute.attributes["strength"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.dexterity, (int)CharacterAttribute.attributes["dexterity"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.constitution, (int)CharacterAttribute.attributes["constitution"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.intelligence, (int)CharacterAttribute.attributes["intelligence"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.wisdom, (int)CharacterAttribute.attributes["wisdom"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.luck, (int)CharacterAttribute.attributes["luck"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
         };
         int baseAttributeScore = lookups[ability.baseStat];
         text = text.Replace("{{healing}}", GetHealingText(ability, baseAttributeScore));
@@ -72,10 +78,12 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
     }
 
     private string GetHealingText(ActiveAbility ability, int baseAttributeScore) {
-        float factor = PlayerCharacter.localPlayer.GetComponent<Character>().wisdom;
+        //float factor = PlayerCharacter.localPlayer.GetComponent<Character>().wisdom;
+        float factor = CharacterAttribute.attributes["wisdom"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue;
         factor *= PlayerCharacter.localPlayer.GetComponent<PlayerCharacter>().weapon.attackPower;
         float healing = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * PlayerCharacter.localPlayer.GetComponent<Health>().healingMultiplier;
+        //foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * PlayerCharacter.localPlayer.GetComponent<Health>().healingMultiplier;
+        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["healingMultiplier"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue;
         return ((int)healing).ToString();
     }
 
@@ -117,9 +125,12 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     private string AttackAbilityInterpolate(string text, ActiveAbility ability) {
         Dictionary<BaseStat, int> lookups = new Dictionary<BaseStat, int>() {
-                { BaseStat.strength, PlayerCharacter.localPlayer.GetComponent<Character>().strength},
-                { BaseStat.dexterity, PlayerCharacter.localPlayer.GetComponent<Character>().dexterity},
-                { BaseStat.intelligence, PlayerCharacter.localPlayer.GetComponent<Character>().intelligence},
+                //{ BaseStat.strength, PlayerCharacter.localPlayer.GetComponent<Character>().strength},
+                //{ BaseStat.dexterity, PlayerCharacter.localPlayer.GetComponent<Character>().dexterity},
+                //{ BaseStat.intelligence, PlayerCharacter.localPlayer.GetComponent<Character>().intelligence},
+                { BaseStat.strength, (int)CharacterAttribute.attributes["strength"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.dexterity, (int)CharacterAttribute.attributes["dexterity"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue},
+                { BaseStat.intelligence, (int)CharacterAttribute.attributes["intelligence"].instances[PlayerCharacter.localPlayer.GetComponent<Character>()].TotalValue}
             };
         int baseAttributeScore = lookups[((AttackAbility)ability).baseStat];
         text = text.Replace("{{damage}}", (GetAttackText(ability, baseAttributeScore)));

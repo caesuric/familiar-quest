@@ -44,12 +44,18 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (eg.sparePoints == 0) {
-            strength.text = character.strength.ToString();
-            dexterity.text = character.dexterity.ToString();
-            constitution.text = character.constitution.ToString();
-            intelligence.text = character.intelligence.ToString();
-            wisdom.text = character.wisdom.ToString();
-            luck.text = character.luck.ToString();
+            //strength.text = character.strength.ToString();
+            //dexterity.text = character.dexterity.ToString();
+            //constitution.text = character.constitution.ToString();
+            //intelligence.text = character.intelligence.ToString();
+            //wisdom.text = character.wisdom.ToString();
+            //luck.text = character.luck.ToString();
+            strength.text = CharacterAttribute.attributes["strength"].instances[character].BaseValue.ToString();
+            dexterity.text = CharacterAttribute.attributes["dexterity"].instances[character].BaseValue.ToString();
+            constitution.text = CharacterAttribute.attributes["constitution"].instances[character].BaseValue.ToString();
+            intelligence.text = CharacterAttribute.attributes["intelligence"].instances[character].BaseValue.ToString();
+            wisdom.text = CharacterAttribute.attributes["wisdom"].instances[character].BaseValue.ToString();
+            luck.text = CharacterAttribute.attributes["luck"].instances[character].BaseValue.ToString();
             strengthDownButton.GetComponent<Image>().enabled = false;
             strengthUpButton.GetComponent<Image>().enabled = false;
             dexterityDownButton.GetComponent<Image>().enabled = false;
@@ -65,12 +71,18 @@ public class CharacterAttributesUpdater : MonoBehaviour {
         }
         else if (!levelUpModeActive) {
             levelUpModeActive = true;
-            currentStrength = minStrength = character.strength;
-            currentDexterity = minDexterity = character.dexterity;
-            currentConstitution = minConstitution = character.constitution;
-            currentIntelligence = minIntelligence = character.intelligence;
-            currentWisdom = minWisdom = character.wisdom;
-            currentLuck = minLuck = character.luck;
+            //currentStrength = minStrength = character.strength;
+            //currentDexterity = minDexterity = character.dexterity;
+            //currentConstitution = minConstitution = character.constitution;
+            //currentIntelligence = minIntelligence = character.intelligence;
+            //currentWisdom = minWisdom = character.wisdom;
+            //currentLuck = minLuck = character.luck;
+            currentStrength = minStrength = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue;
+            currentDexterity = minDexterity = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue;
+            currentConstitution = minConstitution = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue;
+            currentIntelligence = minIntelligence = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue;
+            currentWisdom = minWisdom = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue;
+            currentLuck = minLuck = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue;
             sparePoints = eg.sparePoints;
         }
         else {

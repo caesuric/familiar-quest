@@ -75,7 +75,10 @@ public class InventoryItemUpdater : MonoBehaviour {
                 else if (inventory.sharedInventory.inventoryMainStat[number] < es.armor[EquipmentSyncer.slotKeys[type]]) Instantiate(downArrow, arrowContainer.transform);
             }
             if (!EquipmentSyncer.slotKeys.ContainsKey(type)) return;
-            if (pc.intelligence > pc.dexterity && pc.intelligence > pc.strength) {
+            var intelligence = CharacterAttribute.attributes["intelligence"].instances[pc].BaseValue;
+            var dexterity = CharacterAttribute.attributes["dexterity"].instances[pc].BaseValue;
+            var strength = CharacterAttribute.attributes["strength"].instances[pc].BaseValue;
+            if (intelligence > dexterity && intelligence > strength) {
                 AddArrow(si.inventoryInt[number], es.intelligence[EquipmentSyncer.slotKeys[type]]);
                 AddArrow(si.inventoryStr[number], es.strength[EquipmentSyncer.slotKeys[type]]);
                 AddArrow(si.inventoryDex[number], es.dexterity[EquipmentSyncer.slotKeys[type]]);
@@ -83,7 +86,7 @@ public class InventoryItemUpdater : MonoBehaviour {
                 AddArrow(si.inventoryWis[number], es.wisdom[EquipmentSyncer.slotKeys[type]]);
                 AddArrow(si.inventoryLuc[number], es.luck[EquipmentSyncer.slotKeys[type]]);
             }
-            else if (pc.dexterity > pc.intelligence && pc.dexterity > pc.strength) {
+            else if (dexterity > intelligence && dexterity > strength) {
                 AddArrow(si.inventoryDex[number], es.dexterity[EquipmentSyncer.slotKeys[type]]);
                 AddArrow(si.inventoryStr[number], es.strength[EquipmentSyncer.slotKeys[type]]);
                 AddArrow(si.inventoryCon[number], es.constitution[EquipmentSyncer.slotKeys[type]]);

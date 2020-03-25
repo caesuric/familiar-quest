@@ -136,9 +136,12 @@ public class Inventory : MonoBehaviour {
         var type = sharedInventory.inventoryTypes[i];
         if (type == "bracelet") type = "bracelet1";
         var num = EquipmentSyncer.slotKeys[type];
+        var strength = CharacterAttribute.attributes["strength"].instances[c].BaseValue;
+        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].BaseValue;
+        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].BaseValue;
         if (type == "weapon") return es.attackPower;
-        else if (c.strength > c.dexterity && c.strength > c.intelligence) return es.strength[num];
-        else if (c.dexterity > c.strength && c.dexterity > c.intelligence) return es.dexterity[num];
+        else if (strength > dexterity && strength > intelligence) return es.strength[num];
+        else if (dexterity > strength && dexterity > intelligence) return es.dexterity[num];
         else return es.intelligence[num];
     }
 
@@ -146,8 +149,11 @@ public class Inventory : MonoBehaviour {
         var c = PlayerCharacter.localPlayer.GetComponent<Character>();
         var type = sharedInventory.inventoryTypes[i];
         if (type == "weapon") return sharedInventory.inventoryMainStat[i];
-        if (c.strength > c.dexterity && c.strength > c.intelligence) return sharedInventory.inventoryStr[i];
-        else if (c.dexterity > c.strength && c.dexterity > c.intelligence) return sharedInventory.inventoryDex[i];
+        var strength = CharacterAttribute.attributes["strength"].instances[c].BaseValue;
+        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].BaseValue;
+        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].BaseValue;
+        if (strength > dexterity && strength > intelligence) return sharedInventory.inventoryStr[i];
+        else if (dexterity > strength && dexterity > intelligence) return sharedInventory.inventoryDex[i];
         else return sharedInventory.inventoryInt[i];
     }
 }
