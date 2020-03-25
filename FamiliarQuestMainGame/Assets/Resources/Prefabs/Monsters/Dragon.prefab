@@ -8094,6 +8094,7 @@ GameObject:
   - component: {fileID: -4342638272892782853}
   - component: {fileID: 4469497324371188717}
   - component: {fileID: -5548785027271586240}
+  - component: {fileID: -2951207984663063531}
   m_Layer: 8
   m_Name: Dragon
   m_TagString: Enemy
@@ -8169,12 +8170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 9
-  dexterity: 10
-  constitution: 9
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114127472521497746
@@ -8295,8 +8290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -8364,7 +8357,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114709260532044458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8457,11 +8449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114606593826202010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8516,6 +8503,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114439897097606336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8606,6 +8594,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-2951207984663063531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890253663245154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 9
+  dexterity: 10
+  constitution: 9
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1941999283844042
 GameObject:
   m_ObjectHideFlags: 0

@@ -1624,6 +1624,7 @@ GameObject:
   - component: {fileID: -6152138984825308955}
   - component: {fileID: -1018017840897480041}
   - component: {fileID: -355775515866467504}
+  - component: {fileID: 3221428621018472967}
   m_Layer: 8
   m_Name: Troll
   m_TagString: Enemy
@@ -1691,12 +1692,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 13
-  dexterity: 9
-  constitution: 14
-  intelligence: 8
-  wisdom: 8
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195413533178381334
@@ -1837,8 +1832,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -1906,7 +1899,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114799725025959870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,11 +1991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114680966240540014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2058,6 +2045,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114676529737558112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2148,6 +2136,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &3221428621018472967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353711140592610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 13
+  dexterity: 9
+  constitution: 14
+  intelligence: 8
+  wisdom: 8
+  luck: 10
 --- !u!1 &1372227418662026
 GameObject:
   m_ObjectHideFlags: 0

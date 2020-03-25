@@ -8113,6 +8113,7 @@ GameObject:
   - component: {fileID: 8302694290020307511}
   - component: {fileID: -7282018753349266852}
   - component: {fileID: 927905003080634631}
+  - component: {fileID: 8737448824170324921}
   m_Layer: 8
   m_Name: Ghoul
   m_TagString: Enemy
@@ -8180,12 +8181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 12
-  dexterity: 6
-  constitution: 12
-  intelligence: 10
-  wisdom: 8
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195358469789094554
@@ -8302,8 +8297,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -8371,7 +8364,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114313085874600260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8464,11 +8456,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114995993862447722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8523,6 +8510,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114893672600054382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8625,3 +8613,21 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8737448824170324921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992158986572322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 12
+  dexterity: 6
+  constitution: 12
+  intelligence: 10
+  wisdom: 8
+  luck: 10

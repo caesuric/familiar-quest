@@ -12653,6 +12653,7 @@ GameObject:
   - component: {fileID: 7870456755394407964}
   - component: {fileID: -3325602540586151124}
   - component: {fileID: 7626710760639276881}
+  - component: {fileID: -4234958358500037701}
   m_Layer: 8
   m_Name: Imp
   m_TagString: Enemy
@@ -12720,12 +12721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 10
-  dexterity: 10
-  constitution: 7
-  intelligence: 9
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195323968588182832
@@ -12855,8 +12850,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -12924,7 +12917,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114687451125210142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13017,11 +13009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114278184976965916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13076,6 +13063,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114248547504053760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13166,6 +13154,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-4234958358500037701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855928076943358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 10
+  dexterity: 10
+  constitution: 7
+  intelligence: 9
+  wisdom: 10
+  luck: 10
 --- !u!1 &1864053522102478
 GameObject:
   m_ObjectHideFlags: 0

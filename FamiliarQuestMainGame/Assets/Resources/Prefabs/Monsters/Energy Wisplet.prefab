@@ -4699,6 +4699,7 @@ GameObject:
   - component: {fileID: -2630693994481281930}
   - component: {fileID: 7218671130708016943}
   - component: {fileID: 672525145991425266}
+  - component: {fileID: 8665519979813400492}
   m_Layer: 8
   m_Name: Energy Wisplet
   m_TagString: Enemy
@@ -4766,12 +4767,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 10
-  constitution: 10
-  intelligence: 12
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195163808878780732
@@ -4888,8 +4883,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -4957,7 +4950,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114559047266915054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5050,11 +5042,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114632335346093698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5109,6 +5096,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114202950383361932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5211,6 +5199,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8665519979813400492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686742385567832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 10
+  constitution: 10
+  intelligence: 12
+  wisdom: 10
+  luck: 10
 --- !u!1 &1693485147372846
 GameObject:
   m_ObjectHideFlags: 0

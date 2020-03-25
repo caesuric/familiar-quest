@@ -7593,6 +7593,7 @@ GameObject:
   - component: {fileID: -3429835688470679073}
   - component: {fileID: 8693348825805597902}
   - component: {fileID: -1686069121021267329}
+  - component: {fileID: 353920398343266551}
   m_Layer: 8
   m_Name: Cyclops
   m_TagString: Enemy
@@ -7660,12 +7661,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 18
-  dexterity: 6
-  constitution: 18
-  intelligence: 6
-  wisdom: 6
-  luck: 6
   faction: 
   oppositeFaction: 
 --- !u!195 &195490685295799556
@@ -7782,8 +7777,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -7851,7 +7844,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114180032667667594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7944,11 +7936,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114067686826303182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8003,6 +7990,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114915249377595616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8105,6 +8093,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &353920398343266551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826898279954660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 18
+  dexterity: 6
+  constitution: 18
+  intelligence: 6
+  wisdom: 6
+  luck: 6
 --- !u!1 &1841114854683098
 GameObject:
   m_ObjectHideFlags: 0

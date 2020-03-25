@@ -14492,6 +14492,7 @@ GameObject:
   - component: {fileID: -1976807043153270017}
   - component: {fileID: 3376001992276478201}
   - component: {fileID: -4363362592129674782}
+  - component: {fileID: 2271334280869078306}
   m_Layer: 8
   m_Name: Goblin Rogue
   m_TagString: Enemy
@@ -14563,12 +14564,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 10
-  dexterity: 10
-  constitution: 10
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195247439294534226
@@ -14703,8 +14698,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -14772,7 +14765,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114911848767281936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14865,11 +14857,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114027057838643154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14924,6 +14911,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114790175860875824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15027,6 +15015,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &2271334280869078306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815426703232434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 10
+  dexterity: 10
+  constitution: 10
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1819415954217234
 GameObject:
   m_ObjectHideFlags: 0

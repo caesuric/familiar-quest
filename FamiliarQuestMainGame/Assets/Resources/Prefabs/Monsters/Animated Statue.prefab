@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4906506623850012653}
   - component: {fileID: 6649483949891204778}
   - component: {fileID: 8447450312365138529}
+  - component: {fileID: 8578928668827072870}
   m_Layer: 8
   m_Name: Animated Statue
   m_TagString: Enemy
@@ -139,12 +140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 7
-  dexterity: 8
-  constitution: 18
-  intelligence: 8
-  wisdom: 8
-  luck: 8
   faction: 
   oppositeFaction: 
 --- !u!114 &114100253128217364
@@ -265,8 +260,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -334,7 +327,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114942999950518858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,11 +419,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114241113578564524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,6 +473,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114760806378071214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,6 +590,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8578928668827072870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188478083839354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 7
+  dexterity: 8
+  constitution: 18
+  intelligence: 8
+  wisdom: 8
+  luck: 8
 --- !u!1 &1225491942609940
 GameObject:
   m_ObjectHideFlags: 0

@@ -6151,6 +6151,7 @@ GameObject:
   - component: {fileID: 922824511606608512}
   - component: {fileID: 8344147733418711024}
   - component: {fileID: -1211299801276946612}
+  - component: {fileID: 2387153582761158359}
   m_Layer: 8
   m_Name: Land Squid
   m_TagString: Enemy
@@ -6226,12 +6227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 10
-  dexterity: 10
-  constitution: 9
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114326477213618622
@@ -6352,8 +6347,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -6421,7 +6414,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114438991044957428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6514,11 +6506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114217307049414028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6573,6 +6560,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114346555893836836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6663,6 +6651,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &2387153582761158359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757708974260342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 10
+  dexterity: 10
+  constitution: 9
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1759228983166236
 GameObject:
   m_ObjectHideFlags: 0

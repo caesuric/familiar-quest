@@ -5211,6 +5211,7 @@ GameObject:
   - component: {fileID: 1870662210670043545}
   - component: {fileID: -1359801084515316532}
   - component: {fileID: -6157264215293103088}
+  - component: {fileID: 5094492208795690282}
   m_Layer: 8
   m_Name: Phantom Fungus
   m_TagString: Enemy
@@ -5293,12 +5294,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 9
-  dexterity: 8
-  constitution: 9
-  intelligence: 8
-  wisdom: 8
-  luck: 6
   faction: 
   oppositeFaction: 
 --- !u!114 &114729661557494734
@@ -5419,8 +5414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -5488,7 +5481,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114358339647891658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5581,11 +5573,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114767632863848338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5640,6 +5627,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114860399978046790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5742,3 +5730,21 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &5094492208795690282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768916044510094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 9
+  dexterity: 8
+  constitution: 9
+  intelligence: 8
+  wisdom: 8
+  luck: 6

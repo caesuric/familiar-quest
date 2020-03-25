@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 4492518016980461747}
   - component: {fileID: 3651192018025527154}
   - component: {fileID: 37358705336051247}
+  - component: {fileID: 6758825493990284076}
   m_Layer: 8
   m_Name: Warlock
   m_TagString: Enemy
@@ -229,12 +230,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 8
-  constitution: 8
-  intelligence: 14
-  wisdom: 12
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195364354646035144
@@ -351,8 +346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -420,7 +413,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114093385465101454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,11 +505,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114590157536961662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +559,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114934498221728914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +662,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &6758825493990284076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100665969931618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 8
+  constitution: 8
+  intelligence: 14
+  wisdom: 12
+  luck: 10
 --- !u!1 &1106124104467664
 GameObject:
   m_ObjectHideFlags: 0

@@ -2242,6 +2242,7 @@ GameObject:
   - component: {fileID: -1527075882602990694}
   - component: {fileID: -7819410295583287598}
   - component: {fileID: 8618458674213778712}
+  - component: {fileID: 3897722734689149038}
   m_Layer: 8
   m_Name: Elder Dragon
   m_TagString: Enemy
@@ -2317,12 +2318,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 9
-  dexterity: 10
-  constitution: 9
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114661891832753680
@@ -2443,8 +2438,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -2512,7 +2505,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114883165253860214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2605,11 +2597,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114416289552984026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2664,6 +2651,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114900484772186230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2754,6 +2742,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &3897722734689149038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654624983273588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 9
+  dexterity: 10
+  constitution: 9
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1655953029870944
 GameObject:
   m_ObjectHideFlags: 0

@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: -1322499834434239944}
   - component: {fileID: 3800931715021151701}
   - component: {fileID: 8118515800108369588}
+  - component: {fileID: -6343822819140597309}
   m_Layer: 8
   m_Name: Gelatinous Mass
   m_TagString: Enemy
@@ -214,12 +215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 12
-  dexterity: 8
-  constitution: 12
-  intelligence: 4
-  wisdom: 4
-  luck: 8
   faction: 
   oppositeFaction: 
 --- !u!114 &114411531934411138
@@ -328,8 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -397,7 +390,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114755986233812720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,11 +482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114271507182186570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +536,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114270876561781350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,6 +639,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-6343822819140597309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216377730207854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 12
+  dexterity: 8
+  constitution: 12
+  intelligence: 4
+  wisdom: 4
+  luck: 8
 --- !u!1 &1237208633735526
 GameObject:
   m_ObjectHideFlags: 0

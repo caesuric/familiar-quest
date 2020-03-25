@@ -5977,6 +5977,7 @@ GameObject:
   - component: {fileID: 5786800275522560467}
   - component: {fileID: -8280455601398068268}
   - component: {fileID: 7948353951567608446}
+  - component: {fileID: 5009324451599465677}
   m_Layer: 8
   m_Name: Dark Bishop
   m_TagString: Enemy
@@ -6028,12 +6029,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 8
-  constitution: 10
-  intelligence: 11
-  wisdom: 12
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195801000783057380
@@ -6150,8 +6145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -6219,7 +6212,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114594788628185974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6312,11 +6304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114708586269077714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6371,6 +6358,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114180990894699304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6489,6 +6477,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &5009324451599465677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613918883057602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 8
+  constitution: 10
+  intelligence: 11
+  wisdom: 12
+  luck: 10
 --- !u!1 &1638211642129116
 GameObject:
   m_ObjectHideFlags: 0

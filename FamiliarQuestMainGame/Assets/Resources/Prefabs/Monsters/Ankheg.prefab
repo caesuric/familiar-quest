@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: -7044194337346583004}
   - component: {fileID: -3488383950360352569}
   - component: {fileID: 3025541692646044577}
+  - component: {fileID: 268705337744389807}
   m_Layer: 8
   m_Name: Ankheg
   m_TagString: Enemy
@@ -114,12 +115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 11
-  dexterity: 10
-  constitution: 8
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114450697405701462
@@ -240,8 +235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -309,7 +302,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114769330932319364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,11 +394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114947485271324880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +448,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114446007835603084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +539,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &268705337744389807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002634448637626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 11
+  dexterity: 10
+  constitution: 8
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1005554064742992
 GameObject:
   m_ObjectHideFlags: 0

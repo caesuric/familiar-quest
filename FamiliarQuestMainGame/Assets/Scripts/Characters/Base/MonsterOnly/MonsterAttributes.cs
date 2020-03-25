@@ -13,7 +13,7 @@ public class MonsterAttributes : MonoBehaviour {
     public int wisdom;
     public int luck;
 
-    void Start() {
+    void Awake() {
         var c = GetComponent<Character>();
         CharacterAttribute.attributes["strength"].instances[c].BaseValue = strength;
         CharacterAttribute.attributes["dexterity"].instances[c].BaseValue = dexterity;

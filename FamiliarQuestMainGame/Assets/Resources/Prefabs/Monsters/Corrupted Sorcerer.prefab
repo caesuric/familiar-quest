@@ -7646,6 +7646,7 @@ GameObject:
   - component: {fileID: 7772422847610130885}
   - component: {fileID: -4563085126363321977}
   - component: {fileID: 341473628836908326}
+  - component: {fileID: -6582326775302173482}
   m_Layer: 8
   m_Name: Corrupted Sorcerer
   m_TagString: Enemy
@@ -7697,12 +7698,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 8
-  constitution: 8
-  intelligence: 14
-  wisdom: 12
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195798187897554572
@@ -7819,8 +7814,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -7888,7 +7881,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114905396123821634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7981,11 +7973,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114963694638148586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8040,6 +8027,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114185682797374802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8158,6 +8146,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-6582326775302173482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673008490459364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 8
+  constitution: 8
+  intelligence: 14
+  wisdom: 12
+  luck: 10
 --- !u!1 &1692880320762492
 GameObject:
   m_ObjectHideFlags: 0

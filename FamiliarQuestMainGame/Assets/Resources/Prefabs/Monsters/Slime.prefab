@@ -7300,6 +7300,7 @@ GameObject:
   - component: {fileID: 358765606746320642}
   - component: {fileID: 4069880106122571361}
   - component: {fileID: 3367722775539167723}
+  - component: {fileID: -7333561700024372654}
   m_Layer: 8
   m_Name: Slime
   m_TagString: Enemy
@@ -7375,12 +7376,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 9
-  dexterity: 10
-  constitution: 11
-  intelligence: 6
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114002286197581330
@@ -7515,8 +7510,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -7584,7 +7577,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114761040949886768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7677,11 +7669,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114593747686334648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7736,6 +7723,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114340525839813858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7826,6 +7814,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-7333561700024372654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964647456302574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 9
+  dexterity: 10
+  constitution: 11
+  intelligence: 6
+  wisdom: 10
+  luck: 10
 --- !u!1 &1965008511100508
 GameObject:
   m_ObjectHideFlags: 0

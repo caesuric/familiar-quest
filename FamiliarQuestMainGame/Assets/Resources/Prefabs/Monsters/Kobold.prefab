@@ -7183,6 +7183,7 @@ GameObject:
   - component: {fileID: -7265498429506729968}
   - component: {fileID: -6378103852131887421}
   - component: {fileID: 2557952596599915422}
+  - component: {fileID: 8915178149470852362}
   m_Layer: 8
   m_Name: Kobold
   m_TagString: Enemy
@@ -7258,12 +7259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 4
-  dexterity: 4
-  constitution: 4
-  intelligence: 4
-  wisdom: 4
-  luck: 4
   faction: 
   oppositeFaction: 
 --- !u!114 &114869117366310638
@@ -7384,8 +7379,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -7453,7 +7446,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114760062878412378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7546,11 +7538,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114690302816365022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7605,6 +7592,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114913509159444640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7695,6 +7683,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8915178149470852362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864289163717516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 4
+  dexterity: 4
+  constitution: 4
+  intelligence: 4
+  wisdom: 4
+  luck: 4
 --- !u!1 &1868023112957486
 GameObject:
   m_ObjectHideFlags: 0

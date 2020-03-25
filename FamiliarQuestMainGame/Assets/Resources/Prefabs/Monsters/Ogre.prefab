@@ -1623,6 +1623,7 @@ GameObject:
   - component: {fileID: 3705265588361380976}
   - component: {fileID: -3286992944564482367}
   - component: {fileID: -798163054164787205}
+  - component: {fileID: 8986750033546959556}
   m_Layer: 8
   m_Name: Ogre
   m_TagString: Enemy
@@ -1690,12 +1691,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 14
-  dexterity: 8
-  constitution: 12
-  intelligence: 8
-  wisdom: 8
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195413533178381334
@@ -1824,8 +1819,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -1893,7 +1886,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114388413667366280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1986,11 +1978,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114926861306495470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,6 +2032,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114883787601566592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2135,6 +2123,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8986750033546959556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353711140592610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 14
+  dexterity: 8
+  constitution: 12
+  intelligence: 8
+  wisdom: 8
+  luck: 10
 --- !u!1 &1372227418662026
 GameObject:
   m_ObjectHideFlags: 0

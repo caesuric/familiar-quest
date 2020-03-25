@@ -1392,6 +1392,7 @@ GameObject:
   - component: {fileID: -5092754440249405666}
   - component: {fileID: -8738955263964196559}
   - component: {fileID: 7829799198244227079}
+  - component: {fileID: -5783512470145648472}
   m_Layer: 8
   m_Name: Goblin Archer
   m_TagString: Enemy
@@ -1481,12 +1482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 12
-  constitution: 10
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195526254592321150
@@ -1615,8 +1610,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -1684,7 +1677,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114972997370640570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1777,11 +1769,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114948844226814464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1836,6 +1823,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114058484187134966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,6 +1914,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-5783512470145648472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143552021506428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 12
+  constitution: 10
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1148236106849394
 GameObject:
   m_ObjectHideFlags: 0

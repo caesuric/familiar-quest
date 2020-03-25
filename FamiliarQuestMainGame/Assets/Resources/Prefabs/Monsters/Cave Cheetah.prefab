@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: -7944140110467314813}
   - component: {fileID: -7850230634377285606}
   - component: {fileID: -432451121849917381}
+  - component: {fileID: 8552542245027101278}
   m_Layer: 8
   m_Name: Cave Cheetah
   m_TagString: Enemy
@@ -267,12 +268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 9
-  dexterity: 11
-  constitution: 7
-  intelligence: 10
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!114 &114167195400839384
@@ -393,8 +388,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -462,7 +455,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114902280686168040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,11 +547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114069613823129132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,6 +601,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114120147214485136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +692,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &8552542245027101278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083421898725224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 9
+  dexterity: 11
+  constitution: 7
+  intelligence: 10
+  wisdom: 10
+  luck: 10
 --- !u!1 &1084188659474198
 GameObject:
   m_ObjectHideFlags: 0

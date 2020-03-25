@@ -16306,6 +16306,7 @@ GameObject:
   - component: {fileID: -7829845018068477305}
   - component: {fileID: -8283875185310258104}
   - component: {fileID: -8655470185596419557}
+  - component: {fileID: -2601265128677804777}
   m_Layer: 8
   m_Name: Mirror Mage
   m_TagString: Enemy
@@ -16357,12 +16358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  strength: 8
-  dexterity: 8
-  constitution: 8
-  intelligence: 14
-  wisdom: 10
-  luck: 10
   faction: 
   oppositeFaction: 
 --- !u!195 &195963569573913744
@@ -16480,8 +16475,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dependencies: []
   isAttacking: 0
-  critRate: 0
-  critMultiplier: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
   bossCircleAoePrefab: {fileID: 0}
@@ -16549,7 +16542,6 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
-  healingMultiplier: 0
 --- !u!114 &114561651647038612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16642,11 +16634,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
-  physicalSave: 0
-  mentalSave: 0
-  luckDebuffDivisor: 0
-  luckBuffMultiplier: 0
-  luckDropFactor: 0
 --- !u!114 &114385369044215536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16701,6 +16688,7 @@ MonoBehaviour:
   multiplier: 0.5
   numPlayers: 1
   barTextObj: {fileID: 0}
+  colliderSize: 0
 --- !u!114 &114049765950206464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16819,6 +16807,24 @@ MonoBehaviour:
   busy: 0
   planning: 0
   currentAction: 
+--- !u!114 &-2601265128677804777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698218741147000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324f1360f8749154ea11063b831fe301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 8
+  dexterity: 8
+  constitution: 8
+  intelligence: 14
+  wisdom: 10
+  luck: 10
 --- !u!1 &1705481586248872
 GameObject:
   m_ObjectHideFlags: 0
