@@ -7,6 +7,6 @@ public class NoiseMaker : MonoBehaviour {
     public GameObject audioSource;
     // Use this for initialization
     void Start() {
-        Instantiate(audioSource, gameObject.transform);
+        if (audioSource!=null) Instantiate(audioSource, gameObject.transform);
     }
 }

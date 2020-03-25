@@ -40,7 +40,7 @@ public class Health : DependencyUser {
         if (GetComponent<Monster>() != null) hpFactor = GetComponent<Monster>().hpFactor;
         else if (GetComponent<PlayerCharacter>() != null) hpFactor = GetHpFactor(hpFactor, GetComponent<ExperienceGainer>().level);
         //int newHP = (int)((float)GetComponent<Character>().constitution * hpFactor);
-        int newHP = (int)CharacterAttribute.attributes["bonusHP"].instances[GetComponent<Character>()].TotalValue;
+        int newHP = (int)CharacterAttribute.attributes["bonusHp"].instances[GetComponent<Character>()].TotalValue;
         hp += (newHP - maxHP);
         maxHP = newHP;
         //healingMultiplier = 0.1f * GetComponent<Character>().strength;

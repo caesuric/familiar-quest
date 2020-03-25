@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class CharacterAttributeInstance {
+public class CharacterAttributeInstance {
     public Character character = null;
     public event EventHandler ValueChanged;
     private float _baseValue = 0;
@@ -12,7 +12,7 @@ class CharacterAttributeInstance {
         get => _baseValue;
         set {
             _baseValue = value;
-            TotalValue = _baseValue + _itemValue + _abilityValue + DerivedValue + _buffValue;
+            TotalValue = _baseValue + _itemValue + _abilityValue + _derivedValue + _buffValue;
             ValueUpdated();
         }
     }
@@ -21,7 +21,7 @@ class CharacterAttributeInstance {
         get => _itemValue;
         set {
             _itemValue = value;
-            TotalValue = _baseValue + _itemValue + _abilityValue + DerivedValue + _buffValue;
+            TotalValue = _baseValue + _itemValue + _abilityValue + _derivedValue + _buffValue;
             ValueUpdated();
         }
     }
@@ -30,7 +30,7 @@ class CharacterAttributeInstance {
         get => _abilityValue;
         set {
             _abilityValue = value;
-            TotalValue = _baseValue + _itemValue + _abilityValue + DerivedValue + _buffValue;
+            TotalValue = _baseValue + _itemValue + _abilityValue + _derivedValue + _buffValue;
             ValueUpdated();
         }
     }
@@ -39,11 +39,19 @@ class CharacterAttributeInstance {
         get => _buffValue;
         set {
             _buffValue = value;
-            TotalValue = _baseValue + _itemValue + _abilityValue + DerivedValue + _buffValue;
+            TotalValue = _baseValue + _itemValue + _abilityValue + _derivedValue + _buffValue;
             ValueUpdated();
         }
     }
-    public float DerivedValue { get; private set; } = 0;
+    private float _derivedValue = 0;
+    public float DerivedValue {
+        get => _derivedValue;
+        private set {
+            _derivedValue = value;
+            TotalValue = _baseValue + _itemValue + _abilityValue + _derivedValue + _buffValue;
+            ValueUpdated();
+        }
+    }
     public float TotalValue { get; private set; } = 0;
     public string name = "";
 
@@ -65,7 +73,7 @@ class CharacterAttributeInstance {
     }
 
     private void UpdateFromBaseStat(object sender, EventArgs e) {
-        var senderObj = (CharacterAttribute)sender;
+        var senderObj = (CharacterAttributeInstance)sender;
         float derivedValueTotal = 0;
         foreach (var kvp in CharacterAttribute.attributes) {
             if (CharacterAttribute.attributes[name].basedOn.Contains(kvp.Key)) {

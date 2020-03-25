@@ -76,7 +76,8 @@ public class InputMovement {
         //var extraMultiplier = 10f;
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
+        //var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
+        var calculatedSpeed = controller.speed * multiplier * CharacterAttribute.attributes["moveSpeed"].instances[character].TotalValue / 100f;
         if (!controller.gamepadMode) {
             MoveCharacterMaintenance(horizontal != 0 || vertical != 0);
             if (controller.moving) controller.transform.eulerAngles = new Vector3(0, angles[(int)Math.Sign(horizontal) + 1, (int)Math.Sign(vertical) + 1], 0);
@@ -98,7 +99,8 @@ public class InputMovement {
     }
 
     private static void MoveCharacterWithoutFacing() {
-        var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
+        //var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
+        var calculatedSpeed = controller.speed * multiplier * CharacterAttribute.attributes["moveSpeed"].instances[character].TotalValue / 100f;
         MoveCharacterMaintenance(true);
         controller.rigidbody.velocity = character.transform.forward * calculatedSpeed;
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class CharacterAttribute {
+public class CharacterAttribute {
     private const int minLevel = 1;
     private const int maxLevel = 50;
     public static Dictionary<string, CharacterAttribute> attributes = new Dictionary<string, CharacterAttribute>();

@@ -32,41 +32,41 @@ public class EquipmentNamer {
 
     public static string GetHpAndMp(Armor item) {
         var character = GetCharacter();
-        return "<b>HP</b>: " + Mathf.Floor(character.constitution).ToString() + " <b>MP</b>: " + Mathf.Floor(character.intelligence).ToString();
+        return "<b>HP</b>: " + Mathf.Floor(CharacterAttribute.attributes["bonusHp"].instances[character].TotalValue).ToString() + " <b>MP</b>: " + Mathf.Floor(CharacterAttribute.attributes["bonusHp"].instances[character].TotalValue).ToString();
     }
 
     public static string GetAttackPower(Weapon item) {
         var character = GetCharacter();
-        if (item is MeleeWeapon) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * character.strength).ToString();
-        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * character.intelligence).ToString();
-        else if (item is RangedWeapon) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * character.dexterity).ToString();
+        if (item is MeleeWeapon) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue).ToString();
+        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue).ToString();
+        else if (item is RangedWeapon) return "<b>Attack Power</b>: " + Mathf.Floor(item.attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue).ToString();
         return "";
     }
 
     public static string GetAttackPowerFromStat(float attackPower, string subtype) {
         if (subtype == "") return "Unknown";
         var character = GetCharacter();
-        if (subtype == "strength") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.strength).ToString();
-        else if (subtype == "intelligence") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.intelligence).ToString();
-        else if (subtype == "dexterity") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * character.dexterity).ToString();
+        if (subtype == "strength") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue).ToString();
+        else if (subtype == "intelligence") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue).ToString();
+        else if (subtype == "dexterity") return "<b>Attack Power</b>: " + Mathf.Floor(attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue).ToString();
         return "";
     }
 
     public static int GetAttackPowerNumberFromStat(float attackPower, string subtype) {
         if (subtype == "") return 0;
         var character = GetCharacter();
-        if (subtype == "strength") return Mathf.FloorToInt(attackPower * character.strength);
-        else if (subtype == "intelligence") return Mathf.FloorToInt(attackPower * character.intelligence);
-        else if (subtype == "dexterity") return Mathf.FloorToInt(attackPower * character.dexterity);
+        if (subtype == "strength") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
+        else if (subtype == "intelligence") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        else if (subtype == "dexterity") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
         return 0;
     }
 
     public static int GetAttackPowerNumber(Weapon item) {
         var character = GetCharacter();
         if (character == null) return 0;
-        if (item is MeleeWeapon) return (int)Mathf.Floor(item.attackPower * character.strength);
-        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return (int)Mathf.Floor(item.attackPower * character.intelligence);
-        else if (item is RangedWeapon) return (int)Mathf.Floor(item.attackPower * character.dexterity);
+        if (item is MeleeWeapon) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
+        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        else if (item is RangedWeapon) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
         return 0;
     }
 

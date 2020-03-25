@@ -46,22 +46,22 @@ public class CharacterStatisticsUpdater : MonoBehaviour {
         //statusEffectDuration.text = Percentify(SecondaryStatUtility.CalcStatusEffectDurationBonus(c.luck, eg.level));
         //itemFindRate.text = Percentify(SecondaryStatUtility.CalcItemFindRate(c.luck, eg.level));
         //elementalResistance.text = Percentify(SecondaryStatUtility.CalcElementalResistanceFromLuck(c.luck, eg.level));
-        hp.text = CharacterAttribute.attributes["bonusHp"].instances[c].TotalValue.ToString();
-        hpRegen.text = CharacterAttribute.attributes["hpRegen"].instances[c].TotalValue.ToString() + " HP/sec.";
-        receivedHealing.text = CharacterAttribute.attributes["receivedHealing"].instances[c].TotalValue.ToString() + "%";
-        armorMultiplier.text = CharacterAttribute.attributes["armorMultiplier"].instances[c].TotalValue.ToString() + "%";
-        physicalResist.text = CharacterAttribute.attributes["physicalResistance"].instances[c].TotalValue.ToString() + "%";
-        mentalResist.text = CharacterAttribute.attributes["mentalResistance"].instances[c].TotalValue.ToString() + "%";
-        mp.text = CharacterAttribute.attributes["bonusMp"].instances[c].TotalValue.ToString();
-        mpRegen.text = CharacterAttribute.attributes["mpRegen"].instances[c].TotalValue.ToString() + " MP/sec.";
-        healingMultiplier.text = CharacterAttribute.attributes["healingMultiplier"].instances[c].TotalValue.ToString() + "%";
-        moveSpeed.text = CharacterAttribute.attributes["moveSpeed"].instances[c].TotalValue.ToString() + "%";
-        cooldownReduction.text = CharacterAttribute.attributes["cooldownReduction"].instances[c].TotalValue.ToString() + "%";
-        criticalHitRate.text = CharacterAttribute.attributes["criticalHitChance"].instances[c].TotalValue.ToString() + "%";
-        criticalDamageBonus.text = CharacterAttribute.attributes["criticalDamage"].instances[c].TotalValue.ToString() + "%";
-        statusEffectDuration.text = CharacterAttribute.attributes["statusEffectDuration"].instances[c].TotalValue.ToString() + "%";
-        itemFindRate.text = CharacterAttribute.attributes["itemFindRate"].instances[c].TotalValue.ToString() + "%";
-        elementalResistance.text = CharacterAttribute.attributes["fireResistance"].instances[c].TotalValue.ToString() + "%";
+        hp.text = Mathf.Floor(CharacterAttribute.attributes["bonusHp"].instances[c].TotalValue).ToString();
+        hpRegen.text = Mathf.Floor(CharacterAttribute.attributes["hpRegen"].instances[c].TotalValue).ToString() + " HP/sec.";
+        receivedHealing.text = Mathf.Floor(CharacterAttribute.attributes["receivedHealing"].instances[c].TotalValue).ToString() + "%";
+        armorMultiplier.text = Mathf.Floor(CharacterAttribute.attributes["armorMultiplier"].instances[c].TotalValue).ToString() + "%";
+        physicalResist.text = Mathf.Floor(CharacterAttribute.attributes["physicalResistance"].instances[c].TotalValue).ToString() + "%";
+        mentalResist.text = Mathf.Floor(CharacterAttribute.attributes["mentalResistance"].instances[c].TotalValue).ToString() + "%";
+        mp.text = Mathf.Floor(CharacterAttribute.attributes["bonusMp"].instances[c].TotalValue).ToString();
+        mpRegen.text = Mathf.Floor(CharacterAttribute.attributes["mpRegen"].instances[c].TotalValue).ToString() + " MP/sec.";
+        healingMultiplier.text = Mathf.Floor(CharacterAttribute.attributes["healingMultiplier"].instances[c].TotalValue).ToString() + "%";
+        moveSpeed.text = Mathf.Floor(CharacterAttribute.attributes["moveSpeed"].instances[c].TotalValue).ToString() + "%";
+        cooldownReduction.text = Mathf.Floor(CharacterAttribute.attributes["cooldownReduction"].instances[c].TotalValue).ToString() + "%";
+        criticalHitRate.text = Mathf.Floor(CharacterAttribute.attributes["criticalHitChance"].instances[c].TotalValue).ToString() + "%";
+        criticalDamageBonus.text = Mathf.Floor(CharacterAttribute.attributes["criticalDamage"].instances[c].TotalValue).ToString() + "%";
+        statusEffectDuration.text = Mathf.Floor(CharacterAttribute.attributes["statusEffectDuration"].instances[c].TotalValue).ToString() + "%";
+        itemFindRate.text = Mathf.Floor(CharacterAttribute.attributes["itemFindRate"].instances[c].TotalValue).ToString() + "%";
+        elementalResistance.text = Mathf.Floor(CharacterAttribute.attributes["fireResistance"].instances[c].TotalValue).ToString() + "%";
     }
 
     private string Percentify(float number) {

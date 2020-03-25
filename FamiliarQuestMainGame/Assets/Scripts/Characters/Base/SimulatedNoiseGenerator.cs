@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-class SimulatedNoiseGenerator : MonoBehaviour
+public class SimulatedNoiseGenerator : MonoBehaviour
 {
     //[Command]
     public void CmdMakeNoise(Vector3 position, float volume)

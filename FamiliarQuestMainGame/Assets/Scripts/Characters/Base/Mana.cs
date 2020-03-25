@@ -34,7 +34,7 @@ public class Mana : DependencyUser {
         if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         else level = GetComponent<MonsterScaler>().level;
         //int newMP = SecondaryStatUtility.CalcMp(GetComponent<Character>().intelligence, level);
-        int newMP = (int)CharacterAttribute.attributes["bonusMP"].instances[GetComponent<Character>()].TotalValue;
+        int newMP = (int)CharacterAttribute.attributes["bonusMp"].instances[GetComponent<Character>()].TotalValue;
         mp += (newMP - maxMP);
         maxMP = newMP;
     }

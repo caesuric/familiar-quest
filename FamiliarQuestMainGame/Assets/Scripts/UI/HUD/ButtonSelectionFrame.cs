@@ -44,11 +44,11 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
         transform.SetAsLastSibling();
         var tooltip = GetComponent<UITooltipShow>();
         tooltip.contentLines = new UITooltipLineContent[2];
-        tooltip.contentLines[0] = new UITooltipLineContent {
+        tooltip.contentLines[0] = new UITooltipLineContent() {
             LineStyle = UITooltipLines.LineStyle.Title,
             Content = pc.GetComponent<HotbarUser>().abilityNames[number]
         };
-        tooltip.contentLines[1] = new UITooltipLineContent {
+        tooltip.contentLines[1] = new UITooltipLineContent() {
             LineStyle = UITooltipLines.LineStyle.Custom,
             CustomLineStyle = "ItemAttribute",
             Content = pc.GetComponent<HotbarUser>().abilityDescriptions[number]
