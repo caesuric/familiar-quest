@@ -59,6 +59,8 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void Update() {
+        isMe = true; // VERY TEMPORARY
+
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
         if (!ready ) {

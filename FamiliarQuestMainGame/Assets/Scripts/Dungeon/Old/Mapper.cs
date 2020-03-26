@@ -10,7 +10,7 @@ public class Mapper : MonoBehaviour {
     public static List<Vector2> newHits = new List<Vector2>();
     public static List<string> newHitsItems = new List<string>();
     private float timer = 0;
-    private float checkFrequency = 0.1f;
+    private readonly float checkFrequency = 0.1f;
 
     // Use this for initialization
 	void Start () {

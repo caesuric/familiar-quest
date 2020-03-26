@@ -182,7 +182,8 @@ public class SavedItem
 {
     public string name;
     public string description;
-    public Dictionary<string, int> stats;
+    public List<string> statKeys = new List<string>();
+    public List<int> statValues = new List<int>();
     public int armor = 0;
     public int quality;
 
@@ -210,6 +211,20 @@ public class SavedItem
         if (this is SavedNecklace) return ((SavedNecklace)this).ConvertTo();
         if (this is SavedShoes) return ((SavedShoes)this).ConvertTo();
         return null;
+    }
+
+    public Dictionary<string, int> ConvertStatsTo(List<string> statKeys, List<int> statValues) {
+        var output = new Dictionary<string, int>();
+        for (int i=0; i<statKeys.Count; i++) output.Add(statKeys[i], statValues[i]);
+        return output;
+    }
+    public void ConvertStatsFrom(Dictionary<string, int> source) {
+        statKeys.Clear();
+        statValues.Clear();
+        foreach (var kvp in source) {
+            statKeys.Add(kvp.Key);
+            statValues.Add(kvp.Value);
+        }
     }
 }
 
@@ -281,9 +296,9 @@ public class SavedWeapon : SavedItem {
             description = weapon.description,
             attackPower = weapon.attackPower,
             icon = weapon.icon,
-            quality = weapon.quality,
-            stats = weapon.stats
+            quality = weapon.quality
         };
+        obj.ConvertStatsFrom(weapon.stats);
         return obj;
     }
 
@@ -296,9 +311,9 @@ public class SavedWeapon : SavedItem {
             range = weapon.range,
             projectileModel = weapon.projectileModel,
             usesInt = weapon.usesInt,
-            quality = weapon.quality,
-            stats = weapon.stats
+            quality = weapon.quality
         };
+        obj.ConvertStatsFrom(weapon.stats);
         return obj;
     }
 }
@@ -314,8 +329,8 @@ public class SavedMeleeWeapon : SavedWeapon
             attackPower = attackPower,
             icon = icon,
             quality = quality,
-            stats = stats
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 }
@@ -337,9 +352,9 @@ public class SavedRangedWeapon : SavedWeapon
             range = range,
             projectileModel = projectileModel,
             usesInt = usesInt,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 }
@@ -357,10 +372,10 @@ public class SavedArmor : SavedItem
             description = description,
             hp = hp,
             mp = mp,
-            stats = stats,
             armor = armor,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -371,10 +386,10 @@ public class SavedArmor : SavedItem
             description = armor.description,
             hp = armor.hp,
             mp = armor.mp,
-            stats = armor.stats,
             armor = armor.armor,
             quality = armor.quality
         };
+        obj.ConvertStatsFrom(armor.stats);
         return obj;
     }
 }
@@ -385,9 +400,9 @@ public class SavedNecklace : SavedItem {
         var obj = new Necklace {
             name = name,
             description = description,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -396,9 +411,9 @@ public class SavedNecklace : SavedItem {
         var obj = new SavedNecklace {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -409,9 +424,9 @@ public class SavedBelt: SavedItem {
         var obj = new Belt {
             name = name,
             description = description,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -420,9 +435,9 @@ public class SavedBelt: SavedItem {
         var obj = new SavedBelt {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -433,9 +448,9 @@ public class SavedBracelet : SavedItem {
         var obj = new Bracelet {
             name = name,
             description = description,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -444,9 +459,9 @@ public class SavedBracelet : SavedItem {
         var obj = new SavedBracelet {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -457,9 +472,9 @@ public class SavedCloak : SavedItem {
         var obj = new Cloak {
             name = name,
             description = description,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -468,9 +483,9 @@ public class SavedCloak : SavedItem {
         var obj = new SavedCloak {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -481,9 +496,9 @@ public class SavedEarring : SavedItem {
         var obj = new Earring {
             name = name,
             description = description,
-            stats = stats,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -492,9 +507,9 @@ public class SavedEarring : SavedItem {
         var obj = new SavedEarring {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -505,10 +520,10 @@ public class SavedHat : SavedItem {
         var obj = new Hat {
             name = name,
             description = description,
-            stats = stats,
             armor = armor,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -517,10 +532,10 @@ public class SavedHat : SavedItem {
         var obj = new SavedHat {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             armor = accessory.armor,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }
@@ -531,10 +546,10 @@ public class SavedShoes : SavedItem {
         var obj = new Shoes {
             name = name,
             description = description,
-            stats = stats,
             armor = armor,
             quality = quality
         };
+        obj.stats = ConvertStatsTo(statKeys, statValues);
         return obj;
     }
 
@@ -543,10 +558,10 @@ public class SavedShoes : SavedItem {
         var obj = new SavedShoes {
             name = accessory.name,
             description = accessory.description,
-            stats = accessory.stats,
             armor = accessory.armor,
             quality = accessory.quality
         };
+        obj.ConvertStatsFrom(accessory.stats);
         return obj;
     }
 }

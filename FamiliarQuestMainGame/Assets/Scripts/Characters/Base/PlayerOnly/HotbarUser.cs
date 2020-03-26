@@ -169,6 +169,7 @@ public class HotbarUser : MonoBehaviour {
         PutAbilitiesIntoOverflow();
         var su = GetComponent<SpiritUser>();
         //foreach (var spirit in su.spirits) foreach (var ability in spirit.activeAbilities) AddAbilityInfo(ability);
+        if (su.spirits.Count == 0) return;
         foreach (var ability in su.spirits[0].activeAbilities) AddAbilityInfo(ability);
         AddAbilityBlankPadding(10);
         SortConsumables();

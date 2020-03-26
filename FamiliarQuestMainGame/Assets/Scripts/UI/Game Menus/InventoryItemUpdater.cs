@@ -100,7 +100,8 @@ public class InventoryItemUpdater : MonoBehaviour {
         if (originalEquipment is Weapon) return inventory.player.weapon.GetStatValue(stat);
         else if (originalEquipment is Armor) return inventory.player.armor.GetStatValue(stat);
         else if (originalEquipment is Belt) return inventory.player.belt.GetStatValue(stat);
-        else if (originalEquipment is Bracelet) return inventory.player.bracelets[0].GetStatValue(stat);
+        else if (originalEquipment is Bracelet && inventory.player.bracelets[0] != null) return inventory.player.bracelets[0].GetStatValue(stat);
+        else if (originalEquipment is Bracelet) return 0;
         else if (originalEquipment is Cloak) return inventory.player.cloak.GetStatValue(stat);
         else if (originalEquipment is Earring) return inventory.player.earring.GetStatValue(stat);
         else if (originalEquipment is Hat) return inventory.player.hat.GetStatValue(stat);
@@ -156,7 +157,7 @@ public class InventoryItemUpdater : MonoBehaviour {
         descriptionText = inventory.inventoryDetailsDescriptionText;
         statTextContainer = inventory.inventoryDetailsStatTextContainer;
         statResultsContainer = inventory.inventoryDetailsStatResultsContainer;
-        number = Inventory.slotKeys[type];
+        number = inventory.items.IndexOf(item);
         if (item is Equipment) quality = ((Equipment)item).quality;
         image.sprite = images[item.icon];
         var canvas = GetComponentInParent<Canvas>();
@@ -194,8 +195,8 @@ public class InventoryItemUpdater : MonoBehaviour {
     public string GetComparisonStats() {
         var output = "";
         if (number < 0) return output;
-        var equipment = item as Equipment;
-
+        if (!(item is Equipment equipment)) return "";
+        if (equipment.stats == null) return "";
         foreach (var kvp in CharacterAttribute.attributes) {
             if (equipment.stats.ContainsKey(kvp.Key)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
         }

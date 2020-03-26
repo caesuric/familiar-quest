@@ -12,6 +12,7 @@ public abstract class Equipment : Item {
     }
 
     public int GetStatValue(string stat) {
+        if (stats == null) return 0;
         if (stats.ContainsKey(stat)) return stats[stat];
         return 0;
     }

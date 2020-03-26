@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,6 +52,12 @@ public class Inventory : MonoBehaviour {
         if (player == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) if (item.isMe) player = item.GetComponent<PlayerCharacter>();
+            player.inventory = this;
+            if (player!= null && LobbyManager.singleton.worldByteArray != null) {
+                BinaryFormatter bf = new BinaryFormatter();
+                var loadedWorld = (SavedWorld)bf.Deserialize(new MemoryStream(LobbyManager.singleton.worldByteArray));
+                loadedWorld.ConvertTo(GameObject.FindGameObjectWithTag("ConfigObject"));
+            }
         }
     }
 
@@ -137,6 +145,7 @@ public class Inventory : MonoBehaviour {
                 type = "shoes";
                 break;
         }
+        if (equipment == null) return;
         if (equipment.quality == -1) return;
         var item = Instantiate(itemUI);
         inventoryItemUpdaters.Add(item);
