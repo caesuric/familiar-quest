@@ -9,7 +9,6 @@ public class InputController : MonoBehaviour {
     public float speed;
     public GameObject hips;
     private GameObject inventory = null;
-    private GameObject spiritScreen = null;
     private GameObject characterSheet = null;
     public GameObject minimap = null;
     private GameObject fpsBar;
@@ -23,14 +22,10 @@ public class InputController : MonoBehaviour {
     private readonly GameObject mouseOverPanel = null;
     public new Rigidbody rigidbody = null;
     public Character character = null;
-    private bool inventoryActive = false;
-    private bool characterSheetActive = false;
-    private bool spiritScreenActive = false;
     public bool minimapActive = true;
     private bool fpsActive = true;
     public bool dPadActive = false;
     private readonly Inventory inventoryController;
-    private SpiritScreen spiritScreenController;
     //[SyncVar]
     public bool moving = false;
     //[SyncVar]
@@ -166,7 +161,6 @@ public class InputController : MonoBehaviour {
 
     private void ToggleCharacterSheet() {
         var canvas = GameObject.FindGameObjectWithTag("Canvas");
-        SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
         DropsArea.ClearDrops();
@@ -174,7 +168,6 @@ public class InputController : MonoBehaviour {
 
     private void ToggleInventory() {
         var canvas = GameObject.FindGameObjectWithTag("Canvas");
-        SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         //inventory.SetActive(!inventory.activeSelf);
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
@@ -209,16 +202,6 @@ public class InputController : MonoBehaviour {
         inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
         abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
-    }
-
-    private void ToggleSpiritScreen() {
-        spiritScreenActive = !spiritScreenActive;
-        spiritScreen.SetActive(spiritScreenActive);
-        inventoryActive = false;
-        inventory.SetActive(false);
-        characterSheetActive = false;
-        characterSheet.SetActive(false);
-        spiritScreenController.Refresh();
     }
 
     private void ToggleMinimap() {

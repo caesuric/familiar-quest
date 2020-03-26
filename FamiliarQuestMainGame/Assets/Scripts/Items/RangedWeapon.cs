@@ -12,13 +12,14 @@
     }
 
     public static RangedWeapon Wand() {
-        var rw = new RangedWeapon();
-        rw.icon = "Weapon_16";
-        rw.projectileModel = 1;
-        rw.usesInt = true;
-        rw.name = "Basic Wand";
-        rw.description = "Attack power: {{AttackPower}}";
-        rw.displayType = "Weapon - Wand";
+        var rw = new RangedWeapon {
+            icon = "Weapon_16",
+            projectileModel = 1,
+            usesInt = true,
+            name = "Basic Wand",
+            description = "Attack power: {{AttackPower}}",
+            displayType = "Weapon - Wand"
+        };
         return rw;
     }
 }

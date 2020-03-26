@@ -85,6 +85,5 @@ public class SceneInitializer : MonoBehaviour {
 
     public void SceneLoadedShared(Scene scene, LoadSceneMode mode) {
         foreach (var player in PlayerCharacter.players) StartCoroutine(SceneInitializer.instance.SetPositionInABit(player.gameObject));
-        SharedInventory.instance.CmdRefresh();
     }
 }

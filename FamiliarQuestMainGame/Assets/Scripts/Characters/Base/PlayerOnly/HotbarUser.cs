@@ -257,14 +257,6 @@ public class HotbarUser : MonoBehaviour {
         GetComponent<PlayerCharacter>().consumables = newConsumables;
     }
 
-    private void RefreshSpiritInfo() {
-        ClearSpiritInfo();
-        if (GetComponent<ConfigGrabber>().sharedInventory == null) return;
-        foreach (var spirit in GetComponent<ConfigGrabber>().sharedInventory.spareSpirits) AddSharedSpiritNameAndDescription(spirit);
-        foreach (var spirit in GetComponent<SpiritUser>().spirits) AddSpiritNameAndDescription(spirit);
-        CreateSpiritAffinityText();
-    }
-
     private void CreateSpiritAffinityText() {
         var affinities = new List<ElementalAffinity>();
         foreach (var spirit in GetComponent<SpiritUser>().spirits) foreach (var affinity in spirit.elements) AddAffinity(affinity, affinities);
@@ -298,19 +290,6 @@ public class HotbarUser : MonoBehaviour {
     private void AddSpiritNameAndDescription(Spirit spirit) {
         spiritNames.Add(spirit.name);
         GetComponent<MenuUser>().spiritDescriptions.Add(spirit.description);
-    }
-
-    private void AddSharedSpiritNameAndDescription(Spirit spirit) {
-        GetComponent<ConfigGrabber>().sharedInventory.spareSpiritNames.Add(spirit.name);
-        GetComponent<ConfigGrabber>().sharedInventory.spareSpiritDescriptions.Add(spirit.description);
-    }
-
-    private void ClearSpiritInfo() {
-        spiritNames.Clear();
-        GetComponent<MenuUser>().spiritDescriptions.Clear();
-        if (GetComponent<ConfigGrabber>().sharedInventory == null) return;
-        GetComponent<ConfigGrabber>().sharedInventory.spareSpiritNames.Clear();
-        GetComponent<ConfigGrabber>().sharedInventory.spareSpiritDescriptions.Clear();
     }
 
     private void ClearAbilityLists() {

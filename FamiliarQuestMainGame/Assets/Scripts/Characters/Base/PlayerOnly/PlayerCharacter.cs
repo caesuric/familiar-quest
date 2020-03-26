@@ -61,23 +61,14 @@ public class PlayerCharacter : DependencyUser {
     private void Update() {
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
-        if (!ready && SharedInventory.instance != null) { // && GetComponent<ConfigGrabber>().si!=null
-            //GetComponent<Mapper>().Reset();
-            //GetComponent<ConfigGrabber>().si.character = gameObject;
-            //if (GetComponent<ConfigGrabber>().il != null && InitializeLevel.currentFloor > 0) {
-            //    SceneInitializer.instance.inside = true;
-            //}
-            //GetComponent<ConfigGrabber>().si.currentCharPosition = SceneInitializer.charPosition;
-            //GetComponent<ConfigGrabber>().si.CmdSetCharacterPosition(gameObject);
+        if (!ready ) {
             if (GetComponent<NetworkCharacterSyncer>() == ProtoClient.localPlayer) OnStartLocalPlayer();
-            SharedInventory.instance.CmdRefresh();
             var lobbyCurtain = GameObject.FindGameObjectWithTag("LobbyCurtain");
             if (lobbyCurtain != null) lobbyCurtain.SetActive(false);
             ready = true;
         }
         else if (!ready && GetComponent<ConfigGrabber>().overworldInitializer!=null) {
             GetComponent<ConfigGrabber>().overworldInitializer.CmdSetCharacterPosition(gameObject);
-            SharedInventory.instance.CmdRefresh();
             GameObject.FindGameObjectWithTag("LobbyCurtain").SetActive(false);
             ready = true;
         }
@@ -127,40 +118,19 @@ public class PlayerCharacter : DependencyUser {
         gold += amount;
     }
 
-    public void EquipSpirit(int number, int slotNumber) {
-        CmdEquipSpirit(number, slotNumber);
-    }
-
-    //[Command]
-    public void CmdEquipSpirit(int number, int slotNumber) {
-        if (GetComponent<SpiritUser>().spirits.Count > slotNumber) {
-            SharedInventory.instance.spareSpirits.Add(GetComponent<SpiritUser>().spirits[slotNumber]);
-            GetComponent<SpiritUser>().spirits[slotNumber] = SharedInventory.instance.spareSpirits[number];
-        }
-        else {
-            GetComponent<SpiritUser>().spirits.Add(SharedInventory.instance.spareSpirits[number]);
-        }
-        SharedInventory.instance.spareSpirits.Remove(SharedInventory.instance.spareSpirits[number]);
-        GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
-    }
-
     //[Command]
     public void CmdEquipItem(int number, int slotNumber) {
-        Dictionary<string, Action> lookup = new Dictionary<string, Action>() {
-            {"weapon", () => EquipWeapon(number) },
-            {"armor", () => EquipArmor(number) },
-            {"necklace", () => EquipNecklace(number) },
-            {"belt", () => EquipBelt(number) },
-            {"cloak", () => EquipCloak(number) },
-            {"earring", () => EquipEarring(number) },
-            {"hat", () => EquipHat(number) },
-            {"shoes", () => EquipShoes(number) },
-            {"bracelet", () => EquipBracelet(number, slotNumber) }
-        };
-        if (number < 0) EquipBracelet(number, slotNumber);
-        else lookup[SharedInventory.instance.inventoryTypes[number]]();
+        var item = inventory.items[number] as Equipment;
+        if (item is Weapon) EquipWeapon(number);
+        else if (item is Armor) EquipArmor(number);
+        else if (item is Necklace) EquipNecklace(number);
+        else if (item is Belt) EquipBelt(number);
+        else if (item is Cloak) EquipCloak(number);
+        else if (item is Earring) EquipEarring(number);
+        else if (item is Hat) EquipHat(number);
+        else if (item is Shoes) EquipShoes(number);
+        else EquipBracelet(number, slotNumber);
         GetComponent<Character>().CalculateAll();
-        SharedInventory.instance.CmdRefresh();
         if (inventory != null) inventory.RefreshInABit();
     }
 
@@ -168,39 +138,38 @@ public class PlayerCharacter : DependencyUser {
     public void CmdEquipBracelet(int number, int targetNumber) {
         EquipBracelet(number, targetNumber);
         GetComponent<Character>().CalculateAll();
-        SharedInventory.instance.CmdRefresh();
         if (inventory != null) inventory.RefreshInABit();
     }
 
     private void EquipWeapon(int number) {
-        SharedInventory.instance.inventory.Add(weapon);
-        ModifyStats(weapon, SharedInventory.instance.inventory[number]);
-        weapon = (Weapon)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        inventory.items.Add(weapon);
+        ModifyStats(weapon, inventory.items[number]);
+        weapon = (Weapon)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipArmor(int number) {
-        if (armor!=null) SharedInventory.instance.inventory.Add(armor);
-        ModifyStats(armor, SharedInventory.instance.inventory[number]);
-        armor = (Armor)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        inventory.items.Add(armor);
+        ModifyStats(armor, inventory.items[number]);
+        armor = (Armor)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipNecklace(int number) {
-        if (necklace!=null) SharedInventory.instance.inventory.Add(necklace);
-        ModifyStats(necklace, SharedInventory.instance.inventory[number]);
-        necklace = (Necklace)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        inventory.items.Add(necklace);
+        ModifyStats(necklace, inventory.items[number]);
+        necklace = (Necklace)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipBelt(int number) {
-        if (belt!=null) SharedInventory.instance.inventory.Add(belt);
-        ModifyStats(belt, SharedInventory.instance.inventory[number]);
-        belt = (Belt)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        inventory.items.Add(belt);
+        ModifyStats(belt, inventory.items[number]);
+        belt = (Belt)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -209,10 +178,10 @@ public class PlayerCharacter : DependencyUser {
             SwapBracelets(0 - number - 3, targetNumber);
             return;
         }
-        if (bracelets[targetNumber]!=null) SharedInventory.instance.inventory.Add(bracelets[targetNumber]);
-        ModifyStats(bracelets[targetNumber], SharedInventory.instance.inventory[number]);
-        bracelets[targetNumber] = (Bracelet)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        if (bracelets[targetNumber]!=null) inventory.items.Add(bracelets[targetNumber]);
+        ModifyStats(bracelets[targetNumber], inventory.items[number]);
+        bracelets[targetNumber] = (Bracelet)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
@@ -224,67 +193,43 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void EquipCloak(int number) {
-        if (cloak!=null) SharedInventory.instance.inventory.Add(cloak);
-        ModifyStats(cloak, SharedInventory.instance.inventory[number]);
-        cloak = (Cloak)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        if (cloak!=null) inventory.items.Add(cloak);
+        ModifyStats(cloak, inventory.items[number]);
+        cloak = (Cloak)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipHat(int number) {
-        if (hat!=null) SharedInventory.instance.inventory.Add(hat);
-        ModifyStats(hat, SharedInventory.instance.inventory[number]);
-        hat = (Hat)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        if (hat!=null) inventory.items.Add(hat);
+        ModifyStats(hat, inventory.items[number]);
+        hat = (Hat)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipShoes(int number) {
-        if (shoes!=null) SharedInventory.instance.inventory.Add(shoes);
-        ModifyStats(shoes, SharedInventory.instance.inventory[number]);
-        shoes = (Shoes)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        if (shoes!=null) inventory.items.Add(shoes);
+        ModifyStats(shoes, inventory.items[number]);
+        shoes = (Shoes)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void EquipEarring(int number) {
-        if (earring!=null) SharedInventory.instance.inventory.Add(earring);
-        ModifyStats(earring, SharedInventory.instance.inventory[number]);
-        earring = (Earring)(SharedInventory.instance.inventory[number]);
-        SharedInventory.instance.inventory.RemoveAt(number);
+        if (earring!=null) inventory.items.Add(earring);
+        ModifyStats(earring, inventory.items[number]);
+        earring = (Earring)(inventory.items[number]);
+        inventory.items.RemoveAt(number);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void ModifyStats(Equipment oldEquip, Item newItem) {
         var newEquip = (Equipment)newItem;
         if (oldEquip != null) {
-            //GetComponent<Character>().strength += newEquip.strength - oldEquip.strength;
-            //GetComponent<Character>().dexterity += newEquip.dexterity - oldEquip.dexterity;
-            //GetComponent<Character>().constitution += newEquip.constitution - oldEquip.constitution;
-            //GetComponent<Character>().intelligence += newEquip.intelligence - oldEquip.intelligence;
-            //GetComponent<Character>().wisdom += newEquip.wisdom - oldEquip.wisdom;
-            //GetComponent<Character>().luck += newEquip.luck - oldEquip.luck;
-            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].ItemValue += newEquip.strength - oldEquip.strength;
-            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].ItemValue += newEquip.dexterity - oldEquip.dexterity;
-            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].ItemValue += newEquip.constitution- oldEquip.constitution;
-            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].ItemValue += newEquip.intelligence - oldEquip.intelligence;
-            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].ItemValue += newEquip.wisdom - oldEquip.wisdom;
-            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].ItemValue += newEquip.luck - oldEquip.luck;
+            foreach (var kvp in oldEquip.stats) CharacterAttribute.attributes[kvp.Key].instances[GetComponent<Character>()].ItemValue -= kvp.Value;
         }
-        else {
-            //GetComponent<Character>().strength += newEquip.strength;
-            //GetComponent<Character>().dexterity += newEquip.dexterity;
-            //GetComponent<Character>().constitution += newEquip.constitution;
-            //GetComponent<Character>().intelligence += newEquip.intelligence;
-            //GetComponent<Character>().wisdom += newEquip.wisdom;
-            //GetComponent<Character>().luck += newEquip.luck;
-            CharacterAttribute.attributes["strength"].instances[GetComponent<Character>()].ItemValue += newEquip.strength;
-            CharacterAttribute.attributes["dexterity"].instances[GetComponent<Character>()].ItemValue += newEquip.dexterity;
-            CharacterAttribute.attributes["constitution"].instances[GetComponent<Character>()].ItemValue += newEquip.constitution;
-            CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].ItemValue += newEquip.intelligence;
-            CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].ItemValue += newEquip.wisdom;
-            CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].ItemValue += newEquip.luck;
-        }
+        foreach (var kvp in newEquip.stats) CharacterAttribute.attributes[kvp.Key].instances[GetComponent<Character>()].ItemValue += kvp.Value;
     }
 
     //[Command]

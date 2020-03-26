@@ -11,7 +11,7 @@ public class InventoryItemUpdater : MonoBehaviour {
     public string type = null;
     public string subtype = null;
     public float attackPower = 0;
-    //public Item item = null;
+    public Item item = null;
     public Inventory inventory;
     private bool initialized = false;
     public int number;
@@ -28,6 +28,17 @@ public class InventoryItemUpdater : MonoBehaviour {
     public GameObject details = null;
     public Vector3 hoverOffset;
     private static Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
+    private static readonly Dictionary<string, string> displayTypes = new Dictionary<string, string>() {
+        { "weapon", "Weapon" },
+        { "armor", "Armor" },
+        { "belt", "Belt" },
+        { "bracelet", "Bracelet" },
+        { "cloak", "Cloak" },
+        { "earring", "Earring" },
+        { "hat", "Hat" },
+        { "necklace", "Necklace" },
+        { "shoes", "Shoes" }
+    };
 
     // Update is called once per frame
     void Update() {
@@ -65,44 +76,36 @@ public class InventoryItemUpdater : MonoBehaviour {
             }
             if (number < 0) return;
             foreach (Transform child in arrowContainer.transform) Destroy(child.gameObject);
-            var es = PlayerCharacter.localPlayer.GetComponent<EquipmentSyncer>();
             var pc = PlayerCharacter.localPlayer.GetComponent<Character>();
-            var si = inventory.sharedInventory;
-            if (type == "weapon" && inventory.sharedInventory.inventoryMainStat[number] > es.attackPower) Instantiate(upArrow, arrowContainer.transform);
-            else if (type == "weapon" && inventory.sharedInventory.inventoryMainStat[number] < es.attackPower) Instantiate(downArrow, arrowContainer.transform);
+            if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower > inventory.player.weapon.attackPower) Instantiate(upArrow, arrowContainer.transform);
+            else if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower < inventory.player.weapon.attackPower) Instantiate(downArrow, arrowContainer.transform);
             if (type == "armor" || type == "shoes" || type == "hat") {
-                if (inventory.sharedInventory.inventoryMainStat[number] > es.armor[EquipmentSyncer.slotKeys[type]]) Instantiate(upArrow, arrowContainer.transform);
-                else if (inventory.sharedInventory.inventoryMainStat[number] < es.armor[EquipmentSyncer.slotKeys[type]]) Instantiate(downArrow, arrowContainer.transform);
+                Equipment item = null;
+                if (type == "armor") item = inventory.player.armor;
+                else if (type == "shoes") item = inventory.player.shoes;
+                else item = inventory.player.hat;
+                if (((Equipment)inventory.items[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
+                else if (((Equipment)inventory.items[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
             }
-            if (!EquipmentSyncer.slotKeys.ContainsKey(type)) return;
-            var intelligence = CharacterAttribute.attributes["intelligence"].instances[pc].BaseValue;
-            var dexterity = CharacterAttribute.attributes["dexterity"].instances[pc].BaseValue;
-            var strength = CharacterAttribute.attributes["strength"].instances[pc].BaseValue;
-            if (intelligence > dexterity && intelligence > strength) {
-                AddArrow(si.inventoryInt[number], es.intelligence[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryStr[number], es.strength[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryDex[number], es.dexterity[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryCon[number], es.constitution[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryWis[number], es.wisdom[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryLuc[number], es.luck[EquipmentSyncer.slotKeys[type]]);
-            }
-            else if (dexterity > intelligence && dexterity > strength) {
-                AddArrow(si.inventoryDex[number], es.dexterity[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryStr[number], es.strength[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryCon[number], es.constitution[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryInt[number], es.intelligence[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryWis[number], es.wisdom[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryLuc[number], es.luck[EquipmentSyncer.slotKeys[type]]);
-            }
-            else {
-                AddArrow(si.inventoryStr[number], es.strength[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryDex[number], es.dexterity[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryCon[number], es.constitution[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryInt[number], es.intelligence[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryWis[number], es.wisdom[EquipmentSyncer.slotKeys[type]]);
-                AddArrow(si.inventoryLuc[number], es.luck[EquipmentSyncer.slotKeys[type]]);
+            if (!(item is Equipment)) return;
+            var equipment = item as Equipment;
+
+            foreach (var kvp in CharacterAttribute.attributes) {
+                if (equipment.stats.ContainsKey(kvp.Key)) AddArrow(equipment.stats[kvp.Key], GetStatOnEquippedGear(equipment, kvp.Key));
             }
         }
+    }
+
+    private int GetStatOnEquippedGear(Equipment originalEquipment, string stat) {
+        if (originalEquipment is Weapon) return inventory.player.weapon.GetStatValue(stat);
+        else if (originalEquipment is Armor) return inventory.player.armor.GetStatValue(stat);
+        else if (originalEquipment is Belt) return inventory.player.belt.GetStatValue(stat);
+        else if (originalEquipment is Bracelet) return inventory.player.bracelets[0].GetStatValue(stat);
+        else if (originalEquipment is Cloak) return inventory.player.cloak.GetStatValue(stat);
+        else if (originalEquipment is Earring) return inventory.player.earring.GetStatValue(stat);
+        else if (originalEquipment is Hat) return inventory.player.hat.GetStatValue(stat);
+        else if (originalEquipment is Necklace) return inventory.player.necklace.GetStatValue(stat);
+        else return inventory.player.shoes.GetStatValue(stat);
     }
 
     private void AddArrow(int a, int b) {
@@ -110,47 +113,52 @@ public class InventoryItemUpdater : MonoBehaviour {
         else if (b > a) Instantiate(downArrow, arrowContainer.transform);
     }
 
-    private void AddComparison(int a, int b) {
-        var textObj = Instantiate(statTextObj, statResultsContainer.transform);
-        var textObjText = textObj.GetComponent<Text>();
-        textObjText.text = a.ToString();
-        if (b > a) Instantiate(upArrow, statResultsContainer.transform);
-        else if (b < a) Instantiate(downArrow, statResultsContainer.transform);
-        else {
-            textObj = Instantiate(statTextObj, statResultsContainer.transform);
-            textObjText = textObj.GetComponent<Text>();
-            textObjText.text = "=";
-        }
-        textObj = Instantiate(statTextObj, statResultsContainer.transform);
-        textObjText = textObj.GetComponent<Text>();
-        textObjText.text = b.ToString();
-    }
-
     public void Equip() {
         inventory.EquipItem(number);
     }
 
+    private string GetItemType(Item item) {
+        if (item is Weapon) return "weapon";
+        else if (item is Armor) return "armor";
+        else if (item is Necklace) return "necklace";
+        else if (item is Belt) return "belt";
+        else if (item is Bracelet) return "bracelet";
+        else if (item is Cloak) return "cloak";
+        else if (item is Earring) return "earring";
+        else if (item is Hat) return "hat";
+        else if (item is Shoes) return "shoes";
+        else return "item";
+    }
+
+    private string GetItemSubtype(Item item) {
+        if (item is MeleeWeapon) return "sword";
+        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return "wand";
+        else if (item is RangedWeapon) return "bow";
+        else return "item";
+    }
+
     //public void Initialize(string name, string description, string type, Inventory inventory, int number, int quality, string icon, Item item) {
-    public void Initialize(string name, string description, string type, Inventory inventory, int number, int quality, string icon, float attackPower = 0, string subtype = "", string displayType = "", string flavorText = "") {
+    public void Initialize(Item item, Inventory inventory) {
         if (images.Count == 0) {
             images.Clear();
             var imagesTemp = Resources.LoadAll<Sprite>("Icons");
             foreach (var image in imagesTemp) images[image.name] = image;
         }
-        this.name = name;
-        this.description = description;
-        this.attackPower = attackPower;
-        this.type = type;
-        this.subtype = subtype;
+        this.item = item;
+        name = item.name;
+        description = item.description;
+        if (item is Weapon) attackPower = ((Weapon)item).attackPower;
+        type = GetItemType(item);
+        subtype = GetItemSubtype(item);
         this.inventory = inventory;
         details = inventory.inventoryDetails;
         foldoutBackground = inventory.inventoryDetailsBackground;
         descriptionText = inventory.inventoryDetailsDescriptionText;
         statTextContainer = inventory.inventoryDetailsStatTextContainer;
         statResultsContainer = inventory.inventoryDetailsStatResultsContainer;
-        this.number = number;
-        this.quality = quality;
-        image.sprite = images[icon];
+        number = Inventory.slotKeys[type];
+        if (item is Equipment) quality = ((Equipment)item).quality;
+        image.sprite = images[item.icon];
         var canvas = GetComponentInParent<Canvas>();
         //hoverOffset = new Vector3(GetComponent<RectTransform>().sizeDelta.x * canvas.GetComponent<CanvasScaler>().referencePixelsPerUnit, 0, 0);
         var rect = RectTransformUtility.PixelAdjustRect(GetComponent<RectTransform>(), canvas);
@@ -171,7 +179,7 @@ public class InventoryItemUpdater : MonoBehaviour {
         tooltip.contentLines[0].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Title;
         tooltip.contentLines[0].Content = name;
         tooltip.contentLines[1].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Description;
-        tooltip.contentLines[1].Content = displayType;
+        tooltip.contentLines[1].Content = displayTypes[type];
         tooltip.contentLines[2].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
         tooltip.contentLines[2].CustomLineStyle = "ItemAttribute";
         tooltip.contentLines[2].Content = description.Replace("{{AttackPower}}", EquipmentNamer.GetAttackPowerNumberFromStat(attackPower, subtype).ToString() + " Attack");
@@ -180,26 +188,17 @@ public class InventoryItemUpdater : MonoBehaviour {
         tooltip.contentLines[3].Content = GetComparisonStats();
         tooltip.contentLines[4].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
         tooltip.contentLines[4].CustomLineStyle = "ItemDescription";
-        tooltip.contentLines[4].Content = flavorText;
+        tooltip.contentLines[4].Content = item.flavorText;
     }
 
     public string GetComparisonStats() {
         var output = "";
         if (number < 0) return output;
-        var es = PlayerCharacter.localPlayer.GetComponent<EquipmentSyncer>();
-        int comparisonSlot = 0;
-        if (type == "bracelet") comparisonSlot = 3;
-        else comparisonSlot = EquipmentSyncer.slotKeys[type];
+        var equipment = item as Equipment;
 
-        if (type == "weapon") output += AddComparisonStat(EquipmentNamer.GetAttackPowerNumberFromStat(es.attackPower, subtype), EquipmentNamer.GetAttackPowerNumberFromStat(inventory.sharedInventory.inventoryMainStat[number], subtype), "Attack");
-        if (new List<string>() { "armor", "hat", "shoes" }.Contains(type)) output += AddComparisonStat(es.armor[comparisonSlot], (int)inventory.sharedInventory.inventoryMainStat[number], "Armor");
-        output += AddComparisonStat(es.strength[comparisonSlot], inventory.sharedInventory.inventoryStr[number], "Strength");
-        output += AddComparisonStat(es.dexterity[comparisonSlot], inventory.sharedInventory.inventoryDex[number], "Dexterity");
-        output += AddComparisonStat(es.constitution[comparisonSlot], inventory.sharedInventory.inventoryCon[number], "Constitution");
-        output += AddComparisonStat(es.intelligence[comparisonSlot], inventory.sharedInventory.inventoryInt[number], "Intelligence");
-        output += AddComparisonStat(es.wisdom[comparisonSlot], inventory.sharedInventory.inventoryWis[number], "Wisdom");
-        output += AddComparisonStat(es.luck[comparisonSlot], inventory.sharedInventory.inventoryLuc[number], "Luck");
-
+        foreach (var kvp in CharacterAttribute.attributes) {
+            if (equipment.stats.ContainsKey(kvp.Key)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
+        }
         return output;
     }
 
@@ -257,154 +256,8 @@ public class InventoryItemUpdater : MonoBehaviour {
                 break;
         }
         var pc = PlayerCharacter.localPlayer.GetComponent<Character>();
-        var es = PlayerCharacter.localPlayer.GetComponent<EquipmentSyncer>();
-        SharedInventory si = inventory.sharedInventory;
         int comparisonSlot = 0;
         if (type == "bracelet") comparisonSlot = 3;
-        else comparisonSlot = EquipmentSyncer.slotKeys[type];
-        if (number < 0) {
-            AddSelfComparisons(es);
-            return;
-        }
-        if (type == "weapon") {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Attack:";
-        }
-        if (type == "armor" || type == "hat" || type == "shoes") {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Armor:";
-        }
-        if (si.inventoryStr[number] > 0 || es.strength[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Strength:";
-        }
-        if (si.inventoryDex[number] > 0 || es.dexterity[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Dexterity:";
-        }
-        if (si.inventoryCon[number] > 0 || es.constitution[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Constitution:";
-        }
-        if (si.inventoryInt[number] > 0 || es.intelligence[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Intelligence:";
-        }
-        if (si.inventoryWis[number] > 0 || es.wisdom[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Wisdom:";
-        }
-        if (si.inventoryLuc[number] > 0 || es.luck[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Luck:";
-        }
-        if (type == "weapon") {
-            var a = EquipmentNamer.GetAttackPowerNumberFromStat(es.attackPower, subtype);
-            var b = EquipmentNamer.GetAttackPowerNumberFromStat(si.inventoryMainStat[number], subtype);
-            AddComparison(a, b);
-        }
-        if (type == "armor" || type == "hat" || type == "shoes") {
-            var a = es.armor[comparisonSlot];
-            var b = (int)si.inventoryMainStat[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryStr[number] > 0 || es.strength[comparisonSlot] > 0) {
-            var a = es.strength[comparisonSlot];
-            var b = si.inventoryStr[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryDex[number] > 0 || es.dexterity[comparisonSlot] > 0) {
-            var a = es.dexterity[comparisonSlot];
-            var b = si.inventoryDex[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryCon[number] > 0 || es.constitution[comparisonSlot] > 0) {
-            var a = es.constitution[comparisonSlot];
-            var b = si.inventoryCon[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryInt[number] > 0 || es.intelligence[comparisonSlot] > 0) {
-            var a = es.intelligence[comparisonSlot];
-            var b = si.inventoryInt[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryWis[number] > 0 || es.wisdom[comparisonSlot] > 0) {
-            var a = es.wisdom[comparisonSlot];
-            var b = si.inventoryWis[number];
-            AddComparison(a, b);
-        }
-        if (si.inventoryLuc[number] > 0 || es.luck[comparisonSlot] > 0) {
-            var a = es.luck[comparisonSlot];
-            var b = si.inventoryLuc[number];
-            AddComparison(a, b);
-        }
-    }
-
-    private void AddSelfComparisons(EquipmentSyncer es) {
-        var comparisonSlot = 0 - number;
-        if (type == "weapon") {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Attack:";
-        }
-        if (type == "armor" || type == "hat" || type == "shoes") {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Armor:";
-        }
-        if (es.strength[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Strength:";
-        }
-        if (es.dexterity[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Dexterity:";
-        }
-        if (es.constitution[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Constitution:";
-        }
-        if (es.intelligence[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Intelligence:";
-        }
-        if (es.wisdom[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Wisdom:";
-        }
-        if (es.luck[comparisonSlot] > 0) {
-            var statText = Instantiate(statTextObj, statTextContainer.transform);
-            statText.GetComponent<Text>().text = "Luck:";
-        }
-        if (type == "weapon") {
-            var a = EquipmentNamer.GetAttackPowerNumberFromStat(es.attackPower, subtype);
-            AddComparison(a, a);
-        }
-        if (type == "armor" || type == "hat" || type == "shoes") {
-            var a = es.armor[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.strength[comparisonSlot] > 0) {
-            var a = es.strength[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.dexterity[comparisonSlot] > 0) {
-            var a = es.dexterity[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.constitution[comparisonSlot] > 0) {
-            var a = es.constitution[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.intelligence[comparisonSlot] > 0) {
-            var a = es.intelligence[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.wisdom[comparisonSlot] > 0) {
-            var a = es.wisdom[comparisonSlot];
-            AddComparison(a, a);
-        }
-        if (es.luck[comparisonSlot] > 0) {
-            var a = es.luck[comparisonSlot];
-            AddComparison(a, a);
-        }
+        else comparisonSlot = Inventory.slotKeys[type];
     }
 }

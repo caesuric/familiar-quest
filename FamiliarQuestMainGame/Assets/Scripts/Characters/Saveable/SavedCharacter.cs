@@ -182,12 +182,7 @@ public class SavedItem
 {
     public string name;
     public string description;
-    public int strength;
-    public int dexterity;
-    public int constitution;
-    public int intelligence;
-    public int wisdom;
-    public int luck;
+    public Dictionary<string, int> stats;
     public int armor = 0;
     public int quality;
 
@@ -286,13 +281,8 @@ public class SavedWeapon : SavedItem {
             description = weapon.description,
             attackPower = weapon.attackPower,
             icon = weapon.icon,
-            strength = weapon.strength,
-            dexterity = weapon.dexterity,
-            constitution = weapon.constitution,
-            intelligence = weapon.intelligence,
-            wisdom = weapon.wisdom,
-            luck = weapon.luck,
-            quality = weapon.quality
+            quality = weapon.quality,
+            stats = weapon.stats
         };
         return obj;
     }
@@ -306,13 +296,8 @@ public class SavedWeapon : SavedItem {
             range = weapon.range,
             projectileModel = weapon.projectileModel,
             usesInt = weapon.usesInt,
-            strength = weapon.strength,
-            dexterity = weapon.dexterity,
-            constitution = weapon.constitution,
-            intelligence = weapon.intelligence,
-            wisdom = weapon.wisdom,
-            luck = weapon.luck,
-            quality = weapon.quality
+            quality = weapon.quality,
+            stats = weapon.stats
         };
         return obj;
     }
@@ -328,13 +313,8 @@ public class SavedMeleeWeapon : SavedWeapon
             description = description,
             attackPower = attackPower,
             icon = icon,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
-            quality = quality
+            quality = quality,
+            stats = stats
         };
         return obj;
     }
@@ -357,12 +337,7 @@ public class SavedRangedWeapon : SavedWeapon
             range = range,
             projectileModel = projectileModel,
             usesInt = usesInt,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -382,12 +357,7 @@ public class SavedArmor : SavedItem
             description = description,
             hp = hp,
             mp = mp,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             armor = armor,
             quality = quality
         };
@@ -401,12 +371,7 @@ public class SavedArmor : SavedItem
             description = armor.description,
             hp = armor.hp,
             mp = armor.mp,
-            strength = armor.strength,
-            dexterity = armor.dexterity,
-            constitution = armor.constitution,
-            intelligence = armor.intelligence,
-            wisdom = armor.wisdom,
-            luck = armor.luck,
+            stats = armor.stats,
             armor = armor.armor,
             quality = armor.quality
         };
@@ -420,12 +385,7 @@ public class SavedNecklace : SavedItem {
         var obj = new Necklace {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -436,12 +396,7 @@ public class SavedNecklace : SavedItem {
         var obj = new SavedNecklace {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             quality = accessory.quality
         };
         return obj;
@@ -454,12 +409,7 @@ public class SavedBelt: SavedItem {
         var obj = new Belt {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -470,12 +420,7 @@ public class SavedBelt: SavedItem {
         var obj = new SavedBelt {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             quality = accessory.quality
         };
         return obj;
@@ -488,12 +433,7 @@ public class SavedBracelet : SavedItem {
         var obj = new Bracelet {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -504,12 +444,7 @@ public class SavedBracelet : SavedItem {
         var obj = new SavedBracelet {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             quality = accessory.quality
         };
         return obj;
@@ -522,12 +457,7 @@ public class SavedCloak : SavedItem {
         var obj = new Cloak {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -538,12 +468,7 @@ public class SavedCloak : SavedItem {
         var obj = new SavedCloak {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             quality = accessory.quality
         };
         return obj;
@@ -556,12 +481,7 @@ public class SavedEarring : SavedItem {
         var obj = new Earring {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             quality = quality
         };
         return obj;
@@ -572,12 +492,7 @@ public class SavedEarring : SavedItem {
         var obj = new SavedEarring {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             quality = accessory.quality
         };
         return obj;
@@ -590,12 +505,7 @@ public class SavedHat : SavedItem {
         var obj = new Hat {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             armor = armor,
             quality = quality
         };
@@ -607,12 +517,7 @@ public class SavedHat : SavedItem {
         var obj = new SavedHat {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             armor = accessory.armor,
             quality = accessory.quality
         };
@@ -626,12 +531,7 @@ public class SavedShoes : SavedItem {
         var obj = new Shoes {
             name = name,
             description = description,
-            strength = strength,
-            dexterity = dexterity,
-            constitution = constitution,
-            intelligence = intelligence,
-            wisdom = wisdom,
-            luck = luck,
+            stats = stats,
             armor = armor,
             quality = quality
         };
@@ -643,12 +543,7 @@ public class SavedShoes : SavedItem {
         var obj = new SavedShoes {
             name = accessory.name,
             description = accessory.description,
-            strength = accessory.strength,
-            dexterity = accessory.dexterity,
-            constitution = accessory.constitution,
-            intelligence = accessory.intelligence,
-            wisdom = accessory.wisdom,
-            luck = accessory.luck,
+            stats = accessory.stats,
             armor = accessory.armor,
             quality = accessory.quality
         };

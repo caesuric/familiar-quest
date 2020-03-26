@@ -7,7 +7,6 @@ public class Inventory : MonoBehaviour {
 
     public GameObject content;
     public GameObject itemUI;
-    public SharedInventory sharedInventory = null;
     public GameObject inventoryDetails = null;
     public Image inventoryDetailsBackground = null;
     public Text inventoryDetailsDescriptionText = null;
@@ -28,20 +27,30 @@ public class Inventory : MonoBehaviour {
     public GameObject shoesBox = null;
     public Toggle upgradesOnlyToggle;
     private List<GameObject> itemObjects = new List<GameObject>();
-    private PlayerCharacter player = null;
+    public PlayerCharacter player = null;
+    public List<Item> items = new List<Item>();
+
+    public static Dictionary<string, int> slotKeys = new Dictionary<string, int>() {
+        {"weapon", 0},
+        {"armor", 1},
+        {"belt", 2},
+        {"bracelet1", 3},
+        {"bracelet2", 4},
+        {"bracelet3", 5},
+        {"bracelet4", 6},
+        {"cloak", 7},
+        {"earring", 8},
+        {"hat", 9},
+        {"necklace", 10},
+        {"shoes", 11}
+    };
 
     // Update is called once per frame
     void Update() {
-        if (sharedInventory == null) {
-            var obj = GameObject.FindGameObjectWithTag("ConfigObject");
-            if (obj != null) sharedInventory = obj.GetComponent<SharedInventory>();
-            //inventoryDetails.SetActive(false);
-        }
         if (player == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) if (item.isMe) player = item.GetComponent<PlayerCharacter>();
         }
-        if (sharedInventory != null && sharedInventory.inventory.Count != sharedInventory.inventoryNames.Count) sharedInventory.CmdRefresh();
     }
 
     public void Refresh() {
@@ -53,38 +62,89 @@ public class Inventory : MonoBehaviour {
         Update();
         foreach (var obj in itemObjects) Destroy(obj);
         itemObjects.RemoveRange(0, itemObjects.Count);
-        for (int i = 0; i < sharedInventory.inventoryNames.Count; i++) {
-            if (FilteredOut(i)) continue;
+        foreach (var item in items) {
+            //if (FilteredOut(item)) continue;
             var obj = Instantiate(itemUI);
             obj.transform.SetParent(content.transform, false);
             itemObjects.Add(obj);
             var itemUpdater = obj.GetComponentInChildren<InventoryItemUpdater>();
-            var attackPower = sharedInventory.inventoryMainStat[i];
-            var subtype = sharedInventory.inventorySubtypes[i];
-            itemUpdater.Initialize(sharedInventory.inventoryNames[i], sharedInventory.inventoryDescriptions[i], sharedInventory.inventoryTypes[i], this, i, sharedInventory.inventoryQualities[i], sharedInventory.inventoryIcons[i], attackPower: attackPower, subtype: subtype, displayType: sharedInventory.inventory[i].displayType, flavorText: sharedInventory.inventory[i].flavorText);
+            itemUpdater.Initialize(item, this);
             obj.AddComponent<DraggableInventoryItem>();
         }
     }
 
-    private void RefreshWeaponSlot(GameObject box, int index, EquipmentSyncer syncer) {
+    private void RefreshWeaponSlot(GameObject box) {
+        var subtype = "";
+        if (player.weapon is MeleeWeapon) subtype = "strength";
+        else if (player.weapon is RangedWeapon && ((RangedWeapon)player.weapon).usesInt) subtype = "intelligence";
+        else subtype = "dexterity";
         var item = Instantiate(itemUI);
         inventoryItemUpdaters.Add(item);
         item.transform.SetParent(box.transform, false);
         var itemUpdater = item.GetComponentInChildren<InventoryItemUpdater>();
-        itemUpdater.Initialize(syncer.names[index], syncer.descriptions[index], syncer.types[index], this, -1, syncer.qualities[index], syncer.icons[index], attackPower: syncer.attackPower, subtype: syncer.weaponSubtype);
+        itemUpdater.Initialize(player.weapon, this);
         var eds = item.AddComponent<EquipDropSlot>();
-        eds.slotType = syncer.types[index];
+        eds.slotType = "weapon";
     }
 
-    private void RefreshSlot(GameObject box, int index, EquipmentSyncer syncer) {
-        if (syncer.qualities[index] == -1) return;
+    private void RefreshSlot(GameObject box, int index) {
+        Equipment equipment = null;
+        var type = "";
+        switch (index) {
+            case 1:
+            default:
+                equipment = player.armor;
+                type = "armor";
+                break;
+            case 2:
+                equipment = player.belt;
+                type = "belt";
+                break;
+            case 3:
+                equipment = player.bracelets[0];
+                type = "bracelet";
+                break;
+            case 4:
+                equipment = player.bracelets[1];
+                type = "bracelet";
+                break;
+            case 5:
+                equipment = player.bracelets[2];
+                type = "bracelet";
+                break;
+            case 6:
+                equipment = player.bracelets[3];
+                type = "bracelet";
+                break;
+            case 7:
+                equipment = player.cloak;
+                type = "cloak";
+                break;
+            case 8:
+                equipment = player.earring;
+                type = "earring";
+                break;
+            case 9:
+                equipment = player.hat;
+                type = "hat";
+                break;
+            case 10:
+                equipment = player.necklace;
+                type = "necklace";
+                break;
+            case 11:
+                equipment = player.shoes;
+                type = "shoes";
+                break;
+        }
+        if (equipment.quality == -1) return;
         var item = Instantiate(itemUI);
         inventoryItemUpdaters.Add(item);
         item.transform.SetParent(box.transform, false);
         var itemUpdater = item.GetComponentInChildren<InventoryItemUpdater>();
-        itemUpdater.Initialize(syncer.names[index], syncer.descriptions[index], syncer.types[index], this, 0 - index, syncer.qualities[index], syncer.icons[index]);
+        itemUpdater.Initialize(equipment, this);
         var eds = item.AddComponent<EquipDropSlot>();
-        eds.slotType = syncer.types[index];
+        eds.slotType = type;
         if (index >= 3 && index <= 6) {
             eds.equipNumber = index - 3;
             item.AddComponent<DraggableInventoryItem>();
@@ -94,25 +154,23 @@ public class Inventory : MonoBehaviour {
     private void RefreshEquipment() {
         foreach (var item in inventoryItemUpdaters) Destroy(item);
         inventoryItemUpdaters.Clear();
-        var syncer = PlayerCharacter.localPlayer.GetComponent<EquipmentSyncer>();
-        RefreshWeaponSlot(weaponBox, 0, syncer);
-        RefreshSlot(armorBox, 1, syncer);
-        RefreshSlot(beltBox, 2, syncer);
-        RefreshSlot(bracelet1Box, 3, syncer);
-        RefreshSlot(bracelet2Box, 4, syncer);
-        RefreshSlot(bracelet3Box, 5, syncer);
-        RefreshSlot(bracelet4Box, 6, syncer);
-        RefreshSlot(cloakBox, 7, syncer);
-        RefreshSlot(earringBox, 8, syncer);
-        RefreshSlot(hatBox, 9, syncer);
-        RefreshSlot(necklaceBox, 10, syncer);
-        RefreshSlot(shoesBox, 11, syncer);
+        RefreshWeaponSlot(weaponBox);
+        RefreshSlot(armorBox, 1);
+        RefreshSlot(beltBox, 2);
+        RefreshSlot(bracelet1Box, 3);
+        RefreshSlot(bracelet2Box, 4);
+        RefreshSlot(bracelet3Box, 5);
+        RefreshSlot(bracelet4Box, 6);
+        RefreshSlot(cloakBox, 7);
+        RefreshSlot(earringBox, 8);
+        RefreshSlot(hatBox, 9);
+        RefreshSlot(necklaceBox, 10);
+        RefreshSlot(shoesBox, 11);
     }
 
     public void EquipItem(int number, int equipNumber = 0) {
         PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_equip2");
         player.CmdEquipItem(number, equipNumber);
-        sharedInventory.CmdRefresh();
         StartCoroutine(RefreshInABit());
     }
 
@@ -120,40 +178,5 @@ public class Inventory : MonoBehaviour {
         yield return new WaitForSeconds(0.2f);
         RefreshItems();
         RefreshEquipment();
-    }
-
-    private bool FilteredOut(int i) {
-        if (!upgradesOnlyToggle.isOn) return false;
-        var primaryStat = GetPrimaryStat(i);
-        var comparisonStat = GetComparisonStat(i);
-        if (comparisonStat > primaryStat) return false;
-        return true;
-    }
-
-    private float GetPrimaryStat(int i) {
-        var c = PlayerCharacter.localPlayer.GetComponent<Character>();
-        var es = PlayerCharacter.localPlayer.GetComponent<EquipmentSyncer>();
-        var type = sharedInventory.inventoryTypes[i];
-        if (type == "bracelet") type = "bracelet1";
-        var num = EquipmentSyncer.slotKeys[type];
-        var strength = CharacterAttribute.attributes["strength"].instances[c].BaseValue;
-        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].BaseValue;
-        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].BaseValue;
-        if (type == "weapon") return es.attackPower;
-        else if (strength > dexterity && strength > intelligence) return es.strength[num];
-        else if (dexterity > strength && dexterity > intelligence) return es.dexterity[num];
-        else return es.intelligence[num];
-    }
-
-    private float GetComparisonStat(int i) {
-        var c = PlayerCharacter.localPlayer.GetComponent<Character>();
-        var type = sharedInventory.inventoryTypes[i];
-        if (type == "weapon") return sharedInventory.inventoryMainStat[i];
-        var strength = CharacterAttribute.attributes["strength"].instances[c].BaseValue;
-        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].BaseValue;
-        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].BaseValue;
-        if (strength > dexterity && strength > intelligence) return sharedInventory.inventoryStr[i];
-        else if (dexterity > strength && dexterity > intelligence) return sharedInventory.inventoryDex[i];
-        else return sharedInventory.inventoryInt[i];
     }
 }

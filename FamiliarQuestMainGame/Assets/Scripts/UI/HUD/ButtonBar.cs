@@ -12,13 +12,11 @@ public class ButtonBar : MonoBehaviour {
     public GameObject canvas;
 
     public void ToggleCharacterSheet() {
-        SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Toggle();
     }
 
     public void ToggleInventory() {
-        SharedInventory.instance.CmdRefresh();
         canvas.GetComponent<Inventory>().Refresh();
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
         DropsArea.ClearDrops();

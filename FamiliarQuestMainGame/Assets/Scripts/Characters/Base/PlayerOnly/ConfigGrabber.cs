@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class ConfigGrabber : MonoBehaviour {
 
-    public SharedInventory sharedInventory;
     //public InitializeLevel il;
     //public SceneInitializer si;
     public OverworldInitializer overworldInitializer;
@@ -17,7 +16,6 @@ public class ConfigGrabber : MonoBehaviour {
     void Start() {
         var config = GameObject.FindGameObjectWithTag("ConfigObject");
         if (config == null) return;
-        sharedInventory = config.GetComponent<SharedInventory>();
         //il = InitializeLevel.instance;
         //si = SceneInitializer.instance;
         overworldInitializer = config.GetComponent<OverworldInitializer>();

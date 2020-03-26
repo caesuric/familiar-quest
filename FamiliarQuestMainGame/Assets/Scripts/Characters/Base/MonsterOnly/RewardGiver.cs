@@ -22,8 +22,7 @@ class RewardGiver : MonoBehaviour {
         if (generatedMonster) return;
         if (GetComponent<Gremlin>()!=null && GetComponent<Gremlin>().item!=null) {
             attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("GOT ITEM BACK", "Got item back from Gremlin!");
-            attacker.GetComponent<ConfigGrabber>().sharedInventory.inventory.Add(GetComponent<Gremlin>().item);
-            attacker.GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
+            PlayerCharacter.localPlayer.inventory.items.Add(GetComponent<Gremlin>().item);
             return;
         }
         //var lootChance = SecondaryStatUtility.CalcItemFindRate(attacker.luck, attacker.GetComponent<ExperienceGainer>().level);
@@ -124,10 +123,9 @@ class RewardGiver : MonoBehaviour {
         else if (item is Earring && pc.earring == null) pc.earring = (Earring)item;
         else if (item is Necklace && pc.necklace == null) pc.necklace = (Necklace)item;
         else {
-            SharedInventory.instance.inventory.Add(item);
+            PlayerCharacter.localPlayer.inventory.items.Add(item);
             DropsArea.AddItemDrop(item);
         }
-        SharedInventory.instance.CmdRefresh();
     }
 
     public static Equipment GenerateEquipment(int level, int quality) {
@@ -516,7 +514,6 @@ class RewardGiver : MonoBehaviour {
 
     public void DropConsumable(Character attacker) {
         AddConsumable(attacker);
-        SharedInventory.instance.CmdRefresh();
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("POTION FOUND", "Potion found.");
         attacker.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }

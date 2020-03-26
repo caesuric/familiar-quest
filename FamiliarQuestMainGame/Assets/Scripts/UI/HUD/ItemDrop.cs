@@ -11,17 +11,11 @@ public class ItemDrop : MonoBehaviour {
         yield return new WaitForSeconds(0.2f);
         var itemUpdater = GetComponent<InventoryItemUpdater>();
         var configObj = GameObject.FindGameObjectWithTag("ConfigObject");
-        SharedInventory sharedInventory;
-        sharedInventory = configObj.GetComponent<SharedInventory>();
-        var i = sharedInventory.inventoryMainStat.Count - 1;
-        var attackPower = sharedInventory.inventoryMainStat[i];
-        var subtype = sharedInventory.inventorySubtypes[i];
-        itemUpdater.Initialize(sharedInventory.inventoryNames[i], sharedInventory.inventoryDescriptions[i], sharedInventory.inventoryTypes[i], inventory, i, sharedInventory.inventoryQualities[i], sharedInventory.inventoryIcons[i], attackPower: attackPower, subtype: subtype);
+        itemUpdater.Initialize(item, inventory);
     }
 
 
     public void OnClick() {
-        SharedInventory.instance.CmdRefresh();
         GameObject.FindGameObjectWithTag("Canvas").GetComponent<Inventory>().Refresh();
         DropsArea.OpenInventory();
         DropsArea.ClearDrops();

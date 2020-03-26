@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EquipmentNamer {
     public static void NameEquipment(Equipment item) {
@@ -18,15 +19,19 @@ public class EquipmentNamer {
     }
 
     private static void AddHighestStatText(Equipment item) {
-        var highest = Mathf.Max(item.strength, item.dexterity, item.constitution, item.intelligence, item.wisdom, item.luck);
-        if (highest == 0) item.name = "Common " + item.name;
+        var stat = item.GetHighestStat();
+        if (stat == "") item.name = "Common " + item.name;
         else {
-            if (highest == item.strength) item.name = item.name + " of Power";
-            if (highest == item.dexterity) item.name = item.name + " of Grace";
-            if (highest == item.constitution) item.name = item.name + " of Endurance";
-            if (highest == item.intelligence) item.name = item.name + " of Acumen";
-            if (highest == item.wisdom) item.name = item.name + " of Divinity";
-            if (highest == item.luck) item.name = item.name + " of Fortune";
+            var lookups = new Dictionary<string, string>() {
+                { "strength", "Power" },
+                { "dexterity", "Grace" },
+                { "constitution", "Endurance" },
+                { "intelligence", "Acumen" },
+                { "wisdom", "Divinity" },
+                { "luck", "Fortune" }
+            };
+            if (lookups.ContainsKey(stat)) item.name = item.name + " of " + lookups[stat];
+            else item.name = item.name + CharacterAttribute.attributes[stat].friendlyName;
         }
     }
 

@@ -119,13 +119,11 @@ public static class Effects {
 
     public static void AttrSteal(Character attacker, Character target) {
         if (attacker.GetComponent<Gremlin>().item != null) return;
-        if (SharedInventory.instance.inventory.Count == 0) return;
-        int i = UnityEngine.Random.Range(0, SharedInventory.instance.inventory.Count);
-        attacker.GetComponent<Gremlin>().item = SharedInventory.instance.inventory[i];
-        SharedInventory.instance.inventory.RemoveAt(i);
-        target.GetComponent<ConfigGrabber>().sharedInventory.CmdRefresh();
-        //attacker.GetComponent<MonsterCombatant>().behaviorType = "thief";
-        //attacker.GetComponent<MonsterCombatant>().behavior = new ThiefBehavior();
+        if (PlayerCharacter.localPlayer.inventory.items.Count == 0) return;
+
+        int i = UnityEngine.Random.Range(0, PlayerCharacter.localPlayer.inventory.items.Count);
+        attacker.GetComponent<Gremlin>().item = PlayerCharacter.localPlayer.inventory.items[i];
+        PlayerCharacter.localPlayer.inventory.items.RemoveAt(i);
         target.GetComponent<ObjectSpawner>().CreateFloatingStatusText("ITEM STOLEN", "A gremlin stole one of your items!");
     }
 }

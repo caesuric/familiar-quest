@@ -23,7 +23,6 @@ public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHan
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        GetComponent<InventoryItemUpdater>().inventory.sharedInventory.CmdRefresh();
         GetComponent<InventoryItemUpdater>().inventory.RefreshInABit();
         Destroy(gameObject);
     }

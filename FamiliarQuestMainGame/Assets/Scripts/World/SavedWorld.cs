@@ -15,18 +15,15 @@ public class SavedWorld {
 
     public static SavedWorld ConvertFrom(GameObject go) {
         var obj = new SavedWorld();
-        var sharedInventory = go.GetComponent<SharedInventory>();
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
-        foreach (var item in sharedInventory.inventory) obj.inventory.Add(SavedItem.ConvertFrom(item));
+        foreach (var item in PlayerCharacter.localPlayer.inventory.items) obj.inventory.Add(SavedItem.ConvertFrom(item));
         obj.name = worldAutoSaver.worldName;
         return obj;
     }
 
     public void ConvertTo(GameObject go) {
-        var sharedInventory = go.GetComponent<SharedInventory>();
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
-        foreach (var item in inventory) sharedInventory.inventory.Add(item.ConvertTo());
-        sharedInventory.CmdRefresh();
+        foreach (var item in inventory) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
         worldAutoSaver.worldName = name;
     }
 }
