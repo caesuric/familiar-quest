@@ -58,8 +58,7 @@ public class EquipmentNamer {
     }
 
     public static int GetAttackPowerNumberFromItem(Item item) {
-        var weapon = item as Weapon;
-        if (weapon == null) return 0;
+        if (!(item is Weapon weapon)) return 0;
         var character = GetCharacter();
         if (item is MeleeWeapon) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
         else if (item is RangedWeapon && ((RangedWeapon)weapon).usesInt) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);

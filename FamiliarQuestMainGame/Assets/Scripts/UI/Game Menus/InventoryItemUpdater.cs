@@ -39,6 +39,16 @@ public class InventoryItemUpdater : MonoBehaviour {
         { "necklace", "Necklace" },
         { "shoes", "Shoes" }
     };
+    private static readonly List<string> qualityDisplayTypes = new List<string>() {
+        "",
+        "High Quality ",
+        "Masterwork ",
+        "Enchanted ",
+        "Rare ",
+        "Artifact ",
+        "Legendary ",
+        "Transcendent "
+    };
 
     // Update is called once per frame
     void Update() {
@@ -211,7 +221,11 @@ private void Equip() {
         tooltip.contentLines[0].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Title;
         tooltip.contentLines[0].Content = name;
         tooltip.contentLines[1].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Description;
-        tooltip.contentLines[1].Content = displayTypes[type];
+        if (item is Equipment) {
+            Equipment equipment = item as Equipment;
+            tooltip.contentLines[1].Content = qualityDisplayTypes[equipment.quality] + displayTypes[type];
+        }
+        else tooltip.contentLines[1].Content = displayTypes[type];
         tooltip.contentLines[2].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
         tooltip.contentLines[2].CustomLineStyle = "ItemAttribute";
         tooltip.contentLines[2].Content = description.Replace("{{AttackPower}}", EquipmentNamer.GetAttackPowerNumberFromItem(item).ToString() + " Attack");
