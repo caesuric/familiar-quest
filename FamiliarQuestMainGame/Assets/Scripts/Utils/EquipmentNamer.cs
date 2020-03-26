@@ -57,13 +57,19 @@ public class EquipmentNamer {
         return "";
     }
 
-    public static int GetAttackPowerNumberFromStat(float attackPower, string subtype) {
-        if (subtype == "") return 0;
+    public static int GetAttackPowerNumberFromItem(Item item) {
+        var weapon = item as Weapon;
+        if (weapon == null) return 0;
         var character = GetCharacter();
-        if (subtype == "strength") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
-        else if (subtype == "intelligence") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
-        else if (subtype == "dexterity") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
-        return 0;
+        if (item is MeleeWeapon) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
+        else if (item is RangedWeapon && ((RangedWeapon)weapon).usesInt) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        else return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
+        //if (subtype == "") return 0;
+        //var character = GetCharacter();
+        //if (subtype == "strength") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
+        //else if (subtype == "intelligence") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        //else if (subtype == "dexterity") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
+        //return 0;
     }
 
     public static int GetAttackPowerNumber(Weapon item) {

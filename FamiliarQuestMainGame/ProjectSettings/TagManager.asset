@@ -40,6 +40,7 @@ TagManager:
   - AbilityGuide
   - Changelog
   - MouseOverPanel
+  - ShopPane
   layers:
   - Default
   - TransparentFX

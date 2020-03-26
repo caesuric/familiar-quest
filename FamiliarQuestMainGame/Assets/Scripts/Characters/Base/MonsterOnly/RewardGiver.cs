@@ -154,7 +154,7 @@ class RewardGiver : MonoBehaviour {
         else if (roll == 6) item = GenerateHat(armor);
         else if (roll == 7) item = GenerateShoes(armor);
         else if (roll > 7 && quality > 0) item = GenerateBracelet();
-        else if (roll == 0) {
+        else { // if (roll == 0) 
             int roll2 = Random.Range(0, 3);
             switch (roll2) {
                 case 0:
