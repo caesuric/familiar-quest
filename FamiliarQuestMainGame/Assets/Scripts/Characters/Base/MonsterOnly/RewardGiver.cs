@@ -191,8 +191,8 @@ class RewardGiver : MonoBehaviour {
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
 
         item.description += GetDescriptionText(item);
-        EquipmentNamer.NameEquipment(item);
         item.quality = quality;
+        EquipmentNamer.NameEquipment(item);
         return item;
     }
 

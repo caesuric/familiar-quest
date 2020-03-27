@@ -28,6 +28,19 @@ public abstract class Equipment : Item {
         }
         return highest;
     }
+
+    public string GetSecondHighestStat() {
+        var highest = GetHighestStat();
+        var secondHighest = "";
+        var secondHighestValue = 0;
+        foreach (var kvp in stats) {
+            if (kvp.Value > secondHighestValue && kvp.Key != highest) {
+                secondHighestValue = kvp.Value;
+                secondHighest = kvp.Key;
+            }
+        }
+        return secondHighest;
+    }
 }
 
 public class EquipmentEffect {
