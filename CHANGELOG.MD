@@ -1,3 +1,20 @@
+# v0.14
+
+## Equipment updates
+
+* Rehauled attribute system -- secondary attribute dependencies are now scaled completely differently
+* Equipment of Masterwork (orange) quality or better is now generated with secondary stats in addition to primary stats!
+* There is now a sample shop in the starting area at which you can buy and sell equipment
+* Tooltips now show the quality type of the item (Normal - white, High Quality - red, Masterwork - orange, Enchanted - yellow, Rare - green, Artifact - blue, Legendary - indigo, Transcendent - purple)
+* Equipment names now vary based on the item quality and the highest two stats of the item - there are more than 130 name modifiers!
+* Dropped gear is no longer necessarily tied to the player's primary stat. This is a test to see if I have made other stats valuable enough and may be reverted eventually.
+* Fixed a race condition with character loading
+
+### Known Issues
+
+* Attributes effects on character creation screen are vaguely correct regarding what they do, but the exact numerical results may vary from the displayed results. Once you start the game, the secondary stats on the character creation pane are accurate.
+* Potions will continue to display on your hotbar even after you have used them all.
+
 # v0.13.1
 
 ## Minor bug fixes
