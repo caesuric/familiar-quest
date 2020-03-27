@@ -63,17 +63,17 @@ public class PlayerCharacter : DependencyUser {
 
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
-        if (!ready ) {
-            if (GetComponent<NetworkCharacterSyncer>() == ProtoClient.localPlayer) OnStartLocalPlayer();
+        if (!ready && GetComponent<NetworkCharacterSyncer>() == ProtoClient.localPlayer) {
+            OnStartLocalPlayer();
             var lobbyCurtain = GameObject.FindGameObjectWithTag("LobbyCurtain");
             if (lobbyCurtain != null) lobbyCurtain.SetActive(false);
             ready = true;
         }
-        else if (!ready && GetComponent<ConfigGrabber>().overworldInitializer!=null) {
-            GetComponent<ConfigGrabber>().overworldInitializer.CmdSetCharacterPosition(gameObject);
-            GameObject.FindGameObjectWithTag("LobbyCurtain").SetActive(false);
-            ready = true;
-        }
+        //else if (!ready && GetComponent<ConfigGrabber>().overworldInitializer!=null) {
+        //    GetComponent<ConfigGrabber>().overworldInitializer.CmdSetCharacterPosition(gameObject);
+        //    GameObject.FindGameObjectWithTag("LobbyCurtain").SetActive(false);
+        //    ready = true;
+        //}
         //else if (!ready && GetComponent<ConfigGrabber>().initializeOverlordMode!=null) {
         //    if (NetworkServer.active) {
         //        GetComponent<ConfigGrabber>().initializeOverlordMode.SetupOverlord(gameObject);

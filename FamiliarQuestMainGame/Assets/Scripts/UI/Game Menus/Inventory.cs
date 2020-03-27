@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour {
         if (player == null) {
             var players = PlayerCharacter.players;
             foreach (var item in players) if (item.isMe) player = item.GetComponent<PlayerCharacter>();
+            PlayerCharacter.localPlayer = player;
             player.inventory = this;
             if (player!= null && LobbyManager.singleton.worldByteArray != null) {
                 BinaryFormatter bf = new BinaryFormatter();

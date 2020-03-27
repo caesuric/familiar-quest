@@ -18,10 +18,10 @@ public class ShopPaneController : MonoBehaviour {
     private void AddItem(Item item) {
         var go = Instantiate(objectPrefab, objectContainer.transform);
         shopObjects.Add(go);
-        var iiu = go.GetComponent<InventoryItemUpdater>();
-        iiu.Initialize(item, PlayerCharacter.localPlayer.inventory);
         var sic = go.GetComponent<ShopItemController>();
         sic.Initialize(shop, Shop.Appraise(item));
+        var iiu = go.GetComponent<InventoryItemUpdater>();
+        iiu.Initialize(item, PlayerCharacter.localPlayer.inventory);
     }
 
     public void SellItem(Item item) {

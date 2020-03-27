@@ -105,7 +105,7 @@ public class InventoryItemUpdater : MonoBehaviour {
             var equipment = item as Equipment;
 
             foreach (var kvp in CharacterAttribute.attributes) {
-                if (equipment.stats.ContainsKey(kvp.Key)) AddArrow(equipment.stats[kvp.Key], GetStatOnEquippedGear(equipment, kvp.Key));
+                if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment)!=null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) AddArrow(equipment.GetStatValue(kvp.Key), GetStatOnEquippedGear(equipment, kvp.Key));
             }
         }
     }
@@ -128,7 +128,7 @@ public class InventoryItemUpdater : MonoBehaviour {
         var equipment = item as Equipment;
 
         foreach (var kvp in CharacterAttribute.attributes) {
-            if (equipment.stats.ContainsKey(kvp.Key)) AddArrow(equipment.stats[kvp.Key], GetStatOnEquippedGear(equipment, kvp.Key));
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) AddArrow(equipment.GetStatValue(kvp.Key), GetStatOnEquippedGear(equipment, kvp.Key));
         }
     }
 
@@ -143,6 +143,19 @@ public class InventoryItemUpdater : MonoBehaviour {
         else if (originalEquipment is Necklace && inventory.player.necklace != null) return inventory.player.necklace.GetStatValue(stat);
         else if (originalEquipment is Shoes && inventory.player.shoes != null) return inventory.player.shoes.GetStatValue(stat);
         else return 0;
+    }
+
+    private Equipment GetEquippedGear(Equipment originalEquipment) {
+        if (originalEquipment is Weapon && inventory.player.weapon != null) return inventory.player.weapon;
+        else if (originalEquipment is Armor && inventory.player.armor != null) return inventory.player.armor;
+        else if (originalEquipment is Belt && inventory.player.belt != null) return inventory.player.belt;
+        else if (originalEquipment is Bracelet && inventory.player.bracelets[0] != null) return inventory.player.bracelets[0];
+        else if (originalEquipment is Cloak && inventory.player.cloak != null) return inventory.player.cloak;
+        else if (originalEquipment is Earring && inventory.player.earring != null) return inventory.player.earring;
+        else if (originalEquipment is Hat && inventory.player.hat != null) return inventory.player.hat;
+        else if (originalEquipment is Necklace && inventory.player.necklace != null) return inventory.player.necklace;
+        else if (originalEquipment is Shoes && inventory.player.shoes != null) return inventory.player.shoes;
+        else return null;
     }
 
     private void AddArrow(int a, int b) {
@@ -199,6 +212,7 @@ private void Equip() {
         statTextContainer = inventory.inventoryDetailsStatTextContainer;
         statResultsContainer = inventory.inventoryDetailsStatResultsContainer;
         number = inventory.items.IndexOf(item);
+        if (GetComponent<ShopItemController>() != null) number = GetComponent<ShopItemController>().shop.goods.IndexOf(item);
         if (item is Equipment) quality = ((Equipment)item).quality;
         image.sprite = images[item.icon];
         var canvas = GetComponentInParent<Canvas>();
@@ -243,7 +257,7 @@ private void Equip() {
         if (!(item is Equipment equipment)) return "";
         if (equipment.stats == null) return "";
         foreach (var kvp in CharacterAttribute.attributes) {
-            if (equipment.stats.ContainsKey(kvp.Key)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment)!=null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key) && GetEquippedGear(equipment).GetStatValue(kvp.Key) > 0)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
         }
         return output;
     }

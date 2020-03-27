@@ -23,7 +23,7 @@ public class SavedWorld {
 
     public void ConvertTo(GameObject go) {
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
-        foreach (var item in inventory) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
+        foreach (var item in inventory) if (item!=null) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
         worldAutoSaver.worldName = name;
     }
 }
