@@ -97,16 +97,7 @@ class RewardGiver : MonoBehaviour {
         else if (roll == 0 && dexterity >= intelligence && dexterity >= strength) item = DropBow(attacker);
         else if (roll == 0 && strength >= dexterity && strength >= intelligence) item = DropSword(attacker);
         else return;
-        if (statAdjusted1>0) {
-            //if (intelligence >= dexterity && intelligence >= strength) item.intelligence += statAdjusted1;
-            //else if (dexterity >= intelligence && dexterity >= strength) item.dexterity += statAdjusted1;
-            //else item.strength += statAdjusted1;
-            //item.constitution += (statAdjusted1 / 2);
-            if (intelligence >= dexterity && intelligence >= strength) item.AddStat("intelligence", statAdjusted1);
-            else if (dexterity >= intelligence && dexterity >= strength) item.AddStat("dexterity", statAdjusted1);
-            else item.AddStat("strength", statAdjusted1);
-            item.AddStat("constitution", statAdjusted1 / 2);
-        }
+        if (statAdjusted1 > 0) BuffRandomStat(item, statAdjusted1);
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
@@ -169,23 +160,7 @@ class RewardGiver : MonoBehaviour {
                     break;
             }
         }
-        int roll3 = Random.Range(0, 3);
-        switch (roll3) {
-            case 0:
-            default:
-                //item.intelligence += statAdjusted1;
-                item.AddStat("intelligence", statAdjusted1);
-                break;
-            case 1:
-                //item.dexterity += statAdjusted1;
-                item.AddStat("dexterity", statAdjusted1);
-                break;
-            case 2:
-                //item.strength += statAdjusted1;
-                item.AddStat("strength", statAdjusted1);
-                break;
-        }
-
+        if (statAdjusted1 > 0) BuffRandomStat(item, statAdjusted1);
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);

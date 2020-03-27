@@ -1000,23 +1000,8 @@ public class EquipmentNamer {
         var stat = item.GetHighestStat();
         var stat2 = item.GetSecondHighestStat();
         var statMashup = stat + "_" + stat2;
-        Debug.Log(item.quality);
         item.name = baseNames[item.quality][item.name];
-        Debug.Log(statMashup);
         if (statMashup!="_") item.name = modifiers[statMashup].GetModifier(item.name);
-        //if (stat == "") item.name = "Common " + item.name;
-        //else {
-        //    var lookups = new Dictionary<string, string>() {
-        //        { "strength", "Power" },
-        //        { "dexterity", "Grace" },
-        //        { "constitution", "Endurance" },
-        //        { "intelligence", "Acumen" },
-        //        { "wisdom", "Divinity" },
-        //        { "luck", "Fortune" }
-        //    };
-        //    if (lookups.ContainsKey(stat)) item.name = item.name + " of " + lookups[stat];
-        //    else item.name = item.name + CharacterAttribute.attributes[stat].friendlyName;
-        //}
     }
 
     public static string GetHpAndMp(Armor item) {
