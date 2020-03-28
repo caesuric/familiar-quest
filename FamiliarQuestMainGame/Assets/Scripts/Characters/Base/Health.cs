@@ -14,6 +14,7 @@ public class Health : DependencyUser {
     private UnitFrame unitFrame = null;
     private bool isPlayer = false;
     private delegate void Effect(AbilityAttribute Attribute);
+    private bool initialCalculationComplete = false;
 
     // Use this for initialization
     void Start() {
@@ -27,6 +28,8 @@ public class Health : DependencyUser {
 
     // Update is called once per frame
     void Update() {
+        if (!initialCalculationComplete) Calculate();
+        if (maxHP == 0) return;
         if (hp <= 0) {
             hp = 0;
             if (GetComponent<Monster>() != null) GetComponent<MonsterMortal>().OnDeath();
@@ -43,8 +46,7 @@ public class Health : DependencyUser {
         int newHP = (int)CharacterAttribute.attributes["bonusHp"].instances[GetComponent<Character>()].TotalValue;
         hp += (newHP - maxHP);
         maxHP = newHP;
-        //healingMultiplier = 0.1f * GetComponent<Character>().strength;
-        //healingMultiplier = SecondaryStatUtility.CalcReceivedHealing(GetComponent<Character>().strength, SecondaryStatUtility.GetLevel(this));
+        if (newHP != 0) initialCalculationComplete = true;
     }
 
     public float GetHpFactor(float baseFactor, int level) {
