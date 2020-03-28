@@ -101,6 +101,7 @@ class RewardGiver : MonoBehaviour {
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
+        if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
 
         item.description += GetDescriptionText(item);
         EquipmentNamer.NameEquipment(item);
@@ -164,6 +165,7 @@ class RewardGiver : MonoBehaviour {
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
+        if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
 
         item.description += GetDescriptionText(item);
         item.quality = quality;
