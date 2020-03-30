@@ -74,6 +74,7 @@ public class StatusEffectHost : DependencyUser {
         if (effect.type == "bossRage") RemoveBossRage();
         if (effect.type == "speed-" && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed /= (1 - effect.degree);
         if (effect.icon != null) Destroy(effect.icon);
+        if (effect.visual != null) Destroy(effect.visual);
         //if (effect.visual != null) NetworkServer.Destroy(effect.visual);
         statusEffects.Remove(effect);
     }

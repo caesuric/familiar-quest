@@ -82,7 +82,8 @@ public class Health : DependencyUser {
         if (amount > 0 && GetComponent<MonsterSounds>() != null) GetComponentInChildren<AudioGenerator>().PlaySoundByName(GetComponent<MonsterSounds>().onHit);
         if (amount > 0 && GetComponent<OchreJelly>() != null) GetComponent<OchreJelly>().Split();
         if (ability == null || ability.FindAttribute("delay") == null) {
-            if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
+            if (!silent && amount == 0) CreateFloatingImmunityText(attacker);
+            else if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
             ResurrectIfApplicable();
         }
     }
@@ -133,6 +134,14 @@ public class Health : DependencyUser {
         if (amount < 0) GetComponent<ObjectSpawner>().CreateFloatingHealingText((int)amount * -1, name + " healed for " + amount.ToString() + ".");
         else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
         else GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
+    }
+
+    private void CreateFloatingImmunityText(Character attacker) {
+        var name = gameObject.name;
+        if (name == "kittenCharacter (Clone)") name = "Player";
+        var attackerName = attacker.gameObject.name;
+        if (attackerName == "kittenCharacter (Clone)") name = "Player";
+        GetComponent<ObjectSpawner>().CreateFloatingImmunityText(name, attackerName);
     }
 
     private void ResurrectIfApplicable() {

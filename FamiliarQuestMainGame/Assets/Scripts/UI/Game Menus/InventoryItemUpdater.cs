@@ -164,8 +164,9 @@ public class InventoryItemUpdater : MonoBehaviour {
     }
 
     public void Click() {
+        var characterSheet = GameObject.FindGameObjectWithTag("CharacterSheet").GetComponent<DuloGames.UI.UIWindow>();
         var shop = GameObject.FindGameObjectWithTag("ShopPane").GetComponent<DuloGames.UI.UIWindow>();
-        if (shop.IsOpen) shop.GetComponent<ShopPaneController>().SellItem(item);
+        if (!characterSheet.IsOpen && shop.IsOpen) shop.GetComponent<ShopPaneController>().SellItem(item);
         else Equip();
     }
 private void Equip() {

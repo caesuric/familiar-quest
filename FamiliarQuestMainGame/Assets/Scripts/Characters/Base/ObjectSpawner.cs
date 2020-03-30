@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System;
 
 public class ObjectSpawner : DependencyUser {
 
@@ -118,5 +119,9 @@ public class ObjectSpawner : DependencyUser {
         //else if (obj.GetComponent<NetworkIdentity>() == null) Debug.Log("Failed to spawn: " + obj.ToString());
         //else NetworkServer.Spawn(Instantiate(obj, position, rotation));
         else Instantiate(obj, position, rotation);
+    }
+
+    internal void CreateFloatingImmunityText(string target, string source) {
+        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition("IMMUNE", Color.red, 180, source + " hits " + target + ". " + target + " is IMMUNE.", transform.position);
     }
 }

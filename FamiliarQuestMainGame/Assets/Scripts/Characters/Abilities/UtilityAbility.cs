@@ -168,7 +168,7 @@ public class UtilityAbility : ActiveAbility {
                     description += "Heals {{hot}}.\n";
                     break;
                 case "mpOverTime":
-                    description += "Restores {{mpOverTime}}.\n";
+                    description += "Restores {{restoreMpOverTime}}.\n";
                     break;
                 case "stealthy":
                     description += "Doesn't break stealth.\n";

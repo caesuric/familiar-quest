@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class ItemDrop : MonoBehaviour {
 
+    Equipment item = null;
+
     public void Initialize(Equipment item, Inventory inventory) {
         StartCoroutine(InitializeInABit(item, inventory));
+        this.item = item;
     }
 
     public IEnumerator InitializeInABit(Equipment item, Inventory inventory) {
@@ -16,8 +19,10 @@ public class ItemDrop : MonoBehaviour {
 
 
     public void OnClick() {
-        GameObject.FindGameObjectWithTag("Canvas").GetComponent<Inventory>().Refresh();
-        DropsArea.OpenInventory();
+        if (PlayerCharacter.localPlayer.inventory.items.Contains(item)) {
+            GameObject.FindGameObjectWithTag("Canvas").GetComponent<Inventory>().Refresh();
+            DropsArea.OpenInventory();
+        }
         DropsArea.ClearDrops();
     }
 }
