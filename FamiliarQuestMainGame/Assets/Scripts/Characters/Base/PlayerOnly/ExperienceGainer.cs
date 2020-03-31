@@ -6,6 +6,11 @@ using System.Collections.Generic;
 public class ExperienceGainer : DependencyUser {
     public static List<long> xpTable = new List<long>();
     public static List<int> xpPerMob = new List<int>();
+    public GameObject levelUpEffect;
+    public AudioClip levelUpSound;
+    public float timer = 0f;
+    public bool showLevelUpEffect = false;
+    private GameObject levelUpEffectInstance = null;
     //  int[] xpTable = new int[] { 200, 462, 805, 1254, 1842, 2613, 3624, 4950, 6689, 8969, 11959, 15880, 21022, 27766, 36611, 48212, 63428, 83385, 109561, 143894, 188926, 247991, 325463, 427078, 560360, 735178, 964476, 1265232, 1659715, 2177134, 2855801, 3745967, 4913544, 6444984, 8453681, 11088368, 14544128, 19076841, 25022128, 32820204, 43048472, 56464277, 74060983, 97141526, 127414889, 167122642, 219204919, 287518116 };
     //[SyncVar]
     public float xpPercentage = 1.0f;
@@ -61,6 +66,15 @@ public class ExperienceGainer : DependencyUser {
         }
     }
 
+    void Update() {
+        if (showLevelUpEffect) timer += Time.deltaTime;
+        if (timer>10f) {
+            showLevelUpEffect = false;
+            timer = 0f;
+            Destroy(levelUpEffectInstance);
+        }
+    }
+
     // Use this for initialization
     void Start() {
         dependencies = new List<string>() { "PlayerCharacter", "Character" };
@@ -92,6 +106,12 @@ public class ExperienceGainer : DependencyUser {
     private void LevelUp() {
         int targetLevel = DetermineTargetLevel();
         for (int i = level; i < targetLevel; i++) ActuallyLevelUp();
+        LevelUpTextUpdater.Trigger();
+        levelUpEffectInstance = Instantiate(levelUpEffect, transform);
+        showLevelUpEffect = true;
+        timer = 0f;
+        GetComponent<AudioSource>().clip = levelUpSound;
+        GetComponent<AudioSource>().Play();
     }
 
     private int DetermineTargetLevel() {

@@ -1552,7 +1552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c73e6b59060fd47a34d856e5e65980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedInventory: {fileID: 0}
   overworldInitializer: {fileID: 0}
   initializeOverlordMode: {fileID: 0}
 --- !u!114 &114858188507127338
@@ -1582,6 +1581,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dependencies: []
+  levelUpEffect: {fileID: 352738685310017863, guid: 29fa3c7ea5e82f6468ad80dbda6054cf,
+    type: 3}
+  levelUpSound: {fileID: 8300000, guid: 35834d284085b684bb3412ac305b9639, type: 3}
+  timer: 0
+  showLevelUpEffect: 0
   xpPercentage: 1
   xp: 0
   level: 1
