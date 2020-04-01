@@ -34,6 +34,7 @@ public class ExperienceGainer : DependencyUser {
     public int luck;
     //[SyncVar]
     public int sparePoints = 0;
+    bool initialCalculationComplete = false;
 
     static ExperienceGainer() {
         float killsNeededMultiplyFactor = 1.1f;
@@ -67,6 +68,7 @@ public class ExperienceGainer : DependencyUser {
     }
 
     void Update() {
+        if (!initialCalculationComplete) Calculate();
         if (showLevelUpEffect) timer += Time.deltaTime;
         if (timer>10f) {
             showLevelUpEffect = false;
@@ -75,12 +77,17 @@ public class ExperienceGainer : DependencyUser {
         }
     }
 
+    private void Calculate() {
+        xpToLevel = xpTable[level - 1] - xp;
+        xpPercentage = GetXPPercentage();
+        if (xpPercentage != 0) initialCalculationComplete = true;
+    }
+
     // Use this for initialization
     void Start() {
         dependencies = new List<string>() { "PlayerCharacter", "Character" };
         Dependencies.Check(this);
-        xpToLevel = xpTable[level - 1] - xp;
-        xpPercentage = GetXPPercentage();
+        Calculate();
     }
 
     public void GainXP(int amount) {
@@ -99,8 +106,7 @@ public class ExperienceGainer : DependencyUser {
         }
         xp += amount;
         if (xp >= xpTable[level - 1]) LevelUp();
-        xpToLevel = xpTable[level - 1] - xp;
-        xpPercentage = GetXPPercentage();
+        Calculate();
     }
 
     private void LevelUp() {

@@ -65,6 +65,7 @@ public class Health : DependencyUser {
     }
 
     public void TakeDamage(float amount, Element type, Character attacker, bool silent = false, AttackAbility ability = null, Transform projectileTransform = null) {
+        var originalAmount = amount;
         if (GetComponent<MirrorImage>() != null) {
             Destroy(gameObject);
             return;
@@ -82,7 +83,7 @@ public class Health : DependencyUser {
         if (amount > 0 && GetComponent<MonsterSounds>() != null) GetComponentInChildren<AudioGenerator>().PlaySoundByName(GetComponent<MonsterSounds>().onHit);
         if (amount > 0 && GetComponent<OchreJelly>() != null) GetComponent<OchreJelly>().Split();
         if (ability == null || ability.FindAttribute("delay") == null) {
-            if (!silent && amount == 0) CreateFloatingImmunityText(attacker);
+            if (!silent && amount == 0 && amount != originalAmount) CreateFloatingImmunityText(attacker);
             else if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
             ResurrectIfApplicable();
         }

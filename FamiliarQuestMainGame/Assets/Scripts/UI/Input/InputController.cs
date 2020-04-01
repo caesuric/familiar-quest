@@ -155,7 +155,14 @@ public class InputController : MonoBehaviour {
         };
         List<RaycastResult> results = new List<RaycastResult>();
         caster.Raycast(pointerEventData, results);
-        if (results.Count > 0 && results[0].gameObject.name != "Large Status Text" && results[0].gameObject.name != "Minimap" && results[0].gameObject.name != "Party Health Pane" && !results[0].gameObject.name.Contains("Minimap") && results[0].gameObject.name != "Canvas") return true;
+        var whitelistObjects = new List<string>() {
+            "Large Status Text",
+            "Level Up Text",
+            "Minimap",
+            "Party Health Pane",
+            "Canvas"
+        };
+        if (results.Count > 0 && !whitelistObjects.Contains(results[0].gameObject.name) && !results[0].gameObject.name.Contains("Minimap")) return true;
         return false;
     }
 
