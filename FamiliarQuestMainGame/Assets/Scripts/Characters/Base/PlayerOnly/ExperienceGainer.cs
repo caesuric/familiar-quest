@@ -113,7 +113,7 @@ public class ExperienceGainer : DependencyUser {
         int targetLevel = DetermineTargetLevel();
         for (int i = level; i < targetLevel; i++) ActuallyLevelUp();
         LevelUpTextUpdater.Trigger();
-        levelUpEffectInstance = Instantiate(levelUpEffect, transform);
+        levelUpEffectInstance = Instantiate(levelUpEffect);
         showLevelUpEffect = true;
         timer = 0f;
         GetComponent<AudioSource>().clip = levelUpSound;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 352738685310017861}
   - component: {fileID: 352738685310017862}
   - component: {fileID: -5111404048191422592}
+  - component: {fileID: -2694075722047493626}
   m_Layer: 0
   m_Name: LevelUpEffect
   m_TagString: Untagged
@@ -4826,3 +4827,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DegreesPerFrame: {x: 0.01, y: 0, z: 0}
+--- !u!114 &-2694075722047493626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352738685310017863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1505ae8779b3de341beee1f6b3a67d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
