@@ -26,7 +26,8 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
     public void OnDrop(PointerEventData data) {
         if (data.pointerDrag != null && data.pointerDrag.GetComponent<InventoryItemUpdater>() != null) {
             var itemUpdater = data.pointerDrag.GetComponent<InventoryItemUpdater>();
-            if (MatchesSlotType(itemUpdater)) {
+            if (itemUpdater.item is Bracelet && itemUpdater.number < 0) itemUpdater.inventory.SwapBracelet(itemUpdater.item, equipNumber);
+            else if (MatchesSlotType(itemUpdater)) {
                 itemUpdater.inventory.EquipItem(itemUpdater.number, equipNumber: equipNumber);
             }
         }

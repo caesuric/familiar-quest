@@ -122,6 +122,8 @@ public class PlayerCharacter : DependencyUser {
 
     //[Command]
     public void CmdEquipItem(int number, int slotNumber) {
+        Debug.Log(number);
+        Debug.Log(slotNumber);
         var item = inventory.items[number] as Equipment;
         if (item is Weapon) EquipWeapon(number);
         else if (item is Armor) EquipArmor(number);

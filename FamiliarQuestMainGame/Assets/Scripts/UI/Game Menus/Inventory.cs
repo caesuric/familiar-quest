@@ -184,6 +184,18 @@ public class Inventory : MonoBehaviour {
         StartCoroutine(RefreshInABit());
     }
 
+    public void SwapBracelet(Item item, int equipNumber) {
+        var bracelet = item as Bracelet;
+        var targetBracelet = PlayerCharacter.localPlayer.bracelets[equipNumber];
+        int braceletIndex = 0;
+        for (int i=0; i<PlayerCharacter.localPlayer.bracelets.Length; i++) {
+            if (PlayerCharacter.localPlayer.bracelets[i] == bracelet) braceletIndex = i;
+        }
+        PlayerCharacter.localPlayer.bracelets[braceletIndex] = targetBracelet;
+        PlayerCharacter.localPlayer.bracelets[equipNumber] = bracelet;
+        StartCoroutine(RefreshInABit());
+    }
+
     public IEnumerator RefreshInABit() {
         yield return new WaitForSeconds(0.2f);
         RefreshItems();
