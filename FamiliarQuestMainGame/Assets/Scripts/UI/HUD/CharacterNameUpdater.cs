@@ -14,7 +14,11 @@ public class CharacterNameUpdater : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (PlayerCharacter.players.Count == 0) return;
-        if (pc == null) pc = PlayerCharacter.players[0];
+        if (pc == null) pc = PlayerCharacter.localPlayer;
+        if (pc.GetComponent<PlayerSyncer>()==null) {
+            pc = null;
+            return;
+        }
         text.text = pc.GetComponent<PlayerSyncer>().characterName.ToUpper();
     }
 }

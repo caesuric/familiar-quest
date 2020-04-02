@@ -89,7 +89,7 @@ public class CharacterAttributeInstance {
         float minimum = CharacterAttribute.attributes[name].GetMinimum(level);
         float average = CharacterAttribute.attributes[name].GetAverage(level);
         float maximum = CharacterAttribute.attributes[name].GetMaximum(level);
-        if (percentage < 0.5) return ((average - minimum) * (percentage / 2) + minimum);
+        if (percentage < 0.5) return ((average - minimum) * (percentage * 2) + minimum);
         else if (percentage == 0.5) return average;
         else return ((maximum - average) * ((percentage - 0.5f) * 2) + average);
     }

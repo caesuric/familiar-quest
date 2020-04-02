@@ -104,7 +104,7 @@ public class SecondaryStatUtility {
         return 0;
     }
 
-    private static int DetermineMaximum(int level) {
+    public static int DetermineMaximum(int level) {
         int primaryStat = 20;
         int otherStats = 8;
         for (int i = 1; i < level; i++) {
@@ -117,7 +117,7 @@ public class SecondaryStatUtility {
         return primaryStat;
     }
 
-    private static int DetermineMinimum(int level) {
+    public static int DetermineMinimum(int level) {
         int primaryStat = 1;
         int otherStatTotal = 59;
         for (int i = 1; i < level; i++) {
@@ -130,7 +130,7 @@ public class SecondaryStatUtility {
         return primaryStat;
     }
 
-    private static int DetermineAverage(int level) {
+    public static int DetermineAverage(int level) {
         int primaryStat = 10;
         for (int i = 1; i < level; i++) {
             int bonusPoints = (int)((primaryStat * 6) * 0.02f);

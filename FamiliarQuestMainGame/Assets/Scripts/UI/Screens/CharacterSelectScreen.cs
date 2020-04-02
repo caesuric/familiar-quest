@@ -51,11 +51,30 @@ public class CharacterSelectScreen : MonoBehaviour {
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
     private List<PassiveAbility> passiveAbilities = new List<PassiveAbility>();
     private readonly List<Ability> chosenAbilities = new List<Ability>();
+    private static Character fakeCharacter = null;
     // Use this for initialization
     void Start() {
         UpdateCharacterNameList();
         UpdateCharacters();
         MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
+        var cgo = new GameObject();
+        cgo.AddComponent<NoiseMaker>();
+        cgo.AddComponent<SimulatedNoiseGenerator>();
+        cgo.AddComponent<AudioGenerator>();
+        cgo.AddComponent<AnimationController>();
+        cgo.AddComponent<ExperienceGainer>();
+        cgo.AddComponent<CacheGrabber>();
+        cgo.AddComponent<Attacker>();
+        cgo.AddComponent<ObjectSpawner>();
+        cgo.AddComponent<StatusEffectHost>();
+        cgo.AddComponent<AbilityUser>();
+        cgo.AddComponent<SpiritUser>();
+        cgo.AddComponent<ConfigGrabber>();
+        cgo.AddComponent<HotbarUser>();
+        cgo.AddComponent<Health>();
+        cgo.AddComponent<Mana>();
+        cgo.AddComponent<PlayerCharacter>();
+        fakeCharacter = cgo.AddComponent<Character>();
     }
 
     private void UpdateCharacterNameList() {
@@ -324,6 +343,11 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public static void DeserializeCharacter(byte[] data) {
+        if (data == null) {
+            PlayerCharacter.players.Remove(fakeCharacter.GetComponent<PlayerCharacter>());
+            PlayerCharacter.localPlayer = null;
+            return;
+        }
         BinaryFormatter bf = new BinaryFormatter();
         loadedCharacter = (SavedCharacter)bf.Deserialize(new MemoryStream(data));
     }
@@ -432,22 +456,34 @@ public class CharacterSelectScreen : MonoBehaviour {
         wisdomText.text = wisdom.ToString();
         luckText.text = luck.ToString();
         sparePointsText.text = sparePoints.ToString();
-        hpText.text = SecondaryStatUtility.CalcHp(constitution, 1).ToString();
-        hpRegenRateText.text = Mathf.Floor(SecondaryStatUtility.CalcHpRegen(constitution, 1)).ToString() + " HP/sec.";
-        receivedHealingBonusText.text = Percentify(SecondaryStatUtility.CalcReceivedHealing(strength, 1));
-        armorBonusText.text = Percentify(SecondaryStatUtility.CalcArmorMultiplier(constitution, 1));
-        physicalResistText.text = Percentify(SecondaryStatUtility.CalcPhysicalResist(constitution, 1));
-        mentalResistText.text = Percentify(SecondaryStatUtility.CalcMentalResist(wisdom, 1));
-        mpText.text = SecondaryStatUtility.CalcMp(intelligence, 1).ToString();
-        mpRegenRateText.text = Mathf.Floor(SecondaryStatUtility.CalcMpRegenRate(wisdom, 1)).ToString() + " MP/sec.";
-        healingBonusText.text = Percentify(SecondaryStatUtility.CalcHealingMultiplier(wisdom, 1));
-        moveSpeedText.text = Percentify(SecondaryStatUtility.CalcMoveSpeed(dexterity, 1));
-        cooldownReductionText.text = Percentify(SecondaryStatUtility.CalcCooldownReduction(wisdom, 1));
-        criticalHitRateText.text = Percentify(SecondaryStatUtility.CalcCriticalHitRate(luck, 1));
-        criticalDamageBonusText.text = Percentify(SecondaryStatUtility.CalcCriticalDamage(luck, 1));
-        statusEffectDurationBonusText.text = Percentify(SecondaryStatUtility.CalcStatusEffectDurationBonus(luck, 1));
-        itemFindRateText.text = Percentify(SecondaryStatUtility.CalcItemFindRate(luck, 1));
-        elementalResistanceText.text = Percentify(SecondaryStatUtility.CalcElementalResistanceFromLuck(luck, 1));
+        CharacterAttribute.attributes["strength"].instances[fakeCharacter].BaseValue = strength;
+        CharacterAttribute.attributes["dexterity"].instances[fakeCharacter].BaseValue = dexterity;
+        CharacterAttribute.attributes["constitution"].instances[fakeCharacter].BaseValue = constitution;
+        CharacterAttribute.attributes["intelligence"].instances[fakeCharacter].BaseValue = intelligence;
+        CharacterAttribute.attributes["wisdom"].instances[fakeCharacter].BaseValue = wisdom;
+        CharacterAttribute.attributes["luck"].instances[fakeCharacter].BaseValue = luck;
+        hpText.text = GetStatAsString("bonusHp");
+        hpRegenRateText.text = GetStatAsString("hpRegen") + " HP/sec.";
+        receivedHealingBonusText.text = GetStatAsString("receivedHealing") + "%";
+        armorBonusText.text = GetStatAsString("armorMultiplier") + "%";
+        physicalResistText.text = GetStatAsString("physicalResistance") + "%";
+        mentalResistText.text = GetStatAsString("mentalResistance") + "%";
+        mpText.text = GetStatAsString("bonusMp");
+        mpRegenRateText.text = GetStatAsString("mpRegen") + " MP/sec.";
+        healingBonusText.text = GetStatAsString("healingMultiplier") + "%";
+        moveSpeedText.text = GetStatAsString("moveSpeed") + "%";
+        cooldownReductionText.text = GetStatAsString("cooldownReduction") + "%";
+        criticalHitRateText.text = GetStatAsString("criticalHitChance") + "%";
+        criticalDamageBonusText.text = GetStatAsString("criticalDamage") + "%";
+        statusEffectDurationBonusText.text = GetStatAsString("statusEffectDuration") + "%";
+        itemFindRateText.text = GetStatAsString("itemFindRate") + "%";
+        elementalResistanceText.text = GetStatAsString("fireResistance") + "%";
+    }
+
+    private string GetStatAsString(string stat) {
+        var number = CharacterAttribute.attributes[stat].instances[fakeCharacter].TotalValue;
+        var rounded = (int)number;
+        return rounded.ToString();
     }
 
     private string Percentify(float number) {

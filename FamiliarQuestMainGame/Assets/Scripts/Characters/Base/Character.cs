@@ -46,13 +46,13 @@ public class Character : DependencyUser {
         new CharacterAttribute("slashingResistRating", "Slashing Resist Rating", false);
         new CharacterAttribute("bashingResistRating", "Bashing Resist Rating", false);
 
-        new CharacterAttribute("bonusHp", "Bonus HP", true, new List<string> { "constitution", "hpRating" }, 0, 145, 290, 0, 7500, 15000);
+        new CharacterAttribute("bonusHp", "Bonus HP", true, new List<string> { "constitution", "hpRating" }, 15, 145, 290, 775, 7500, 15000);
         new CharacterAttribute("hpRegen", "HP Regen", true, new List<string> { "constitution", "hpRegenRating" }, 0, 0, 2, 0, 0, 100);
         new CharacterAttribute("receivedHealing", "Received Healing", true, new List<string> { "strength", "receivedHealingRating" }, 25, 100, 200, 50, 100, 400, true);
         new CharacterAttribute("armorMultiplier", "Armor Multiplier", true, new List<string> { "constitution", "armorMultiplierRating" }, 25, 100, 200, 50, 100, 400, true);
         new CharacterAttribute("physicalResistance", "Physical Resistance", true, new List<string> { "constitution", "physicalResistRating" }, 0, 30, 60, 0, 50, 100, true);
         new CharacterAttribute("mentalResistance", "Mental Resistance", true, new List<string> { "wisdom", "mentalResistRating" }, 0, 30, 60, 0, 50, 100, true);
-        new CharacterAttribute("bonusMp", "Bonus MP", true, new List<string> { "intelligence", "mpRating" }, 0, 145, 290, 0, 7500, 15000);
+        new CharacterAttribute("bonusMp", "Bonus MP", true, new List<string> { "intelligence", "mpRating" }, 15, 145, 290, 775, 7500, 15000);
         new CharacterAttribute("healingMultiplier", "Healing Multiplier", true, new List<string> { "wisdom", "healingMultiplierRating" }, 25, 100, 200, 50, 100, 400, true);
         new CharacterAttribute("mpRegen", "MP Regen Rate", true, new List<string> { "wisdom", "mpRegenRating" }, 0, 5, 10, 10, 250, 500);
         new CharacterAttribute("moveSpeed", "Move Speed", true, new List<string> { "dexterity", "moveSpeedRating" }, 75, 100, 150, 75, 100, 200, true);

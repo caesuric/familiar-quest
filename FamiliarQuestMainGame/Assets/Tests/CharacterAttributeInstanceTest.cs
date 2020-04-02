@@ -10,15 +10,37 @@ namespace Tests
 {
     public class CharacterAttributeInstanceTest
     {
+        Character character;
+
         [Test]
         [Timeout(10000)]
-        [Description("It properly updates derived stats.")]
+        [Description("It properly updates derived stats so they don't remain at 0.")]
         public void CheckDerivedStatUpdates() {
+            CharacterAttributeInstance.CreateAllAttributesForCharacter(character);
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 20;
+            Assert.IsFalse(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue == 0);
+        }
+
+        [Test]
+        [Timeout(10000)]
+        [Description("It properly scales derived stats gradually")]
+        public void CheckThatDerivedStatScalingIsGradual() {
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 1;
+            Assert.IsTrue(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue == 0f);
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 9;
+            Assert.IsTrue(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue > 50f * 7f / 9f);
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 10;
+            Assert.IsTrue(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue == 50f);
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 15;
+            Assert.IsTrue(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue == 75f);
+            CharacterAttribute.attributes["baseStat"].instances[character].BaseValue = 20;
+            Assert.IsTrue(CharacterAttribute.attributes["derivedStat"].instances[character].TotalValue == 100f);
+        }
+
+        [SetUp]
+        public void Setup() {
             SetUpAttributes();
-            var c = CreateCharacter();
-            CharacterAttributeInstance.CreateAllAttributesForCharacter(c);
-            CharacterAttribute.attributes["baseStat"].instances[c].BaseValue = 20;
-            Assert.IsFalse(CharacterAttribute.attributes["derivedStat"].instances[c].TotalValue == 0);
+            character = CreateCharacter();
         }
 
         private Character CreateCharacter() {

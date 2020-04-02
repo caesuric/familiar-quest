@@ -122,8 +122,6 @@ public class PlayerCharacter : DependencyUser {
 
     //[Command]
     public void CmdEquipItem(int number, int slotNumber) {
-        Debug.Log(number);
-        Debug.Log(slotNumber);
         var item = inventory.items[number] as Equipment;
         if (item is Weapon) EquipWeapon(number);
         else if (item is Armor) EquipArmor(number);
@@ -238,6 +236,11 @@ public class PlayerCharacter : DependencyUser {
 
     //[Command]
     public void CmdLoadCharacter(byte[] data) {
+        if (data == null) {
+            players.Remove(this);
+            localPlayer = null;
+            return;
+        }
         CharacterSelectScreen.DeserializeCharacter(data);
         CharacterSelectScreen.loadedCharacter.ConvertTo(gameObject);
         MonsterScaler.ScaleToLevel();
