@@ -255,11 +255,30 @@ private void Equip() {
     public string GetComparisonStats() {
         var output = "";
         if (number < 0) return output;
-        if (!(item is Equipment equipment)) return "";
-        if (equipment.stats == null) return "";
+        if (!(item is Equipment equipment)) return output;
+        output = GetArmorAndAttackPowerComparisons(equipment);
+        if (equipment.stats == null) return output;
         foreach (var kvp in CharacterAttribute.attributes) {
             if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment)!=null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key) && GetEquippedGear(equipment).GetStatValue(kvp.Key) > 0)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
         }
+        return output;
+    }
+
+    private string GetArmorAndAttackPowerComparisons(Equipment equipment) {
+        var output = "";
+        var oldEquipment = GetEquippedGear(equipment);
+        int numberChange = 0;
+        if (equipment.armor != 0 || (oldEquipment != null && oldEquipment.armor != 0)) {
+            if (equipment.armor > 0 || (oldEquipment != null && oldEquipment.armor > 0)) numberChange = equipment.armor - oldEquipment.armor;
+            if (numberChange > 0) output += "+";
+            if (numberChange != 0) output += numberChange.ToString() + " Armor\n";
+        }
+        if (!(equipment is Weapon)) return output;
+        var weapon = equipment as Weapon;
+        var oldWeapon = oldEquipment as Weapon;
+        numberChange = EquipmentNamer.GetAttackPowerNumberFromItem(weapon) - EquipmentNamer.GetAttackPowerNumberFromItem(oldWeapon);
+        if (numberChange > 0) output += "+";
+        if (numberChange != 0) output += numberChange.ToString() + " Attack\n";
         return output;
     }
 
