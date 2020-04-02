@@ -27,6 +27,10 @@ public class InventoryItemUpdater : MonoBehaviour {
     public Image foldoutBackground;
     public GameObject details = null;
     public Vector3 hoverOffset;
+    public Text costText;
+    public GameObject costArea;
+    private DuloGames.UI.UIWindow shop = null;
+    public int cost;
     private static Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
     private static readonly Dictionary<string, string> displayTypes = new Dictionary<string, string>() {
         { "weapon", "Weapon" },
@@ -52,6 +56,9 @@ public class InventoryItemUpdater : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (shop==null) shop = GameObject.FindGameObjectWithTag("ShopPane").GetComponent<DuloGames.UI.UIWindow>();
+        if (shop.IsOpen && !costArea.activeSelf) costArea.SetActive(true);
+        else if (!shop.IsOpen && costArea.activeSelf) costArea.SetActive(false);
         if (!details) return;
         if (!initialized && name != null) {
             initialized = true;
@@ -200,6 +207,9 @@ private void Equip() {
             var imagesTemp = Resources.LoadAll<Sprite>("Icons");
             foreach (var image in imagesTemp) images[image.name] = image;
         }
+        cost = Shop.Appraise(item);
+        costText.text = cost.ToString();
+        costArea.SetActive(false);
         this.item = item;
         name = item.name;
         description = item.description;

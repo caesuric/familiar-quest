@@ -193,6 +193,9 @@ MonoBehaviour:
   foldoutBackground: {fileID: 0}
   details: {fileID: 0}
   hoverOffset: {x: 110, y: 0, z: 0}
+  costText: {fileID: 8828785514491272389}
+  costArea: {fileID: 4373975526699825048}
+  cost: 0
 --- !u!114 &114921610736170290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +320,7 @@ MonoBehaviour:
   costText: {fileID: 8828785514491272389}
   iiu: {fileID: 0}
   cost: 100
+  shop: {fileID: 0}
 --- !u!1 &1342177289728526
 GameObject:
   m_ObjectHideFlags: 0
