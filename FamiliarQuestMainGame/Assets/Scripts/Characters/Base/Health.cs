@@ -15,6 +15,7 @@ public class Health : DependencyUser {
     private bool isPlayer = false;
     private delegate void Effect(AbilityAttribute Attribute);
     private bool initialCalculationComplete = false;
+    public float bossHpFactor = 1f;
 
     // Use this for initialization
     void Start() {
@@ -43,7 +44,7 @@ public class Health : DependencyUser {
         if (GetComponent<Monster>() != null) hpFactor = GetComponent<Monster>().hpFactor;
         else if (GetComponent<PlayerCharacter>() != null) hpFactor = GetHpFactor(hpFactor, GetComponent<ExperienceGainer>().level);
         //int newHP = (int)((float)GetComponent<Character>().constitution * hpFactor);
-        int newHP = (int)CharacterAttribute.attributes["bonusHp"].instances[GetComponent<Character>()].TotalValue;
+        int newHP = (int)(CharacterAttribute.attributes["bonusHp"].instances[GetComponent<Character>()].TotalValue * bossHpFactor);
         hp += (newHP - maxHP);
         maxHP = newHP;
         if (newHP != 0) initialCalculationComplete = true;

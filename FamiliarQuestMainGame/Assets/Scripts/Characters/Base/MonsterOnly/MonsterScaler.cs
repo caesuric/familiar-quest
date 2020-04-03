@@ -263,6 +263,7 @@ public class MonsterScaler : MonoBehaviour {
         var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
         if (GetComponent<Character>() == null) return;
         foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue = CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue * x;
+        if (hpFactor > 1) GetComponent<Health>().bossHpFactor = 60f;
         //GetComponent<RewardGiver>().xpValue = (int)(((float)GetComponent<RewardGiver>().xpValue) * x * x);
         GetComponent<RewardGiver>().baseGoldValue = (int)(((float)GetComponent<RewardGiver>().baseGoldValue) * x * x);
         //if (GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().speed *= SecondaryStatUtility.CalcMoveSpeed(GetComponent<Character>().dexterity, level);

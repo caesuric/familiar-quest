@@ -158,22 +158,30 @@ public class SavedCharacter {
         character.GetComponent<InputController>().currentAltAbility = currentAltAbility;
         pc.selectedClass = selectedClass;
         pc.GetComponent<ExperienceGainer>().sparePoints = sparePoints;
-        //character.strength = strength;
-        //character.dexterity = dexterity;
-        //character.constitution = constitution;
-        //character.intelligence = intelligence;
-        //character.wisdom = wisdom;
-        //character.luck = luck;
         CharacterAttribute.attributes["strength"].instances[character].BaseValue = strength;
         CharacterAttribute.attributes["dexterity"].instances[character].BaseValue = dexterity;
         CharacterAttribute.attributes["constitution"].instances[character].BaseValue = constitution;
         CharacterAttribute.attributes["intelligence"].instances[character].BaseValue = intelligence;
         CharacterAttribute.attributes["wisdom"].instances[character].BaseValue = wisdom;
         CharacterAttribute.attributes["luck"].instances[character].BaseValue = luck;
+        ApplyItemValue(character, pc.weapon);
+        ApplyItemValue(character, pc.armor);
+        ApplyItemValue(character, pc.necklace);
+        ApplyItemValue(character, pc.belt);
+        ApplyItemValue(character, pc.cloak);
+        ApplyItemValue(character, pc.earring);
+        ApplyItemValue(character, pc.hat);
+        ApplyItemValue(character, pc.shoes);
+        for (int i=0; i<4; i++) ApplyItemValue(character, pc.bracelets[i]);
         character.GetComponent<SpiritUser>().resurrectionTimer = resurrectionTimer;
         pc.GetComponent<PlayerSyncer>().characterName = name;
         pc.GetComponent<PlayerSyncer>().furType = furType;
         pc.GetComponent<PlayerSyncer>().furTypeSet = true;
+    }
+
+    private void ApplyItemValue(Character character, Equipment equipment) {
+        if (equipment == null) return;
+        foreach (var kvp in equipment.stats) CharacterAttribute.attributes[kvp.Key].instances[character].ItemValue += kvp.Value;
     }
 }
 

@@ -1,3 +1,28 @@
+# v 0.14.1
+
+## Bugfixes and QoL updates
+
+* Completely revamped monster and encounter scaling balance
+* Massive balancing adjustments to secondary attribute scaling
+* Leveling is now accompanied by an obvious visual effect and sound
+* You can now see how much you are selling items for
+* Equipment buffs to attributes are now correctly shown on the character sheet
+* Bracers can now be properly swapped by dragging an equipped bracer onto another bracer slot
+* You can now see how much attack power and armor will be gained or lost on an item's tooltip
+* Visual effects now vanish correctly when a buff or debuff wears off
+* Item colors now more closely match their intended values
+* It is no longer possible to have 0/0 HP or MP
+* The XP bar no longer appears empty immediately after loading a game
+* If the player's inventory, character sheet, and shop window are all open, clicking items in inventory will now equip them, not sell them
+* Double-clicking on your character's button in the character selection screen will now start the game
+* When an enemy is immune to a type of damage, they will now display the "IMMUNE" floating text instead of "0"
+* Clicking an ability in the drops area in the upper-left-hand corner will no longer open the ability menu when the ability is on the player hotbar
+* The {{mpOverTime}} variable is now properly interpolated by the tooltip system
+
+### Known Issues
+
+* Potions will continue to display on your hotbar even after you have used them all.
+
 # v0.14
 
 ## Equipment updates
