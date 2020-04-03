@@ -226,7 +226,8 @@ public class MonsterScaler : MonoBehaviour {
     }
 
     private void AdjustForMultiplier() {
-        ScaleByFactor(multiplier);
+        var overallMultiplier = multiplier / 2f;
+        ScaleByFactor(overallMultiplier);
     }
 
     private void AdjustForPlayers() {

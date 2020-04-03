@@ -87,6 +87,7 @@ public class Character : DependencyUser {
         GetComponent<StatusEffectHost>().Calculate();
         GetComponent<Mana>().Calculate();
         GetComponent<Attacker>().Calculate();
+        if (GetComponent<HotbarUser>() != null) GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     public void DetermineFaction() {

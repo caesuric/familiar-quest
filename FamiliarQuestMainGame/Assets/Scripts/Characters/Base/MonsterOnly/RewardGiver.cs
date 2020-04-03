@@ -27,15 +27,12 @@ public class RewardGiver : MonoBehaviour {
         }
         //var lootChance = SecondaryStatUtility.CalcItemFindRate(attacker.luck, attacker.GetComponent<ExperienceGainer>().level);
         var lootChance = CharacterAttribute.attributes["itemFindRate"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
-        if (GetComponent<Boss>()!=null) {
-            guaranteed = true;
-            lootChance = lootChance * 0.017752f / 0.2f;
-        }
+        if (GetComponent<Boss>()!=null) guaranteed = true;
         if (GetComponent<EnergyWisplet>() != null) guaranteed = true;
         float roll = Random.Range(0f, 1f);
-        if (guaranteed) roll = Random.Range(0f, lootChance);
-        if (roll > lootChance) return;
+        if (roll > lootChance && !guaranteed) return;
         var normalizedRoll = roll / lootChance;
+        if (guaranteed) normalizedRoll = Random.Range(0.25f, 1f);
         if (normalizedRoll <= 0.25f) DropConsumable(attacker);
         else if (normalizedRoll <= 0.5f) DropEquipment(attacker, 0);
         else if (normalizedRoll <= 0.75f) DropEquipment(attacker, 1);
@@ -108,13 +105,41 @@ public class RewardGiver : MonoBehaviour {
         EquipmentNamer.NameEquipment(item);
         item.quality = quality;
         var pc = attacker.GetComponent<PlayerCharacter>();
-        if (item is Armor && pc.armor == null) pc.armor = (Armor)item;
-        else if (item is Hat && pc.hat == null) pc.hat = (Hat)item;
-        else if (item is Shoes && pc.shoes == null) pc.shoes = (Shoes)item;
-        else if (item is Belt && pc.belt == null) pc.belt = (Belt)item;
-        else if (item is Cloak && pc.cloak == null) pc.cloak = (Cloak)item;
-        else if (item is Earring && pc.earring == null) pc.earring = (Earring)item;
-        else if (item is Necklace && pc.necklace == null) pc.necklace = (Necklace)item;
+        if (item is Armor && pc.armor == null) {
+            pc.armor = (Armor)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Hat && pc.hat == null) {
+            pc.hat = (Hat)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Shoes && pc.shoes == null) {
+            pc.shoes = (Shoes)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Belt && pc.belt == null) {
+            pc.belt = (Belt)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Cloak && pc.cloak == null) {
+            pc.cloak = (Cloak)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Earring && pc.earring == null) {
+            pc.earring = (Earring)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
+        else if (item is Necklace && pc.necklace == null) {
+            pc.necklace = (Necklace)item;
+            pc.ModifyStats(null, item);
+            pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        }
         else {
             PlayerCharacter.localPlayer.inventory.items.Add(item);
             DropsArea.AddItemDrop(item);

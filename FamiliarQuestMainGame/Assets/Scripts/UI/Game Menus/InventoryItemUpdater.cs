@@ -74,7 +74,7 @@ public class InventoryItemUpdater : MonoBehaviour {
                     foldoutBackground.color = GetComponent<Image>().color = Color.red;
                     break;
                 case 2:
-                    foldoutBackground.color = GetComponent<Image>().color = new Color(255, 165, 0);
+                    foldoutBackground.color = GetComponent<Image>().color = new Color(1, 0.647f, 0);
                     break;
                 case 3:
                     foldoutBackground.color = GetComponent<Image>().color = Color.yellow;
@@ -86,11 +86,11 @@ public class InventoryItemUpdater : MonoBehaviour {
                     foldoutBackground.color = GetComponent<Image>().color = Color.blue;
                     break;
                 case 6:
-                    foldoutBackground.color = GetComponent<Image>().color = new Color(111, 0, 255);
+                    foldoutBackground.color = GetComponent<Image>().color = new Color(111f/255f, 0, 1f);
                     break;
                 case 7:
                 default:
-                    foldoutBackground.color = GetComponent<Image>().color = new Color(128, 0, 128);
+                    foldoutBackground.color = GetComponent<Image>().color = new Color(0.5f, 0, 0.5f);
                     break;
             }
             if (number < 0) return;
@@ -330,7 +330,7 @@ private void Equip() {
                 foldoutBackground.color = GetComponent<Image>().color = Color.red;
                 break;
             case 2:
-                foldoutBackground.color = GetComponent<Image>().color = new Color(255, 165, 0);
+                foldoutBackground.color = GetComponent<Image>().color = new Color(1, 0.647f, 0);
                 break;
             case 3:
                 foldoutBackground.color = GetComponent<Image>().color = Color.yellow;
@@ -342,11 +342,11 @@ private void Equip() {
                 foldoutBackground.color = GetComponent<Image>().color = Color.blue;
                 break;
             case 6:
-                foldoutBackground.color = GetComponent<Image>().color = new Color(111, 0, 255);
+                foldoutBackground.color = GetComponent<Image>().color = new Color(111f / 255f, 0, 1f);
                 break;
             case 7:
             default:
-                foldoutBackground.color = GetComponent<Image>().color = new Color(128, 0, 128);
+                foldoutBackground.color = GetComponent<Image>().color = new Color(0.5f, 0, 0.5f);
                 break;
         }
         var pc = PlayerCharacter.localPlayer.GetComponent<Character>();

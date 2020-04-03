@@ -64,12 +64,12 @@ public class TreasureVault : Vault {
         float baseDifficulty = 3f;
         for (int i = 1; i <= 50; i++) {
             nishikadoBaseDifficultyLookup.Add(baseDifficulty);
-            baseDifficulty *= 1.072f;
+            baseDifficulty *= 1.014f;
         }
         float baseMultiplier = 1f;
         for (int i = 0; i < 7; i++) {
             nishikadoEncounterDifficultyLookup.Add(baseMultiplier);
-            baseMultiplier *= 1.31f;
+            baseMultiplier *= 1.104f;
         }
         var monsterList = Resources.LoadAll("Prefabs/Monsters");
         foreach (var monster in monsterList) monsterPrefabs.Add((GameObject)monster);
@@ -210,14 +210,14 @@ public class TreasureVault : Vault {
         //Debug.Log("Adding difficulty " + difficulty.ToString() + " monsters for concept " + concept);
         float accumulatedDifficulty = 0;
         int count = 0;
-        while (accumulatedDifficulty < difficulty && count < 30) {
+        while (accumulatedDifficulty < difficulty && count < 10) {
             count++;
             accumulatedDifficulty += AddMonsterUpToDifficulty(room, difficulty - accumulatedDifficulty, concept, individualMonsterLimit);
         }
     }
 
     private float AddMonsterUpToDifficulty(Room room, float difficultyLimit, string concept, float individualMonsterLimit) {
-        difficultyLimit = RNG.Float(difficultyLimit / 30f, difficultyLimit * 1.2f);
+        difficultyLimit = RNG.Float(difficultyLimit / 10f, difficultyLimit * 1.2f);
         individualMonsterLimit = RNG.Float(individualMonsterLimit / 2, individualMonsterLimit * 2);
         difficultyLimit = Mathf.Min(difficultyLimit, individualMonsterLimit);
         var validMonsterTypes = new List<string>();
@@ -457,7 +457,7 @@ public class TreasureVault : Vault {
         difficulty /= 22;
         var monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
         while (monsterType == "Energy Wisplet") monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
-        var monster = new MonsterData(monsterType, monsterType, LevelGen.targetLevel + 5, 4, null); //ConvertDifficultyToLevel(difficulty) // HARDCODING TO DIFF + 5 FOR NOW
+        var monster = new MonsterData(monsterType, monsterType, LevelGen.targetLevel + 3, 4, null); //ConvertDifficultyToLevel(difficulty) // HARDCODING TO DIFF + 3 FOR NOW
         monster.associatedRooms.Add(room);
         monsters.Add(monster);
     }

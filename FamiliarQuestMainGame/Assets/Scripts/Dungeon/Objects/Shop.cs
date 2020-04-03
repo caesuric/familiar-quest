@@ -53,7 +53,7 @@ public class Shop : MonoBehaviour {
 
     public static int Appraise(Item item) {
         if (costs.ContainsKey(item)) return costs[item];
-        var costLookups = new List<float>() { 20, 27, 36, 47, 63, 84, 112, 150 };
+        var costLookups = new List<float>() { 10, 20, 40, 80, 160, 320, 640, 1280 };
         var statLookups = new List<float>() { 0, 2, 3, 5, 7, 9, 12, 15 };
         var highestStat = ((Equipment)item).GetHighestStat();
         float highestStatValue;
