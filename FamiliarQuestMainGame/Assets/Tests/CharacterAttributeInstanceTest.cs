@@ -63,7 +63,7 @@ namespace Tests
             cgo.AddComponent<PlayerCharacter>();
             return cgo.AddComponent<Character>();
         }
-        
+                
         private void SetUpAttributes() {
             ClearAttributes();
             new CharacterAttribute("baseStat", "Base Stat", false);

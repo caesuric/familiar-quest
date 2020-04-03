@@ -63,7 +63,7 @@ public class HotbarUser : MonoBehaviour {
             //if (isLocalPlayer) CmdRefreshAbilityInfo();
             CmdRefreshAbilityInfo();
         }
-        if (!ready && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<SpiritUser>().spirits.Count > 0) {
+        if (!ready && GetComponent<CacheGrabber>().iconCache!=null && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<SpiritUser>().spirits.Count > 0) {
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.sprite = images[GetComponent<PlayerCharacter>().weapon.icon];
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.gameObject.SetActive(true);
             //if (isLocalPlayer) CmdRefreshAbilityInfo();

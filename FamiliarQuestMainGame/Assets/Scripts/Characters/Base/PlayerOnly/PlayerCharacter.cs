@@ -226,7 +226,7 @@ public class PlayerCharacter : DependencyUser {
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
-    private void ModifyStats(Equipment oldEquip, Item newItem) {
+    public void ModifyStats(Equipment oldEquip, Item newItem) {
         var newEquip = (Equipment)newItem;
         if (oldEquip != null) {
             foreach (var kvp in oldEquip.stats) CharacterAttribute.attributes[kvp.Key].instances[GetComponent<Character>()].ItemValue -= kvp.Value;

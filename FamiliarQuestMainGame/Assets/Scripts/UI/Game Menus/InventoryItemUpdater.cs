@@ -57,8 +57,10 @@ public class InventoryItemUpdater : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (shop==null) shop = GameObject.FindGameObjectWithTag("ShopPane").GetComponent<DuloGames.UI.UIWindow>();
-        if (shop.IsOpen && !costArea.activeSelf) costArea.SetActive(true);
-        else if (!shop.IsOpen && costArea.activeSelf) costArea.SetActive(false);
+        if (costArea!=null) {
+            if (shop.IsOpen && !costArea.activeSelf) costArea.SetActive(true);
+            else if (!shop.IsOpen && costArea.activeSelf) costArea.SetActive(false);
+        }
         if (!details) return;
         if (!initialized && name != null) {
             initialized = true;
@@ -208,8 +210,10 @@ private void Equip() {
             foreach (var image in imagesTemp) images[image.name] = image;
         }
         cost = Shop.Appraise(item);
-        costText.text = cost.ToString();
-        costArea.SetActive(false);
+        if (costArea != null) {
+            costText.text = cost.ToString();
+            costArea.SetActive(false);
+        }
         this.item = item;
         name = item.name;
         description = item.description;

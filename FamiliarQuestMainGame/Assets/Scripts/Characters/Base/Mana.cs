@@ -24,6 +24,7 @@ public class Mana : DependencyUser {
             int level = 1;
             if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
             else level = GetComponent<MonsterScaler>().level;
+            if (GetComponent<Character>() == null) return;
             mp = Mathf.Min(mp + (CharacterAttribute.attributes["mpRegen"].instances[GetComponent<Character>()].TotalValue * Time.deltaTime), maxMP);
             //mp = Mathf.Min(mp + (SecondaryStatUtility.CalcMpRegenRate(GetComponent<Character>().wisdom, level) * Time.deltaTime), maxMP);
         //}

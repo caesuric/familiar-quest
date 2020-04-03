@@ -35,7 +35,7 @@ public class Health : DependencyUser {
             if (GetComponent<Monster>() != null) GetComponent<MonsterMortal>().OnDeath();
         }
         else if (hp > maxHP) hp = maxHP;
-        if (!isPlayer) unitFrame.SetHealthPercentage(hp / maxHP * 100f);
+        if (!isPlayer && unitFrame!=null) unitFrame.SetHealthPercentage(hp / maxHP * 100f);
     }
 
     public void Calculate() {

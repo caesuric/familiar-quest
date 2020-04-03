@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-class RewardGiver : MonoBehaviour {
+public class RewardGiver : MonoBehaviour {
     public int xpValue;
     public int baseGoldValue;
     public int goldValue;
@@ -35,29 +35,30 @@ class RewardGiver : MonoBehaviour {
         float roll = Random.Range(0f, 1f);
         if (guaranteed) roll = Random.Range(0f, lootChance);
         if (roll > lootChance) return;
-        else if (roll < lootChance * 0.001667f / 0.2f) DropEquipment(attacker, 7);
-        else if (roll < lootChance * 0.004519f / 0.2f) DropEquipment(attacker, 6);
-        else if (roll < lootChance * 0.0094f / 0.2f) DropEquipment(attacker, 5);
-        else if (roll < lootChance * 0.017752f / 0.2f) DropEquipment(attacker, 4);
-        else if (roll < lootChance * 0.032046f / 0.2f) DropEquipment(attacker, 3);
-        else if (roll < lootChance * 0.056508f / 0.2f) DropEquipment(attacker, 2);
-        else if (roll < lootChance * 0.098368f / 0.2f) DropEquipment(attacker, 1);
-        else if (roll < lootChance * 0.170004f / 0.2f) DropEquipment(attacker, 0);
-        else if (roll < lootChance) DropConsumable(attacker);
+        var normalizedRoll = roll / lootChance;
+        if (normalizedRoll <= 0.25f) DropConsumable(attacker);
+        else if (normalizedRoll <= 0.5f) DropEquipment(attacker, 0);
+        else if (normalizedRoll <= 0.75f) DropEquipment(attacker, 1);
+        else if (normalizedRoll <= 0.875f) DropEquipment(attacker, 2);
+        else if (normalizedRoll <= 0.9375f) DropEquipment(attacker, 3);
+        else if (normalizedRoll <= 0.96875f) DropEquipment(attacker, 4);
+        else if (normalizedRoll <= 0.984375f) DropEquipment(attacker, 5);
+        else if (normalizedRoll <= 0.9947917f) DropEquipment(attacker, 6);
+        else DropEquipment(attacker, 7);
     }
 
     public static Item GenerateItem(int level) {
         var lootChance = 1f;
         float roll = Random.Range(0f, lootChance);
-        if (roll < lootChance * 0.001667f / 0.2f) return GenerateEquipment(level, 7);
-        else if (roll < lootChance * 0.004519f / 0.2f) return GenerateEquipment(level, 6);
-        else if (roll < lootChance * 0.0094f / 0.2f) return GenerateEquipment(level, 5);
-        else if (roll < lootChance * 0.017752f / 0.2f) return GenerateEquipment(level, 4);
-        else if (roll < lootChance * 0.032046f / 0.2f) return GenerateEquipment(level, 3);
-        else if (roll < lootChance * 0.056508f / 0.2f) return GenerateEquipment(level, 2);
-        else if (roll < lootChance * 0.098368f / 0.2f) return GenerateEquipment(level, 1);
-        else if (roll < lootChance * 0.170004f / 0.2f) return GenerateEquipment(level, 0);
-        else return GenerateConsumable();
+        if (roll <= 0.25f) return GenerateConsumable();
+        else if (roll <= 0.5f) return GenerateEquipment(level, 0);
+        else if (roll <= 0.75f) return GenerateEquipment(level, 1);
+        else if (roll <= 0.875f) return GenerateEquipment(level, 2);
+        else if (roll <= 0.9375f) return GenerateEquipment(level, 3);
+        else if (roll <= 0.96875f) return GenerateEquipment(level, 4);
+        else if (roll <= 0.984375f) return GenerateEquipment(level, 5);
+        else if (roll <= 0.9947917f) return GenerateEquipment(level, 6);
+        else return GenerateEquipment(level, 7);
     }
     
     public void DropEquipment(Character attacker, int quality) {

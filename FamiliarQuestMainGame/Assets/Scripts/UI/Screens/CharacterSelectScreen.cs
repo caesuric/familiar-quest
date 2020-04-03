@@ -348,6 +348,7 @@ public class CharacterSelectScreen : MonoBehaviour {
             PlayerCharacter.localPlayer = null;
             return;
         }
+        Destroy(fakeCharacter.gameObject);
         BinaryFormatter bf = new BinaryFormatter();
         loadedCharacter = (SavedCharacter)bf.Deserialize(new MemoryStream(data));
     }

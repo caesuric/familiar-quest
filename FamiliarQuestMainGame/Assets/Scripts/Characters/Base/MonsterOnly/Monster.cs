@@ -20,7 +20,7 @@ public class Monster : MonoBehaviour { //Hideable
     // Use this for initialization
 
     void Start() {
-        unitFrame = GameObject.Instantiate(unitFramePrefab, transform);
+        if (unitFramePrefab != null) unitFrame = GameObject.Instantiate(unitFramePrefab, transform);
         //monsterCombatant = GetComponent<MonsterCombatant>();
         //if (!NetworkServer.active && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().enabled = false;
         //items.Add(this);
@@ -39,7 +39,7 @@ public class Monster : MonoBehaviour { //Hideable
         //var inCombat = monsterCombatant.InCombat();
         //if (inCombat && !unitFrame.activeSelf) unitFrame.SetActive(true);
         //else if (!inCombat && unitFrame.activeSelf) unitFrame.SetActive(false);
-        unitFrame.SetActive(true); // until I have a way to determine if monsters are in combat with new AI
+        if (unitFrame!=null) unitFrame.SetActive(true); // until I have a way to determine if monsters are in combat with new AI
     }
 
     void OnDestroy() {

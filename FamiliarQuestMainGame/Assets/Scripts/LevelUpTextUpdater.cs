@@ -52,6 +52,7 @@ public class LevelUpTextUpdater : MonoBehaviour
     }
 
     public static void Trigger() {
+        if (instance == null) return;
         instance.text.color = new Color(0, 1, 0, 0);
         instance.transform.localScale = instance.startingScale * 0.001f;
         instance.text.enabled = true;

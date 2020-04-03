@@ -311,71 +311,76 @@ public class AbilityAttribute {
     }
 
     public static AbilityAttribute GetPassiveAttribute(float points, int numAttributes) {
-        if (points == 0) return null;
-        string roll = TableRoller.Roll("PassiveAttributes");
-        float pointCost;
-        var elements = new List<string> { "piercing", "slashing", "bashing", "fire", "ice", "acid", "light", "dark" };
-        int elementRoll;
-        string randomElement;
-        int degree;
-        switch (roll) {
-            case "damageEnemiesOnScreen":
-            default:
-                degree = Random.Range(2, 23);
-                pointCost = degree * 35f;
-                if (points >= pointCost) return new AbilityAttribute("damageEnemiesOnScreen", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "experienceBoost":
-                degree = Random.Range(5, 31);
-                pointCost = degree * 14f;
-                if (points >= pointCost) return new AbilityAttribute("experienceBoost", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "knockback":
-                if (points >= 139) return new AbilityAttribute("knockback", 139);
-                else return GetPassiveAttribute(points, numAttributes);
-            case "charge":
-                if (points >= 70) return new AbilityAttribute("charge", 70);
-                else return GetPassiveAttribute(points, numAttributes);
-            case "pullEnemies":
-                if (points >= 70) return new AbilityAttribute("pullEnemies", 70);
-                else return GetPassiveAttribute(points, numAttributes);
-            case "goldBoost":
-                degree = Random.Range(5, 31);
-                pointCost = degree * 14f;
-                if (points >= pointCost) return new AbilityAttribute("goldBoost", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "boostStat":
-                degree = Random.Range(3, 101);
-                pointCost = degree * 70f / 3f;
-                var stats = new List<string> { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
-                int statRoll = Random.Range(0, 6);
-                var randomStat = stats[statRoll];
-                if (points >= pointCost) return new AbilityAttribute("boostStat", pointCost, new AbilityParameter("degree", DataType.intType, intVal: degree), new AbilityParameter("stat", DataType.stringType, stringVal: randomStat));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "boostDamage":
-                degree = Random.Range(15, 31);
-                pointCost = degree * 14f / 3f;
-                if (points >= pointCost) return new AbilityAttribute("boostDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "reduceDamage":
-                degree = Random.Range(15, 31);
-                pointCost = degree * 14f / 3f;
-                if (points >= pointCost) return new AbilityAttribute("reduceDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "reduceElementalDamage":
-                degree = Random.Range(60, 151);
-                pointCost = degree * 7f / 6f;
-                elementRoll = Random.Range(0, 8);
-                randomElement = elements[elementRoll];
-                if (points >= pointCost) return new AbilityAttribute("reduceElementalDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f), new AbilityParameter("element", DataType.stringType, stringVal: randomElement));
-                else return GetPassiveAttribute(points, numAttributes);
-            case "boostElementalDamage":
-                degree = Random.Range(60, 151);
-                pointCost = degree * 7f / 6f;
-                elementRoll = Random.Range(0, 8);
-                randomElement = elements[elementRoll];
-                if (points >= pointCost) return new AbilityAttribute("boostElementalDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f), new AbilityParameter("element", DataType.stringType, stringVal: randomElement));
-                else return GetPassiveAttribute(points, numAttributes);
+        try {
+            if (points == 0) return null;
+            string roll = TableRoller.Roll("PassiveAttributes");
+            float pointCost;
+            var elements = new List<string> { "piercing", "slashing", "bashing", "fire", "ice", "acid", "light", "dark" };
+            int elementRoll;
+            string randomElement;
+            int degree;
+            switch (roll) {
+                case "damageEnemiesOnScreen":
+                default:
+                    degree = Random.Range(2, 23);
+                    pointCost = degree * 35f;
+                    if (points >= pointCost) return new AbilityAttribute("damageEnemiesOnScreen", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "experienceBoost":
+                    degree = Random.Range(5, 31);
+                    pointCost = degree * 14f;
+                    if (points >= pointCost) return new AbilityAttribute("experienceBoost", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "knockback":
+                    if (points >= 139) return new AbilityAttribute("knockback", 139);
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "charge":
+                    if (points >= 70) return new AbilityAttribute("charge", 70);
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "pullEnemies":
+                    if (points >= 70) return new AbilityAttribute("pullEnemies", 70);
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "goldBoost":
+                    degree = Random.Range(5, 31);
+                    pointCost = degree * 14f;
+                    if (points >= pointCost) return new AbilityAttribute("goldBoost", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "boostStat":
+                    degree = Random.Range(3, 101);
+                    pointCost = degree * 70f / 3f;
+                    var stats = new List<string> { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+                    int statRoll = Random.Range(0, 6);
+                    var randomStat = stats[statRoll];
+                    if (points >= pointCost) return new AbilityAttribute("boostStat", pointCost, new AbilityParameter("degree", DataType.intType, intVal: degree), new AbilityParameter("stat", DataType.stringType, stringVal: randomStat));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "boostDamage":
+                    degree = Random.Range(15, 31);
+                    pointCost = degree * 14f / 3f;
+                    if (points >= pointCost) return new AbilityAttribute("boostDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "reduceDamage":
+                    degree = Random.Range(15, 31);
+                    pointCost = degree * 14f / 3f;
+                    if (points >= pointCost) return new AbilityAttribute("reduceDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "reduceElementalDamage":
+                    degree = Random.Range(60, 151);
+                    pointCost = degree * 7f / 6f;
+                    elementRoll = Random.Range(0, 8);
+                    randomElement = elements[elementRoll];
+                    if (points >= pointCost) return new AbilityAttribute("reduceElementalDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f), new AbilityParameter("element", DataType.stringType, stringVal: randomElement));
+                    else return GetPassiveAttribute(points, numAttributes);
+                case "boostElementalDamage":
+                    degree = Random.Range(60, 151);
+                    pointCost = degree * 7f / 6f;
+                    elementRoll = Random.Range(0, 8);
+                    randomElement = elements[elementRoll];
+                    if (points >= pointCost) return new AbilityAttribute("boostElementalDamage", pointCost, new AbilityParameter("degree", DataType.floatType, floatVal: degree / 100f), new AbilityParameter("element", DataType.stringType, stringVal: randomElement));
+                    else return GetPassiveAttribute(points, numAttributes);
+            }
+        }
+        catch {
+            return null;
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-class MonsterScaler : MonoBehaviour {
+public class MonsterScaler : MonoBehaviour {
     public int level = 1;
     public int quality = 1;
     public float multiplier = 0.5f;
@@ -13,10 +13,61 @@ class MonsterScaler : MonoBehaviour {
     private int oldNumPlayers = 1;
     private bool sizeIncreased = false;
     public TextMesh barTextObj;
-    private static readonly float scaleFactor = 1.2f; //1.1f;
-    private static readonly float extraHpScaleFactor = 1.05f;
+    //private static readonly float scaleFactor = 1.2f; //1.1f;
+    //private static readonly float extraHpScaleFactor = 1.05f;
     private bool unitFrameConfigured = false;
     public float colliderSize = 0f;
+    private static readonly List<float> scaleFactor = new List<float>() {
+        1.29f,
+        1.19f,
+        1.16f,
+        1.23f,
+        1.18f,
+        1.22f,
+        1.16f,
+        1.24f,
+        1.17f,
+        1.16f,
+        1.18f,
+        1.20f,
+        1.07f,
+        1.21f,
+        1.15f,
+        1.22f,
+        1.13f,
+        1.11f,
+        1.20f,
+        1.14f,
+        1.09f,
+        1.18f,
+        1.14f,
+        1.13f,
+        1.14f,
+        1.12f,
+        1.14f,
+        1.12f,
+        1.14f,
+        1.12f,
+        1.13f,
+        1.13f,
+        1.11f,
+        1.12f,
+        1.14f,
+        1.11f,
+        1.13f,
+        1.11f,
+        1.14f,
+        1.09f,
+        1.11f,
+        1.12f,
+        1.12f,
+        1.10f,
+        1.13f,
+        1.11f,
+        1.10f,
+        1.10f,
+        1.10f,
+    };
 
     private void Update() {
         if (!unitFrameConfigured) {
@@ -60,14 +111,14 @@ class MonsterScaler : MonoBehaviour {
             float tempWisdom = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue;
             float tempLuck = CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue;
             for (int i = 0; i < level; i++) {
-                tempStrength *= scaleFactor;
-                tempDexterity *= scaleFactor;
-                tempConstitution *= scaleFactor;
-                tempIntelligence *= scaleFactor;
-                tempLuck *= scaleFactor;
-                GetComponent<Monster>().attackFactor *= scaleFactor;
-                GetComponent<Monster>().hpFactor *= scaleFactor * extraHpScaleFactor;
-                GetComponent<Monster>().mpFactor *= scaleFactor;
+                tempStrength *= scaleFactor[i];
+                tempDexterity *= scaleFactor[i];
+                tempConstitution *= scaleFactor[i];
+                tempIntelligence *= scaleFactor[i];
+                tempLuck *= scaleFactor[i];
+                GetComponent<Monster>().attackFactor *= scaleFactor[i];
+                GetComponent<Monster>().hpFactor *= scaleFactor[i]; //* extraHpScaleFactor;
+                GetComponent<Monster>().mpFactor *= scaleFactor[i];
                 multiplier += 0.01f;
             }
             GetComponent<Health>().hp = GetComponent<Health>().maxHP = (int)GetComponent<Health>().maxHP;
@@ -100,15 +151,15 @@ class MonsterScaler : MonoBehaviour {
             float tempIntelligence = CharacterAttribute.attributes["intelligence"].instances[GetComponent<Character>()].BaseValue;
             float tempWisdom = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].BaseValue;
             float tempLuck = CharacterAttribute.attributes["luck"].instances[GetComponent<Character>()].BaseValue;
-            for (int i = 0; i < level; i++) {
-                tempStrength /= scaleFactor;
-                tempDexterity /= scaleFactor;
-                tempConstitution /= scaleFactor;
-                tempIntelligence /= scaleFactor;
-                tempLuck /= scaleFactor;
-                GetComponent<Monster>().attackFactor /= scaleFactor;
-                GetComponent<Monster>().hpFactor /= (scaleFactor * extraHpScaleFactor);
-                GetComponent<Monster>().mpFactor /= scaleFactor;
+            for (int i = level; i > 0; i--) {
+                tempStrength /= scaleFactor[i];
+                tempDexterity /= scaleFactor[i];
+                tempConstitution /= scaleFactor[i];
+                tempIntelligence /= scaleFactor[i];
+                tempLuck /= scaleFactor[i];
+                GetComponent<Monster>().attackFactor /= scaleFactor[i];
+                GetComponent<Monster>().hpFactor /= scaleFactor[i]; //* extraHpScaleFactor);
+                GetComponent<Monster>().mpFactor /= scaleFactor[i];
                 multiplier -= 0.01f;
             }
             GetComponent<Health>().hp = GetComponent<Health>().maxHP = (int)GetComponent<Health>().maxHP;
@@ -209,6 +260,7 @@ class MonsterScaler : MonoBehaviour {
         //GetComponent<Character>().wisdom = (int)(((float)GetComponent<Character>().wisdom) * x);
         //GetComponent<Character>().luck = (int)(((float)GetComponent<Character>().luck) * x);
         var attributes = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        if (GetComponent<Character>() == null) return;
         foreach (var attr in attributes) CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue = CharacterAttribute.attributes[attr].instances[GetComponent<Character>()].BaseValue * x;
         //GetComponent<RewardGiver>().xpValue = (int)(((float)GetComponent<RewardGiver>().xpValue) * x * x);
         GetComponent<RewardGiver>().baseGoldValue = (int)(((float)GetComponent<RewardGiver>().baseGoldValue) * x * x);

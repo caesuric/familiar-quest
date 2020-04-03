@@ -77,7 +77,7 @@ public class ExperienceGainer : DependencyUser {
         }
     }
 
-    private void Calculate() {
+    public void Calculate() {
         xpToLevel = xpTable[level - 1] - xp;
         xpPercentage = GetXPPercentage();
         if (xpPercentage != 0) initialCalculationComplete = true;
@@ -113,11 +113,15 @@ public class ExperienceGainer : DependencyUser {
         int targetLevel = DetermineTargetLevel();
         for (int i = level; i < targetLevel; i++) ActuallyLevelUp();
         LevelUpTextUpdater.Trigger();
-        levelUpEffectInstance = Instantiate(levelUpEffect);
-        showLevelUpEffect = true;
-        timer = 0f;
-        GetComponent<AudioSource>().clip = levelUpSound;
-        GetComponent<AudioSource>().Play();
+        if (levelUpEffect != null) {
+            levelUpEffectInstance = Instantiate(levelUpEffect);
+            showLevelUpEffect = true;
+            timer = 0f;
+        }
+        if (GetComponent<AudioSource>()!=null) {
+            GetComponent<AudioSource>().clip = levelUpSound;
+            GetComponent<AudioSource>().Play();
+        }
     }
 
     private int DetermineTargetLevel() {
