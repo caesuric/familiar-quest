@@ -17,6 +17,7 @@
 * Double-clicking on your character's button in the character selection screen will now start the game
 * When an enemy is immune to a type of damage, they will now display the "IMMUNE" floating text instead of "0"
 * Clicking an ability in the drops area in the upper-left-hand corner will no longer open the ability menu when the ability is on the player hotbar
+* Fixed several broken AOE visual effects
 * The {{mpOverTime}} variable is now properly interpolated by the tooltip system
 
 ### Known Issues
