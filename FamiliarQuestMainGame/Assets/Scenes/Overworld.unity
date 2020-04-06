@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2647c4382bcd3f04b88728c50d55f611, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -247,21 +247,150 @@ MonoBehaviour:
   mapSize: 1024
   perlinScaleFactor: 1.25
   perlinFeatureSize: 0.3
-  perlinMountainThreshold: 4.7
-  perlinLandThreshold: 3.5
+  perlinMountainProportion: 0.21
+  perlinWaterProportion: 0.6
   fractalPerlinDepth: 6
   dungeonEntrance: {fileID: 0}
   trees:
-  - {fileID: 100000, guid: 80e93bebfbbd6da409d3e9e3c7049540, type: 3}
-  - {fileID: 100000, guid: 906ed45a2c6167b409b76319af6e0fe2, type: 3}
+  - {fileID: 1681439509101632, guid: 401ca705a2eba5342aab736cf22758d5, type: 3}
+  - {fileID: 1739631608545004, guid: 3a4b558999b8214429e11428a0f63173, type: 3}
+  - {fileID: 1771025944879594, guid: ac45f469f4686a9438aaeea44292c32c, type: 3}
+  - {fileID: 1248965652193994, guid: 5bd9ec841db13e246af249aaf8c74a4d, type: 3}
+  - {fileID: 1820514523786684, guid: 0d33e744019ce5549b0a6df3c03d1455, type: 3}
+  - {fileID: 1549203739375192, guid: 5711d7dfd92cfd34b97d1973ae28e18e, type: 3}
+  - {fileID: 1254376654819502, guid: 7d10c469b3c99cf4994c0ca0356424bb, type: 3}
+  - {fileID: 1879399189591918, guid: 8dd1441e1267e444aa9fe14427c78766, type: 3}
+  - {fileID: 1026301210006380, guid: db807532c32a0684185a0f79cce99895, type: 3}
+  - {fileID: 1161353438629590, guid: 72354f396f6b2c548b4caf8c14700800, type: 3}
+  - {fileID: 1274870444953564, guid: afb5891d1b593f44abf2b48325817bd4, type: 3}
+  bushes:
+  - {fileID: 1449194852616338, guid: 3c4a220c900095d4f9401b6441dbd148, type: 3}
+  - {fileID: 1912603429272880, guid: 4a7f57b08cfccb443b2d238fa0439895, type: 3}
+  - {fileID: 1411298127882738, guid: 22a2f21803d6db34c9921ee05fcc63f0, type: 3}
+  - {fileID: 1301658637893172, guid: dc546f2f4476f354ab2c417ad7c851c0, type: 3}
+  - {fileID: 1227008230904540, guid: fa9eddae9eedd5a4cb0c58258fa1c84a, type: 3}
+  - {fileID: 1770989272128412, guid: 54ad073294fda8c4b9565db72fb1c4cc, type: 3}
+  - {fileID: 1576670106550510, guid: 9167c9cd56ddf1a4faebe1341dffb1bd, type: 3}
+  - {fileID: 1524449675286748, guid: c85b7accc96c8994798de48df9d98b1e, type: 3}
+  leaves:
+  - {fileID: 1068537376135810, guid: c58ffaed10e83464e8248c5ceaec21e3, type: 3}
+  - {fileID: 1068537376135810, guid: f948a5eb4e39c0a439fd3b40997839b2, type: 3}
+  - {fileID: 1622081631598650, guid: 2182a232ddf22554a89f7acabc3f68a6, type: 3}
+  - {fileID: 1074473110499822, guid: beeb493483bfd204f8e5902a6fd4ee19, type: 3}
+  - {fileID: 1161060931858440, guid: 486aadf6807bbc045b1d48e47dd11aea, type: 3}
+  - {fileID: 1666134587063730, guid: 5e782fc48aad57d49aae5d08cac5f467, type: 3}
+  - {fileID: 1798687958383570, guid: cb2ff47b827af2c45bbd0293792659d2, type: 3}
+  - {fileID: 1696558849780980, guid: 113a6af794b2f604c845518b6d1a645e, type: 3}
+  - {fileID: 1461613200881492, guid: 26e56eff05d9de141b218447240cc584, type: 3}
+  - {fileID: 1810206102106324, guid: e9d15e5c6eb722445bc57da914fae55b, type: 3}
+  - {fileID: 1904227496862670, guid: ed7ce23f851c8674086d75b9519f1835, type: 3}
+  grass:
+  - {fileID: 1710261546573174, guid: 25e1670c7ece0c144bbd6eecbf0cde12, type: 3}
+  - {fileID: 1896070793482274, guid: 8f653639cd9c9e140a996539002f04ec, type: 3}
+  - {fileID: 1413197532157798, guid: be959c638875cc74386f5fbd7be82b6f, type: 3}
+  - {fileID: 1888348213478610, guid: dab5db0727276864b87e4fb1576b9755, type: 3}
+  - {fileID: 1852308700510088, guid: 5b8c4510c0240c24e8be15392e8f996c, type: 3}
+  - {fileID: 1316002843431472, guid: 2503ab09e81203046a0157d0a7a3573c, type: 3}
+  - {fileID: 1350273620642370, guid: 1a7d3c504ef859949a0e659ce2871f9a, type: 3}
+  - {fileID: 1359696972243548, guid: e20303a881d3c674db890665f6ca345e, type: 3}
+  - {fileID: 1149207192365296, guid: 3e5d423009b8e914ba0ef1a763f57d73, type: 3}
+  - {fileID: 1305896090728028, guid: 9d4f283c894988d458853bfc4d4572b0, type: 3}
+  - {fileID: 1082782532653174, guid: 0678447f739bf6f4887d862e63438387, type: 3}
+  - {fileID: 1017575710971682, guid: 42d82774cd67ffc408c9160123ad7673, type: 3}
+  - {fileID: 1733474864322446, guid: 84807938c656ff0408ce44533ef173c1, type: 3}
+  - {fileID: 1073214543424868, guid: f1d7e73ddfbe7bd47a93cae7758462c5, type: 3}
+  - {fileID: 1283117400432148, guid: 1c6713822aeb0fb4da5c7a8c93fabcd1, type: 3}
+  - {fileID: 1445302517711572, guid: b6beb7b9435824a43a2b71b182c90b10, type: 3}
+  - {fileID: 1432093102774620, guid: d6f1facda5047e4469f18d2d5e4deef4, type: 3}
+  - {fileID: 1703345939250748, guid: 99feb457d5565364db0fd5477a516759, type: 3}
+  - {fileID: 1275554146859722, guid: fb9b35ef9e021da488914ef6afffc5a3, type: 3}
+  - {fileID: 1530805090354856, guid: 68b441d2d1d62534fac44f2a7aa81dc3, type: 3}
+  - {fileID: 1762177999608252, guid: 0fc0ec04914f9f340a98c802eaed57da, type: 3}
+  - {fileID: 1582993750345020, guid: 5e85cb87d513e6d4b8b05ea805e6e79a, type: 3}
+  - {fileID: 1524730708556632, guid: d9af219fe727d9646b4fa5c2b5fc516c, type: 3}
+  - {fileID: 1658219610762986, guid: ea517a3a0c5ceb84aa90ed569d20d234, type: 3}
+  - {fileID: 1669853059105754, guid: 09098fc7c7c9c1440b07ec3f1885b8c1, type: 3}
+  rocks:
+  - {fileID: 1352733118662176, guid: c84c1ee840b48e74483ce2b1897f5f99, type: 3}
+  - {fileID: 1653558279864992, guid: 4eca3673cd588b44194e45fad5c1fd17, type: 3}
+  - {fileID: 1059410465792494, guid: 80b21438fa390444080d7965894dc7cd, type: 3}
+  - {fileID: 1241668238674838, guid: 3fb55cca399df6942a302264580f2e56, type: 3}
+  - {fileID: 1079076638931372, guid: fd4d3394505a620469af1bccaeceaf57, type: 3}
+  - {fileID: 1855485174695482, guid: 4209a6b35d2e4074ebca1b48284ff446, type: 3}
+  - {fileID: 1376184805375904, guid: 6576072a0f1b2d14196a2a94f16f2ef0, type: 3}
+  - {fileID: 1285456526739500, guid: 569955c03cedaa643a91c9fe9f83e6ad, type: 3}
+  - {fileID: 1013469318305170, guid: 6f3b0b17eaa99dd449dfe134c6cb9b50, type: 3}
+  - {fileID: 1378585237161572, guid: 46062596d5452a5468e144c7156a6694, type: 3}
+  - {fileID: 1343707792729484, guid: 7d900f5d15875dd4290ab23375937555, type: 3}
+  - {fileID: 1539381344190682, guid: 9495367db89964f47bf85cf0a404acd1, type: 3}
+  - {fileID: 1332372872139496, guid: 9571a631b852038429d41f5c4dc92bf3, type: 3}
+  - {fileID: 1373413698889372, guid: 34913eb9d7212644c8816b884847960a, type: 3}
+  - {fileID: 1342137920590926, guid: af30743ba20df6f4ea25c01ff182e2fc, type: 3}
+  - {fileID: 1960502298754828, guid: 65ee0b8c9bc498b4ea716a2a31805919, type: 3}
+  - {fileID: 1861099641242196, guid: 7ec17d04f78c6cc4ebe74b50def1c98d, type: 3}
+  - {fileID: 1009645697504610, guid: a69b80b4b90e6314f9c82583268e0b11, type: 3}
+  - {fileID: 1446893933530256, guid: d0d730af5139dcc44bdcb2117da227b0, type: 3}
+  - {fileID: 1809221509254096, guid: afbb2b508d079274db9696dcb6658dd4, type: 3}
+  flowers:
+  - {fileID: 1455490252068738, guid: d6fc30e0bdb800048911a0a8c7167cd9, type: 3}
+  - {fileID: 1754098868901954, guid: 0b7a805a8c340d0418031a4a2935eb84, type: 3}
+  - {fileID: 1715869783840800, guid: 0d2b799fec3c4d34d96afc4cf9350010, type: 3}
+  - {fileID: 1708767696509666, guid: 8b42409e89246904781ab486548791f2, type: 3}
+  - {fileID: 1550648445393110, guid: e4965fed94951b148bd394b55f611ae5, type: 3}
+  - {fileID: 1480944621403744, guid: 55570e21fa40f994ea72e88cba87b067, type: 3}
+  - {fileID: 1508872193034258, guid: 2c648b460fd6433478dcd44207d04ce1, type: 3}
+  - {fileID: 1662141086166598, guid: 3aff6301facdf324d882924ae571ffcd, type: 3}
+  - {fileID: 1185423565847342, guid: 64fdebfc78f250640a2135c7ff070b5b, type: 3}
+  - {fileID: 1038102995052194, guid: 963179ee7ac33fc4eb6b329325541f5e, type: 3}
+  - {fileID: 1989310073107316, guid: 1596fa5ae0fa8764aa30d72f700c7b93, type: 3}
+  - {fileID: 1907872528087162, guid: d09980e3d8113724fbc51ac3879fa65a, type: 3}
+  - {fileID: 1149985028797610, guid: dd8bd316a4a671e47b9947fc84bdc7e6, type: 3}
+  - {fileID: 1417521495105750, guid: 3233e984b11a6714c8c08b06db9d27d8, type: 3}
+  - {fileID: 1156539348504420, guid: d14311bb5f70b0948a5b3fc86b435476, type: 3}
+  - {fileID: 1687415869137688, guid: 5ad18f6da2f98cb4b86fc25fe36672ab, type: 3}
+  - {fileID: 1163507730701434, guid: 28caa95f267a7be4d82ebd5123bcf5a6, type: 3}
+  - {fileID: 1203111472489542, guid: 70e48b9a1041f594ba79994d29cc46f3, type: 3}
+  - {fileID: 1821033899768288, guid: c65bd19882ec1b7489df296da1c103bf, type: 3}
+  - {fileID: 1506180080494946, guid: dcc8fbe718ba8514185acb44e9701d4f, type: 3}
+  - {fileID: 1596097359574526, guid: 999da706abf37164585e5bb58a1fa1e7, type: 3}
+  - {fileID: 1611213609137540, guid: 97a84ffd7581224449433df4f6ca3a48, type: 3}
+  - {fileID: 1842715685384174, guid: 8de102f906dcbe04f996cd120e9bbaba, type: 3}
+  - {fileID: 1981527479238354, guid: eba01b85f2a341c4eb6f6047350bb35a, type: 3}
+  - {fileID: 1352597944643188, guid: 638c590972484384589c251918aba161, type: 3}
+  - {fileID: 1065307659900146, guid: c0bb3711b11117d4ab7e0dbbcd40fa85, type: 3}
+  - {fileID: 1591937691794652, guid: 23c531b5c1bbc6b4eb4e4fe14d791e78, type: 3}
+  - {fileID: 1688519647985042, guid: 628b6a72bac669e41942f9200627f15d, type: 3}
+  - {fileID: 1357213696111246, guid: 1a33a6be394d9e24a8b353dc7d52ea3b, type: 3}
+  - {fileID: 1069605931264668, guid: c07d9650a23c093499326c1e62f2a7a0, type: 3}
+  - {fileID: 1716544714336890, guid: c6538dcaaad897142b53b775f3f689ad, type: 3}
+  - {fileID: 1896621227428408, guid: b3d9c1e07ba0a1d448ed3ff7d2404031, type: 3}
+  - {fileID: 1282872345437236, guid: 83257d26fa2bd88498f3640087255aa9, type: 3}
+  - {fileID: 1619061614958602, guid: 27ede5d20a030c14fbab724e871ae594, type: 3}
+  - {fileID: 1971472448496982, guid: a89a1ed76d44aa74694fcbc6262b61ea, type: 3}
+  - {fileID: 1862452937032128, guid: d6e808ec54399bc4d95831a9d86d4db1, type: 3}
+  - {fileID: 1159614238043096, guid: c2310ebc0bfae7446ab4d3e32b42ab83, type: 3}
+  - {fileID: 1598239749870854, guid: 6c1cf610dbbe1c7488416fab283f4966, type: 3}
+  - {fileID: 1579695990700162, guid: fbf332d70411dca4b884ae963922fe38, type: 3}
+  - {fileID: 1164110389704062, guid: a24546f71888f5e4690d5d5480384405, type: 3}
+  - {fileID: 1531763270703674, guid: fc7f29a42ffe4114b8cf422ca3d36423, type: 3}
+  - {fileID: 1940401027162292, guid: 5361c4c3b52a53f4f8f16bfaf1a9aaa3, type: 3}
+  - {fileID: 1270574390896336, guid: 871f15037f68ac74ea5e6980e33d34bc, type: 3}
+  - {fileID: 1463256039843442, guid: 67b883dfb9da541499c08c0aff83e0ca, type: 3}
+  - {fileID: 1327188712660990, guid: 6ca6c9b9bcbc0bb4b965146355eacef2, type: 3}
   terrain: {fileID: 190251597}
-  terrainHeightDivisor: 10
-  mountainHeightDivisor: 2
+  landHeightDivisor: 10
+  mountainHeightDivisor: 15
   riverDrunkenWalkFactor: 18
   riverRadius: 2
   numRivers: 80
-  treePercentage: 0.01
+  treePercentage: 0.001
+  bushPercentage: 0.001
+  grassPercentage: 0.01
+  flowersPercentage: 0.004
+  leavesPercentage: 0.004
+  rockPercentage: 0.004
   randomCoordsMultiplier: 10
+  landHeight: 0
 --- !u!154 &190251596
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -297,7 +426,7 @@ Terrain:
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10650, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: 205baba5ece29a047bb32b80818988c2, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -341,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4122632479004368, guid: 6501ccb90d1378b4290ed3763f14ed8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4122632479004368, guid: 6501ccb90d1378b4290ed3763f14ed8c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -598,67 +727,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1257830403
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1257830405}
-  - component: {fileID: 1257830404}
-  m_Layer: 0
-  m_Name: Terrain Settings Backup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1257830404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257830403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc6eccab436b4943b6ccd5889f54cb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapSize: 1024
-  perlinScaleFactor: 1.25
-  perlinFeatureSize: 7
-  perlinMountainThreshold: 12
-  perlinLandThreshold: 6
-  fractalPerlinDepth: 16
-  dungeonEntrance: {fileID: 0}
-  trees:
-  - {fileID: 100000, guid: 80e93bebfbbd6da409d3e9e3c7049540, type: 3}
-  - {fileID: 100000, guid: 906ed45a2c6167b409b76319af6e0fe2, type: 3}
-  terrain: {fileID: 190251597}
-  terrainHeightDivisor: 10
-  mountainHeightDivisor: 2
-  riverDrunkenWalkFactor: 18
-  riverRadius: 2
-  numRivers: 80
-  treePercentage: 0.01
-  randomCoordsMultiplier: 10
---- !u!4 &1257830405
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257830403}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 466.55756, y: -167.08566, z: 489.7798}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1997883062
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,19 +14,30 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     private Dictionary<Vector2, float> originalRiverHeights = new Dictionary<Vector2, float>();
     public float perlinScaleFactor = 30f;
     public float perlinFeatureSize = 100f;
-    public float perlinMountainThreshold = 14, perlinLandThreshold = 8;
+    public float perlinMountainProportion = 0.1f, perlinWaterProportion = 0.1f;
     public int fractalPerlinDepth = 4;
     public GameObject dungeonEntrance;
     public GameObject[] trees;
+    public GameObject[] bushes;
+    public GameObject[] leaves;
+    public GameObject[] grass;
+    public GameObject[] rocks;
+    public GameObject[] flowers;
     public Terrain terrain;
-    public float terrainHeightDivisor;
+    public float landHeightDivisor;
     public float mountainHeightDivisor = 2f;
     public int riverDrunkenWalkFactor = 4;
     public int riverRadius = 1;
     public int numRivers = 40;
     public float treePercentage = 0.001f;
+    public float bushPercentage = 0.004f;
+    public float grassPercentage = 0.01f;
+    public float flowersPercentage = 0.002f;
+    public float leavesPercentage = 0.004f;
+    public float rockPercentage = 0.004f;
     public static OverworldTerrainGenerator instance;
     public float randomCoordsMultiplier = 10f;
+    public float landHeight = 0f;
     
     // Use this for initialization
     void Start() {
@@ -57,53 +68,67 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 }
                 noise *= perlinScaleFactor;
                 elevation[x, y] = noise;
-                if (x==0 && y==0) Debug.Log(noise);
             }
         }
 
-        AddRivers(perlinLandThreshold);
+        AddRivers();
         WidenRivers();
-        GenerateDetails();
         GenerateTerrainObject();
         GenerateAlphaMap();
-        GenerateTrees();
+        GenerateDetails();
+        GenerateObjects(treePercentage, trees);
+        GenerateObjects(bushPercentage, bushes);
+        GenerateObjects(leavesPercentage, leaves);
+        //GenerateObjects(grassPercentage, grass);
+        GenerateObjects(rockPercentage, rocks);
+        GenerateObjects(flowersPercentage, flowers);
     }
 
-    public void GenerateTrees() {
+    public void GenerateObjects(float objectPercentage, GameObject[] objects) {
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
-
-                //if (height > perlinMountainThreshold * newHighest / highest) splatWeights[1] = 1f;
-
                 var height = terrain.SampleHeight(new Vector3(x, 0, y));
-                if (height < perlinMountainThreshold * newHighest / highest && height >= perlinLandThreshold * newHighest / highest) {
-                    float roll = Random.Range(0f, 1f);
-                    if (roll <= treePercentage) {
-                        int whichTree = Random.Range(0, trees.Count());
-                        var treeObj = Instantiate(trees[whichTree], new Vector3(x, height, y), trees[whichTree].transform.rotation);
-                        treeObj.transform.Rotate(0, Random.Range(0, 360), 0);
-                        var scaleFactor = Random.Range(0.35f, 0.65f);
-                        treeObj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+                if (height / newHighest < 1 - perlinMountainProportion && height > 0) {
+                    if (objectPercentage<1) {
+                        float roll = Random.Range(0f, 1f);
+                        if (roll <= objectPercentage) {
+                            int whichObject = Random.Range(0, objects.Count());
+                            var obj = Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
+                            obj.transform.Rotate(0, Random.Range(0, 360), 0);
+                            var scaleFactor = Random.Range(0.35f, 0.65f);
+                            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+                        }
+                    }
+                    else {
+                        int roll = (int)Random.Range(0, objectPercentage * 2);
+                        for (int i=0; i<roll; i++) {
+                            int whichObject = Random.Range(0, objects.Count());
+                            var obj = Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
+                            obj.transform.Rotate(0, Random.Range(0, 360), 0);
+                            var scaleFactor = Random.Range(0.35f, 0.65f);
+                            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+                        }
                     }
                 }
             }
         }
     }
-
+    
     public void GenerateDetails() {
-        int[,] details = new int[terrain.terrainData.detailResolution, terrain.terrainData.detailResolution];
-        for (int x = 0; x < terrain.terrainData.detailResolution; x++) {
-            for (int y = 0; y < terrain.terrainData.detailResolution; y++) {
-                if (elevation[x, y] >= perlinLandThreshold && elevation[x, y] < perlinMountainThreshold) {
-                    var random = Random.Range(0, 8);
-                    if (random < 4) details[x, y] = 0;
-                    else if (random < 6) details[x, y] = 1;
-                    else details[x, y] = 2;
+        for (int z = 0; z < 15; z++) {
+            int[,] details = new int[terrain.terrainData.detailResolution, terrain.terrainData.detailResolution];
+            for (int x = 0; x < terrain.terrainData.detailResolution; x++) {
+                for (int y = 0; y < terrain.terrainData.detailResolution; y++) {
+                    if (elevation[x, y] == landHeight) {
+                        var random = Random.Range(0, 30);
+                        if (random == 0) details[x, y] = Random.Range(0, 15);
+                        else details[x, y] = 0;
+                    }
+                    else details[x, y] = 0;
                 }
-                else details[x, y] = 0;
             }
+            terrain.terrainData.SetDetailLayer(0, 0, z, details);
         }
-        terrain.terrainData.SetDetailLayer(0, 0, 0, details);
     }
 
     public void GenerateTerrainObject() {
@@ -113,25 +138,19 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 if (elevation[x, y] > highest) highest = elevation[x, y];
             }
         }
+        landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
-                if (elevation[x, y] < perlinLandThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor / mountainHeightDivisor;
-                else if (elevation[x, y] < perlinMountainThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor;
-                else {
-                    var heightAboveLand = elevation[x, y] / highest / terrainHeightDivisor - perlinLandThreshold / highest / terrainHeightDivisor;
-                    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand / mountainHeightDivisor;
-                }
+                if (elevation[x, y] / highest <= perlinWaterProportion) elevation[x, y] = 0f;
+                else if (elevation[x, y] / highest < 1 - perlinMountainProportion) elevation[x, y] = landHeight;
+                else elevation[x, y] = elevation[x, y] / highest / mountainHeightDivisor;
 
-                //with divisors, no terracing
-                //if (elevation[x, y] < perlinLandThreshold) elevation[x, y] = elevation[x, y] / highest / terrainHeightDivisor;
-                //else if (elevation[x, y] < perlinMountainThreshold) elevation[x, y] = elevation[x, y] / highest / terrainHeightDivisor;
+                //if (elevation[x, y] < perlinLandThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor / mountainHeightDivisor;
+                //else if (elevation[x, y] < perlinMountainThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor;
                 //else {
                 //    var heightAboveLand = elevation[x, y] / highest / terrainHeightDivisor - perlinLandThreshold / highest / terrainHeightDivisor;
-                //    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand;
+                //    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand / mountainHeightDivisor;
                 //}
-
-                //raw
-                //elevation[x, y] = elevation[x, y] / highest;
             }
         }
 
@@ -146,20 +165,20 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         newHighest = 0;
         for (int y=0; y<terrainData.heightmapResolution; y++) {
             for (int x=0; x<terrainData.heightmapResolution; x++) {
-                var height = terrainData.GetHeight(x, y);
+                var height = terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height > newHighest) newHighest = height;
             }
         }
         for (int y = 0; y < terrainData.alphamapHeight; y++) {
             for (int x = 0; x < terrainData.alphamapWidth; x++) {
-                float y_01 = (float)y / (float)terrainData.alphamapHeight;
-                float x_01 = (float)x / (float)terrainData.alphamapWidth;
+                float y_01 = y / (float)terrainData.alphamapHeight;
+                float x_01 = x / (float)terrainData.alphamapWidth;
                 float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapResolution), Mathf.RoundToInt(x_01 * terrainData.heightmapResolution));
                 //Vector3 normal = terrainData.GetInterpolatedNormal(y_01, x_01);
                 //float steepness = terrainData.GetSteepness(y_01, x_01);
 
                 float[] splatWeights = new float[terrainData.alphamapLayers];
-                if (height > perlinMountainThreshold * newHighest / highest) splatWeights[1] = 1f;
+                if (height / newHighest > (1 - perlinMountainProportion) || height == 0) splatWeights[1] = 1f;
                 else splatWeights[0] = 1f;
 
                 float z = splatWeights.Sum();
@@ -173,7 +192,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         terrainData.SetAlphamaps(0, 0, splatmapData);
     }
 
-    private void AddRivers(float landThreshold) {
+    private void AddRivers() {
         for (int i = 0; i < numRivers; i++) {
             Vector2[] points = new Vector2[20];
             for (int j=0; j<20; j++) {
@@ -181,7 +200,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 points[j].y = Random.Range(0, mapSize);
             }
             var highest = FindHighestPoint(points);
-            AddRiver((int)highest.x, (int)highest.y, landThreshold);
+            AddRiver((int)highest.x, (int)highest.y);
         }
     }
 
@@ -197,9 +216,13 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         return highestPoint;
     }
 
-    private void AddRiver(int startingX, int startingY, float landThreshold) {
+    private void AddRiver(int startingX, int startingY) {
         var coords = new Vector2(startingX, startingY);
-        while (elevation[(int)coords.x, (int)coords.y] >= landThreshold) {
+        var limit = 100;
+        var i = 0;
+        while (elevation[(int)coords.x, (int)coords.y] != 0) {
+            i++;
+            if (i > limit) break;
             originalRiverHeights[new Vector2((int)coords.x, (int)coords.y)] = elevation[(int)coords.x, (int)coords.y];
             elevation[(int)coords.x, (int)coords.y] = 0;
             riverPoints.Add(coords);
