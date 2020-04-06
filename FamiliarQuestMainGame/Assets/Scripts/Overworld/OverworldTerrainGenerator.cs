@@ -79,7 +79,6 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         GenerateObjects(treePercentage, trees);
         GenerateObjects(bushPercentage, bushes);
         GenerateObjects(leavesPercentage, leaves);
-        //GenerateObjects(grassPercentage, grass);
         GenerateObjects(rockPercentage, rocks);
         GenerateObjects(flowersPercentage, flowers);
     }
@@ -115,7 +114,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
     
     public void GenerateDetails() {
-        for (int z = 0; z < 15; z++) {
+        for (int z = 0; z < 14; z++) {
             int[,] details = new int[terrain.terrainData.detailResolution, terrain.terrainData.detailResolution];
             for (int x = 0; x < terrain.terrainData.detailResolution; x++) {
                 for (int y = 0; y < terrain.terrainData.detailResolution; y++) {
@@ -132,12 +131,6 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     public void GenerateTerrainObject() {
-        highest = 0;
-        for (int x = 0; x < mapSize; x++) {
-            for (int y = 0; y < mapSize; y++) {
-                if (elevation[x, y] > highest) highest = elevation[x, y];
-            }
-        }
         landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
@@ -178,7 +171,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 //float steepness = terrainData.GetSteepness(y_01, x_01);
 
                 float[] splatWeights = new float[terrainData.alphamapLayers];
-                if (height / newHighest > (1 - perlinMountainProportion) || height == 0) splatWeights[1] = 1f;
+                if (height / newHighest > (1 - perlinMountainProportion)) splatWeights[1] = 1f;
+                else if (height == 0) splatWeights[2] = 1f;
                 else splatWeights[0] = 1f;
 
                 float z = splatWeights.Sum();
@@ -193,9 +187,15 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     private void AddRivers() {
+        highest = 0;
+        for (int x = 0; x < mapSize; x++) {
+            for (int y = 0; y < mapSize; y++) {
+                if (elevation[x, y] > highest) highest = elevation[x, y];
+            }
+        }
         for (int i = 0; i < numRivers; i++) {
             Vector2[] points = new Vector2[20];
-            for (int j=0; j<20; j++) {
+            for (int j = 0; j < 20; j++) {
                 points[j].x = Random.Range(0, mapSize);
                 points[j].y = Random.Range(0, mapSize);
             }
@@ -215,17 +215,18 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         }
         return highestPoint;
     }
-
     private void AddRiver(int startingX, int startingY) {
+        var roll = Random.Range(0f, 18000f);
         var coords = new Vector2(startingX, startingY);
-        var limit = 100;
+        var length = 4000;
+        var points = new List<float>();
+        for (int j = 0; j < length; j++) points.Add(Mathf.PerlinNoise(roll + j, 0));
+        var cursor = Random.Range(0f, 360f);
         var i = 0;
-        while (elevation[(int)coords.x, (int)coords.y] != 0) {
+        while (InBounds((int)coords.x, (int)coords.y) && (elevation[(int)coords.x, (int)coords.y] == 0 || elevation[(int)coords.x, (int)coords.y] > perlinWaterProportion / highest)) {
             i++;
-            if (i > limit) break;
-            originalRiverHeights[new Vector2((int)coords.x, (int)coords.y)] = elevation[(int)coords.x, (int)coords.y];
-            elevation[(int)coords.x, (int)coords.y] = 0;
-            riverPoints.Add(coords);
+            if (i >= length) break;
+            RegisterRiverPoint(coords);
             if ((int)coords.x == 0 || (int)coords.y == 0 || (int)coords.x == mapSize - 1 || (int)coords.y == mapSize - 1) return;
             var northElev = elevation[(int)coords.x, (int)coords.y - 1];
             var southElev = elevation[(int)coords.x, (int)coords.y + 1];
@@ -236,43 +237,58 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             if (southElev < minimum && southElev != 0) minimum = southElev;
             if (eastElev < minimum && eastElev != 0) minimum = eastElev;
             if (westElev < minimum && westElev != 0) minimum = westElev;
-            if (northElev == minimum) coords = RiverWalkNorth(coords); //coords.y--;
-            else if (southElev == minimum) coords = RiverWalkSouth(coords); //coords.y++;
-            else if (westElev == minimum) coords = RiverWalkWest(coords); //coords.x--;
-            else if (eastElev == minimum) coords = RiverWalkEast(coords); //coords.x++;
+            if (northElev == minimum) coords = RiverWalkNorth(coords);
+            else if (southElev == minimum) coords = RiverWalkSouth(coords);
+            else if (westElev == minimum) coords = RiverWalkWest(coords);
+            else if (eastElev == minimum) coords = RiverWalkEast(coords);
+
+            RegisterRiverPoint(coords);
+
+            var noisePoint = points[i];
+            if (noisePoint < 0.5f) cursor -= (90 * (noisePoint * 2));
+            else cursor += (90 * (noisePoint - 0.5f) * 2);
+            if (cursor < 0) cursor += 360;
+            else if (cursor >= 360) cursor -= 360;
+            if (cursor >= 0 && cursor < 90 && InBounds((int)coords.x, (int)coords.y - 1) && elevation[(int)coords.x, (int)coords.y - 1] != 0) coords = new Vector2(coords.x, coords.y - 1);
+            else if (cursor >= 90 && cursor < 180 && InBounds((int)coords.x + 1, (int)coords.y) && elevation[(int)coords.x + 1, (int)coords.y] != 0) coords = new Vector2(coords.x + 1, coords.y);
+            else if (cursor >= 180 && cursor < 270 && InBounds((int)coords.x, (int)coords.y + 1) && elevation[(int)coords.x, (int)coords.y + 1] != 0) coords = new Vector2(coords.x, coords.y + 1);
+            else if (cursor >= 270 && cursor < 360 && InBounds((int)coords.x - 1, (int)coords.y) && elevation[(int)coords.x - 1, (int)coords.y] != 0) coords = new Vector2(coords.x - 1, coords.y);
         }
     }
 
     private Vector2 RiverWalkNorth(Vector2 coords) {
-        int random = Random.Range(0, riverDrunkenWalkFactor);
-        if (random == 0) coords.x--;
-        else if (random == 1) coords.x++;
-        else coords.y--;
+        coords.y--;
+        //RegisterRiverPoint(coords);
+        //coords.y--;
         return coords;
     }
 
     private Vector2 RiverWalkSouth(Vector2 coords) {
-        int random = Random.Range(0, riverDrunkenWalkFactor);
-        if (random == 0) coords.x--;
-        else if (random == 1) coords.x++;
-        else coords.y++;
+        coords.y++;
+        //RegisterRiverPoint(coords);
+        //coords.y++;
         return coords;
     }
 
     private Vector2 RiverWalkEast(Vector2 coords) {
-        int random = Random.Range(0, riverDrunkenWalkFactor);
-        if (random == 0) coords.y--;
-        else if (random == 1) coords.y++;
-        else coords.x++;
+        coords.x++;
+        //RegisterRiverPoint(coords);
+        //coords.x++;
         return coords;
     }
 
     private Vector2 RiverWalkWest(Vector2 coords) {
-        int random = Random.Range(0, riverDrunkenWalkFactor);
-        if (random == 0) coords.y--;
-        else if (random == 1) coords.y++;
-        else coords.x--;
+        coords.x--;
+        //RegisterRiverPoint(coords);
+        //coords.x--;
         return coords;
+    }
+
+    private void RegisterRiverPoint(Vector2 coords) {
+        if (!InBounds((int)coords.x, (int)coords.y)) return;
+        originalRiverHeights[new Vector2((int)coords.x, (int)coords.y)] = elevation[(int)coords.x, (int)coords.y];
+        elevation[(int)coords.x, (int)coords.y] = 0;
+        riverPoints.Add(coords);
     }
 
     private void WidenRivers() {
