@@ -24,12 +24,16 @@ public class SceneInitializer : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "Temp Start Area") {
+        if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "Starting Area") {
             MusicController.instance.PlayMusic(MusicController.instance.townMusic);
             return;
         }
-        else if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "New Character Selection") {
+        else if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "Character Selection") {
             MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
+            return;
+        }
+        else if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "Overworld") {
+            MusicController.instance.PlayMusic(MusicController.instance.overworldMusic);
             return;
         }
         if (LevelGen.instance.dungeonType == null) return;

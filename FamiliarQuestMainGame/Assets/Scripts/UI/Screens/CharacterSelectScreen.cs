@@ -338,7 +338,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void LoadCharacter() {
-        SceneManager.LoadScene("New Lobby");
+        SceneManager.LoadScene("Lobby");
         characterByteArray = File.ReadAllBytes(Application.persistentDataPath + "/characters/" + selectedCharacterName + ".character");
     }
 
@@ -497,7 +497,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         var config = GameObject.FindGameObjectWithTag("ConfigObject");
         Destroy(config);
         characterByteArray = File.ReadAllBytes(Application.persistentDataPath + "/characters/" + selectedCharacterName + ".character");
-        SceneManager.LoadScene("New Lobby");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void PressDelete() {

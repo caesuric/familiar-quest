@@ -54,7 +54,7 @@ public class LargeStatusTextUpdater : MonoBehaviour {
         CharacterSelectScreen.characterByteArray = null;
         Destroy(canvas);
         Destroy(objectHelpText);
-        SceneManager.LoadScene("New Character Selection");
+        SceneManager.LoadScene("Character Selection");
         MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
         //NetworkManager.Shutdown();
     }

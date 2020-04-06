@@ -1,0 +1,16 @@
+Readme
+Standard Assets; the standard assets are free assets provided by Unity Technologies. 
+They can be imported from the Assets/Import tab within Unity or from the Asset Store. 
+The standard assets contain the basics of Unity with free speed trees, water, post processing effects and so on. 
+When importing the standard assets it put them into 2 folders. Editor folder and Standard Assets folder.
+ 
+In Our Packs at Manufactura K4 we have left the folder structure of the standard assets as default when you first 
+import standard assets into your project. 
+The reason for this is due to naming conventions and global name space errors caused due to multiple duplicates 
+of these standard assets importing each of our Manufactura K4 packs you won't have these namespace errors 
+when importing our packs. It is recommended that you leave the folder standard assets and editor folders 
+where they are while you are doing the import process of your content. you can still move your standard 
+assets folder around but it's highly recommended that the editor folder stays in the route of the assets folder 
+otherwise errors in scripting compiles could occur. 
+When importing one of Manufactura K4 packs be sure that during the select to import process you unchecked 
+the editor folder and standard assets folder if you've moved your standard assets folder location. 

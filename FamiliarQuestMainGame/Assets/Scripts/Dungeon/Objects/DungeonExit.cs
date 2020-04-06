@@ -12,7 +12,7 @@ public class DungeonExit : MonoBehaviour {
         if (onWayUp && !saveBlocker.currentlySaving) {
             PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_downstairs");
             foreach (var player in PlayerCharacter.players) player.ready = false;
-            SceneManager.LoadScene("Temp Start Area");
+            SceneManager.LoadScene("Starting Area");
             //LobbyManager.singleton.ServerChangeScene("Temp Start Area");
             SceneManager.sceneLoaded += SceneInitializer.instance.OnNexusSceneLoaded;
             onWayUp = false;
