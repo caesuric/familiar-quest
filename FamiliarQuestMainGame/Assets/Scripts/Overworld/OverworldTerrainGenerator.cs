@@ -47,7 +47,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             return;
         }
         else instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         GenerateTerrainFractalPerlinWithTerrainObject();
     }
 
@@ -81,6 +81,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         GenerateObjects(leavesPercentage, leaves);
         GenerateObjects(rockPercentage, rocks);
         GenerateObjects(flowersPercentage, flowers);
+        PlayerCharacter.localPlayer.transform.position = new Vector3(512, 23.69529f, 512);
+        Camera.main.GetComponent<Desaturate>().enabled = false;
     }
 
     public void GenerateObjects(float objectPercentage, GameObject[] objects) {
