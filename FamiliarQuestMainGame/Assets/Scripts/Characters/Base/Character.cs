@@ -60,7 +60,7 @@ public class Character : DependencyUser {
         new CharacterAttribute("criticalHitChance", "Critical Hit Chance", true, new List<string> { "luck", "criticalHitChanceRating" }, 0, 20, 30, 10, 20, 50, true);
         new CharacterAttribute("criticalDamage", "Critical Hit Damage", true, new List<string> { "luck", "criticalDamageRating" }, 100, 200, 250, 150, 200, 300, true);
         new CharacterAttribute("statusEffectDuration", "Status Effect Duration", true, new List<string> { "luck", "statusEffectDurationRating" }, -80, 0, 40, -40, 0, 80, true);
-        new CharacterAttribute("itemFindRate", "Item Find Rate", true, new List<string> { "luck", "itemFindRating" }, 0, 20, 30, 10, 20, 50, true);
+        new CharacterAttribute("itemFindRate", "Item Find Rate", true, new List<string> { "luck", "itemFindRating" }, 5, 20, 30, 10, 20, 50, true);
         new CharacterAttribute("fireResistance", "Fire Resistance", true, new List<string> { "luck", "fireResistRating" }, 0, 0, 20, 0, 0, 75, true);
         new CharacterAttribute("iceResistance", "Ice Resistance", true, new List<string> { "luck", "iceResistRating" }, 0, 0, 20, 0, 0, 75, true);
         new CharacterAttribute("acidResistance", "Acid Resistance", true, new List<string> { "luck", "acidResistRating" }, 0, 0, 20, 0, 0, 75, true);
