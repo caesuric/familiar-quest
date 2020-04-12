@@ -5,15 +5,16 @@
 * Rebalanced secondary ratings scaling. Should now be easier to obtain, for instance, boosted movement speed from Dexterity
 * Bosses are now 2 levels higher than the dungeon's stated difficulty, not 5 levels higher
 * Kobolds can no longer be bosses, as they are too easy to kill even with boss adjustments
-
 * Energy Wisplets can no longer be boss adds, as they do not attack
 * Bosses no longer reset due to "leaving the fight" when you hug the walls of the boss room.
 * You can now see the level of items in their tooltips. Level was not previously tracked during item generation, so all items generated previously to this update will show as "L0" unfortunately.
-* Default camera position has been zoomed out greatly to provide the player with a larger field of view
+* The camera position has been zoomed out greatly to provide the player with a larger field of view
 * When the shop window is overly full, the bottom row's costs will no longer be cut off
 * Dragging items across UI windows will no longer result in the character attacking repatedly while the mouse is over the game area
 * Bosses no longer gain back all health upon eating a minion... they instead gain 25% of max health
 * Inventory and shop items are now aligned to the upper left hand side of the window, not centered
+
+* The character creation ability selection panel now shows the character's selected stats
 
 # v 0.14.1
 

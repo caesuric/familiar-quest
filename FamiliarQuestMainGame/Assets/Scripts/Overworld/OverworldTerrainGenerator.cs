@@ -11,7 +11,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     private float highest;
     private float newHighest;
     private List<Vector2> riverPoints = new List<Vector2>();
-    private Dictionary<Vector2, float> originalRiverHeights = new Dictionary<Vector2, float>();
+    private readonly Dictionary<Vector2, float> originalRiverHeights = new Dictionary<Vector2, float>();
     public float perlinScaleFactor = 30f;
     public float perlinFeatureSize = 100f;
     public float perlinMountainProportion = 0.1f, perlinWaterProportion = 0.1f;

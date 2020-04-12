@@ -46,6 +46,12 @@ public class CharacterSelectScreen : MonoBehaviour {
     public static SavedCharacter loadedCharacter;
     public static string selectedCharacterName;
     public static byte[] characterByteArray = null;
+    public Text abilityScreenStrengthText;
+    public Text abilityScreenDexterityText;
+    public Text abilityScreenConstitutionText;
+    public Text abilityScreenIntelligenceText;
+    public Text abilityScreenWisdomText;
+    public Text abilityScreenLuckText;
     private List<AttackAbility> attackAbilities1 = new List<AttackAbility>();
     private List<AttackAbility> attackAbilities2 = new List<AttackAbility>();
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
@@ -450,12 +456,12 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     private void UpdateStats() {
-        strengthText.text = strength.ToString();
-        dexterityText.text = dexterity.ToString();
-        constitutionText.text = constitution.ToString();
-        intelligenceText.text = intelligence.ToString();
-        wisdomText.text = wisdom.ToString();
-        luckText.text = luck.ToString();
+        strengthText.text = abilityScreenStrengthText.text = strength.ToString();
+        dexterityText.text = abilityScreenDexterityText.text = dexterity.ToString();
+        constitutionText.text = abilityScreenConstitutionText.text = constitution.ToString();
+        intelligenceText.text = abilityScreenIntelligenceText.text = intelligence.ToString();
+        wisdomText.text = abilityScreenWisdomText.text = wisdom.ToString();
+        luckText.text = abilityScreenLuckText.text = luck.ToString();
         sparePointsText.text = sparePoints.ToString();
         CharacterAttribute.attributes["strength"].instances[fakeCharacter].BaseValue = strength;
         CharacterAttribute.attributes["dexterity"].instances[fakeCharacter].BaseValue = dexterity;
