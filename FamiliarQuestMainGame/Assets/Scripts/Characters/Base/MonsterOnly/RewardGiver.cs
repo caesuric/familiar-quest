@@ -102,6 +102,7 @@ public class RewardGiver : MonoBehaviour {
         if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
 
         item.description += GetDescriptionText(item);
+        item.level = intendedLevel;
         EquipmentNamer.NameEquipment(item);
         item.quality = quality;
         var pc = attacker.GetComponent<PlayerCharacter>();
@@ -194,6 +195,7 @@ public class RewardGiver : MonoBehaviour {
         if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
 
         item.description += GetDescriptionText(item);
+        item.level = level;
         item.quality = quality;
         EquipmentNamer.NameEquipment(item);
         return item;

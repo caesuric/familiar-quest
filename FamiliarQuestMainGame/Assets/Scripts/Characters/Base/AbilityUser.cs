@@ -282,7 +282,8 @@ public class AbilityUser : DependencyUser {
         if (GetComponent<Boss>().adds.Count == 0) return;
         GetComponent<ObjectSpawner>().CreateFloatingStatusText("ATE A MINION!", "The boss ate a minion to recover health!");
         KillNearestMinion();
-        health.hp = health.maxHP;
+        health.hp += health.maxHP / 4;
+        if (health.hp > health.maxHP) health.hp = health.maxHP;
     }
 
     public void AttrBossSummonMinions() {

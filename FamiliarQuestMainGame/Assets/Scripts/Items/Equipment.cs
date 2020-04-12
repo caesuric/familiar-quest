@@ -5,6 +5,7 @@ public abstract class Equipment : Item {
     public int armor = 0;
     public int quality = 0;
     public Dictionary<string, int> stats = new Dictionary<string, int>();
+    public int level = 0;
 
     public void AddStat(string stat, int value) {
         if (stats.ContainsKey(stat)) stats[stat] += value;

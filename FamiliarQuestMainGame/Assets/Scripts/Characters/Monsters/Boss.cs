@@ -32,7 +32,7 @@ public class Boss : MonoBehaviour {
         wall = (GameObject)Resources.Load("Prefabs/Dungeon/Old/Wall");
         exitPortal = (GameObject)Resources.Load("Prefabs/Dungeon/Old/Exit Portal");
         var addObjs = Resources.LoadAll("Prefabs/Monsters");
-        foreach (var obj in addObjs) if (obj.name != "Mirror Mage Mirror Image") possibleAdds.Add((GameObject)obj);
+        foreach (var obj in addObjs) if (obj.name != "Mirror Mage Mirror Image" && obj.name != "Energy Wisplet") possibleAdds.Add((GameObject)obj);
         originalLocation = transform.position;
         AddRandomElementalStrengths();
         SetupBossPatterns();
@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour {
         //if (!NetworkServer.active) return;
         var canSeePlayer = GetComponent<TestMonster>().state["seePlayer"].Equals(true);
         if (canSeePlayer && !fightStarted) {
-            if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) < 30f) {
+            if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) < 50f) {
                 fightStarted = true;
                 fightTime = 0;
                 MusicController.instance.PlayMusic(MusicController.instance.bossMusic);
@@ -67,6 +67,7 @@ public class Boss : MonoBehaviour {
         else {
             transform.position = originalLocation;
             GetComponent<Health>().hp = GetComponent<Health>().maxHP;
+            fightTime = 0;
         }
 
         foreach (ActiveAbility ability in bossAbilities) {

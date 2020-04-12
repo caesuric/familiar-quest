@@ -9,6 +9,7 @@ public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHan
         var canvas = FindInParents<Canvas>(gameObject);
         if (canvas == null)
             return;
+        InputMovement.isDragging = true;
         transform.SetParent(canvas.transform);
         m_DraggingPlanes[eventData.pointerId] = canvas.transform as RectTransform;
         var group = gameObject.AddComponent<CanvasGroup>();
@@ -23,6 +24,7 @@ public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHan
     }
 
     public void OnEndDrag(PointerEventData eventData) {
+        InputMovement.isDragging = false;
         GetComponent<InventoryItemUpdater>().inventory.RefreshInABit();
         Destroy(gameObject);
     }

@@ -194,6 +194,8 @@ public class SavedItem
     public List<int> statValues = new List<int>();
     public int armor = 0;
     public int quality;
+    [OptionalField]
+    public int level = 0;
 
     public static SavedItem ConvertFrom(Item item) {
         if (item is Weapon) return SavedWeapon.ConvertFrom((Weapon)item);
@@ -301,6 +303,7 @@ public class SavedWeapon : SavedItem {
     public static SavedWeapon ConvertFromMeleeWeapon(MeleeWeapon weapon) {
         var obj = new SavedMeleeWeapon {
             name = weapon.name,
+            level = weapon.level,
             description = weapon.description,
             attackPower = weapon.attackPower,
             icon = weapon.icon,
@@ -313,6 +316,7 @@ public class SavedWeapon : SavedItem {
     public static SavedWeapon ConvertFromRangedWeapon(RangedWeapon weapon) {
         var obj = new SavedRangedWeapon {
             name = weapon.name,
+            level = weapon.level,
             description = weapon.description,
             attackPower = weapon.attackPower,
             icon = weapon.icon,
@@ -333,6 +337,7 @@ public class SavedMeleeWeapon : SavedWeapon
     {
         var obj = new MeleeWeapon {
             name = name,
+            level = level,
             description = description,
             attackPower = attackPower,
             icon = icon,
@@ -354,6 +359,7 @@ public class SavedRangedWeapon : SavedWeapon
     {
         var obj = new RangedWeapon {
             name = name,
+            level = level,
             description = description,
             attackPower = attackPower,
             icon = icon,
@@ -377,6 +383,7 @@ public class SavedArmor : SavedItem
     {
         var obj = new Armor {
             name = name,
+            level = level,
             description = description,
             hp = hp,
             mp = mp,
@@ -391,6 +398,7 @@ public class SavedArmor : SavedItem
         if (armor == null) return null;
         var obj = new SavedArmor {
             name = armor.name,
+            level = armor.level,
             description = armor.description,
             hp = armor.hp,
             mp = armor.mp,
@@ -407,6 +415,7 @@ public class SavedNecklace : SavedItem {
     public Necklace ConvertTo() {
         var obj = new Necklace {
             name = name,
+            level = level,
             description = description,
             quality = quality
         };
@@ -418,6 +427,7 @@ public class SavedNecklace : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedNecklace {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             quality = accessory.quality
         };
@@ -431,6 +441,7 @@ public class SavedBelt: SavedItem {
     public Belt ConvertTo() {
         var obj = new Belt {
             name = name,
+            level = level,
             description = description,
             quality = quality
         };
@@ -442,6 +453,7 @@ public class SavedBelt: SavedItem {
         if (accessory == null) return null;
         var obj = new SavedBelt {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             quality = accessory.quality
         };
@@ -455,6 +467,7 @@ public class SavedBracelet : SavedItem {
     public Bracelet ConvertTo() {
         var obj = new Bracelet {
             name = name,
+            level = level,
             description = description,
             quality = quality
         };
@@ -466,6 +479,7 @@ public class SavedBracelet : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedBracelet {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             quality = accessory.quality
         };
@@ -479,6 +493,7 @@ public class SavedCloak : SavedItem {
     public Cloak ConvertTo() {
         var obj = new Cloak {
             name = name,
+            level = level,
             description = description,
             quality = quality
         };
@@ -490,6 +505,7 @@ public class SavedCloak : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedCloak {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             quality = accessory.quality
         };
@@ -503,6 +519,7 @@ public class SavedEarring : SavedItem {
     public Earring ConvertTo() {
         var obj = new Earring {
             name = name,
+            level = level,
             description = description,
             quality = quality
         };
@@ -514,6 +531,7 @@ public class SavedEarring : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedEarring {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             quality = accessory.quality
         };
@@ -527,6 +545,7 @@ public class SavedHat : SavedItem {
     public Hat ConvertTo() {
         var obj = new Hat {
             name = name,
+            level = level,
             description = description,
             armor = armor,
             quality = quality
@@ -539,6 +558,7 @@ public class SavedHat : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedHat {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             armor = accessory.armor,
             quality = accessory.quality
@@ -553,6 +573,7 @@ public class SavedShoes : SavedItem {
     public Shoes ConvertTo() {
         var obj = new Shoes {
             name = name,
+            level = level,
             description = description,
             armor = armor,
             quality = quality
@@ -565,6 +586,7 @@ public class SavedShoes : SavedItem {
         if (accessory == null) return null;
         var obj = new SavedShoes {
             name = accessory.name,
+            level = accessory.level,
             description = accessory.description,
             armor = accessory.armor,
             quality = accessory.quality

@@ -252,7 +252,7 @@ private void Equip() {
         tooltip.contentLines[1].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Description;
         if (item is Equipment) {
             Equipment equipment = item as Equipment;
-            tooltip.contentLines[1].Content = qualityDisplayTypes[equipment.quality] + displayTypes[type];
+            tooltip.contentLines[1].Content = "L" + equipment.level + " " + qualityDisplayTypes[equipment.quality] + displayTypes[type];
         }
         else tooltip.contentLines[1].Content = displayTypes[type];
         tooltip.contentLines[2].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
