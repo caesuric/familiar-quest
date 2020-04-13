@@ -17,7 +17,8 @@ public class LevelUpTextUpdater : MonoBehaviour
 
     void Start() {
         text.enabled = false;
-        instance = this;
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
         startingScale = transform.localScale;
     }
 
