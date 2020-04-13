@@ -41,6 +41,7 @@ public class Boss : MonoBehaviour {
         tm.sensors.Add(new AI.Sensors.BossAbilityTracking());
         tm.availableActions.Add(new AI.Actions.HitPlayerWithBossMeleeAttack());
         tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
+        tm.availableActions.Add(new AI.Actions.FacePlayerWhileUsingBossRangedAttack());
         tm.availableActions.Add(new AI.Actions.UseBossUtilityAbility());
         element = Spirit.RandomElement();
         if (!phasesTimeBased) SetupHealthThresholds();

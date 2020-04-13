@@ -10,6 +10,7 @@ public class TestMonster : GoapAgent {
             new AI.Actions.FacePlayer(),
             new AI.Actions.HitPlayerWithMeleeAttack(),
             new AI.Actions.HitPlayerWithRangedAttack(),
+            new AI.Actions.FacePlayerWhileUsingRangedAttack(),
             new AI.Actions.MoveToPlayer(),
             new AI.Actions.WaitForGcd(),
             new AI.Actions.PursuePlayer(),
