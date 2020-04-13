@@ -13,8 +13,9 @@
 * Dragging items across UI windows will no longer result in the character attacking repatedly while the mouse is over the game area
 * Bosses no longer gain back all health upon eating a minion... they instead gain 25% of max health
 * Inventory and shop items are now aligned to the upper left hand side of the window, not centered
-
 * The character creation ability selection panel now shows the character's selected stats
+
+* The character sheet now shows the character's average item level
 
 # v 0.14.1
 
