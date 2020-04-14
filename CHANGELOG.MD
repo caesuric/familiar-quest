@@ -25,6 +25,8 @@
 * Homing projectiles now cannot last longer than 18 seconds
 * Weapon attack power displayed is now based off the player character's highest attack stat, not the weapon type
 * Deleting a character now asks for confirmation
+* Bracelets now auto-equip to any empty bracelet slot
+
 
 # v 0.14.1
 

@@ -141,10 +141,27 @@ public class RewardGiver : MonoBehaviour {
             pc.ModifyStats(null, item);
             pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
         }
+        else if (item is Bracelet) {
+            EquipBraceletIfPossible(item, pc);
+        }
         else {
             PlayerCharacter.localPlayer.inventory.items.Add(item);
             DropsArea.AddItemDrop(item);
         }
+    }
+
+    private static void EquipBraceletIfPossible(Equipment item, PlayerCharacter pc) {
+        if (!(item is Bracelet bracelet)) return;
+        for (int i=0; i<pc.bracelets.Length; i++) {
+            if (pc.bracelets[i]==null) {
+                pc.bracelets[i] = bracelet;
+                pc.ModifyStats(null, item);
+                pc.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+                return;
+            }
+        }
+        PlayerCharacter.localPlayer.inventory.items.Add(item);
+        DropsArea.AddItemDrop(item);
     }
 
     public static Equipment GenerateEquipment(int level, int quality) {
