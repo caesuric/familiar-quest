@@ -145,12 +145,13 @@ public class RewardGiver : MonoBehaviour {
             EquipBraceletIfPossible(item, pc);
         }
         else {
-            PlayerCharacter.localPlayer.inventory.items.Add(item);
+            pc.inventory.items.Add(item);
             DropsArea.AddItemDrop(item);
+            StartCoroutine(pc.inventory.RefreshInABit());
         }
     }
 
-    private static void EquipBraceletIfPossible(Equipment item, PlayerCharacter pc) {
+    private void EquipBraceletIfPossible(Equipment item, PlayerCharacter pc) {
         if (!(item is Bracelet bracelet)) return;
         for (int i=0; i<pc.bracelets.Length; i++) {
             if (pc.bracelets[i]==null) {
@@ -162,6 +163,7 @@ public class RewardGiver : MonoBehaviour {
         }
         PlayerCharacter.localPlayer.inventory.items.Add(item);
         DropsArea.AddItemDrop(item);
+        StartCoroutine(pc.inventory.RefreshInABit());
     }
 
     public static Equipment GenerateEquipment(int level, int quality) {

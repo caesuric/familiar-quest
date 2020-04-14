@@ -26,7 +26,7 @@
 * Weapon attack power displayed is now based off the player character's highest attack stat, not the weapon type
 * Deleting a character now asks for confirmation
 * Bracelets now auto-equip to any empty bracelet slot
-
+* Item drops will now refresh the player's inventory when inventory is open and item drops at the same time
 
 # v 0.14.1
 
