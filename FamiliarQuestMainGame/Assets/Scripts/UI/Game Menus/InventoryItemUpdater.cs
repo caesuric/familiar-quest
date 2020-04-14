@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemUpdater : MonoBehaviour {
+public class InventoryItemUpdater : MonoBehaviour, IPointerClickHandler {
 
     public Text nameText;
     public Text descriptionText;
@@ -354,5 +355,10 @@ private void Equip() {
         int comparisonSlot = 0;
         if (type == "bracelet") comparisonSlot = 3;
         else comparisonSlot = Inventory.slotKeys[type];
+    }
+
+    public void OnPointerClick(PointerEventData eventData) {
+        if (GetComponent<ShopItemController>() == null) Click();
+        else GetComponent<ShopItemController>().Buy();
     }
 }
