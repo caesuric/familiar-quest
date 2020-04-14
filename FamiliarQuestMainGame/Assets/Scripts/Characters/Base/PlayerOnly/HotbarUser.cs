@@ -80,6 +80,10 @@ public class HotbarUser : MonoBehaviour {
             else for (var i = 0; i < abilityCurrentCDs.Count; i++) PartialUpdateAbilityCD(i);
             for (int i = 0; i < abilityIcons.Count; i++) {
                 if (hotbarButtons[i] == null) continue;
+                if (abilityIcons[i] == 65) {
+                    hotbarButtons[i].GetComponent<MouseOverHotbarButton>().image.gameObject.SetActive(false);
+                    continue;
+                }
                 hotbarButtons[i].GetComponent<MouseOverHotbarButton>().image.sprite = GetComponent<CacheGrabber>().iconCache[abilityIcons[i]];
                 hotbarButtons[i].GetComponent<MouseOverHotbarButton>().image.gameObject.SetActive(true);
             }
@@ -202,10 +206,10 @@ public class HotbarUser : MonoBehaviour {
         if (su!=null && su.spirits.Count>0) {
             var abilities = su.spirits[0].activeAbilities;
             var overflowAbilities = su.overflowAbilities;
-            while (abilities.Count > 8 && HasNullSpots(abilities)) MoveToNullSpots(abilities);
-            if (abilities.Count > 8) {
-                for (int i = 8; i < abilities.Count; i++) overflowAbilities.Add(abilities[i]);
-                abilities.RemoveRange(8, abilities.Count - 8);
+            while (abilities.Count > 10 && HasNullSpots(abilities)) MoveToNullSpots(abilities);
+            if (abilities.Count > 10) {
+                for (int i = 10; i < abilities.Count; i++) overflowAbilities.Add(abilities[i]);
+                abilities.RemoveRange(10, abilities.Count - 10);
             }
         }
         
