@@ -12,6 +12,7 @@ public class AbilityUser : DependencyUser {
     public float GCDTime = 0.0f; //when <0 onGCD would have been false
     public static float maxGCDTime = 0.5f;
     public GameObject mirrorImagePrefab;
+    public GameObject teleportPrefab;
 
     private void Start() {
         dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character", "StatusEffectHost", "Health", "Mana", "Attacker"};
@@ -42,6 +43,7 @@ public class AbilityUser : DependencyUser {
             { "bossEatMinion", (ActiveAbility ability, AbilityAttribute attr) => AttrBossEatMinion(ability) },
             { "bossSummonMinions", (ActiveAbility ability, AbilityAttribute attr) => AttrBossSummonMinions() }
         };
+        teleportPrefab = Resources.Load("Prefabs/Teleport") as GameObject;
     }
 
     private void Update() {
@@ -256,7 +258,13 @@ public class AbilityUser : DependencyUser {
     public void AttrBossTeleport() {
         //if (GetComponent<MonsterCombatant>().behaviorType == "melee") BossTeleportToPlayer(GetComponent<MonsterCombatant>().player);
         //else BossTeleportToRandomSpot();
+        CreateTeleportEffect();
         BossTeleportToRandomSpot();
+    }
+
+    private void CreateTeleportEffect() {
+        var teleport = Instantiate(teleportPrefab);
+        teleport.transform.position = transform.position;
     }
 
     public void BossTeleportToPlayer(GameObject player) {
@@ -265,12 +273,14 @@ public class AbilityUser : DependencyUser {
         var vector = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized;
         var dest = loc + (distance * vector);
         transform.position = dest;
+        CreateTeleportEffect();
     }
 
     public void BossTeleportToRandomSpot() {
         var originalLocation = GetComponent<Boss>().originalLocation;
-        var dest = new Vector3(Random.Range(originalLocation.x - 7, originalLocation.x + 7), 0, Random.Range(originalLocation.z - 7, originalLocation.z + 7));
+        var dest = new Vector3(Random.Range(originalLocation.x - 20, originalLocation.x + 20), 0, Random.Range(originalLocation.z - 20, originalLocation.z + 20));
         transform.position = dest;
+        CreateTeleportEffect();
     }
 
     public void AttrBossEatMinion(ActiveAbility ability) {
