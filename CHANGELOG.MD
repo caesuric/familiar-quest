@@ -31,6 +31,11 @@
 * Slots 9 and 0 on the ability hotbar can now properly hold abilities
 * The abilities window now has separate areas for passive and active abilities
 
+### Known Issues
+
+* Potions will continue to display on your hotbar even after you have used them all.
+* Monster unit frames can be seen on your minimap and around corners
+
 # v 0.14.1
 
 ## Bugfixes and QoL updates

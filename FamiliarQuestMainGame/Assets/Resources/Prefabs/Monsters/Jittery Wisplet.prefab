@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4642611809970742}
   - component: {fileID: 198492801076540298}
   - component: {fileID: 199627627077987576}
+  - component: {fileID: 4999942841585885186}
+  - component: {fileID: 8028586658990496922}
   m_Layer: 0
   m_Name: glow_line
   m_TagString: Untagged
@@ -4664,6 +4666,33 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4999942841585885186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049065608880716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417c49995cbcea4aa2a73ebdf103693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &8028586658990496922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049065608880716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1128679143463446
 GameObject:
   m_ObjectHideFlags: 0
@@ -4675,6 +4704,8 @@ GameObject:
   - component: {fileID: 4717317298485484}
   - component: {fileID: 198595524721292374}
   - component: {fileID: 199239540596801556}
+  - component: {fileID: 1359908901480815726}
+  - component: {fileID: 4551191602117157165}
   m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
@@ -9766,6 +9797,33 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1359908901480815726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128679143463446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417c49995cbcea4aa2a73ebdf103693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &4551191602117157165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128679143463446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1151364228151392
 GameObject:
   m_ObjectHideFlags: 0
@@ -9960,6 +10018,7 @@ MonoBehaviour:
   dependencies: []
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
+  teleportPrefab: {fileID: 0}
 --- !u!114 &114875490113418134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10056,6 +10115,7 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
+  bossHpFactor: 1
 --- !u!114 &114744054867788040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10185,6 +10245,7 @@ MonoBehaviour:
   deathSoundCreated: 0
   died: 0
   killer: {fileID: 0}
+  diedToPlayer: 1
 --- !u!114 &114645454774567274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10403,6 +10464,8 @@ GameObject:
   - component: {fileID: 198833584924085296}
   - component: {fileID: 199601590073773616}
   - component: {fileID: 114340641542100832}
+  - component: {fileID: 8374390305832188377}
+  - component: {fileID: 7701598365315899600}
   m_Layer: 0
   m_Name: Effect_Scroll_03
   m_TagString: Untagged
@@ -15072,6 +15135,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uvAnimationRate: {x: -1, y: 0}
   textureName: _Distort
+--- !u!114 &8374390305832188377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293133731468176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417c49995cbcea4aa2a73ebdf103693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &7701598365315899600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293133731468176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1599673811601534
 GameObject:
   m_ObjectHideFlags: 0
@@ -15083,6 +15173,8 @@ GameObject:
   - component: {fileID: 4743209806014910}
   - component: {fileID: 198750784302824818}
   - component: {fileID: 199734951285141684}
+  - component: {fileID: 3369097431343722089}
+  - component: {fileID: 5555857604864016251}
   m_Layer: 0
   m_Name: glow
   m_TagString: Untagged
@@ -19736,3 +19828,30 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3369097431343722089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599673811601534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417c49995cbcea4aa2a73ebdf103693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &5555857604864016251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599673811601534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

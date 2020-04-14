@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4220277511750652}
   - component: {fileID: 198978011872777442}
   - component: {fileID: 199725758293323322}
+  - component: {fileID: 612509347942991022}
+  - component: {fileID: 1361458569014825479}
   m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
@@ -5102,6 +5104,33 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &612509347942991022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236499294631506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3417c49995cbcea4aa2a73ebdf103693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &1361458569014825479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236499294631506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1495306315053610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5333,6 +5362,7 @@ MonoBehaviour:
   dependencies: []
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
+  teleportPrefab: {fileID: 0}
 --- !u!114 &114627837472845260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5429,6 +5459,7 @@ MonoBehaviour:
   dependencies: []
   hp: 0
   maxHP: 0
+  bossHpFactor: 1
 --- !u!114 &114594496983009200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5558,6 +5589,7 @@ MonoBehaviour:
   deathSoundCreated: 0
   died: 0
   killer: {fileID: 0}
+  diedToPlayer: 1
 --- !u!114 &114724218281292096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5723,6 +5755,7 @@ GameObject:
   - component: {fileID: 23511413938287636}
   - component: {fileID: 114629924138875972}
   - component: {fileID: 114512488558824120}
+  - component: {fileID: 7391046687978764101}
   m_Layer: 0
   m_Name: treasure_chest_closed
   m_TagString: Untagged
@@ -5807,6 +5840,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
 --- !u!114 &114512488558824120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933959316554304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b334c0935829642b595f043fde9963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7391046687978764101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

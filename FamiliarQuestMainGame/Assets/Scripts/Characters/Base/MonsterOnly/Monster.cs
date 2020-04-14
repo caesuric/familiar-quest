@@ -15,6 +15,7 @@ public class Monster : MonoBehaviour { //Hideable
     public List<ElementalAffinity> elementalAffinities = new List<ElementalAffinity>();
     public GameObject unitFramePrefab;
     public GameObject unitFrame;
+    public Renderer[] renderers;
     //private MonsterCombatant monsterCombatant;
 
     // Use this for initialization
@@ -32,6 +33,7 @@ public class Monster : MonoBehaviour { //Hideable
                 GetComponent<SpiritUser>().spirits.Add(new Spirit(GetComponent<MonsterScaler>().level));
                 foreach (var passive in GetComponent<SpiritUser>().spirits[0].passiveAbilities) GetComponent<SpiritUser>().AddPassive(passive);
             }
+        renderers = GetComponentsInChildren<Renderer>();
         //}
     }
 
@@ -39,7 +41,8 @@ public class Monster : MonoBehaviour { //Hideable
         //var inCombat = monsterCombatant.InCombat();
         //if (inCombat && !unitFrame.activeSelf) unitFrame.SetActive(true);
         //else if (!inCombat && unitFrame.activeSelf) unitFrame.SetActive(false);
-        if (unitFrame!=null) unitFrame.SetActive(true); // until I have a way to determine if monsters are in combat with new AI
+
+        if (unitFrame != null) unitFrame.SetActive(true); // until I have a way to determine if monsters are in combat with new AI
     }
 
     void OnDestroy() {
