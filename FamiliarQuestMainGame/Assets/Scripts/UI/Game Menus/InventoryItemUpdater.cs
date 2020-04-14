@@ -130,8 +130,8 @@ public class InventoryItemUpdater : MonoBehaviour {
             if (type == "armor") item = inventory.player.armor;
             else if (type == "shoes") item = inventory.player.shoes;
             else item = inventory.player.hat;
-            if (((Equipment)shop.goods[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
-            else if (((Equipment)shop.goods[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
+            if (item == null || ((Equipment)shop.goods[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
+            else if (item != null && ((Equipment)shop.goods[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
         }
         if (!(item is Equipment)) return;
         var equipment = item as Equipment;

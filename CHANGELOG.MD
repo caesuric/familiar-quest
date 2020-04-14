@@ -17,7 +17,7 @@
 * The character sheet now shows the character's average item level
 * Enemies can now rotate to hit the player more accurately with ranged attacks while using said ranged attacks at the same time
 * LEVEL UP text should now continue to work as intended after the player changes levels multiple times
-
+* Revamped visual effects for damage over time zones -- their physical boundaries should now be clearer as well as looking better
 
 # v 0.14.1
 
