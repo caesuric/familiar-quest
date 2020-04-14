@@ -239,7 +239,7 @@ public class Health : DependencyUser {
         if (pc.armor != null) armorValue += pc.armor.armor;
         if (pc.shoes != null) armorValue += pc.shoes.armor;
         if (pc.hat != null) armorValue += pc.hat.armor;
-        var multiplier = 1f - ((float)armorValue / ((float)armorValue + 400f + (85f * (float)attackerLevel)));
+        var multiplier = 1f - (armorValue / (armorValue + 400f + (85f * attackerLevel)));
         var prevented = 1f - multiplier;
         //prevented *= SecondaryStatUtility.CalcArmorMultiplier(GetComponent<Character>().constitution, GetComponent<ExperienceGainer>().level);
         prevented *= CharacterAttribute.attributes["armorMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;

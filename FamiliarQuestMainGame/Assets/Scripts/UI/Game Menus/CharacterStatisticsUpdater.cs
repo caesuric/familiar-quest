@@ -21,6 +21,8 @@ public class CharacterStatisticsUpdater : MonoBehaviour {
     public Text statusEffectDuration;
     public Text itemFindRate;
     public Text elementalResistance;
+    public Text armor;
+    public Text armorDamageReduction;
 
     // Use this for initialization
     void Start() {
@@ -62,6 +64,16 @@ public class CharacterStatisticsUpdater : MonoBehaviour {
         statusEffectDuration.text = Mathf.Floor(CharacterAttribute.attributes["statusEffectDuration"].instances[c].TotalValue).ToString() + "%";
         itemFindRate.text = Mathf.Floor(CharacterAttribute.attributes["itemFindRate"].instances[c].TotalValue).ToString() + "%";
         elementalResistance.text = Mathf.Floor(CharacterAttribute.attributes["fireResistance"].instances[c].TotalValue).ToString() + "%";
+        var armorValue = 0;
+        var pc = c.GetComponent<PlayerCharacter>();
+        if (pc.armor != null) armorValue += pc.armor.armor;
+        if (pc.shoes != null) armorValue += pc.shoes.armor;
+        if (pc.hat != null) armorValue += pc.hat.armor;
+        armor.text = armorValue.ToString();
+        var reduction = 1f - (armorValue / (armorValue + 400f + (85f * pc.GetComponent<ExperienceGainer>().level)));
+        reduction = 1f - reduction;
+        reduction *= CharacterAttribute.attributes["armorMultiplier"].instances[c].TotalValue / 100f;
+        armorDamageReduction.text = Mathf.FloorToInt(reduction * 100f).ToString() + "%";
     }
 
     private string Percentify(float number) {
