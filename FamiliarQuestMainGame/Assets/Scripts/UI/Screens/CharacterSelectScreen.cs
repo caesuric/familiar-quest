@@ -52,6 +52,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     public Text abilityScreenIntelligenceText;
     public Text abilityScreenWisdomText;
     public Text abilityScreenLuckText;
+    public GameObject characterDeleteConfirmPanel;
     private List<AttackAbility> attackAbilities1 = new List<AttackAbility>();
     private List<AttackAbility> attackAbilities2 = new List<AttackAbility>();
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
@@ -507,10 +508,19 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void PressDelete() {
+        characterDeleteConfirmPanel.SetActive(true);
+    }
+
+    public void ActuallyPressDelete() {
+        characterDeleteConfirmPanel.SetActive(false);
         File.Delete(Application.persistentDataPath + "/characters/" + selectedCharacterName + ".character");
         File.Delete(Application.persistentDataPath + "/worlds/" + selectedCharacterName + ".world");
         UpdateCharacterNameList();
         UpdateCharacters();
         kittenOuterModel.SetActive(false);
+    }
+
+    public void NoToDelete() {
+        characterDeleteConfirmPanel.SetActive(false);
     }
 }
