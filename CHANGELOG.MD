@@ -27,6 +27,7 @@
 * Deleting a character now asks for confirmation
 * Bracelets now auto-equip to any empty bracelet slot
 * Item drops will now refresh the player's inventory when inventory is open and item drops at the same time
+* Bosses that heal or change hit point totals due to enraging will no longer trigger boss phase loops due to their changed HP
 
 # v 0.14.1
 

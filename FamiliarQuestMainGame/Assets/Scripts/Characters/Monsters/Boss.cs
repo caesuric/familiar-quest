@@ -21,6 +21,7 @@ public class Boss : MonoBehaviour {
     public int currentPhase = 0;
     public string addType = "";
     public float fightTime = 0;
+    private float lowestHealth = 0f;
     public List<GameObject> possibleAdds = new List<GameObject>();
     public List<ActiveAbility> bossAbilities = new List<ActiveAbility>();
     private List<float> healthPhaseThresholds = new List<float>();
@@ -127,8 +128,8 @@ public class Boss : MonoBehaviour {
     private BossPhase DetermineDamageBasedPhase() {
         int phaseNumber = 0;
         int index = 0;
-        var health = GetComponent<Health>().hp;
-        while (healthPhaseThresholds[index] > health) {
+        lowestHealth = Mathf.Min(lowestHealth, GetComponent<Health>().hp);
+        while (healthPhaseThresholds[index] > lowestHealth) {
             phaseNumber++;
             if (phaseNumber >= phases.Count) phaseNumber = 0;
             index++;
@@ -235,6 +236,7 @@ public class Boss : MonoBehaviour {
             amount -= sliceSize;
             healthPhaseThresholds.Add(amount);
         }
+        lowestHealth = health.maxHP;
     }
 
     private void AddRandomElementalStrengths() {
