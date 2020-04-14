@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class AbilityMenu : MonoBehaviour {
 
-    public GameObject abilityPane;
+    public GameObject passiveAbilityPane;
+    public GameObject activeAbilityPane;
     public GameObject iconPrefab;
     public GameObject mouseOverPanel;
     public GameObject fusionPanel;
@@ -119,7 +120,8 @@ public class AbilityMenu : MonoBehaviour {
             if (FilteredOut(ability)) continue;
             var go = Instantiate(iconPrefab);
             abilityIcons.Add(go);
-            go.transform.SetParent(abilityPane.transform);
+            if (ability is ActiveAbility) go.transform.SetParent(activeAbilityPane.transform);
+            else go.transform.SetParent(passiveAbilityPane.transform);
             go.GetComponent<AbilityScreenIcon>().Initialize(ability);
         }
         lastAbilityCount = abilities.Count;

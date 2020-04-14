@@ -29,6 +29,7 @@
 * Item drops will now refresh the player's inventory when inventory is open and item drops at the same time
 * Bosses that heal or change hit point totals due to enraging will no longer trigger boss phase loops due to their changed HP
 * Slots 9 and 0 on the ability hotbar can now properly hold abilities
+* The abilities window now has separate areas for passive and active abilities
 
 # v 0.14.1
 
