@@ -324,6 +324,7 @@ public class AbilityUser : DependencyUser {
             }
         }
         boss.adds.Remove(nearestAdd);
+        nearestAdd.GetComponent<MonsterMortal>().diedToPlayer = false;
         Destroy(nearestAdd);
     }
 
