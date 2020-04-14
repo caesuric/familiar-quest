@@ -103,8 +103,8 @@ public class RewardGiver : MonoBehaviour {
 
         item.description += GetDescriptionText(item);
         item.level = intendedLevel;
-        EquipmentNamer.NameEquipment(item);
         item.quality = quality;
+        EquipmentNamer.NameEquipment(item);
         var pc = attacker.GetComponent<PlayerCharacter>();
         if (item is Armor && pc.armor == null) {
             pc.armor = (Armor)item;

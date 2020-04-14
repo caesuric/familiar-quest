@@ -19,6 +19,7 @@
 * LEVEL UP text should now continue to work as intended after the player changes levels multiple times
 * Revamped visual effects for damage over time zones -- their physical boundaries should now be clearer as well as looking better
 * Added a teleport effect for boss teleports
+* Fixed a bug where all items would be named as if they were common items
 
 # v 0.14.1
 
