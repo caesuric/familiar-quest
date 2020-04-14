@@ -1029,24 +1029,16 @@ public class EquipmentNamer {
     public static int GetAttackPowerNumberFromItem(Item item) {
         if (!(item is Weapon weapon)) return 0;
         var character = GetCharacter();
-        if (item is MeleeWeapon) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
-        else if (item is RangedWeapon && ((RangedWeapon)weapon).usesInt) return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
-        else return Mathf.FloorToInt(weapon.attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
-        //if (subtype == "") return 0;
-        //var character = GetCharacter();
-        //if (subtype == "strength") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
-        //else if (subtype == "intelligence") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
-        //else if (subtype == "dexterity") return Mathf.FloorToInt(attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
-        //return 0;
+        var highestStat = 0f;
+        highestStat = Mathf.Max(CharacterAttribute.attributes["strength"].instances[character].TotalValue, CharacterAttribute.attributes["dexterity"].instances[character].TotalValue, CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        return Mathf.FloorToInt(weapon.attackPower * highestStat);
     }
 
     public static int GetAttackPowerNumber(Weapon item) {
         var character = GetCharacter();
-        if (character == null) return 0;
-        if (item is MeleeWeapon) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["strength"].instances[character].TotalValue);
-        else if (item is RangedWeapon && ((RangedWeapon)item).usesInt) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
-        else if (item is RangedWeapon) return (int)Mathf.Floor(item.attackPower * CharacterAttribute.attributes["dexterity"].instances[character].TotalValue);
-        return 0;
+        var highestStat = 0f;
+        highestStat = Mathf.Max(CharacterAttribute.attributes["strength"].instances[character].TotalValue, CharacterAttribute.attributes["dexterity"].instances[character].TotalValue, CharacterAttribute.attributes["intelligence"].instances[character].TotalValue);
+        return Mathf.FloorToInt(item.attackPower * highestStat);
     }
 
     private static Character GetCharacter() {
