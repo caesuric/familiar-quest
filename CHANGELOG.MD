@@ -20,6 +20,7 @@
 * Revamped visual effects for damage over time zones -- their physical boundaries should now be clearer as well as looking better
 * Added a teleport effect for boss teleports
 * Fixed a bug where all items would be named as if they were common items
+* You can now de-equip items by dragging them to your inventory (note: you cannot de-equip your weapon, as you must have a weapon to deal damage)
 
 # v 0.14.1
 

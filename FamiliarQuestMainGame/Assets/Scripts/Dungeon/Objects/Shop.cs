@@ -52,6 +52,7 @@ public class Shop : MonoBehaviour {
     }
 
     public static int Appraise(Item item) {
+        if (item == null) return 0;
         if (costs.ContainsKey(item)) return costs[item];
         var costLookups = new List<float>() { 10, 20, 40, 80, 160, 320, 640, 1280 };
         var statLookups = new List<float>() { 0, 2, 3, 5, 7, 9, 12, 15 };

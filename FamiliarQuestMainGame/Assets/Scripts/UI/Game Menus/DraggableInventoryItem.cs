@@ -25,7 +25,7 @@ public class DraggableInventoryItem : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public void OnEndDrag(PointerEventData eventData) {
         InputMovement.isDragging = false;
-        GetComponent<InventoryItemUpdater>().inventory.RefreshInABit();
+        StartCoroutine(GetComponent<InventoryItemUpdater>().inventory.RefreshInABit());
         Destroy(gameObject);
     }
 

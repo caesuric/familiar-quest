@@ -122,6 +122,7 @@ public class PlayerCharacter : DependencyUser {
 
     //[Command]
     public void CmdEquipItem(int number, int slotNumber) {
+        if (number < 0 || number >= inventory.items.Count) return;
         var item = inventory.items[number] as Equipment;
         if (item is Weapon) EquipWeapon(number);
         else if (item is Armor) EquipArmor(number);
@@ -133,18 +134,18 @@ public class PlayerCharacter : DependencyUser {
         else if (item is Shoes) EquipShoes(number);
         else EquipBracelet(number, slotNumber);
         GetComponent<Character>().CalculateAll();
-        if (inventory != null) inventory.RefreshInABit();
+        if (inventory != null) StartCoroutine(inventory.RefreshInABit());
     }
 
     //[Command]
     public void CmdEquipBracelet(int number, int targetNumber) {
         EquipBracelet(number, targetNumber);
         GetComponent<Character>().CalculateAll();
-        if (inventory != null) inventory.RefreshInABit();
+        if (inventory != null) StartCoroutine(inventory.RefreshInABit());
     }
 
     private void EquipWeapon(int number) {
-        inventory.items.Add(weapon);
+        if (weapon!=null) inventory.items.Add(weapon);
         ModifyStats(weapon, inventory.items[number]);
         weapon = (Weapon)(inventory.items[number]);
         inventory.items.RemoveAt(number);
@@ -152,7 +153,7 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void EquipArmor(int number) {
-        inventory.items.Add(armor);
+        if (armor!=null) inventory.items.Add(armor);
         ModifyStats(armor, inventory.items[number]);
         armor = (Armor)(inventory.items[number]);
         inventory.items.RemoveAt(number);
@@ -160,7 +161,7 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void EquipNecklace(int number) {
-        inventory.items.Add(necklace);
+        if (necklace!=null) inventory.items.Add(necklace);
         ModifyStats(necklace, inventory.items[number]);
         necklace = (Necklace)(inventory.items[number]);
         inventory.items.RemoveAt(number);
@@ -168,7 +169,7 @@ public class PlayerCharacter : DependencyUser {
     }
 
     private void EquipBelt(int number) {
-        inventory.items.Add(belt);
+        if (belt!=null) inventory.items.Add(belt);
         ModifyStats(belt, inventory.items[number]);
         belt = (Belt)(inventory.items[number]);
         inventory.items.RemoveAt(number);

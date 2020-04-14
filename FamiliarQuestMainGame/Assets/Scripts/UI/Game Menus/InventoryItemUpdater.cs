@@ -107,8 +107,8 @@ public class InventoryItemUpdater : MonoBehaviour {
                 if (type == "armor") item = inventory.player.armor;
                 else if (type == "shoes") item = inventory.player.shoes;
                 else item = inventory.player.hat;
-                if (((Equipment)inventory.items[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
-                else if (((Equipment)inventory.items[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
+                if (item == null || ((Equipment)inventory.items[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
+                else if (item != null && ((Equipment)inventory.items[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
             }
             if (!(item is Equipment)) return;
             var equipment = item as Equipment;
@@ -283,7 +283,8 @@ private void Equip() {
         var oldEquipment = GetEquippedGear(equipment);
         int numberChange = 0;
         if (equipment.armor != 0 || (oldEquipment != null && oldEquipment.armor != 0)) {
-            if (equipment.armor > 0 || (oldEquipment != null && oldEquipment.armor > 0)) numberChange = equipment.armor - oldEquipment.armor;
+            if (equipment.armor > 0 && oldEquipment == null) numberChange = equipment.armor;
+            else if (oldEquipment != null && oldEquipment.armor > 0) numberChange = equipment.armor - oldEquipment.armor;
             if (numberChange > 0) output += "+";
             if (numberChange != 0) output += numberChange.ToString() + " Armor\n";
         }

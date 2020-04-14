@@ -157,8 +157,8 @@ public class Inventory : MonoBehaviour {
         eds.slotType = type;
         if (index >= 3 && index <= 6) {
             eds.equipNumber = index - 3;
-            item.AddComponent<DraggableInventoryItem>();
         }
+        if (index != 0) item.AddComponent<DraggableInventoryItem>();
     }
 
     private void RefreshEquipment() {
