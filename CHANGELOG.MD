@@ -22,6 +22,7 @@
 * Fixed a bug where all items would be named as if they were common items
 * You can now de-equip items by dragging them to your inventory (note: you cannot de-equip your weapon, as you must have a weapon to deal damage)
 * Inventory and shop items no longer block scroll events on their parent window
+* Homing projectiles now cannot last longer than 18 seconds
 
 # v 0.14.1
 
