@@ -12,7 +12,8 @@ public class PitTrap : DestinationTrap {
             character.GetComponent<AudioGenerator>().PlaySoundByName("sfx_downstairs");
             //foreach (var player in PlayerCharacter.players) player.ready = false;
             //LobbyManager.singleton.ServerChangeScene("Generated Level");
-            SceneManager.LoadScene("Generated Level");
+            var ao = SceneManager.LoadSceneAsync("Generated Level");
+            LoadingProgressBar.StartLoad(ao, 0);
             SceneInitializer.instance.currentCharPosition = destination;
             SceneManager.sceneLoaded += SceneInitializer.instance.OnSceneLoaded;
             onWayDownstairs = false;

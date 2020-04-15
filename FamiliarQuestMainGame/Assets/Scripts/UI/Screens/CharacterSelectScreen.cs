@@ -345,7 +345,8 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void LoadCharacter() {
-        SceneManager.LoadScene("Lobby");
+        var ao = SceneManager.LoadSceneAsync("Lobby");
+        LoadingProgressBar.StartLoad(ao, 0);
         characterByteArray = File.ReadAllBytes(Application.persistentDataPath + "/characters/" + selectedCharacterName + ".character");
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -38,6 +39,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     public static OverworldTerrainGenerator instance;
     public float randomCoordsMultiplier = 10f;
     public float landHeight = 0f;
+    public float progress = 0f;
     
     // Use this for initialization
     void Start() {
@@ -48,10 +50,17 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         }
         else instance = this;
         //DontDestroyOnLoad(gameObject);
-        GenerateTerrainFractalPerlinWithTerrainObject();
+        progress = 0f;
+        LoadingProgressBar.StartSecondaryLoadPhase();
+        StartCoroutine(GenerateTerrainFractalPerlinWithTerrainObject());
     }
 
-    public void GenerateTerrainFractalPerlinWithTerrainObject() {
+    public void UpdateProgress(int phase, float percentage) {
+        progress = (phase / 11f) + (percentage / 11f);
+    }
+
+    public IEnumerator GenerateTerrainFractalPerlinWithTerrainObject() {
+        LoadingProgressBar.UpdateProgressText("Generating terrain heights");
         float randomX = Random.Range(0f, 1f) * randomCoordsMultiplier;
         float randomY = Random.Range(0f, 1f) * randomCoordsMultiplier;
         elevation = new float[mapSize, mapSize];
@@ -66,28 +75,51 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 for (int i = 1; i <= fractalPerlinDepth; i++) {
                     noise += Mathf.PerlinNoise(randomX + (x * Mathf.Pow(2, i) / mapSize * perlinFeatureSize), randomY + (y * Mathf.Pow(2, i) / mapSize * perlinFeatureSize));
                 }
+                UpdateProgress(0, ((float)x / mapSize) + ((float)y / mapSize / mapSize));
                 noise *= perlinScaleFactor;
                 elevation[x, y] = noise;
             }
         }
-
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Adding Rivers");
         AddRivers();
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Widening Rivers");
         WidenRivers();
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Terrain Object");
         GenerateTerrainObject();
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Alpha Map");
         GenerateAlphaMap();
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Terrain Details");
         GenerateDetails();
-        GenerateObjects(treePercentage, trees);
-        GenerateObjects(bushPercentage, bushes);
-        GenerateObjects(leavesPercentage, leaves);
-        GenerateObjects(rockPercentage, rocks);
-        GenerateObjects(flowersPercentage, flowers);
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Trees");
+        GenerateObjects(treePercentage, trees, 6);
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Bushes");
+        GenerateObjects(bushPercentage, bushes, 7);
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Leaves");
+        GenerateObjects(leavesPercentage, leaves, 8);
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Rocks");
+        GenerateObjects(rockPercentage, rocks, 9);
+        yield return null;
+        LoadingProgressBar.UpdateProgressText("Generating Flowers");
+        GenerateObjects(flowersPercentage, flowers, 10);
+        yield return null;
         PlayerCharacter.localPlayer.transform.position = new Vector3(512, 23.69529f, 512);
         Camera.main.GetComponent<Desaturate>().enabled = false;
+        LoadingProgressBar.EndLoad();
     }
 
-    public void GenerateObjects(float objectPercentage, GameObject[] objects) {
+    public void GenerateObjects(float objectPercentage, GameObject[] objects, int loadPhase) {
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
+                UpdateProgress(loadPhase, (float)x / mapSize + (float)y / mapSize / mapSize);
                 var height = terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height / newHighest < 1 - perlinMountainProportion && height > 0) {
                     if (objectPercentage<1) {
@@ -120,6 +152,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             int[,] details = new int[terrain.terrainData.detailResolution, terrain.terrainData.detailResolution];
             for (int x = 0; x < terrain.terrainData.detailResolution; x++) {
                 for (int y = 0; y < terrain.terrainData.detailResolution; y++) {
+                    UpdateProgress(5, z / 14f + x / terrain.terrainData.detailResolution / 14f + y / terrain.terrainData.detailResolution / terrain.terrainData.detailResolution / 14f);
                     if (elevation[x, y] == landHeight) {
                         var random = Random.Range(0, 30);
                         if (random == 0) details[x, y] = Random.Range(0, 15);
@@ -136,6 +169,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
+                UpdateProgress(3, (float)x / mapSize + (float)y / mapSize / mapSize);
                 if (elevation[x, y] / highest <= perlinWaterProportion) elevation[x, y] = 0f;
                 else if (elevation[x, y] / highest < 1 - perlinMountainProportion) elevation[x, y] = landHeight;
                 else elevation[x, y] = elevation[x, y] / highest / mountainHeightDivisor;
@@ -160,12 +194,14 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         newHighest = 0;
         for (int y=0; y<terrainData.heightmapResolution; y++) {
             for (int x=0; x<terrainData.heightmapResolution; x++) {
+                UpdateProgress(4, ((float)y / terrainData.heightmapResolution + (float)x / terrainData.heightmapResolution / terrainData.heightmapResolution) / 2f);
                 var height = terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height > newHighest) newHighest = height;
             }
         }
         for (int y = 0; y < terrainData.alphamapHeight; y++) {
             for (int x = 0; x < terrainData.alphamapWidth; x++) {
+                UpdateProgress(4, 0.5f + ((float)y / terrainData.alphamapHeight + (float)x / terrainData.alphamapHeight / terrainData.alphamapWidth) / 2f);
                 float y_01 = y / (float)terrainData.alphamapHeight;
                 float x_01 = x / (float)terrainData.alphamapWidth;
                 float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapResolution), Mathf.RoundToInt(x_01 * terrainData.heightmapResolution));
@@ -196,6 +232,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             }
         }
         for (int i = 0; i < numRivers; i++) {
+            UpdateProgress(1, (float)i / numRivers);
             Vector2[] points = new Vector2[20];
             for (int j = 0; j < 20; j++) {
                 points[j].x = Random.Range(0, mapSize);
@@ -294,7 +331,9 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     private void WidenRivers() {
+        int i = 0;
         foreach (var point in riverPoints) {
+            UpdateProgress(2, (float)i / riverPoints.Count);
             for (int x = (int)point.x - riverRadius; x <= (int)point.x + riverRadius; x++) {
                 for (int y = (int)point.y - riverRadius; y <= (int)point.y + riverRadius; y++) {
                     if (InBounds(x, y)) {
@@ -303,6 +342,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                     }
                 }
             }
+            i++;
         }
     }
 

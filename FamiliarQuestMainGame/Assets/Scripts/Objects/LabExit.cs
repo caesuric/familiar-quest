@@ -19,7 +19,8 @@ public class LabExit : MonoBehaviour
     void Update() {
         if (onWayOut && !saveBlocker.currentlySaving) {
             PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_upstairs");
-            SceneManager.LoadScene("Overworld");
+            var ao = SceneManager.LoadSceneAsync("Overworld");
+            LoadingProgressBar.StartLoad(ao, 1);
             onWayOut = false;
         }
     }

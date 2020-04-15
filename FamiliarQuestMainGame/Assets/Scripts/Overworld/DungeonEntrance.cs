@@ -12,7 +12,8 @@ public class DungeonEntrance : MonoBehaviour {
     void Update() {
         if (onWayDown && !saveBlocker.currentlySaving) {
             PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_downstairs");
-            SceneManager.LoadScene("Dungeon");
+            var ao = SceneManager.LoadSceneAsync("Dungeon");
+            LoadingProgressBar.StartLoad(ao, 0);
             onWayDown = false;
         }
     }

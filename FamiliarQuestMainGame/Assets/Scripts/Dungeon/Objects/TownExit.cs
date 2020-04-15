@@ -12,7 +12,8 @@ public class TownExit : MonoBehaviour {
             //PlayerCharacter.localPlayer.GetComponent<AudioGenerator>().PlaySoundByName("sfx_downstairs");
             foreach (var player in PlayerCharacter.players) player.ready = false;
             //LobbyManager.singleton.ServerChangeScene("Overworld");
-            SceneManager.LoadScene("Overworld");
+            var ao = SceneManager.LoadSceneAsync("Overworld");
+            LoadingProgressBar.StartLoad(ao, 1);
             SceneManager.sceneLoaded += SceneInitializer.instance.OnNexusSceneLoaded;
             onWayUp = false;
         }

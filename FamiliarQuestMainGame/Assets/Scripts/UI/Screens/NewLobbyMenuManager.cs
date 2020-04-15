@@ -45,7 +45,8 @@ public class NewLobbyMenuManager : MonoBehaviour {
         if (!WorldGenerator.worlds.Contains(CharacterSelectScreen.selectedCharacterName)) WorldGenerator.CreateWorld(CharacterSelectScreen.selectedCharacterName);
         if (LobbyManager.singleton == null) LobbyManager.singleton = new LobbyManager();
         LobbyManager.singleton.worldByteArray = File.ReadAllBytes(Application.persistentDataPath + "/worlds/" + CharacterSelectScreen.selectedCharacterName + ".world");
-        SceneManager.LoadScene("Starting Area");
+        var ao = SceneManager.LoadSceneAsync("Starting Area");
+        LoadingProgressBar.StartLoad(ao, 0);
         var player = Instantiate(playerPrefab);
         player.GetComponent<PlayerCharacter>().isMe = true;
     }
