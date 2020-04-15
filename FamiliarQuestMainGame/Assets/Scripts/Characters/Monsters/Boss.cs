@@ -53,7 +53,7 @@ public class Boss : MonoBehaviour {
         //if (!NetworkServer.active) return;
         var canSeePlayer = GetComponent<TestMonster>().state["seePlayer"].Equals(true);
         if (canSeePlayer && !fightStarted) {
-            if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) < 50f) {
+            if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) <= 150f) {
                 fightStarted = true;
                 fightTime = 0;
                 MusicController.instance.PlayMusic(MusicController.instance.bossMusic);
@@ -61,12 +61,12 @@ public class Boss : MonoBehaviour {
                 SpawnAdds();
             }
         }
-        else if (canSeePlayer) {
+        else if (PlayersInRoom()) {
             fightTime += Time.deltaTime;
             var phase = DeterminePhase();
             if (phase != phases[currentPhase]) ChangePhases(phase);
         }
-        else {
+        else if (!PlayersInRoom()) {
             transform.position = originalLocation;
             GetComponent<Health>().hp = GetComponent<Health>().maxHP;
             fightTime = 0;
@@ -336,7 +336,7 @@ public class Boss : MonoBehaviour {
     }
 
     public bool PlayersInRoom() {
-        foreach (var player in PlayerCharacter.players) if (Vector3.Distance(player.transform.position, originalLocation) >= 14) return false;
+        foreach (var player in PlayerCharacter.players) if (Vector3.Distance(player.transform.position, originalLocation) >= 150f) return false;
         return true;
     }
 }

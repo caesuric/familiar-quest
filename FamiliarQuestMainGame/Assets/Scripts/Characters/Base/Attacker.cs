@@ -143,7 +143,7 @@ public class Attacker : DependencyUser {
 
     public float CalculateAttackDamage(AttackAbility ability) {
         var damage = GetBaseDamage(ability.baseStat);
-        if (GetComponent<Monster>() != null) damage *= 1.6f; // stat boost to deal with armor
+        if (GetComponent<Monster>() != null) damage *= 1.6f * 2f; // stat boost to deal with armor // stat boost to offset difficulty
         if (GetComponent<StatusEffectHost>().CheckForEffect("damage+")) damage *= (1 + GetComponent<StatusEffectHost>().GetEffect("damage+").degree);
         if (ability.FindAttribute("backstab") != null && GetComponent<StatusEffectHost>().CheckForEffect("stealth")) {
             damage *= ability.FindAttribute("backstab").FindParameter("degree").floatVal;
