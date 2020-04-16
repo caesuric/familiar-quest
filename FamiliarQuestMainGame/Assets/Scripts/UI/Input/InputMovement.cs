@@ -79,6 +79,10 @@ public class InputMovement {
         //var calculatedSpeed = controller.speed * multiplier * SecondaryStatUtility.CalcMoveSpeed(character.dexterity, character.GetComponent<ExperienceGainer>().level);
         var calculatedSpeed = controller.speed * multiplier * CharacterAttribute.attributes["moveSpeed"].instances[character].TotalValue / 100f;
         if (!controller.gamepadMode) {
+            if (MovingOntoWater(horizontal * calculatedSpeed, vertical * calculatedSpeed)) {
+                CancelMovement();
+                return;
+            }
             MoveCharacterMaintenance(horizontal != 0 || vertical != 0);
             if (controller.moving) controller.transform.eulerAngles = new Vector3(0, angles[(int)Math.Sign(horizontal) + 1, (int)Math.Sign(vertical) + 1], 0);
             controller.rigidbody.velocity = new Vector3(horizontal * calculatedSpeed, 0, vertical * calculatedSpeed);
@@ -86,6 +90,10 @@ public class InputMovement {
         else {
             horizontal = Input.GetAxis("Left Stick Horizontal");
             vertical = Input.GetAxis("Left Stick Vertical");
+            if (MovingOntoWater(horizontal * calculatedSpeed, vertical * calculatedSpeed)) {
+                CancelMovement();
+                return;
+            }
             MoveCharacterMaintenance(horizontal != 0 || vertical != 0);
             var direction = new Vector3(horizontal, 0, vertical);
             if (direction != Vector3.zero) {
@@ -96,6 +104,20 @@ public class InputMovement {
                 controller.rigidbody.velocity = new Vector3(0, 0, 0);
             }
         }
+    }
+
+    private static bool MovingOntoWater(float x, float y) {
+        if (SceneInitializer.instance.inside || OverworldTerrainGenerator.instance == null) return false;
+        var newPosition = controller.transform.position + new Vector3(x, 0, y).normalized * 2f;
+        if (newPosition.x < 0 || newPosition.x >= 1024 || newPosition.y < 0 || newPosition.y >= 1024) return true;
+        var height = OverworldTerrainGenerator.instance.terrain.SampleHeight(newPosition);
+        if (height == 0) return true;
+        return false;
+    }
+
+    private static void CancelMovement() {
+        controller.rigidbody.velocity = new Vector3(0, 0, 0);
+        MoveCharacterMaintenance(false);
     }
 
     private static void MoveCharacterWithoutFacing() {

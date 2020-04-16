@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 class Astar {
@@ -60,6 +61,42 @@ class Astar {
         if (c.y == room.y - 1 && c.x >= room.x && c.x < room.x + room.xSize) return true;
         if (c.y == room.y + room.ySize && c.x >= room.x && c.x < room.x + room.xSize) return true;
         return false;
+    }
+
+    static float Heuristic(Coordinates a, Coordinates b) {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+    }
+}
+
+class TerrainMapAstar {
+    public Dictionary<Coordinates, Coordinates> cameFrom = new Dictionary<Coordinates, Coordinates>();
+    public Dictionary<Coordinates, float> costSoFar = new Dictionary<Coordinates, float>();
+    public Coordinates end = null;
+    
+    public Dictionary<Coordinates, Coordinates> SearchOpenAreas(OverworldGraph graph, Coordinates start, Coordinates end) {
+        var frontier = new Priority_Queue.FastPriorityQueue<Coordinates>(10000);
+        cameFrom.Clear();
+        costSoFar.Clear();
+        frontier.Enqueue(start, 0);
+        cameFrom[start] = start;
+        costSoFar[start] = 0;
+        while (frontier.Count > 0) {
+            var current = frontier.Dequeue();
+            if (current == end) {
+                this.end = current;
+                break;
+            }
+            foreach (var next in graph.Neighbors(current)) {
+                float newCost = costSoFar[current] + graph.Cost(next);
+                if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next]) {
+                    costSoFar[next] = newCost;
+                    float priority = newCost + Heuristic(next, end);
+                    frontier.Enqueue(next, priority);
+                    cameFrom[next] = current;
+                }
+            }
+        }
+        return cameFrom;
     }
 
     static float Heuristic(Coordinates a, Coordinates b) {
@@ -204,6 +241,57 @@ public class InverseGraph {
             if (InBounds(next.x, next.y) && Passable(next.x, next.y)) {
                 yield return next;
             }
+        }
+    }
+
+    public int Cost(Coordinates c) {
+        var cost = 1;
+        return cost;
+    }
+}
+
+public class OverworldGraph {
+    protected int width = 0;
+    protected int height = 0;
+    protected bool[,] grid;
+    protected List<Tuple<Coordinates, Coordinates>> teleports = new List<Tuple<Coordinates, Coordinates>>();
+
+    public OverworldGraph(int floor, int width, int height, bool[,] grid) {
+        this.width = width;
+        this.height = height;
+        this.grid = grid;
+    }
+
+    public void AddTeleport(Coordinates coords1, Coordinates coords2) {
+        teleports.Add(new Tuple<Coordinates, Coordinates>(coords1, coords2));
+    }
+
+    public bool InBounds(int x, int y) {
+        return 0 <= x && x < width && 0 <= y && y < height;
+    }
+
+    public bool Passable(int x, int y) {
+        return grid[x, y];
+    }
+
+    public static readonly Coordinates[] DIRS = new[]
+       {
+            new Coordinates(1, 0),
+            new Coordinates(0, -1),
+            new Coordinates(-1, 0),
+            new Coordinates(0, 1)
+       };
+
+    public IEnumerable<Coordinates> Neighbors(Coordinates id) {
+        foreach (var dir in DIRS) {
+            Coordinates next = new Coordinates(id.x + dir.x, id.y + dir.y);
+            if (InBounds(next.x, next.y) && Passable(next.x, next.y)) {
+                yield return next;
+            }
+        }
+        foreach (var teleport in teleports) {
+            if (teleport.Item1 == id) yield return teleport.Item2;
+            if (teleport.Item2 == id) yield return teleport.Item1;
         }
     }
 

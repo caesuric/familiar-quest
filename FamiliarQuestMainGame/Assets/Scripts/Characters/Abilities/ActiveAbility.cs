@@ -140,8 +140,9 @@ public class ActiveAbility : Ability {
         var totalDamage = AttackAbility.CalculateDamage(points);
         var regularDamage = totalDamage * damageRatio / (damageRatio + dotDamageRatio);
         var dotDamage = totalDamage * dotDamageRatio / (damageRatio + dotDamageRatio);
-        var newAbility = new AttackAbility("", "", regularDamage, element, baseStat, dotDamage: dotDamage, dotTime: dotTime, isRanged: isRanged, cooldown: cooldown, mpUsage: CalculateMpUsage(baseMp, points), baseMpUsage: baseMp, radius: radius, icon: icon, hitEffect: hitEffect, rangedProjectile: projectile, aoe: aoe, attributes: abilityAttributes.ToArray());
-        newAbility.points = startingPoints;
+        var newAbility = new AttackAbility("", "", regularDamage, element, baseStat, dotDamage: dotDamage, dotTime: dotTime, isRanged: isRanged, cooldown: cooldown, mpUsage: CalculateMpUsage(baseMp, points), baseMpUsage: baseMp, radius: radius, icon: icon, hitEffect: hitEffect, rangedProjectile: projectile, aoe: aoe, attributes: abilityAttributes.ToArray()) {
+            points = startingPoints
+        };
         newAbility.name = AttackAbility.NameAbility(newAbility);
         newAbility.description = AttackAbility.DescribeAbility(newAbility);
         return newAbility;
@@ -286,8 +287,9 @@ public class ActiveAbility : Ability {
     private static UtilityAbility CreateNewUtilityAbilityForFusion(int points, float cooldown, int mp, int baseMp, List<AbilityAttribute> abilityAttributes) {
         var startingPoints = points;
         points = CalculateUtilityAbilityPoints(points, mp, baseMp, cooldown, abilityAttributes);
-        var newAbility = new UtilityAbility("", "", cooldown: cooldown, mpUsage: CalculateMpUsage(baseMp, points), baseMpUsage: baseMp, attributes: abilityAttributes.ToArray());
-        newAbility.points = startingPoints;
+        var newAbility = new UtilityAbility("", "", cooldown: cooldown, mpUsage: CalculateMpUsage(baseMp, points), baseMpUsage: baseMp, attributes: abilityAttributes.ToArray()) {
+            points = startingPoints
+        };
         newAbility.name = UtilityAbility.NameAbility(newAbility);
         newAbility.description = UtilityAbility.DescribeAbility(newAbility);
         newAbility.icon = UtilityAbility.GetAbilityIcon(newAbility);
@@ -583,8 +585,7 @@ public class ActiveAbility : Ability {
 
     public static void RecalculateAbility(ActiveAbility ability) {
         int points;
-        if (ability is AttackAbility) {
-            var asAttack = (AttackAbility)ability;
+        if (ability is AttackAbility asAttack) {
             points = CalculateAttackAbilityPoints(ability.points, asAttack.damage, asAttack.dotDamage, asAttack.dotTime, asAttack.isRanged, ability.cooldown, ability.mpUsage, ability.baseMpUsage, asAttack.radius, ability.attributes);
             ability.points = points;
             var damageRatio = asAttack.damage;

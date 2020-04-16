@@ -1,4 +1,11 @@
-# v 0.14.2
+# v0.15
+
+## The Great Outdoors
+
+* Added loading progress bars for level loading
+
+
+# v0.14.2
 
 ## Bugfixes, balance adjustments, and QoL updates
 
@@ -38,7 +45,7 @@
 * Potions will continue to display on your hotbar even after you have used them all.
 * Monster unit frames can be seen on your minimap and around corners
 
-# v 0.14.1
+# v0.14.1
 
 ## Bugfixes and QoL updates
 

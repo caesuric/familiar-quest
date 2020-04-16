@@ -40,6 +40,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     public float randomCoordsMultiplier = 10f;
     public float landHeight = 0f;
     public float progress = 0f;
+    public List<OverworldLandmark> landmarks = new List<OverworldLandmark>();
+    public GameObject dungeonPrefab;
     
     // Use this for initialization
     void Start() {
@@ -56,7 +58,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     public void UpdateProgress(int phase, float percentage) {
-        progress = (phase / 11f) + (percentage / 11f);
+        if (phase < 11) progress = ((phase / 12f) + (percentage / 12f)) / 4f;
+        else progress = 0.25f + percentage * 0.75f;
     }
 
     public IEnumerator GenerateTerrainFractalPerlinWithTerrainObject() {
@@ -82,44 +85,131 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         }
         yield return null;
         LoadingProgressBar.UpdateProgressText("Adding Rivers");
-        AddRivers();
+        yield return StartCoroutine(AddRivers());
         yield return null;
         LoadingProgressBar.UpdateProgressText("Widening Rivers");
-        WidenRivers();
+        yield return StartCoroutine(WidenRivers());
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Terrain Object");
-        GenerateTerrainObject();
+        yield return StartCoroutine(GenerateTerrainObject());
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Alpha Map");
-        GenerateAlphaMap();
+        yield return StartCoroutine(GenerateAlphaMap());
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Terrain Details");
-        GenerateDetails();
+        yield return StartCoroutine(GenerateDetails());
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Trees");
-        GenerateObjects(treePercentage, trees, 6);
+        yield return StartCoroutine(GenerateObjects(treePercentage, trees, 6));
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Bushes");
-        GenerateObjects(bushPercentage, bushes, 7);
+        yield return StartCoroutine(GenerateObjects(bushPercentage, bushes, 7));
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Leaves");
-        GenerateObjects(leavesPercentage, leaves, 8);
+        yield return StartCoroutine(GenerateObjects(leavesPercentage, leaves, 8));
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Rocks");
-        GenerateObjects(rockPercentage, rocks, 9);
+        yield return StartCoroutine(GenerateObjects(rockPercentage, rocks, 9));
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Flowers");
-        GenerateObjects(flowersPercentage, flowers, 10);
+        yield return StartCoroutine(GenerateObjects(flowersPercentage, flowers, 10));
         yield return null;
-        PlayerCharacter.localPlayer.transform.position = new Vector3(512, 23.69529f, 512);
+        LoadingProgressBar.UpdateProgressText("Adding Dungeons");
+        yield return StartCoroutine(AddLandmarks());
+        yield return null;
+        SetStartGameCharacterPosition();
         Camera.main.GetComponent<Desaturate>().enabled = false;
         LoadingProgressBar.EndLoad();
     }
 
-    public void GenerateObjects(float objectPercentage, GameObject[] objects, int loadPhase) {
+    public IEnumerator AddLandmarks() {
+        UpdateProgress(11, 0f);
+        landmarks.Clear();
+        FindPlayerStartingLocation();
+        yield return StartCoroutine(AddDungeons(10));
+        yield return null;
+    }
+
+    private void FindPlayerStartingLocation() {
+        var startX = 0;
+        var startY = 0;
+        while (landmarks.Count == 0) {
+            startX = Random.Range(0, 1024);
+            startY = Random.Range(0, 1024);
+            var height = terrain.SampleHeight(new Vector3(startX, 0, startY));
+            if (height / newHighest < 1 - perlinMountainProportion && height > 0) {
+                landmarks.Add(new OverworldLandmark() {
+                    position = new Vector2(startX, startY),
+                    type = "base"
+                });
+            }
+        }
+        while (landmarks.Count == 1) {
+            var x = Random.Range(-1, 1);
+            var y = Random.Range(-1, 1);
+            var height = terrain.SampleHeight(new Vector3(startX + x, 0, startY + y));
+            if (height / newHighest < 1 - perlinMountainProportion && height > 0) {
+                landmarks.Add(new OverworldLandmark() {
+                    position = new Vector2(startX + x, startY + y),
+                    type = "startingPosition"
+                });
+            }
+        }
+    }
+
+    private IEnumerator AddDungeons(int number) {
+        var grid = new bool[1024, 1024];
+        for (int x = 0; x < 1024; x++) {
+            for (int y = 0; y < 1024; y++) {
+                var height = terrain.SampleHeight(new Vector3(x, 0, y));
+                if (height / newHighest < 1 - perlinMountainProportion && height > 0) grid[x, y] = true;
+                else grid[x, y] = false;
+            }
+        }
+        var overworldGraph = new OverworldGraph(0, 1024, 1024, grid);
+        for (int i = 0; i < number; i++) {
+            try {
+                var astar = new TerrainMapAstar();
+                var position = GetValidDungeonPosition(astar, overworldGraph);
+                overworldGraph.AddTeleport(new Coordinates((int)position.x, (int)position.z), new Coordinates((int)landmarks[0].position.x, (int)landmarks[0].position.y));
+                var obj = Instantiate(dungeonPrefab);
+                obj.transform.position = position;
+            }
+            catch {
+                // do nothing
+            }
+            UpdateProgress(11, (float)i / number);
+            yield return null;
+        }
+    }
+
+    private Vector3 GetValidDungeonPosition(TerrainMapAstar astar, OverworldGraph overworldGraph) {
+        var startingPosition = landmarks[0].position;
+        var start = new Coordinates((int)startingPosition.x, (int)startingPosition.y);
+        while (true) {
+            var x = Random.Range(0, 1024);
+            var y = Random.Range(0, 1024);
+            var search = astar.SearchOpenAreas(overworldGraph, new Coordinates(x, y), start);
+            if (SearchValid(search, new Coordinates(x, y), start)) return new Vector3(x, 24, y);
+        }
+    }
+
+    private bool SearchValid(Dictionary<Coordinates, Coordinates> search, Coordinates startCoordinates, Coordinates endCoordinates) {
+        var chain = new List<Coordinates>();
+        var cursor = endCoordinates;
+        while (search.ContainsKey(cursor) && search[cursor]!=cursor) {
+            chain.Add(cursor);
+            cursor = search[cursor];
+        }
+        if (search.ContainsKey(cursor)) chain.Add(search[cursor]);
+        if (chain.Count > 0) chain.Reverse();
+        if (chain.Count == 0 || chain[0] != startCoordinates) return false;
+        return true;
+    }
+
+    public IEnumerator GenerateObjects(float objectPercentage, GameObject[] objects, int loadPhase) {
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
-                UpdateProgress(loadPhase, (float)x / mapSize + (float)y / mapSize / mapSize);
                 var height = terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height / newHighest < 1 - perlinMountainProportion && height > 0) {
                     if (objectPercentage<1) {
@@ -144,15 +234,18 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                     }
                 }
             }
+            if (x % 100 == 0) {
+                UpdateProgress(loadPhase, (float)x / mapSize);
+                yield return null;
+            }
         }
     }
     
-    public void GenerateDetails() {
+    public IEnumerator GenerateDetails() {
         for (int z = 0; z < 14; z++) {
             int[,] details = new int[terrain.terrainData.detailResolution, terrain.terrainData.detailResolution];
             for (int x = 0; x < terrain.terrainData.detailResolution; x++) {
                 for (int y = 0; y < terrain.terrainData.detailResolution; y++) {
-                    UpdateProgress(5, z / 14f + x / terrain.terrainData.detailResolution / 14f + y / terrain.terrainData.detailResolution / terrain.terrainData.detailResolution / 14f);
                     if (elevation[x, y] == landHeight) {
                         var random = Random.Range(0, 30);
                         if (random == 0) details[x, y] = Random.Range(0, 15);
@@ -162,14 +255,17 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 }
             }
             terrain.terrainData.SetDetailLayer(0, 0, z, details);
+            if (z % 2 == 0) {
+                UpdateProgress(5, z / 14f);
+                yield return null;
+            }
         }
     }
 
-    public void GenerateTerrainObject() {
+    public IEnumerator GenerateTerrainObject() {
         landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
-                UpdateProgress(3, (float)x / mapSize + (float)y / mapSize / mapSize);
                 if (elevation[x, y] / highest <= perlinWaterProportion) elevation[x, y] = 0f;
                 else if (elevation[x, y] / highest < 1 - perlinMountainProportion) elevation[x, y] = landHeight;
                 else elevation[x, y] = elevation[x, y] / highest / mountainHeightDivisor;
@@ -181,27 +277,33 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                 //    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand / mountainHeightDivisor;
                 //}
             }
-        }
+            if (x % 100 == 0) {
+                UpdateProgress(3, (float)x / mapSize);
+                yield return null;
 
+            }
+        }
         terrain.terrainData.heightmapResolution = mapSize;
         terrain.terrainData.SetHeights(0, 0, elevation);
     }
 
-    public void GenerateAlphaMap() {
+    public IEnumerator GenerateAlphaMap() {
         TerrainData terrainData = terrain.terrainData;
         terrainData.alphamapResolution = mapSize;
         float[,,] splatmapData = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, terrainData.alphamapLayers];
         newHighest = 0;
         for (int y=0; y<terrainData.heightmapResolution; y++) {
             for (int x=0; x<terrainData.heightmapResolution; x++) {
-                UpdateProgress(4, ((float)y / terrainData.heightmapResolution + (float)x / terrainData.heightmapResolution / terrainData.heightmapResolution) / 2f);
                 var height = terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height > newHighest) newHighest = height;
+            }
+            if (y % 200 == 0) {
+                UpdateProgress(4, ((float)y / terrainData.heightmapResolution / 2f));
+                yield return null;
             }
         }
         for (int y = 0; y < terrainData.alphamapHeight; y++) {
             for (int x = 0; x < terrainData.alphamapWidth; x++) {
-                UpdateProgress(4, 0.5f + ((float)y / terrainData.alphamapHeight + (float)x / terrainData.alphamapHeight / terrainData.alphamapWidth) / 2f);
                 float y_01 = y / (float)terrainData.alphamapHeight;
                 float x_01 = x / (float)terrainData.alphamapWidth;
                 float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapResolution), Mathf.RoundToInt(x_01 * terrainData.heightmapResolution));
@@ -219,12 +321,15 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                     splatmapData[x, y, i] = splatWeights[i];
                 }
             }
+            if (y % 200 == 0) {
+                UpdateProgress(4, 0.5f + ((float)y / terrainData.heightmapResolution / 2f));
+                yield return null;
+            }
         }
-
         terrainData.SetAlphamaps(0, 0, splatmapData);
     }
 
-    private void AddRivers() {
+    private IEnumerator AddRivers() {
         highest = 0;
         for (int x = 0; x < mapSize; x++) {
             for (int y = 0; y < mapSize; y++) {
@@ -232,7 +337,6 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             }
         }
         for (int i = 0; i < numRivers; i++) {
-            UpdateProgress(1, (float)i / numRivers);
             Vector2[] points = new Vector2[20];
             for (int j = 0; j < 20; j++) {
                 points[j].x = Random.Range(0, mapSize);
@@ -240,6 +344,10 @@ public class OverworldTerrainGenerator : MonoBehaviour {
             }
             var highest = FindHighestPoint(points);
             AddRiver((int)highest.x, (int)highest.y);
+            if (i % 8 == 0) {
+                UpdateProgress(1, (float)i / numRivers);
+                yield return null;
+            }
         }
     }
 
@@ -330,10 +438,9 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         riverPoints.Add(coords);
     }
 
-    private void WidenRivers() {
+    private IEnumerator WidenRivers() {
         int i = 0;
         foreach (var point in riverPoints) {
-            UpdateProgress(2, (float)i / riverPoints.Count);
             for (int x = (int)point.x - riverRadius; x <= (int)point.x + riverRadius; x++) {
                 for (int y = (int)point.y - riverRadius; y <= (int)point.y + riverRadius; y++) {
                     if (InBounds(x, y)) {
@@ -341,6 +448,10 @@ public class OverworldTerrainGenerator : MonoBehaviour {
                         if (elevation[x, y] != 0) elevation[x, y] = 0;
                     }
                 }
+            }
+            if (i % riverPoints.Count / 10 == 0) {
+                UpdateProgress(2, (float)i / riverPoints.Count);
+                yield return null;
             }
             i++;
         }
@@ -355,15 +466,15 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     private void SetStartGameCharacterPosition() {
-        while (true) {
-            int x = Random.Range(0, mapSize);
-            int y = Random.Range(0, mapSize);
-            if (elevation[x, y] > 8 && elevation[x, y] < 14) {
-                SceneInitializer.instance.currentCharPosition = SceneInitializer.charPosition = new Vector3(x * 2, 145, y * 2);
-                var go = Instantiate(dungeonEntrance);
-                go.transform.position = new Vector3((x + 1) * 2, 145, y * 2);
-                return;
+        foreach (var item in landmarks) {
+            if (item.type=="startingPosition") {
+                PlayerCharacter.localPlayer.transform.position = new Vector3(item.position.x, 23.69529f, item.position.y);
             }
         }
     }
+}
+
+public class OverworldLandmark {
+    public Vector2 position;
+    public string type;
 }
