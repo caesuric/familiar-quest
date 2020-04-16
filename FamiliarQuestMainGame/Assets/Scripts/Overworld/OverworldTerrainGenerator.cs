@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class OverworldTerrainGenerator : MonoBehaviour {
 
@@ -42,6 +43,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     public float progress = 0f;
     public List<OverworldLandmark> landmarks = new List<OverworldLandmark>();
     public GameObject dungeonPrefab;
+    private string[,] floodFillGrid = null;
     
     // Use this for initialization
     void Start() {
@@ -58,8 +60,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     public void UpdateProgress(int phase, float percentage) {
-        if (phase < 11) progress = ((phase / 12f) + (percentage / 12f)) / 4f;
-        else progress = 0.25f + percentage * 0.75f;
+        progress = (phase / 13f) + (percentage / 13f);
     }
 
     public IEnumerator GenerateTerrainFractalPerlinWithTerrainObject() {
@@ -117,9 +118,59 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         LoadingProgressBar.UpdateProgressText("Adding Dungeons");
         yield return StartCoroutine(AddLandmarks());
         yield return null;
+        LoadingProgressBar.UpdateProgressText("Adding Monsters");
+        yield return StartCoroutine(AddMonsters());
+        yield return null;
         SetStartGameCharacterPosition();
+        GetComponent<NavMeshSurface>().BuildNavMesh();
         Camera.main.GetComponent<Desaturate>().enabled = false;
         LoadingProgressBar.EndLoad();
+    }
+
+    public IEnumerator AddMonsters() {
+        UpdateProgress(12, 0f);
+        for (int i = 0; i < 40; i++) {
+            AddEncounter();
+            if (i % 4 == 0) {
+                UpdateProgress(12, i / 20f);
+                yield return null;
+            }
+        }
+    }
+
+    public void AddEncounter() {
+        var numMobs = Random.Range(3, 6);
+        var position = GetValidRandomPosition();
+        for (int i=0; i<numMobs; i++) {
+            var xRoll = Random.Range(position.x - 3, position.x + 3);
+            var yRoll = Random.Range(position.z - 3, position.z + 3);
+            var data = new MonsterData("goblin", "GOBLIN", 1, 0, new SocialNode(new List<string>() { "goblin" }, false, null));
+            InstantiateMonster(data, xRoll, yRoll);
+        }
+    }
+
+    private static void InstantiateMonster(MonsterData monster, float xRoll, float yRoll) {
+        var prefab = GetMonsterPrefab(monster);
+        if (prefab != null) {
+            var obj = Instantiate(prefab, new Vector3(xRoll, 24, yRoll), new Quaternion());
+            SetupMonster(obj, monster.level, monster.quality, PlayerCharacter.localPlayer.gameObject);
+        }
+    }
+
+    private static GameObject GetMonsterPrefab(MonsterData monster) {
+        return (GameObject)(Resources.Load("Prefabs/Monsters/" + monster.specificType));
+    }
+
+    private static void SetupMonster(GameObject obj, int level, int quality, GameObject player) {
+        var mob = obj.GetComponent<Monster>();
+        //mob.GetComponent<MonsterCombatant>().player = player;
+        mob.GetComponent<MonsterScaler>().AdjustForLevel(level);
+        mob.GetComponent<MonsterScaler>().quality = quality;
+        mob.GetComponent<MonsterScaler>().numPlayers = 1;
+        mob.GetComponent<MonsterScaler>().Scale();
+        var billboard = obj.GetComponentInChildren<Billboard>();
+        if (billboard != null) billboard.mainCamera = Camera.main;
+        if (quality == 4) mob.gameObject.AddComponent<Boss>();
     }
 
     public IEnumerator AddLandmarks() {
@@ -158,53 +209,61 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     private IEnumerator AddDungeons(int number) {
-        var grid = new bool[1024, 1024];
-        for (int x = 0; x < 1024; x++) {
-            for (int y = 0; y < 1024; y++) {
-                var height = terrain.SampleHeight(new Vector3(x, 0, y));
-                if (height / newHighest < 1 - perlinMountainProportion && height > 0) grid[x, y] = true;
-                else grid[x, y] = false;
-            }
-        }
-        var overworldGraph = new OverworldGraph(0, 1024, 1024, grid);
         for (int i = 0; i < number; i++) {
-            try {
-                var astar = new TerrainMapAstar();
-                var position = GetValidDungeonPosition(astar, overworldGraph);
-                overworldGraph.AddTeleport(new Coordinates((int)position.x, (int)position.z), new Coordinates((int)landmarks[0].position.x, (int)landmarks[0].position.y));
-                var obj = Instantiate(dungeonPrefab);
-                obj.transform.position = position;
-            }
-            catch {
-                // do nothing
-            }
+            var position = GetValidRandomPosition();
+            var obj = Instantiate(dungeonPrefab);
+            obj.transform.position = position;
             UpdateProgress(11, (float)i / number);
             yield return null;
         }
     }
 
-    private Vector3 GetValidDungeonPosition(TerrainMapAstar astar, OverworldGraph overworldGraph) {
+    private Vector3 GetValidRandomPosition() {
         var startingPosition = landmarks[0].position;
-        var start = new Coordinates((int)startingPosition.x, (int)startingPosition.y);
+        if (floodFillGrid == null) {
+            floodFillGrid = new string[1024, 1024];
+            for (int x = 0; x < 1024; x++) {
+                for (int y = 0; y < 1024; y++) {
+                    var height = terrain.SampleHeight(new Vector3(x, 0, y));
+                    if (height / newHighest < 1 - perlinMountainProportion && height > 0) floodFillGrid[x, y] = "y";
+                    else floodFillGrid[x, y] = "n";
+                }
+            }
+            FloodFill(floodFillGrid, startingPosition, "y", "r");
+        }
         while (true) {
             var x = Random.Range(0, 1024);
             var y = Random.Range(0, 1024);
-            var search = astar.SearchOpenAreas(overworldGraph, new Coordinates(x, y), start);
-            if (SearchValid(search, new Coordinates(x, y), start)) return new Vector3(x, 24, y);
+            if (floodFillGrid[x, y] == "r") return new Vector3(x, 24, y);
         }
     }
 
-    private bool SearchValid(Dictionary<Coordinates, Coordinates> search, Coordinates startCoordinates, Coordinates endCoordinates) {
-        var chain = new List<Coordinates>();
-        var cursor = endCoordinates;
-        while (search.ContainsKey(cursor) && search[cursor]!=cursor) {
-            chain.Add(cursor);
-            cursor = search[cursor];
+    private void FloodFill(string[,] floodFillGrid, Vector2 position, string targetLetter, string replacementLetter) {
+        List<Vector2> queue = new List<Vector2> {
+            position
+        };
+        floodFillGrid[(int)position.x, (int)position.y] = replacementLetter;
+        while (queue.Count > 0) {
+            position = queue[0];
+            queue.Remove(position);
+            var x = (int)position.x;
+            var y = (int)position.y;
+            if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) continue;
+            FloodFillStep(floodFillGrid, queue, new Vector2(position.x - 1, position.y), targetLetter, replacementLetter);
+            FloodFillStep(floodFillGrid, queue, new Vector2(position.x + 1, position.y), targetLetter, replacementLetter);
+            FloodFillStep(floodFillGrid, queue, new Vector2(position.x, position.y - 1), targetLetter, replacementLetter);
+            FloodFillStep(floodFillGrid, queue, new Vector2(position.x, position.y + 1), targetLetter, replacementLetter);
         }
-        if (search.ContainsKey(cursor)) chain.Add(search[cursor]);
-        if (chain.Count > 0) chain.Reverse();
-        if (chain.Count == 0 || chain[0] != startCoordinates) return false;
-        return true;
+    }
+
+    private void FloodFillStep(string [,] floodFillGrid, List<Vector2> queue, Vector2 position, string targetLetter, string replacementLetter) {
+        var x = (int)position.x;
+        var y = (int)position.y;
+        if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) return;
+        if (floodFillGrid[x, y] == targetLetter && floodFillGrid[x, y] != replacementLetter) {
+            floodFillGrid[x, y] = replacementLetter;
+            queue.Add(position);
+        }
     }
 
     public IEnumerator GenerateObjects(float objectPercentage, GameObject[] objects, int loadPhase) {
