@@ -78,6 +78,23 @@ public class LevelGen : MonoBehaviour {
 
         if (dungeonType.settingType == DungeonSetting.INCIDENTAL) resettled = true;
         GenerateDungeonLayout();
+
+        //TEMP TO VARY MUSIC UNTIL FULL LEVEL GEN IS FINISHED
+        var types = new List<string>() {
+            "castle",
+            "mine",
+            "sewer",
+            "temple",
+            "vault",
+            "tomb"
+        };
+        var roll2 = Random.Range(0, 7);
+        if (roll2 < 6) dungeonType = new DungeonType(DungeonSetting.DESIGNED, types[roll2]);
+        else {
+            dungeonType = new DungeonType(DungeonSetting.DESIGNED, types[Random.Range(0, 6)]);
+            resettled = true;
+        }
+        //END TEMP TO VARY MUSIC
     }
 
     private void GenerateDungeonLayout() {
