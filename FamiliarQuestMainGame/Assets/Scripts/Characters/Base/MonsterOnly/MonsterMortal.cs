@@ -19,7 +19,7 @@ class MonsterMortal : MonoBehaviour {
 
     void Update() {
         if (!fading) return;
-        fadeOutIntensity += Time.deltaTime / 5f;
+        fadeOutIntensity += Time.deltaTime / 0.1f;
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers) {
             foreach (var material in renderer.materials) {
@@ -62,7 +62,7 @@ class MonsterMortal : MonoBehaviour {
                 material.SetFloat("_SmoothnessTextureChannel", 1);
             }
         }
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 0.1f);
     }
 
     public void CreateDeathSound() {
