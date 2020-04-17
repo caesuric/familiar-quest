@@ -45,6 +45,19 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     public GameObject labPrefab;
     public GameObject dungeonPrefab;
     private string[,] floodFillGrid = null;
+    private List<string> monsterTypes = new List<string>() {
+        "Cyclops",
+        "Dark Bishop",
+        "Dark Knight",
+        "Goblin Archer",
+        "Goblin Rogue",
+        "GOBLIN",
+        "Ogre",
+        "Troll",
+        "Warlock",
+        "Wolf"
+    };
+    private List<GameObject> monsterPrefabs = new List<GameObject>();
     
     // Use this for initialization
     void Start() {
@@ -57,6 +70,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         //DontDestroyOnLoad(gameObject);
         progress = 0f;
         LoadingProgressBar.StartSecondaryLoadPhase();
+        var monsterList = Resources.LoadAll("Prefabs/Monsters");
+        foreach (var monster in monsterList) monsterPrefabs.Add((GameObject)monster);
         StartCoroutine(GenerateTerrainFractalPerlinWithTerrainObject());
     }
 
@@ -140,14 +155,42 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     public void AddEncounter() {
-        var numMobs = Random.Range(3, 6);
+        var monsterTypes = GetMonsterTypesForEncounter();
+        var numMobs = RNG.Int(3, 6);
         var position = GetValidRandomPosition();
+        var baseLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
+        var minLevel = Mathf.Max(baseLevel - 6, 1);
+        var maxLevel = Mathf.Max(baseLevel - 3, 1);
         for (int i=0; i<numMobs; i++) {
-            var xRoll = Random.Range(position.x - 3, position.x + 3);
-            var yRoll = Random.Range(position.z - 3, position.z + 3);
-            var data = new MonsterData("goblin", "GOBLIN", 1, 0, new SocialNode(new List<string>() { "goblin" }, false, null));
+            var xRoll = RNG.Float(position.x - 3, position.x + 3);
+            var yRoll = RNG.Float(position.z - 3, position.z + 3);
+            var typeRoll = RNG.Int(0, monsterTypes.Count);
+            var name = monsterTypes[typeRoll];
+            int qualityRoll = RNG.Int(0, 100);
+            int quality = 0;
+            if (qualityRoll < 50) quality = 0;
+            else if (qualityRoll < 80) quality = 1;
+            else if (qualityRoll < 95) quality = 2;
+            else quality = 3;
+            var data = new MonsterData(name, name, RNG.Int(minLevel, maxLevel + 1), quality, null);
             InstantiateMonster(data, xRoll, yRoll);
         }
+    }
+
+    private List<string> GetMonsterTypesForEncounter() {
+        var numTypes = RNG.Int(1, 3);
+        var output = new List<string>();
+        var baseLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
+        var minLevel = Mathf.Max(baseLevel - 6, 1);
+        var maxLevel = Mathf.Max(baseLevel - 3, 1);
+        var eligibleTypes = new List<string>();
+        foreach (var monster in monsterPrefabs) if (monsterTypes.Contains(monster.name) && monster.GetComponent<Monster>().minLevel <= maxLevel && monster.GetComponent<Monster>().maxLevel >= minLevel) eligibleTypes.Add(monster.name);
+        if (eligibleTypes.Count == 0) eligibleTypes = monsterTypes;
+        for (int i=0; i<numTypes; i++) {
+            var roll = RNG.Int(0, eligibleTypes.Count);
+            output.Add(eligibleTypes[roll]);
+        }
+        return output;
     }
 
     private static void InstantiateMonster(MonsterData monster, float xRoll, float yRoll) {
