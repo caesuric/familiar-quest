@@ -12,17 +12,18 @@ class MonsterMortal : MonoBehaviour {
     public GameObject killer = null;
     public bool diedToPlayer = true;
     public float fadeOutIntensity = 0f;
+    public bool fading = false;
     public Shader shader;
     public Texture texture;
     public Texture gradientTexture;
 
     void Update() {
-        if (!died) return;
-        fadeOutIntensity += Time.deltaTime;
+        if (!fading) return;
+        fadeOutIntensity += Time.deltaTime / 5f;
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers) {
             foreach (var material in renderer.materials) {
-                material.SetFloat("_DissolveCutoff", fadeOutIntensity / 5f);
+                material.SetFloat("_DissolveCutoff", fadeOutIntensity);
             }
         }
     }
@@ -30,6 +31,7 @@ class MonsterMortal : MonoBehaviour {
     public void OnDeath() {
         if (died) return;
         died = true;
+        fading = true;
         if (diedToPlayer) {
             foreach (var player in PlayerCharacter.players) {
                 player.GetComponent<ExperienceGainer>().GainXP(GetComponent<RewardGiver>().xpValue / PlayerCharacter.players.Count);
