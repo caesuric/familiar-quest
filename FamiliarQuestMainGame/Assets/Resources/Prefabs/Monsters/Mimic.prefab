@@ -5293,6 +5293,7 @@ MonoBehaviour:
   unitFramePrefab: {fileID: 8277637495669260494, guid: 05b3c9f91ea435c428b58b76afc770fe,
     type: 3}
   unitFrame: {fileID: 0}
+  renderers: []
 --- !u!136 &136471762266956608
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5590,6 +5591,10 @@ MonoBehaviour:
   died: 0
   killer: {fileID: 0}
   diedToPlayer: 1
+  fadeOutIntensity: 0
+  shader: {fileID: 4800000, guid: 6033512a7c34b9841b13e9a4a6e44868, type: 3}
+  texture: {fileID: 2800000, guid: daeb6fc5a652c76438a9b98ea7b3039e, type: 3}
+  gradientTexture: {fileID: 2800000, guid: c1fae007f2fca5140a067a645e305ac5, type: 3}
 --- !u!114 &114724218281292096
 MonoBehaviour:
   m_ObjectHideFlags: 0
