@@ -22,7 +22,7 @@ class MonsterMortal : MonoBehaviour {
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers) {
             foreach (var material in renderer.materials) {
-                material.SetFloat("_DissolveCutoff", fadeOutIntensity / 10f);
+                material.SetFloat("_DissolveCutoff", fadeOutIntensity / 5f);
             }
         }
     }
@@ -44,7 +44,7 @@ class MonsterMortal : MonoBehaviour {
             }
         }
         GetComponent<AudioGenerator>().CreateDeathSound();
-        var renderers = GetComponentsInChildren<MeshRenderer>();
+        var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers) {
             foreach (var material in renderer.materials) {
                 material.shader = shader;
@@ -60,7 +60,7 @@ class MonsterMortal : MonoBehaviour {
                 material.SetFloat("_SmoothnessTextureChannel", 1);
             }
         }
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 5f);
     }
 
     public void CreateDeathSound() {
