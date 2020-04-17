@@ -393,7 +393,10 @@ MonoBehaviour:
   randomCoordsMultiplier: 10
   landHeight: 0
   progress: 0
-  dungeonPrefab: {fileID: 100000, guid: 2c565734b35fec242b08348fd3da5bb6, type: 3}
+  labPrefab: {fileID: 4975770434552379588, guid: 7c70a174a22adf84980b7ddff6781e39,
+    type: 3}
+  dungeonPrefab: {fileID: 3415642230887078418, guid: 3a4aeeb064467c94b8b895abcd540cc3,
+    type: 3}
 --- !u!154 &190251596
 TerrainCollider:
   m_ObjectHideFlags: 0

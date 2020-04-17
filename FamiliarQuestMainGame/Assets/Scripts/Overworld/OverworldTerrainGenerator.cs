@@ -42,6 +42,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     public float landHeight = 0f;
     public float progress = 0f;
     public List<OverworldLandmark> landmarks = new List<OverworldLandmark>();
+    public GameObject labPrefab;
     public GameObject dungeonPrefab;
     private string[,] floodFillGrid = null;
     
@@ -177,6 +178,7 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         UpdateProgress(11, 0f);
         landmarks.Clear();
         FindPlayerStartingLocation();
+        Instantiate(labPrefab, new Vector3(landmarks[0].position.x, 24, landmarks[0].position.y), new Quaternion());
         yield return StartCoroutine(AddDungeons(10));
         yield return null;
     }
@@ -211,8 +213,8 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     private IEnumerator AddDungeons(int number) {
         for (int i = 0; i < number; i++) {
             var position = GetValidRandomPosition();
-            var obj = Instantiate(dungeonPrefab);
-            obj.transform.position = position;
+            var obj = Instantiate(dungeonPrefab, position, new Quaternion());
+            obj.GetComponent<DungeonEntrance>().dungeonLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
             UpdateProgress(11, (float)i / number);
             yield return null;
         }
