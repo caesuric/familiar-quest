@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class OverworldTerrainGenerator : MonoBehaviour {
 
-    private float[,] elevation;
+    public float[,] elevation;
     public int mapSize = 257; //129
     private readonly float randomValueMax = 10f;
     private readonly int featureSize = 32;
@@ -58,6 +58,10 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         "Wolf"
     };
     private List<GameObject> monsterPrefabs = new List<GameObject>();
+    public static bool loadedPreviouslyMadeWorld = false;
+    public static float[,] loadedElevation;
+    public static Vector2 loadedBaseCoords;
+    public static List<Vector2> loadedDungeonCoords;
     
     // Use this for initialization
     void Start() {
@@ -80,35 +84,61 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     }
 
     public IEnumerator GenerateTerrainFractalPerlinWithTerrainObject() {
-        LoadingProgressBar.UpdateProgressText("Generating terrain heights");
-        float randomX = Random.Range(0f, 1f) * randomCoordsMultiplier;
-        float randomY = Random.Range(0f, 1f) * randomCoordsMultiplier;
-        elevation = new float[mapSize, mapSize];
-        for (int x = 0; x < mapSize; x++) {
-            for (int y = 0; y < mapSize; y++) {
-                elevation[x, y] = 0;
+        if (loadedPreviouslyMadeWorld) {
+            elevation = loadedElevation;
+            landmarks.Add(new OverworldLandmark() {
+                type = "base",
+                position = loadedBaseCoords
+            });
+            landmarks.Add(new OverworldLandmark() {
+                type = "startingPosition",
+                position = loadedBaseCoords
+            });
+            foreach (var dungeonPosition in loadedDungeonCoords) {
+                landmarks.Add(new OverworldLandmark() {
+                    type = "dungeon",
+                    position = dungeonPosition
+                });
             }
-        }
-        for (int x = 0; x < mapSize; x++) {
-            for (int y = 0; y < mapSize; y++) {
-                var noise = Mathf.PerlinNoise(randomX + ((float)x / mapSize * perlinFeatureSize), randomY + ((float)y / mapSize * perlinFeatureSize));
-                for (int i = 1; i <= fractalPerlinDepth; i++) {
-                    noise += Mathf.PerlinNoise(randomX + (x * Mathf.Pow(2, i) / mapSize * perlinFeatureSize), randomY + (y * Mathf.Pow(2, i) / mapSize * perlinFeatureSize));
+            highest = 0;
+            for (int x = 0; x < mapSize; x++) {
+                for (int y = 0; y < mapSize; y++) {
+                    if (elevation[x, y] > highest) highest = elevation[x, y];
                 }
-                UpdateProgress(0, ((float)x / mapSize) + ((float)y / mapSize / mapSize));
-                noise *= perlinScaleFactor;
-                elevation[x, y] = noise;
             }
         }
-        yield return null;
-        LoadingProgressBar.UpdateProgressText("Adding Rivers");
-        yield return StartCoroutine(AddRivers());
-        yield return null;
-        LoadingProgressBar.UpdateProgressText("Widening Rivers");
-        yield return StartCoroutine(WidenRivers());
-        yield return null;
+        else {
+            LoadingProgressBar.UpdateProgressText("Generating terrain heights");
+            float randomX = Random.Range(0f, 1f) * randomCoordsMultiplier;
+            float randomY = Random.Range(0f, 1f) * randomCoordsMultiplier;
+            elevation = new float[mapSize, mapSize];
+            for (int x = 0; x < mapSize; x++) {
+                for (int y = 0; y < mapSize; y++) {
+                    elevation[x, y] = 0;
+                }
+            }
+            for (int x = 0; x < mapSize; x++) {
+                for (int y = 0; y < mapSize; y++) {
+                    var noise = Mathf.PerlinNoise(randomX + ((float)x / mapSize * perlinFeatureSize), randomY + ((float)y / mapSize * perlinFeatureSize));
+                    for (int i = 1; i <= fractalPerlinDepth; i++) {
+                        noise += Mathf.PerlinNoise(randomX + (x * Mathf.Pow(2, i) / mapSize * perlinFeatureSize), randomY + (y * Mathf.Pow(2, i) / mapSize * perlinFeatureSize));
+                    }
+                    UpdateProgress(0, ((float)x / mapSize) + ((float)y / mapSize / mapSize));
+                    noise *= perlinScaleFactor;
+                    elevation[x, y] = noise;
+                }
+            }
+            yield return null;
+            LoadingProgressBar.UpdateProgressText("Adding Rivers");
+            yield return StartCoroutine(AddRivers());
+            yield return null;
+            LoadingProgressBar.UpdateProgressText("Widening Rivers");
+            yield return StartCoroutine(WidenRivers());
+            yield return null;
+
+        }
         LoadingProgressBar.UpdateProgressText("Generating Terrain Object");
-        yield return StartCoroutine(GenerateTerrainObject());
+        yield return StartCoroutine(GenerateTerrainObject(loadedPreviouslyMadeWorld));
         yield return null;
         LoadingProgressBar.UpdateProgressText("Generating Alpha Map");
         yield return StartCoroutine(GenerateAlphaMap());
@@ -131,9 +161,14 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         LoadingProgressBar.UpdateProgressText("Generating Flowers");
         yield return StartCoroutine(GenerateObjects(flowersPercentage, flowers, 10));
         yield return null;
-        LoadingProgressBar.UpdateProgressText("Adding Dungeons");
-        yield return StartCoroutine(AddLandmarks());
-        yield return null;
+        if (loadedPreviouslyMadeWorld) {
+            LoadLandmarksFromSave();
+        }
+        else {
+            LoadingProgressBar.UpdateProgressText("Adding Dungeons");
+            yield return StartCoroutine(AddLandmarks());
+            yield return null;
+        }
         LoadingProgressBar.UpdateProgressText("Adding Monsters");
         yield return StartCoroutine(AddMonsters());
         yield return null;
@@ -217,6 +252,16 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         if (quality == 4) mob.gameObject.AddComponent<Boss>();
     }
 
+    public void LoadLandmarksFromSave() {
+        foreach (var landmark in landmarks) {
+            if (landmark.type == "base") Instantiate(labPrefab, new Vector3(landmark.position.x, 24, landmark.position.y), new Quaternion());
+            else if (landmark.type == "dungeon") {
+                var obj = Instantiate(dungeonPrefab, new Vector3(landmark.position.x, 24, landmark.position.y), new Quaternion());
+                obj.GetComponent<DungeonEntrance>().dungeonLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
+            }
+        }
+    }
+
     public IEnumerator AddLandmarks() {
         UpdateProgress(11, 0f);
         landmarks.Clear();
@@ -256,6 +301,10 @@ public class OverworldTerrainGenerator : MonoBehaviour {
     private IEnumerator AddDungeons(int number) {
         for (int i = 0; i < number; i++) {
             var position = GetValidRandomPosition();
+            landmarks.Add(new OverworldLandmark() {
+                position = new Vector2(position.x, position.z),
+                type = "dungeon"
+            });
             var obj = Instantiate(dungeonPrefab, position, new Quaternion());
             obj.GetComponent<DungeonEntrance>().dungeonLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
             UpdateProgress(11, (float)i / number);
@@ -366,25 +415,27 @@ public class OverworldTerrainGenerator : MonoBehaviour {
         }
     }
 
-    public IEnumerator GenerateTerrainObject() {
-        landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
-        for (int x = 0; x < mapSize; x++) {
-            for (int y = 0; y < mapSize; y++) {
-                if (elevation[x, y] / highest <= perlinWaterProportion) elevation[x, y] = 0f;
-                else if (elevation[x, y] / highest < 1 - perlinMountainProportion) elevation[x, y] = landHeight;
-                else elevation[x, y] = elevation[x, y] / highest / mountainHeightDivisor;
+    public IEnumerator GenerateTerrainObject(bool loadedPreviouslyMadeWorld) {
+        if (!loadedPreviouslyMadeWorld) {
+            landHeight = (1 - perlinMountainProportion) / 2f / landHeightDivisor;
+            for (int x = 0; x < mapSize; x++) {
+                for (int y = 0; y < mapSize; y++) {
+                    if (elevation[x, y] / highest <= perlinWaterProportion) elevation[x, y] = 0f;
+                    else if (elevation[x, y] / highest < 1 - perlinMountainProportion) elevation[x, y] = landHeight;
+                    else elevation[x, y] = elevation[x, y] / highest / mountainHeightDivisor;
 
-                //if (elevation[x, y] < perlinLandThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor / mountainHeightDivisor;
-                //else if (elevation[x, y] < perlinMountainThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor;
-                //else {
-                //    var heightAboveLand = elevation[x, y] / highest / terrainHeightDivisor - perlinLandThreshold / highest / terrainHeightDivisor;
-                //    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand / mountainHeightDivisor;
-                //}
-            }
-            if (x % 100 == 0) {
-                UpdateProgress(3, (float)x / mapSize);
-                yield return null;
+                    //if (elevation[x, y] < perlinLandThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor / mountainHeightDivisor;
+                    //else if (elevation[x, y] < perlinMountainThreshold) elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor;
+                    //else {
+                    //    var heightAboveLand = elevation[x, y] / highest / terrainHeightDivisor - perlinLandThreshold / highest / terrainHeightDivisor;
+                    //    elevation[x, y] = perlinLandThreshold / highest / terrainHeightDivisor + heightAboveLand / mountainHeightDivisor;
+                    //}
+                }
+                if (x % 100 == 0) {
+                    UpdateProgress(3, (float)x / mapSize);
+                    yield return null;
 
+                }
             }
         }
         terrain.terrainData.heightmapResolution = mapSize;
