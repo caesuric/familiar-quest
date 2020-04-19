@@ -405,6 +405,9 @@ ShaderVariantCollection:
         passType: 5
       - keywords: POINT
         passType: 5
+  - first: {fileID: 4800000, guid: 6033512a7c34b9841b13e9a4a6e44868, type: 3}
+    second:
+      variants: []
   - first: {fileID: 4800000, guid: d248d4d1588851f43a9fa18a4e6f0209, type: 3}
     second:
       variants:
@@ -417,6 +420,9 @@ ShaderVariantCollection:
         passType: 0
       - keywords: SOFTPARTICLES_ON
         passType: 0
+  - first: {fileID: 4800000, guid: c45daa60fef208c40a69be919f0bdb8f, type: 3}
+    second:
+      variants: []
   - first: {fileID: 4800000, guid: 663207a90b03e2042951d1a8b903ed7f, type: 3}
     second:
       variants:

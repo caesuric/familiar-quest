@@ -455,7 +455,8 @@ MonoBehaviour:
   killer: {fileID: 0}
   diedToPlayer: 1
   fadeOutIntensity: 0
-  shader: {fileID: 4800000, guid: 6033512a7c34b9841b13e9a4a6e44868, type: 3}
+  fading: 0
+  shader: {fileID: 4800000, guid: c45daa60fef208c40a69be919f0bdb8f, type: 3}
   texture: {fileID: 2800000, guid: daeb6fc5a652c76438a9b98ea7b3039e, type: 3}
   gradientTexture: {fileID: 2800000, guid: c1fae007f2fca5140a067a645e305ac5, type: 3}
 --- !u!114 &114201812350174608
