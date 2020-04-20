@@ -5,7 +5,12 @@ using UnityEngine.Networking;
 using UnityEngine.AI;
 
 //[NetworkSettings(sendInterval=0.01f)]
-public class AbilityUser : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(StatusEffectHost))]
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Mana))]
+[RequireComponent(typeof(Attacker))]
+public class AbilityUser : MonoBehaviour {
     private delegate void Effect(ActiveAbility ability, AbilityAttribute attr);
     private Dictionary<string, Effect> attributeEffects;
     //[SyncVar]
@@ -15,8 +20,6 @@ public class AbilityUser : DependencyUser {
     public GameObject teleportPrefab;
 
     private void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character", "StatusEffectHost", "Health", "Mana", "Attacker"};
-        Dependencies.Check(this);
         attributeEffects = new Dictionary<string, Effect>() {
             { "damage+", (ActiveAbility ability, AbilityAttribute attr) => AttrDamagePlus(ability, attr) },
             { "speed+", (ActiveAbility ability, AbilityAttribute attr) => AttrSpeedPlus(ability, attr) },

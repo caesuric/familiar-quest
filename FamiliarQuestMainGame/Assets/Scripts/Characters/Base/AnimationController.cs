@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AnimationController : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(StatusEffectHost))]
+public class AnimationController : MonoBehaviour {
 
     public bool hasIsAttacking = false;
     public bool hasIsMoving = false;
     bool checkedParameters = false;
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "StatusEffectHost" };
-        Dependencies.Check(this);
         var animator = GetComponentInChildren<Animator>();
         if (animator != null) {
             if (!checkedParameters) {

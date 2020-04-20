@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(PlayerCharacter))]
 public class MenuUser : MonoBehaviour {
 
     //public SyncListString spiritDescriptions = new SyncListString();
@@ -21,10 +23,4 @@ public class MenuUser : MonoBehaviour {
     public string armorDescription;
     //[SyncVar]
     public string accessoryDescription;
-
-    // Use this for initialization
-    void Start() {
-        var dependencies = new List<string>() { "PlayerCharacter", "Character" };
-        Dependencies.Check(gameObject, dependencies);
-    }
 }

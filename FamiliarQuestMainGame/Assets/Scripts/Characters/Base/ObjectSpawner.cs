@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using System;
 
-public class ObjectSpawner : DependencyUser {
+public class ObjectSpawner : MonoBehaviour {
 
     public GameObject floatingTextPrefab;
     public GameObject previouslySecretDoor;

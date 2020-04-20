@@ -9,7 +9,10 @@ using System;
 using UnityEngine.SceneManagement;
 
 //[NetworkSettings(sendInterval = 0.016f)]
-public class PlayerCharacter : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(HotbarUser))]
+[RequireComponent(typeof(ConfigGrabber))]
+public class PlayerCharacter : MonoBehaviour {
 
     public static List<PlayerCharacter> players = new List<PlayerCharacter>();
     public static PlayerCharacter localPlayer = null;
@@ -45,8 +48,6 @@ public class PlayerCharacter : DependencyUser {
 
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "Character", "HotbarUser", "ConfigGrabber" };
-        Dependencies.Check(this);
         players.Add(this);
         if (SceneManager.GetActiveScene().name != "Dungeon") StartCoroutine(StartSub());
         OnStartServer();

@@ -3,7 +3,9 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
-public class ExperienceGainer : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(PlayerCharacter))]
+public class ExperienceGainer : MonoBehaviour {
     public static List<long> xpTable = new List<long>();
     public static List<int> xpPerMob = new List<int>();
     public GameObject levelUpEffect;
@@ -85,8 +87,6 @@ public class ExperienceGainer : DependencyUser {
 
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "PlayerCharacter", "Character" };
-        Dependencies.Check(this);
         Calculate();
     }
 

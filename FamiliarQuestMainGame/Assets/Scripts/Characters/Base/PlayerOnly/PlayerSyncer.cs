@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class PlayerSyncer : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(PlayerCharacter))]
+public class PlayerSyncer : MonoBehaviour {
     //[SyncVar]
     public float mp;
     //[SyncVar]
@@ -22,14 +24,7 @@ public class PlayerSyncer : DependencyUser {
     public float speedMultiplier = 1;
     //[SyncVar]
     public bool blinded = false;
-
     private bool ready = false;
-
-    // Use this for initialization
-    void Start() {
-        dependencies = new List<string>() { "PlayerCharacter", "Character" };
-        Dependencies.Check(this);
-    }
 
     // Update is called once per frame
     void Update() {

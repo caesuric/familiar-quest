@@ -2,7 +2,9 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class AutoHealer : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(Health))]
+public class AutoHealer : MonoBehaviour {
 
     private float autoHealTimer = 3.0f;
     private Health health;

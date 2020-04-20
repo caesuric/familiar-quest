@@ -4,7 +4,11 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
 
-public class Health : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(SpiritUser))]
+[RequireComponent(typeof(StatusEffectHost))]
+[RequireComponent(typeof(ObjectSpawner))]
+public class Health : MonoBehaviour {
 
     //[SyncVar]
     public float hp;
@@ -19,8 +23,6 @@ public class Health : DependencyUser {
 
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character", "SpiritUser", "StatusEffectHost", "ObjectSpawner" };
-        Dependencies.Check(this);
         Calculate();
         hp = maxHP;
         if (GetComponent<PlayerCharacter>() != null) isPlayer = true;

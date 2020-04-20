@@ -3,18 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(PlayerCharacter))]
+[RequireComponent(typeof(StatusEffectHost))]
 public class EffectBarUser : MonoBehaviour {
 
     //public SyncListString effectIcons = new SyncListString();
     //public SyncListFloat effectDurations = new SyncListFloat();
     public List<string> effectIcons = new List<string>();
     public List<float> effectDurations = new List<float>();
-
-    // Use this for initialization
-    void Start() {
-        var dependencies = new List<string>() { "PlayerCharacter", "Character", "StatusEffectHost" };
-        Dependencies.Check(gameObject, dependencies);
-    }
 
     // Update is called once per frame
     void Update() {

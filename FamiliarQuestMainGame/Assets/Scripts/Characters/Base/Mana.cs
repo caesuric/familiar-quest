@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class Mana : DependencyUser {
+[RequireComponent(typeof(Character))]
+public class Mana : MonoBehaviour {
 
     //[SyncVar]
     public float mp;
@@ -12,8 +13,6 @@ public class Mana : DependencyUser {
     
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character" };
-        Dependencies.Check(this);
         Calculate();
         mp = maxMP;
     }

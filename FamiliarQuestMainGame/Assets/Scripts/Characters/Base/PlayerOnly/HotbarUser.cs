@@ -5,6 +5,12 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using DuloGames.UI;
 
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(PlayerCharacter))]
+[RequireComponent(typeof(SpiritUser))]
+[RequireComponent(typeof(Mana))]
+[RequireComponent(typeof(AbilityUser))]
+[RequireComponent(typeof(CacheGrabber))]
 public class HotbarUser : MonoBehaviour {
 
     //[SyncVar]
@@ -45,8 +51,6 @@ public class HotbarUser : MonoBehaviour {
                 images[image.name] = image;
             }
         }
-        var dependencies = new List<string>() { "PlayerCharacter", "Character", "SpiritUser", "Mana", "AbilityUser", "CacheGrabber" };
-        Dependencies.Check(gameObject, dependencies);
         var objs = GameObject.FindGameObjectsWithTag("HotbarButton");
         foreach (var obj in objs) hotbarButtons.Add(null);
         foreach (var obj in objs) AddHotbarButtonToList(obj);

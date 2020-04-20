@@ -4,7 +4,12 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
 
-public class SpiritUser : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(StatusEffectHost))]
+[RequireComponent(typeof(ObjectSpawner))]
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Mana))]
+public class SpiritUser : MonoBehaviour {
 
     public List<Spirit> spirits = new List<Spirit>();
     public List<Ability> overflowAbilities = new List<Ability>();
@@ -14,8 +19,6 @@ public class SpiritUser : DependencyUser {
 
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character", "StatusEffectHost", "ObjectSpawner", "Health", "Mana" };
-        Dependencies.Check(this);
         passiveMethods = new Dictionary<string, Maintainer>() {
             { "damageEnemiesOnScreen", (AbilityAttribute attribute) => MaintainDamageEnemiesOnScreen(attribute) }
         };

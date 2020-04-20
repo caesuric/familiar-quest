@@ -6,7 +6,7 @@ using System.IO;
 using System;
 
 //[NetworkSettings(channel =3)]
-public class AutoSaver : DependencyUser {
+public class AutoSaver : MonoBehaviour {
 
     //[SyncVar]
     public bool currentlySaving = false;

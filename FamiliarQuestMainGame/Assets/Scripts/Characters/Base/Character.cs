@@ -4,7 +4,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 //[NetworkSettings(sendInterval = 0.016f)]
-public class Character : DependencyUser {
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Mana))]
+[RequireComponent(typeof(StatusEffectHost))]
+[RequireComponent(typeof(Attacker))]
+public class Character : MonoBehaviour {
 
     //public int strength;
     //public int dexterity;
@@ -77,8 +81,6 @@ public class Character : DependencyUser {
 
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Health", "Mana", "StatusEffectHost", "Attacker" };
-        Dependencies.Check(this);
         DetermineFaction();
     }
 

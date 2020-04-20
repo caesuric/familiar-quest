@@ -5,7 +5,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.AI;
 
-public class StatusEffectHost : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(CacheGrabber))]
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Mana))]
+[RequireComponent(typeof(ObjectSpawner))]
+public class StatusEffectHost : MonoBehaviour {
 
     //public float physicalSave;
     //public float mentalSave;
@@ -21,8 +26,6 @@ public class StatusEffectHost : DependencyUser {
     
     // Use this for initialization
     void Start() {
-        dependencies = new List<string>() { "Character", "CacheGrabber", "Health", "Mana", "ObjectSpawner" };
-        Dependencies.Check(this);
         var data = TextReader.ReadSets("DdeSpellEffects");
         foreach (var item in data) ddeSpellEffects.Add(ElementalAffinity.StringToElement(item[0]), int.Parse(item[1]));
         Calculate();

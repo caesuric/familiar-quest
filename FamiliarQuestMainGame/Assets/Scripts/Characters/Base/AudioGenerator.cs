@@ -2,14 +2,9 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class AudioGenerator : DependencyUser {
-
-    // Use this for initialization
-    void Start()
-    {
-        dependencies = new System.Collections.Generic.List<string>() { "{{PLAYER_OR_MONSTER}}", "CacheGrabber", "NoiseMaker" };
-        Dependencies.Check(this);
-    }
+[RequireComponent(typeof(CacheGrabber))]
+[RequireComponent(typeof(NoiseMaker))]
+public class AudioGenerator : MonoBehaviour {
 
     public void CreateDeathSound()
     {

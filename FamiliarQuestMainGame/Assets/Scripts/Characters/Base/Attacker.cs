@@ -3,7 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class Attacker : DependencyUser {
+[RequireComponent(typeof(Character))]
+[RequireComponent(typeof(StatusEffectHost))]
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(AnimationController))]
+[RequireComponent(typeof(AudioGenerator))]
+[RequireComponent(typeof(SimulatedNoiseGenerator))]
+[RequireComponent(typeof(CacheGrabber))]
+[RequireComponent(typeof(AbilityUser))]
+[RequireComponent(typeof(SpiritUser))]
+public class Attacker : MonoBehaviour {
     public bool isAttacking = false;
     //public float critRate;
     //public float critMultiplier;
@@ -15,8 +24,6 @@ public class Attacker : DependencyUser {
     public GameObject homingProjectilePrefab;
 
     private void Start() {
-        dependencies = new List<string>() { "{{PLAYER_OR_MONSTER}}", "Character", "StatusEffectHost", "Health", "AnimationController", "AudioGenerator", "SimulatedNoiseGenerator", "CacheGrabber", "AbilityUser", "SpiritUser" };
-        Dependencies.Check(this);
         invisibleHealingZonePrefab = (GameObject)Resources.Load("Prefabs/DamageZones/InvisibleHealing");
         bossCircleAoePrefab = (GameObject)Resources.Load("Prefabs/AOEs/BossCircle");
         bossLineAoePrefab = (GameObject)Resources.Load("Prefabs/AOEs/BossLine");
