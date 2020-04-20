@@ -14,7 +14,7 @@
 * Abilities that boost elemental damage now say by how much and for how long
 * Enemy healthbars now always display above the other world elements
 * Boss and treasure chest drops should now always be guaranteed to be orange or better
-* Misc. internal cleanup
+* Misc. internal cleanup and refactoring
 
 ### Known Issues
 
