@@ -1,9 +1,25 @@
-# v0.15
+# v0.14.3
 
-## The Great Outdoors
+## Minor improvements and bugfixes
 
 * Added loading progress bars for level loading
+* Floating combat text no longer displays unless the damage dealt exceeds 1% of the target's max HP
+* Gold gained now appears in the game log
+* Frames per second display should now be much more accurate
+* Boss teleport quality cooldown increased from 5 seconds to 10 seconds
+* Effects of constitution on player health and health regen have been greatly reduced
+* Stealth no longer displays a countdown on duration -- duration is now infinite rather than 1 hour
+* Halved speed of charge, pull-in, and knockback effects
+* Mousing over equpment slots no longer turns the item color green on mouse exit
+* Abilities that boost elemental damage now say by how much and for how long
+* Enemy healthbars now always display above the other world elements
+* Boss and treasure chest drops should now always be guaranteed to be orange or better
+* Misc. internal cleanup
 
+### Known Issues
+
+* Potions will continue to display on your hotbar even after you have used them all.
+* Monster unit frames can be seen on your minimap and around corners
 
 # v0.14.2
 
