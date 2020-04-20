@@ -445,7 +445,7 @@ public class AttackAbility : ActiveAbility {
                     break;
                 case "elementalDamageBuff":
                     var type = attribute.FindParameter("element").stringVal;
-                    afterDescription += "Boosts " + type + " damage after use.\n";
+                    afterDescription += "Boosts " + type + " damage by " + attribute.FindParameter("degree").floatVal.ToString() + "% for " + attribute.FindParameter("duration").floatVal.ToString() + " seconds after use.\n";
                     break;
                 case "blunting":
                     afterDescription += "Nullifies enemy ability to deal damage briefly.\n";

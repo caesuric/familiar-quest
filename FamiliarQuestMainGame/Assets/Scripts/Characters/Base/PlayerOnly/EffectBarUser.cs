@@ -35,8 +35,10 @@ public class EffectBarUser : MonoBehaviour {
             i++;
             if (updateIcons) {
                 effectIcons.Add(effect.type);
-                effectDurations.Add(effect.duration / effect.beginningDuration);
+                if (effect.beginningDuration == Mathf.Infinity) effectDurations.Add(1);
+                else effectDurations.Add(effect.duration / effect.beginningDuration);
             }
+            else if (effect.beginningDuration == Mathf.Infinity) effectDurations[i] = 1f;
             else effectDurations[i] = effect.duration / effect.beginningDuration;
         }
     }

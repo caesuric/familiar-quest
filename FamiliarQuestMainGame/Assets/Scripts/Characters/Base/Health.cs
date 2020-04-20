@@ -108,7 +108,7 @@ public class Health : DependencyUser {
         GetComponent<StatusEffectHost>().RemoveStealth();
         //if (GetComponent<Monster>() != null && attacker != null) GetComponent<AggroTable>().IncreaseAggro(attacker.gameObject, amount);
         ShowHitVisual(ability);
-        var criticalRoll = UnityEngine.Random.Range(0.01f, 1f);
+        var criticalRoll = UnityEngine.Random.Range(0f, 1f);
         amount = ModifyDamage(amount, criticalRoll, type, attacker, ability);
         if (ability == null || ability.FindAttribute("delay") == null) hp -= amount;
         //if (amount >= 0 && ability != null) ApplyEffectsFromAttack(attacker, ability, amount, projectileTransform);
@@ -134,8 +134,8 @@ public class Health : DependencyUser {
         var critRate = CharacterAttribute.attributes["criticalHitChance"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
         if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += ability.FindAttribute("increasedCritChance").FindParameter("degree").floatVal;
         if (amount < 0) GetComponent<ObjectSpawner>().CreateFloatingHealingText((int)amount * -1, name + " healed for " + amount.ToString() + ".");
-        else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
-        else GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
+        else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate && amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
+        else if (amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
     }
 
     private void CreateFloatingImmunityText(Character attacker) {

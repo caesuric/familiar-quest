@@ -376,17 +376,12 @@ public class SavedRangedWeapon : SavedWeapon
 [System.Serializable]
 public class SavedArmor : SavedItem
 {
-    public float hp;
-    public float mp;
-
     public Armor ConvertTo()
     {
         var obj = new Armor {
             name = name,
             level = level,
             description = description,
-            hp = hp,
-            mp = mp,
             armor = armor,
             quality = quality
         };
@@ -400,8 +395,6 @@ public class SavedArmor : SavedItem
             name = armor.name,
             level = armor.level,
             description = armor.description,
-            hp = armor.hp,
-            mp = armor.mp,
             armor = armor.armor,
             quality = armor.quality
         };

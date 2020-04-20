@@ -6,7 +6,7 @@ public class EquipDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, 
 
     public string slotType;
     public int equipNumber = 0;
-    private Color startingColor;
+    public Color startingColor;
     // Use this for initialization
     void Start() {
         startingColor = GetComponent<Image>().color;

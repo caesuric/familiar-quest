@@ -158,6 +158,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     }
 
     public void MoveToAbilities() {
+        if (sparePoints > 0) return;
         characterStatMenu.SetActive(false);
         characterAbilityMenu.SetActive(true);
         GenerateAbilities();

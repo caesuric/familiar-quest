@@ -10,7 +10,7 @@ public class FPSUpdater : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        counts.Add(Mathf.Floor(1 / Time.deltaTime));
+        counts.Add(Mathf.Floor(1f / Time.unscaledDeltaTime));
         if (counts.Count > framesToCount) counts.RemoveAt(0);
         text.text = AverageCount().ToString() + " FPS";
     }

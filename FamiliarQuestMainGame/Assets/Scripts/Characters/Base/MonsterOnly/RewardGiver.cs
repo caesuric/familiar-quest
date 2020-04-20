@@ -31,16 +31,16 @@ public class RewardGiver : MonoBehaviour {
         if (GetComponent<EnergyWisplet>() != null) guaranteed = true;
         float roll = Random.Range(0f, 1f);
         if (roll > lootChance && !guaranteed) return;
-        var normalizedRoll = roll / lootChance;
-        if (guaranteed) normalizedRoll = Random.Range(0.25f, 1f);
-        if (normalizedRoll <= 0.25f) DropConsumable(attacker);
-        else if (normalizedRoll <= 0.5f) DropEquipment(attacker, 0);
-        else if (normalizedRoll <= 0.75f) DropEquipment(attacker, 1);
-        else if (normalizedRoll <= 0.875f) DropEquipment(attacker, 2);
-        else if (normalizedRoll <= 0.9375f) DropEquipment(attacker, 3);
-        else if (normalizedRoll <= 0.96875f) DropEquipment(attacker, 4);
-        else if (normalizedRoll <= 0.984375f) DropEquipment(attacker, 5);
-        else if (normalizedRoll <= 0.9947917f) DropEquipment(attacker, 6);
+        var exactTreasureRoll = Random.Range(0, 1f);
+        if (guaranteed) exactTreasureRoll = Random.Range(0.875f, 1f);
+        if (exactTreasureRoll <= 0.25f) DropConsumable(attacker);
+        else if (exactTreasureRoll <= 0.5f) DropEquipment(attacker, 0);
+        else if (exactTreasureRoll <= 0.75f) DropEquipment(attacker, 1);
+        else if (exactTreasureRoll <= 0.875f) DropEquipment(attacker, 2);
+        else if (exactTreasureRoll <= 0.9375f) DropEquipment(attacker, 3);
+        else if (exactTreasureRoll <= 0.96875f) DropEquipment(attacker, 4);
+        else if (exactTreasureRoll <= 0.984375f) DropEquipment(attacker, 5);
+        else if (exactTreasureRoll <= 0.9947917f) DropEquipment(attacker, 6);
         else DropEquipment(attacker, 7);
     }
 
@@ -367,37 +367,22 @@ public class RewardGiver : MonoBehaviour {
     }
 
     public Armor DropArmor(Character attacker, int armor) {
-        float hp = Random.Range(1, 39);
-        float mp = 39 - hp;
-        float hpRoll = Random.Range(0.8f, 1.2f);
-        float mpRoll = Random.Range(0.8f, 1.2f);
-        hp = ScaleArmorValue(hp, intendedLevel) * hpRoll;
-        mp = ScaleArmorValue(mp, intendedLevel) * mpRoll;
-        var armorObj = GenerateArmor(attacker, hp, mp);
+        var armorObj = GenerateArmor(attacker);
         armorObj.armor = armor;
         armorObj.description += "Armor: " + armor.ToString() + "\n";
         return armorObj;
     }
 
     public static Armor GenerateArmorForShop(int level, int armor) {
-        float hp = Random.Range(1, 39);
-        float mp = 39 - hp;
-        float hpRoll = Random.Range(0.8f, 1.2f);
-        float mpRoll = Random.Range(0.8f, 1.2f);
-        hp = ScaleArmorValue(hp, level) * hpRoll;
-        mp = ScaleArmorValue(mp, level) * mpRoll;
-        var armorObj = new Armor() { hp = hp, mp = mp, name = "Random Armor", description = "" };
+        var armorObj = new Armor() { name = "Random Armor", description = "" };
         armorObj.armor = armor;
         armorObj.description += "Armor: " + armor.ToString() + "\n";
         return armorObj;
     }
 
-    private Armor GenerateArmor(Character attacker, float hp, float mp) {
+    private Armor GenerateArmor(Character attacker) {
         var armor = new Armor {
-            hp = hp,
-            mp = mp,
             name = "Random Armor",
-            //armor.description = "{{HpAndMp}}";
             description = ""
         };
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("ARMOR FOUND", "Armor found.");

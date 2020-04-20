@@ -41,16 +41,16 @@ public static class Effects {
     public static void KnockbackDefault(Character attacker, Character target) {
         var degree = 5f;
         var obj = target.gameObject.AddComponent<PushingEffect>();
-        obj.Initialize(target.transform.position + attacker.transform.forward * degree, 0.25f);
-        target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position + attacker.transform.forward * degree, 0.25f);
+        obj.Initialize(target.transform.position + attacker.transform.forward * degree, 0.5f);
+        target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position + attacker.transform.forward * degree, 0.5f);
     }
 
     public static void JumpBack(Character attacker, Character target, AbilityAttribute attr) {
         if (attr.FindParameter("degree") == null) return;
         var degree = attr.FindParameter("degree").floatVal;
         var obj = attacker.gameObject.AddComponent<PushingEffect>();
-        obj.Initialize(attacker.transform.position - attacker.transform.forward * degree, 0.25f);
-        attacker.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * degree, 0.25f);
+        obj.Initialize(attacker.transform.position - attacker.transform.forward * degree, 0.5f);
+        attacker.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * degree, 0.5f);
     }
 
     public static void PullTowards(Character attacker, Character target, AbilityAttribute attr) {
@@ -58,8 +58,8 @@ public static class Effects {
         float distance = attr.FindParameter("degree").floatVal;
         if (distance >= 1 && distance <= 10) {
             var obj = target.gameObject.AddComponent<PushingEffect>();
-            obj.Initialize(target.transform.position - attacker.transform.forward * (distance - 1), 0.25f);
-            target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * (distance - 1), 0.25f);
+            obj.Initialize(target.transform.position - attacker.transform.forward * (distance - 1), 0.5f);
+            target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * (distance - 1), 0.5f);
         }
     }
 
@@ -67,8 +67,8 @@ public static class Effects {
         var distance = 5f;
         if (distance >= 1 && distance <= 10) {
             var obj = target.gameObject.AddComponent<PushingEffect>();
-            obj.Initialize(target.transform.position - attacker.transform.forward * (distance - 1), 0.25f);
-            target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * (distance - 1), 0.25f);
+            obj.Initialize(target.transform.position - attacker.transform.forward * (distance - 1), 0.5f);
+            target.GetComponent<AbilityUser>().RpcAddPushingEffect(target.transform.position - attacker.transform.forward * (distance - 1), 0.5f);
         }
     }
 

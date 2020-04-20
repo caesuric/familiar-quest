@@ -148,7 +148,7 @@ namespace AI.Actions {
                     abilities.Add(new AttackAbility("Charge", "Charges the enemy.", 4f, element, baseStat, cooldown: 5, hitEffect: hitEffect, attributes: new AbilityAttribute("chargeTowards")));
                     break;
                 case "teleports":
-                    abilities.Add(new UtilityAbility("Teleport", "Teleport somewhere useful.", cooldown: 5, attributes: new AbilityAttribute("bossTeleport")));
+                    abilities.Add(new UtilityAbility("Teleport", "Teleport somewhere useful.", cooldown: 10, attributes: new AbilityAttribute("bossTeleport")));
                     break;
                 case "eatMinions":
                     abilities.Add(new UtilityAbility("Eat Minion", "Eats a minion.", cooldown: 30, attributes: new AbilityAttribute("bossEatMinion")));

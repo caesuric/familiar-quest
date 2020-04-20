@@ -159,7 +159,7 @@ public class UtilityAbility : ActiveAbility {
                     break;
                 case "elementalDamageBuff":
                     var element = attribute.FindParameter("element").stringVal;
-                    description += "Boosts " + element + " damage.\n";
+                    description += "Boosts " + element + " damage by " + attribute.FindParameter("degree").floatVal.ToString() + "% for " + attribute.FindParameter("duration").floatVal.ToString() + " seconds after use.\n";
                     break;
                 case "heal":
                     description += "Heals {{healing}} damage.\n";

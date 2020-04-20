@@ -94,6 +94,8 @@ public class InventoryItemUpdater : MonoBehaviour, IPointerClickHandler {
                     foldoutBackground.color = GetComponent<Image>().color = new Color(0.5f, 0, 0.5f);
                     break;
             }
+            var eds = GetComponent<EquipDropSlot>();
+            if (eds != null) eds.startingColor = GetComponent<Image>().color;
             if (number < 0) return;
             foreach (Transform child in arrowContainer.transform) Destroy(child.gameObject);
             if (GetComponent<ShopItemController>() != null) {
@@ -309,14 +311,14 @@ private void Equip() {
 
     public void OnMouseEnter() {
         //details.SetActive(true);
-        details.transform.position = transform.position + hoverOffset;
-        details.transform.SetAsLastSibling();
-        UpdateDetails();
+        //details.transform.position = transform.position + hoverOffset;
+        //details.transform.SetAsLastSibling();
+        //UpdateDetails();
     }
 
     public void OnMouseExit() {
-        details.SetActive(false);
-        initialized = false;
+        //details.SetActive(false);
+        //initialized = false;
     }
 
     private void UpdateDetails() {

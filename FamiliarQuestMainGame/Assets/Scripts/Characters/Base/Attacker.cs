@@ -165,8 +165,8 @@ public class Attacker : DependencyUser {
     }
 
     private void ChargeTowards() {
-        gameObject.AddComponent<PushingEffect>().Initialize(transform.position + transform.forward * (10), 0.25f);
-        GetComponent<AbilityUser>().RpcAddPushingEffect(transform.position + transform.forward * 10, 0.25f);
+        gameObject.AddComponent<PushingEffect>().Initialize(transform.position + transform.forward * (10), 0.5f);
+        GetComponent<AbilityUser>().RpcAddPushingEffect(transform.position + transform.forward * 10, 0.5f);
     }
 
     private void CreateMeleeDamageZone(AttackAbility ability) {

@@ -31,6 +31,7 @@ class MonsterMortal : MonoBehaviour {
             foreach (var player in PlayerCharacter.players) {
                 player.GetComponent<ExperienceGainer>().GainXP(GetComponent<RewardGiver>().xpValue / PlayerCharacter.players.Count);
                 player.GainGold(GetComponent<RewardGiver>().goldValue / PlayerCharacter.players.Count);
+                GameLog.AddText("You gain " + (GetComponent<RewardGiver>().goldValue / PlayerCharacter.players.Count).ToString() + " gold.");
             }
             if (PlayerCharacter.players.Count > 0 && killer != null) {
                 var pc = killer.GetComponent<PlayerCharacter>();

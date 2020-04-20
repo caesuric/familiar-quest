@@ -23,16 +23,16 @@ public class ObjectSpawner : DependencyUser {
     public void CreateFloatingHealingText(int amount, string text) {
         PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(amount.ToString(), Color.green, 90, text, transform.position);
     }
-    public void CreateFloatingTrapText(string str, string text) {
-        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(str, new Color(255, 165, 0), 90, text, transform.position);
+    public void CreateFloatingTrapText(string floatingText, string logText) {
+        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(floatingText, new Color(255, 165, 0), 90, logText, transform.position);
     }
 
-    public void CreateFloatingStatusText(string str, string text) {
-        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(str, Color.magenta, 90, text, transform.position);
+    public void CreateFloatingStatusText(string floatingText, string logText) {
+        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(floatingText, Color.magenta, 90, logText, transform.position);
     }
 
-    public void CreateFloatingSaveText(string str, string target) {
-        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(str, Color.cyan, 90, target + " resisted!", transform.position);
+    public void CreateFloatingSaveText(string floatingText, string logText) {
+        PlayerCharacter.players[0].GetComponent<ObjectSpawner>().CmdCreateFloatingTextWithPosition(floatingText, Color.cyan, 90, logText + " resisted!", transform.position);
     }
 
     public void CreateCriticalFloatingDamageText(int amount, string source, string target) {

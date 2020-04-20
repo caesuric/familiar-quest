@@ -85,6 +85,7 @@ public class AbilityUser : DependencyUser {
         obj.GetComponent<MonsterScaler>().quality = GetComponent<MonsterScaler>().quality;
         obj.GetComponent<MonsterScaler>().numPlayers = 1;
         obj.GetComponent<MonsterScaler>().Scale();
+        obj.GetComponent<MirrorImage>().creator = gameObject;
         var billboard = obj.GetComponentInChildren<Billboard>();
         if (billboard != null) billboard.mainCamera = Camera.main;
     }
@@ -341,7 +342,7 @@ public class AbilityUser : DependencyUser {
         var stealthAbility = (ability.FindAttribute("stealth") != null);
         if (GetComponent<StatusEffectHost>().CheckForEffect("stealth") && (stealthAbility || (!subtle))) GetComponent<StatusEffectHost>().RemoveEffectByName("stealth");
         //else if (stealthAbility && !MonsterCombatant.AnyInCombat()) GetComponent<StatusEffectHost>().AddStatusEffect("stealth", 3600, good: true, ability: ability);
-        else if (stealthAbility) GetComponent<StatusEffectHost>().AddStatusEffect("stealth", 3600, good: true, ability: ability);
+        else if (stealthAbility) GetComponent<StatusEffectHost>().AddStatusEffect("stealth", Mathf.Infinity, good: true, ability: ability);
     }
 
     private void AbilitySetCooldowns(ActiveAbility ability) {

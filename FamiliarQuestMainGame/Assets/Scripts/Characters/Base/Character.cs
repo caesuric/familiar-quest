@@ -46,7 +46,7 @@ public class Character : DependencyUser {
         new CharacterAttribute("slashingResistRating", "Slashing Resist Rating", false);
         new CharacterAttribute("bashingResistRating", "Bashing Resist Rating", false);
 
-        new CharacterAttribute("bonusHp", "Bonus HP", true, new List<string> { "constitution", "hpRating" }, 15, 145, 290, 775, 7500, 15000);
+        new CharacterAttribute("bonusHp", "Bonus HP", true, new List<string> { "constitution", "hpRating" }, 70, 145, 210, 3750, 7500, 11250);
         new CharacterAttribute("hpRegen", "HP Regen", true, new List<string> { "constitution", "hpRegenRating" }, 0, 0, 2, 0, 0, 100);
         new CharacterAttribute("receivedHealing", "Received Healing", true, new List<string> { "strength", "receivedHealingRating" }, 25, 100, 200, 50, 100, 400, true);
         new CharacterAttribute("armorMultiplier", "Armor Multiplier", true, new List<string> { "constitution", "armorMultiplierRating" }, 25, 100, 200, 50, 100, 400, true);
