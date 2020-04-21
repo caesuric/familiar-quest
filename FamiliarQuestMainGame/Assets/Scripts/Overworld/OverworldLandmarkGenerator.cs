@@ -44,6 +44,10 @@ public static class OverworldLandmarkGenerator {
                 });
             }
         }
+        AddStartingPosition(startX, startY);
+    }
+
+    private static void AddStartingPosition(int startX, int startY) {
         while (landmarks.Count == 1) {
             var x = Random.Range(-1, 1);
             var y = Random.Range(-1, 1);

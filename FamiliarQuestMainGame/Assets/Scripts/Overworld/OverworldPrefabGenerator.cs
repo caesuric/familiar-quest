@@ -33,32 +33,36 @@ public static class OverworldPrefabGenerator {
             for (int y = 0; y < OverworldGenerator.instance.mapSize; y++) {
                 var height = OverworldGenerator.instance.terrain.SampleHeight(new Vector3(x, 0, y));
                 if (height / OverworldGenerator.instance.newHighest < 1 - OverworldTerrainGenerator.perlinMountainProportion && height > 0) {
-                    if (objectPercentage < 1) {
-                        float roll = Random.Range(0f, 1f);
-                        if (roll <= objectPercentage) {
-                            int whichObject = Random.Range(0, objects.Count());
-                            var obj = Object.Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
-                            obj.transform.Rotate(0, Random.Range(0, 360), 0);
-                            var scaleFactor = Random.Range(0.35f, 0.65f);
-                            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-                        }
-                    }
-                    else {
-                        int roll = (int)Random.Range(0, objectPercentage * 2);
-                        for (int i = 0; i < roll; i++) {
-                            int whichObject = Random.Range(0, objects.Count());
-                            var obj = Object.Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
-                            obj.transform.Rotate(0, Random.Range(0, 360), 0);
-                            var scaleFactor = Random.Range(0.35f, 0.65f);
-                            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
-                        }
-                    }
+                    if (objectPercentage < 1) GenerateSparseObjects(objectPercentage, objects, height, x, y);
+                    else GenerateDenseObjects(objectPercentage, objects, height, x, y);
                 }
             }
             if (x % 100 == 0) {
                 OverworldGenerator.instance.UpdateProgress(loadPhase, (float)x / OverworldGenerator.instance.mapSize);
                 yield return null;
             }
+        }
+    }
+    
+    private static void GenerateSparseObjects(float objectPercentage, GameObject[] objects, float height, float x, float y) {
+        float roll = Random.Range(0f, 1f);
+        if (roll <= objectPercentage) {
+            int whichObject = Random.Range(0, objects.Count());
+            var obj = Object.Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
+            obj.transform.Rotate(0, Random.Range(0, 360), 0);
+            var scaleFactor = Random.Range(0.35f, 0.65f);
+            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+        }
+    }
+
+    private static void GenerateDenseObjects(float objectPercentage, GameObject[] objects, float height, float x, float y) {
+        int roll = (int)Random.Range(0, objectPercentage * 2);
+        for (int i = 0; i < roll; i++) {
+            int whichObject = Random.Range(0, objects.Count());
+            var obj = Object.Instantiate(objects[whichObject], new Vector3(x + Random.Range(-0.25f, 0.25f), height, y + Random.Range(-0.25f, 0.25f)), objects[whichObject].transform.rotation);
+            obj.transform.Rotate(0, Random.Range(0, 360), 0);
+            var scaleFactor = Random.Range(0.35f, 0.65f);
+            obj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
         }
     }
 

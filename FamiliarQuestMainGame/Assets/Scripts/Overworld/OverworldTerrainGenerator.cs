@@ -45,6 +45,18 @@ public static class OverworldTerrainGenerator {
         TerrainData terrainData = OverworldGenerator.instance.terrain.terrainData;
         terrainData.alphamapResolution = OverworldGenerator.instance.mapSize;
         float[,,] splatmapData = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, terrainData.alphamapLayers];
+        yield return OverworldGenerator.instance.StartCoroutine(SetNewHighest(terrainData));
+        for (int y = 0; y < terrainData.alphamapHeight; y++) {
+            for (int x = 0; x < terrainData.alphamapWidth; x++) GenerateSplatMapPoint(x, y, terrainData, splatmapData);
+            if (y % 200 == 0) {
+                OverworldGenerator.instance.UpdateProgress(4, 0.5f + ((float)y / terrainData.heightmapResolution / 2f));
+                yield return null;
+            }
+        }
+        terrainData.SetAlphamaps(0, 0, splatmapData);
+    }
+
+    private static IEnumerator SetNewHighest(TerrainData terrainData) {
         OverworldGenerator.instance.newHighest = 0;
         for (int y = 0; y < terrainData.heightmapResolution; y++) {
             for (int x = 0; x < terrainData.heightmapResolution; x++) {
@@ -56,31 +68,25 @@ public static class OverworldTerrainGenerator {
                 yield return null;
             }
         }
-        for (int y = 0; y < terrainData.alphamapHeight; y++) {
-            for (int x = 0; x < terrainData.alphamapWidth; x++) {
-                float y_01 = y / (float)terrainData.alphamapHeight;
-                float x_01 = x / (float)terrainData.alphamapWidth;
-                float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapResolution), Mathf.RoundToInt(x_01 * terrainData.heightmapResolution));
-                //Vector3 normal = terrainData.GetInterpolatedNormal(y_01, x_01);
-                //float steepness = terrainData.GetSteepness(y_01, x_01);
+    }
 
-                float[] splatWeights = new float[terrainData.alphamapLayers];
-                if (height / OverworldGenerator.instance.newHighest > (1 - perlinMountainProportion)) splatWeights[1] = 1f;
-                else if (height == 0) splatWeights[2] = 1f;
-                else splatWeights[0] = 1f;
+    private static void GenerateSplatMapPoint(int x, int y, TerrainData terrainData, float[,,] splatmapData) {
+        float y_01 = y / (float)terrainData.alphamapHeight;
+        float x_01 = x / (float)terrainData.alphamapWidth;
+        float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapResolution), Mathf.RoundToInt(x_01 * terrainData.heightmapResolution));
+        //Vector3 normal = terrainData.GetInterpolatedNormal(y_01, x_01);
+        //float steepness = terrainData.GetSteepness(y_01, x_01);
 
-                float z = splatWeights.Sum();
-                for (int i = 0; i < terrainData.alphamapLayers; i++) {
-                    splatWeights[i] /= z;
-                    splatmapData[x, y, i] = splatWeights[i];
-                }
-            }
-            if (y % 200 == 0) {
-                OverworldGenerator.instance.UpdateProgress(4, 0.5f + ((float)y / terrainData.heightmapResolution / 2f));
-                yield return null;
-            }
+        float[] splatWeights = new float[terrainData.alphamapLayers];
+        if (height / OverworldGenerator.instance.newHighest > (1 - perlinMountainProportion)) splatWeights[1] = 1f;
+        else if (height == 0) splatWeights[2] = 1f;
+        else splatWeights[0] = 1f;
+
+        float z = splatWeights.Sum();
+        for (int i = 0; i < terrainData.alphamapLayers; i++) {
+            splatWeights[i] /= z;
+            splatmapData[x, y, i] = splatWeights[i];
         }
-        terrainData.SetAlphamaps(0, 0, splatmapData);
     }
 
     private static IEnumerator GenerateDetails() {

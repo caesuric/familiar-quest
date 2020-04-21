@@ -17,7 +17,6 @@ public static class OverworldEncounterGenerator {
     };
     private static List<GameObject> monsterPrefabs = new List<GameObject>();
 
-    // Use this for initialization
     static OverworldEncounterGenerator() {
         var monsterList = Resources.LoadAll("Prefabs/Monsters");
         foreach (var monster in monsterList) monsterPrefabs.Add((GameObject)monster);
@@ -42,20 +41,22 @@ public static class OverworldEncounterGenerator {
         var baseLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
         var minLevel = Mathf.Max(baseLevel - 6, 1);
         var maxLevel = Mathf.Max(baseLevel - 3, 1);
-        for (int i = 0; i < numMobs; i++) {
-            var xRoll = RNG.Float(position.x - 3, position.x + 3);
-            var yRoll = RNG.Float(position.z - 3, position.z + 3);
-            var typeRoll = RNG.Int(0, monsterTypes.Count);
-            var name = monsterTypes[typeRoll];
-            int qualityRoll = RNG.Int(0, 100);
-            int quality = 0;
-            if (qualityRoll < 50) quality = 0;
-            else if (qualityRoll < 80) quality = 1;
-            else if (qualityRoll < 95) quality = 2;
-            else quality = 3;
-            var data = new MonsterData(name, name, RNG.Int(minLevel, maxLevel + 1), quality, null);
-            InstantiateMonster(data, xRoll, yRoll);
-        }
+        for (int i = 0; i < numMobs; i++) AddMonster(position, minLevel, maxLevel);
+    }
+
+    private static void AddMonster(Vector3 position, int minLevel, int maxLevel) {
+        var xRoll = RNG.Float(position.x - 3, position.x + 3);
+        var yRoll = RNG.Float(position.z - 3, position.z + 3);
+        var typeRoll = RNG.Int(0, monsterTypes.Count);
+        var name = monsterTypes[typeRoll];
+        int qualityRoll = RNG.Int(0, 100);
+        int quality = 0;
+        if (qualityRoll < 50) quality = 0;
+        else if (qualityRoll < 80) quality = 1;
+        else if (qualityRoll < 95) quality = 2;
+        else quality = 3;
+        var data = new MonsterData(name, name, RNG.Int(minLevel, maxLevel + 1), quality, null);
+        InstantiateMonster(data, xRoll, yRoll);
     }
 
     private static List<string> GetMonsterTypesForEncounter() {
@@ -88,7 +89,6 @@ public static class OverworldEncounterGenerator {
 
     private static void SetupMonster(GameObject obj, int level, int quality, GameObject player) {
         var mob = obj.GetComponent<Monster>();
-        //mob.GetComponent<MonsterCombatant>().player = player;
         mob.GetComponent<MonsterScaler>().AdjustForLevel(level);
         mob.GetComponent<MonsterScaler>().quality = quality;
         mob.GetComponent<MonsterScaler>().numPlayers = 1;
