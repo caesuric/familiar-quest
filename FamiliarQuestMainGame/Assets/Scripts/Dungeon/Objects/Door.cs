@@ -39,7 +39,6 @@ public class Door : MonoBehaviour { // : Hideable
     private void OpenSecretDoor(GameObject other) {
         if (other == null) other = PlayerCharacter.localPlayer.gameObject;
         other.GetComponent<AudioGenerator>().PlaySoundByName("sfx_door_open1");
-        if (other.GetComponent<Mapper>() != null) other.GetComponent<Mapper>().CmdUpdateMap((int)((transform.position.x + 120) / 2), (int)((transform.position.z + 120) / 2), "{REMOVE}");
         //prune = true;
         Destroy(gameObject);
     }

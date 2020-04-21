@@ -1164,7 +1164,6 @@ GameObject:
   - component: {fileID: 136001898107747806}
   - component: {fileID: 114135266621770524}
   - component: {fileID: 114380988038712190}
-  - component: {fileID: 114458809727463648}
   - component: {fileID: 114365105011069400}
   - component: {fileID: 114991995516417200}
   - component: {fileID: 114604209106469104}
@@ -1259,7 +1258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babc48101b0bf1745b0db820f45ecd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   faction: 
   oppositeFaction: 
 --- !u!114 &114380988038712190
@@ -1296,19 +1294,6 @@ MonoBehaviour:
   gamepadMode: 0
   stealthEffect: {fileID: 11400000, guid: 4ef1941ede5b9cf4b8b3db8c0c149890, type: 2}
   normalEffect: {fileID: 11400000, guid: 4ef1941ede5b9cf4b8b3db8c0c149890, type: 2}
---- !u!114 &114458809727463648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350960040594250}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c628e256737c56445a0d3150976066d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blocks: []
 --- !u!114 &114365105011069400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1335,9 +1320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0cfd19a93ac9c44914f3ac855e6ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
+  teleportPrefab: {fileID: 0}
 --- !u!114 &114604209106469104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,7 +1335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1489dab94cde11a449fcaa40a09bbd51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   hasIsAttacking: 0
   hasIsMoving: 0
 --- !u!114 &114386697001126872
@@ -1365,7 +1349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91be57ec7fd133a4da18d8f3f344e507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   isAttacking: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
@@ -1384,7 +1367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29713b613afea1641be93cab9bca07cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114252469040078134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,7 +1379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f54648f7f7a1e4e91f22e3b4642027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114405830486648126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1431,9 +1412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704ab95294025d64f8451cc5bf12b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   hp: 0
   maxHP: 0
+  bossHpFactor: 1
 --- !u!114 &114214201417194594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1446,7 +1427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacdc68fc98c3264cbac83e4eb90b56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   mp: 0
   maxMP: 0
 --- !u!114 &114575585487534646
@@ -1461,7 +1441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71cebfd486fbb43b10b60092d26bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   floatingTextPrefab: {fileID: 1714799235639700, guid: 6e3bc5c104624ff46bb5f54c441db490,
     type: 3}
   previouslySecretDoor: {fileID: 1189017862350778, guid: 06165edcbc5d2804daa871062e7e8997,
@@ -1511,7 +1490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   resurrectionTimer: 0
 --- !u!114 &114499221152250364
 MonoBehaviour:
@@ -1525,7 +1503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5312f991bb255b64f90de4e518eed9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114051082505564152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,7 +1515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04043860f78acb14c9c803f5a7208b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   currentlySaving: 0
 --- !u!114 &114075219232774502
 MonoBehaviour:
@@ -1580,7 +1556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863a3ede5c536f740a0f8966878fa881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   levelUpEffect: {fileID: 352738685310017863, guid: 29fa3c7ea5e82f6468ad80dbda6054cf,
     type: 3}
   levelUpSound: {fileID: 8300000, guid: 35834d284085b684bb3412ac305b9639, type: 3}
@@ -1654,7 +1629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9822ffbaac7a264f9208dbcdb839c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   mp: 0
   maxMP: 0
   rangedObjNumber: 0
@@ -1676,7 +1650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08d4d60970a3069489baab999d9112e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   gold: 0
   target: 0
   iconCache: {fileID: 0}
