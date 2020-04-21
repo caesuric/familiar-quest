@@ -168,9 +168,10 @@ public class NetworkCharacterSyncer : MonoBehaviour
     }
 
     private void SetVisibility(NetworkCharacterSyncer syncer) {
-        if (syncer.type == NetworkCharacterSyncerType.player) syncer.worldState.IsVisible = true;
-        else if (Hider.instance.IsSeen(syncer.GetComponent<Hideable>())) syncer.worldState.IsVisible = true;
-        else syncer.worldState.IsVisible = false;
+        //if (syncer.type == NetworkCharacterSyncerType.player) syncer.worldState.IsVisible = true;
+        //else if (Hider.instance.IsSeen(syncer.GetComponent<Hideable>())) syncer.worldState.IsVisible = true;
+        //else syncer.worldState.IsVisible = false;
+        syncer.worldState.IsVisible = true; // temp for now until I add a way to cull things hidden by walls
     }
 
     private void SetHealthAndStatus(NetworkCharacterSyncer syncer) {

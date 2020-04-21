@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 
-public class Fountain : Hideable {
+public class Fountain : MonoBehaviour {
 
     private bool fountainUsed = false;
-    // Use this for initialization
-    void Start() {
-        items.Add(this);
-    }
 
     public void Use() {
         //if (!NetworkServer.active) return;

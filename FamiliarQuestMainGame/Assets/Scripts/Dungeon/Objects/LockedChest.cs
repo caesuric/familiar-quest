@@ -1,19 +1,14 @@
 ﻿using UnityEngine;
 
-public class LockedChest : Hideable {
+public class LockedChest : MonoBehaviour {
 
     public GameObject floatingText;
     public float hp = 30;
-    // Use this for initialization
-    void Start() {
-        items.Add(this);
-    }
 
     public void Unlock(GameObject unlocker) {
         if (hp > 0) unlocker.GetComponent<AudioGenerator>().PlaySoundByName("sfx_unlock2");
         //if (!NetworkServer.active) return;
         GetComponent<UsableObject>().hide = false;
-        items.Remove(this);
         Destroy(this);
     }
 
