@@ -37,7 +37,7 @@ public class LoadingProgressBar : MonoBehaviour
             text.text = "Loading Scene...";
         }
         else if (isLoading) {
-            progressBar.Value = OverworldTerrainGenerator.instance.progress * 100f;
+            progressBar.Value = OverworldGenerator.instance.progress * 100f;
         }
         if (isLoading && loadingPhase == 0 && lastPhase == 0 && ao.progress == 1f) EndLoad();
     }

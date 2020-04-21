@@ -22,10 +22,10 @@ public class SavedWorld {
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
         foreach (var item in PlayerCharacter.localPlayer.inventory.items) obj.inventory.Add(SavedItem.ConvertFrom(item));
         obj.name = worldAutoSaver.worldName;
-        if (OverworldTerrainGenerator.instance != null) {
+        if (OverworldGenerator.instance != null) {
             obj.savedOverworld = true;
-            obj.elevation = OverworldTerrainGenerator.instance.elevation;
-            foreach (var landmark in OverworldTerrainGenerator.instance.landmarks) {
+            obj.elevation = OverworldGenerator.instance.elevation;
+            foreach (var landmark in OverworldLandmarkGenerator.landmarks) {
                 if (landmark.type == "base") obj.baseCoords = SavedVector2.ConvertFrom(landmark.position);
                 else if (landmark.type == "dungeon") obj.dungeonCoords.Add(SavedVector2.ConvertFrom(landmark.position));
             }
@@ -38,11 +38,11 @@ public class SavedWorld {
         foreach (var item in inventory) if (item!=null) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
         worldAutoSaver.worldName = name;
         if (savedOverworld) {
-            OverworldTerrainGenerator.loadedPreviouslyMadeWorld = true;
-            OverworldTerrainGenerator.loadedElevation = elevation;
-            OverworldTerrainGenerator.loadedBaseCoords = baseCoords.ConvertTo();
-            OverworldTerrainGenerator.loadedDungeonCoords = new List<Vector2>();
-            foreach (var coord in dungeonCoords) OverworldTerrainGenerator.loadedDungeonCoords.Add(coord.ConvertTo());
+            OverworldGenerator.loadedPreviouslyMadeWorld = true;
+            OverworldGenerator.loadedElevation = elevation;
+            OverworldGenerator.loadedBaseCoords = baseCoords.ConvertTo();
+            OverworldGenerator.loadedDungeonCoords = new List<Vector2>();
+            foreach (var coord in dungeonCoords) OverworldGenerator.loadedDungeonCoords.Add(coord.ConvertTo());
         }
     }
 }

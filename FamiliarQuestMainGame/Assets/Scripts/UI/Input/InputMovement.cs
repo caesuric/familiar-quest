@@ -107,10 +107,10 @@ public class InputMovement {
     }
 
     private static bool MovingOntoWater(float x, float y) {
-        if (SceneInitializer.instance.inside || OverworldTerrainGenerator.instance == null) return false;
+        if (SceneInitializer.instance.inside || OverworldGenerator.instance == null) return false;
         var newPosition = controller.transform.position + new Vector3(x, 0, y).normalized * 2f;
         if (newPosition.x < 0 || newPosition.x >= 1024 || newPosition.y < 0 || newPosition.y >= 1024) return true;
-        var height = OverworldTerrainGenerator.instance.terrain.SampleHeight(newPosition);
+        var height = OverworldGenerator.instance.terrain.SampleHeight(newPosition);
         if (height == 0) return true;
         return false;
     }
