@@ -266,8 +266,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GenerateNonCooldownAbility() {
         AttackAbility ability = null;
         while (ability == null || ability.cooldown > 0 || WrongStat(ability)) {
-            var element = Spirit.RandomElement();
-            ability = AttackAbility.Generate(new List<Element> { element });
+            ability = AttackAbilityTable.Retrieve();
         }
         attackAbilities1.Add(ability);
     }
@@ -275,8 +274,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GenerateCooldownAbility() {
         AttackAbility ability = null;
         while (ability == null || ability.cooldown == 0 || WrongStat(ability)) {
-            var element = Spirit.RandomElement();
-            ability = AttackAbility.Generate(new List<Element> { element });
+            ability = AttackAbilityTable.Retrieve();
         }
         attackAbilities2.Add(ability);
     }
@@ -285,7 +283,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         UtilityAbility ability = null;
         while (ability == null) {
             var element = Spirit.RandomElement();
-            ability = UtilityAbility.Generate(new List<Element> { element }, 80f);
+            ability = UtilityAbilityTable.Retrieve(80f);
         }
         utilityAbilities.Add(ability);
     }

@@ -77,7 +77,7 @@ public class FusionDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler,
 
     public void FusionSettingsUpdated() {
         if (abilityMenu.fusionSource1 == null || abilityMenu.fusionSource2 == null) return;
-        var newAbility = ActiveAbility.Fuse(abilityMenu.fusionSource1, abilityMenu.fusionSource2);
+        var newAbility = AbilityFusion.Fuse(abilityMenu.fusionSource1, abilityMenu.fusionSource2);
         fusionDestination.Initialize(newAbility);
         abilityMenu.fusionResult = newAbility;
     }

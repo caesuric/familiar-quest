@@ -131,7 +131,6 @@ public class AbilityMenu : MonoBehaviour {
         fusionSourceObj1.draggable = false;
         fusionSourceObj2.draggable = false;
         fusionResultObj.draggable = false;
-        UpdateEnhancementResult();
         enhancedAbilityObj.Initialize(enhancedAbility);
     }
 
@@ -428,16 +427,6 @@ public class AbilityMenu : MonoBehaviour {
             }
             go.GetComponent<DustItem>().Initialize(dust);
         }
-    }
-
-    public void UpdateEnhancementResult() {
-        if (abilityToEnhance == null) return;
-        enhancedAbility = abilityToEnhance.Copy();
-        ApplyEnhancements();
-    }
-
-    public void ApplyEnhancements() {
-        if (enhancedAbility is ActiveAbility) ActiveAbility.Enhance((ActiveAbility)enhancedAbility, dustToUse);
     }
 
     public void Enhance() {

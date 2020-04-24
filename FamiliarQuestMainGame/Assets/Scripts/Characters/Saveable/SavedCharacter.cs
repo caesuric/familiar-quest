@@ -723,7 +723,7 @@ public class SavedActiveAbility : SavedAbility
     public virtual ActiveAbility ConvertTo()
     {
         if (this is SavedAttackAbility) return ((SavedAttackAbility)this).ConvertTo();
-        var obj = new UtilityAbility {
+        var obj = new UtilityAbility(name, description) {
             targetType = targetType,
             icon = icon,
             cooldown = cooldown,
@@ -732,8 +732,6 @@ public class SavedActiveAbility : SavedAbility
         if (baseMpUsage == 0) baseMpUsage = mpUsage;
         obj.baseMpUsage = baseMpUsage;
         obj.radius = radius;
-        obj.name = name;
-        obj.description = description;
         obj.baseStat = baseStat;
         if (points == 0) points = 70;
         obj.points = points;

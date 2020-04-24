@@ -7,7 +7,6 @@ public class Spirit {
     public List<PassiveAbility> passiveAbilities = new List<PassiveAbility>();
     public List<ElementalAffinity> elements = new List<ElementalAffinity>();
     public List<Element> types = new List<Element>();
-    public static Dictionary<string, Spirit> classDefaults = new Dictionary<string, Spirit>();
     public string name;
     public string description = "";
     public static List<string> nameList = new List<string>();
@@ -17,7 +16,6 @@ public class Spirit {
     public static void Initialize() {
         initialized = true;
         var data = TextReader.ReadItems("ClassList");
-        foreach (var item in data) classDefaults.Add(item, new Spirit(ActiveAbility.classDefaults[item], thief: item=="thief"));
         data = TextReader.ReadItems("SpiritNames");
         foreach (var item in data) nameList.Add(item);
         var data2 = TextReader.ReadSets("PassiveAbilityDescriptions");

@@ -44,7 +44,7 @@ public class ClassSelectMenu : MonoBehaviour {
     // Use this for initialization
     void Start() {
         spirit = new Spirit(1);
-        spirit = Spirit.classDefaults["thief"];
+        //spirit = Spirit.classDefaults["thief"];
         classDescriptions.Clear();
         classStats.Clear();
         classWeapon.Clear();
@@ -74,7 +74,7 @@ public class ClassSelectMenu : MonoBehaviour {
         wisdom = classStats[type][4];
         luck = classStats[type][5];
         weapon = classWeapon[type];
-        spirit = Spirit.classDefaults[type];
+        //spirit = Spirit.classDefaults[type];
         selectedClass = type;
     }
 
