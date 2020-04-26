@@ -120,8 +120,6 @@ World                   -   World related scripts (like the World Auto Saver)
 
 ## Known Issues
 
-* Procedural boss fights are disabled at the moment until I integrate them with the new AI infrastructure
-* Similarly, bosses no longer spawn exit portals or guaranteed loot drops
 * Multiplayer is disabled temporarily until the system is finished
 * Dungeon generation is fairly stripped down at this moment pending some serious thought about how I want it to work
 * Abilities cannot be fused to create new abilities at the moment, as the interface for this is not yet integrated into the new UI
