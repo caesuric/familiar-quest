@@ -6,6 +6,7 @@ public class DungeonEntrance : MonoBehaviour {
     bool onWayDown = false;
     AutoSaver saveBlocker = null;
     public int dungeonLevel = 1;
+    public OverworldDungeon dungeonData = null;
     public bool used = false;
 
     // Update is called once per frame
@@ -25,6 +26,7 @@ public class DungeonEntrance : MonoBehaviour {
         SceneInitializer.instance.inside = true;
         LevelGen.targetLevel = dungeonLevel;
         LevelGen.settingLevel = true;
+        LevelGen.dungeonData = dungeonData;
         otherPlayerCharacter.GetComponent<AutoSaver>().SaveCharacter();
         saveBlocker = otherPlayerCharacter.GetComponent<AutoSaver>();
         otherPlayerCharacter.litArea = true;

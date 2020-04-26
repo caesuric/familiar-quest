@@ -11,6 +11,7 @@ public static class OverworldLandmarkGenerator {
             else if (landmark.type == "dungeon") {
                 var obj = Object.Instantiate(OverworldGenerator.instance.dungeonPrefab, new Vector3(landmark.position.x, 24, landmark.position.y), new Quaternion());
                 obj.GetComponent<DungeonEntrance>().dungeonLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
+                obj.GetComponent<DungeonEntrance>().dungeonData = (OverworldDungeon)landmark;
             }
         }
     }
@@ -64,7 +65,7 @@ public static class OverworldLandmarkGenerator {
     private static IEnumerator AddDungeons(int number) {
         for (int i = 0; i < number; i++) {
             var position = OverworldPathfinding.GetValidRandomPosition();
-            landmarks.Add(new OverworldLandmark() {
+            landmarks.Add(new OverworldDungeon() {
                 position = new Vector2(position.x, position.z),
                 type = "dungeon"
             });

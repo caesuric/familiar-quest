@@ -57,8 +57,8 @@ public class TreasureVault : Vault {
     private static List<float> nishikadoBaseDifficultyLookup = new List<float>();
     private static List<float> nishikadoEncounterDifficultyLookup = new List<float>();
     private static List<GameObject> monsterPrefabs = new List<GameObject>();
-    List<VaultPath> paths = new List<VaultPath>();
-    List<string> encounterThemes = new List<string>();
+    public List<VaultPath> paths = new List<VaultPath>();
+    public List<string> encounterThemes = new List<string>();
 
     static TreasureVault() {
         float baseDifficulty = 3f;

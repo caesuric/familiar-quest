@@ -10,6 +10,7 @@ public class SocialNode {
     public Dictionary<string, float> typeMix = new Dictionary<string, float>();
     public int actualPopulation = 0;
     public int id;
+    public string uuid = System.Guid.NewGuid().ToString();
 
     public SocialNode(List<string> builders, bool differentType, SocialNode lord) {
         if (lord == null) GenerateBoss(builders, differentType);

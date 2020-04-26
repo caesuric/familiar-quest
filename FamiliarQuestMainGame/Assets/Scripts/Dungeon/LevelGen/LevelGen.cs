@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class LevelGen : MonoBehaviour {
 
+    public static OverworldDungeon dungeonData = null;
     public string levelName;
     public GameObject dungeonPrefab;
     public GameObject dungeonInstance;
@@ -77,7 +78,8 @@ public class LevelGen : MonoBehaviour {
         resettled = false; // TEMP FOR TESTING
 
         if (dungeonType.settingType == DungeonSetting.INCIDENTAL) resettled = true;
-        GenerateDungeonLayout();
+        if (dungeonData == null || !dungeonData.entered) GenerateDungeonLayout();
+        else GenerateLoadedDungeonLayout();
 
         //TEMP TO VARY MUSIC UNTIL FULL LEVEL GEN IS FINISHED
         var types = new List<string>() {
@@ -274,6 +276,15 @@ public class LevelGen : MonoBehaviour {
         foreach (var socialStruture in socialStructures) Debug.Log(socialStruture.Print());
         //Debug.Log(layout.PrintGrid());
         for (int i = 0; i < layout.numFloors; i++) seeds.Add(Random.Range(int.MinValue, int.MaxValue));
+        if (dungeonData != null) {
+            dungeonData.entered = true;
+            dungeonData.dungeonData = vaultLayout;
+        }
+        InstantiateVaultDungeonLayout();
+    }
+
+    private void GenerateLoadedDungeonLayout() {
+        layout = dungeonData.dungeonData;
         InstantiateVaultDungeonLayout();
     }
 

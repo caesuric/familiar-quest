@@ -22,11 +22,8 @@ public static class OverworldLoader {
     }
 
     private static void LoadDungeons() {
-        foreach (var dungeonPosition in OverworldGenerator.loadedDungeonCoords) {
-            OverworldLandmarkGenerator.landmarks.Add(new OverworldLandmark() {
-                type = "dungeon",
-                position = dungeonPosition
-            });
+        foreach (var dungeon in OverworldGenerator.loadedDungeons) {
+            OverworldLandmarkGenerator.landmarks.Add(dungeon);
         }
     }
 

@@ -9,7 +9,7 @@ public class OverworldGenerator : MonoBehaviour {
     public static bool loadedPreviouslyMadeWorld = false;
     public static float[,] loadedElevation;
     public static Vector2 loadedBaseCoords;
-    public static List<Vector2> loadedDungeonCoords;
+    public static List<OverworldDungeon> loadedDungeons;
 
     public float[,] elevation;
     public int mapSize = 257; //129
@@ -57,6 +57,7 @@ public class OverworldGenerator : MonoBehaviour {
         else yield return StartCoroutine(OverworldLandmarkGenerator.Generate());
         SetStartGameCharacterPosition();
         GetComponent<NavMeshSurface>().BuildNavMesh();
+        yield return StartCoroutine(OverworldEncounterGenerator.Generate());
         Camera.main.GetComponent<Desaturate>().enabled = false;
         LoadingProgressBar.EndLoad();
     }

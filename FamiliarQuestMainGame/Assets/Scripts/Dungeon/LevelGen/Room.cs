@@ -11,6 +11,7 @@ public abstract class Room {
     public int ySize;
     public List<Vector3> entrances = new List<Vector3>();
     public List<Vector2> dressingLocations = new List<Vector2>();
+    public string uuid = System.Guid.NewGuid().ToString();
 
     public void SetEntrance(int x, int y, int direction) {
         x = ClampEntranceX(x);
