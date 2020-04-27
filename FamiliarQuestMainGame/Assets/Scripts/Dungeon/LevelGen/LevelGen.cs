@@ -279,12 +279,21 @@ public class LevelGen : MonoBehaviour {
         if (dungeonData != null) {
             dungeonData.entered = true;
             dungeonData.dungeonData = vaultLayout;
+            dungeonData.seeds = seeds;
+            SavedWorld.OverwriteDungeonData(dungeonData);
         }
         InstantiateVaultDungeonLayout();
     }
 
     private void GenerateLoadedDungeonLayout() {
+        Debug.Log("hit2");
+        dungeonInstance = Instantiate(dungeonPrefab);
+        navMeshSurface = dungeonInstance.GetComponentInChildren<NavMeshSurface>();
         layout = dungeonData.dungeonData;
+        var obj = Instantiate(darkRuinsLighting);
+        obj.transform.parent = dungeonInstance.transform;
+        seeds = dungeonData.seeds;
+        floor = 0;
         InstantiateVaultDungeonLayout();
     }
 

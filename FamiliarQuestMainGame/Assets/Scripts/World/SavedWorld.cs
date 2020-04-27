@@ -43,7 +43,7 @@ public class SavedWorld {
 
     public void ConvertTo(GameObject go) {
         var worldAutoSaver = go.GetComponent<WorldAutoSaver>();
-        foreach (var item in inventory) if (item!=null) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
+        foreach (var item in inventory) if (item != null) PlayerCharacter.localPlayer.inventory.items.Add(item.ConvertTo());
         worldAutoSaver.worldName = name;
         if (savedOverworld) {
             OverworldGenerator.loadedPreviouslyMadeWorld = true;
@@ -51,6 +51,18 @@ public class SavedWorld {
             OverworldGenerator.loadedBaseCoords = baseCoords.ConvertTo();
             OverworldGenerator.loadedDungeons = new List<OverworldDungeon>();
             foreach (var dungeon in dungeons) OverworldGenerator.loadedDungeons.Add(dungeon.ConvertTo());
+        }
+    }
+
+    public static void OverwriteDungeonData(OverworldDungeon dungeonData) {
+        if (lastSavedWorld == null) return;
+        for (int i = 0; i < lastSavedWorld.dungeons.Count; i++) {
+            var dungeon = lastSavedWorld.dungeons[i];
+            if (dungeon.uuid == dungeonData.uuid) {
+                Debug.Log("hit1");
+                lastSavedWorld.dungeons[i] = SavedDungeon.ConvertFrom(dungeonData);
+                break;
+            }
         }
     }
 }
@@ -67,10 +79,13 @@ public class SavedDungeon {
     public List<SavedMonsterData> monsters = new List<SavedMonsterData>();
     public List<SavedVaultPath> paths = new List<SavedVaultPath>();
     public List<string> encounterThemes = new List<string>();
+    public List<int> seeds = new List<int>();
+    public string uuid = null;
 
     public static SavedDungeon ConvertFrom(OverworldDungeon dungeon) {
         if (dungeon.dungeonData == null) return new SavedDungeon() {
             location = SavedVector2.ConvertFrom(dungeon.position),
+            uuid = dungeon.uuid
         };
         var output = new SavedDungeon {
             entered = true,
@@ -79,7 +94,9 @@ public class SavedDungeon {
             grid = dungeon.dungeonData.grid,
             maxSocialTier = dungeon.dungeonData.maxSocialTier,
             maxDimensions = dungeon.dungeonData.maxDimensions,
-            encounterThemes = dungeon.dungeonData.encounterThemes
+            encounterThemes = dungeon.dungeonData.encounterThemes,
+            seeds = dungeon.seeds,
+            uuid = dungeon.uuid
         };
         foreach (var room in dungeon.dungeonData.rooms) output.rooms.Add(SavedRoom.ConvertFrom(room));
         foreach (var monster in dungeon.dungeonData.monsters) output.monsters.Add(SavedMonsterData.ConvertFrom(monster));
@@ -97,7 +114,10 @@ public class SavedDungeon {
                 encounterThemes = encounterThemes
             },
             position = location.ConvertTo(),
-            type = "dungeon"
+            type = "dungeon",
+            entered = entered,
+            seeds = seeds,
+            uuid = uuid
         };
         foreach (var room in rooms) output.dungeonData.rooms.Add(room.ConvertTo());
         foreach (var monster in monsters) output.dungeonData.monsters.Add(monster.ConvertTo(output.dungeonData.rooms, output.dungeonData.monsters));
@@ -210,7 +230,9 @@ public class SavedMonsterData {
     }
 
     public MonsterData ConvertTo(List<Room> rooms, List<MonsterData> monsterData) {
-        var output = new MonsterData(generalType, specificType, level, quality, node.ConvertTo(monsterData));
+        MonsterData output;
+        if (node != null) output = new MonsterData(generalType, specificType, level, quality, node.ConvertTo(monsterData));
+        else output = new MonsterData(generalType, specificType, level, quality, null);
         foreach (var id in associatedRoomIds) {
             foreach (var room in rooms) {
                 if (room.uuid==id) {
@@ -258,6 +280,7 @@ public class SavedSocialNode {
     public int id;
 
     public static SavedSocialNode ConvertFrom(SocialNode node) {
+        if (node == null) return null;
         var output = new SavedSocialNode {
             uuid = node.uuid,
             actualPopulation = node.actualPopulation,

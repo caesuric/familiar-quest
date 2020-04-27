@@ -65,12 +65,13 @@ public static class OverworldLandmarkGenerator {
     private static IEnumerator AddDungeons(int number) {
         for (int i = 0; i < number; i++) {
             var position = OverworldPathfinding.GetValidRandomPosition();
-            landmarks.Add(new OverworldDungeon() {
-                position = new Vector2(position.x, position.z),
-                type = "dungeon"
-            });
+            var owd = new OverworldDungeon() {
+                position = new Vector2(position.x, position.z)
+            };
+            landmarks.Add(owd);
             var obj = Object.Instantiate(OverworldGenerator.instance.dungeonPrefab, position, new Quaternion());
             obj.GetComponent<DungeonEntrance>().dungeonLevel = PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level;
+            obj.GetComponent<DungeonEntrance>().dungeonData = owd;
             OverworldGenerator.instance.UpdateProgress(11, (float)i / number);
             yield return null;
         }
