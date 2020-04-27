@@ -59,7 +59,6 @@ public class SavedWorld {
         for (int i = 0; i < lastSavedWorld.dungeons.Count; i++) {
             var dungeon = lastSavedWorld.dungeons[i];
             if (dungeon.uuid == dungeonData.uuid) {
-                Debug.Log("hit1");
                 lastSavedWorld.dungeons[i] = SavedDungeon.ConvertFrom(dungeonData);
                 break;
             }

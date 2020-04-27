@@ -286,7 +286,6 @@ public class LevelGen : MonoBehaviour {
     }
 
     private void GenerateLoadedDungeonLayout() {
-        Debug.Log("hit2");
         dungeonInstance = Instantiate(dungeonPrefab);
         navMeshSurface = dungeonInstance.GetComponentInChildren<NavMeshSurface>();
         layout = dungeonData.dungeonData;
