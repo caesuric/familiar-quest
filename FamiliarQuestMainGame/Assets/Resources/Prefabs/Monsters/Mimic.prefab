@@ -5149,7 +5149,6 @@ GameObject:
   - component: {fileID: 136471762266956608}
   - component: {fileID: 114029236560640678}
   - component: {fileID: 114107988751916142}
-  - component: {fileID: 114640841580775358}
   - component: {fileID: 114629034741611576}
   - component: {fileID: 114627837472845260}
   - component: {fileID: 114381244286192800}
@@ -5270,7 +5269,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babc48101b0bf1745b0db820f45ecd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   faction: 
   oppositeFaction: 
 --- !u!114 &114670496914720284
@@ -5334,20 +5332,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1875263175830132, guid: b5f6107f2cbb6e9409215206b7089cff,
     type: 3}
---- !u!114 &114640841580775358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495306315053610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bfa8da38e221584888873a913251477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prune: 0
-  isSecret: 0
 --- !u!114 &114629034741611576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5360,7 +5344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0cfd19a93ac9c44914f3ac855e6ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
@@ -5376,7 +5359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1489dab94cde11a449fcaa40a09bbd51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   hasIsAttacking: 0
   hasIsMoving: 0
 --- !u!114 &114381244286192800
@@ -5391,7 +5373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91be57ec7fd133a4da18d8f3f344e507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   isAttacking: 0
   meleeAttackDamage: 0
   invisibleHealingZonePrefab: {fileID: 0}
@@ -5410,7 +5391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29713b613afea1641be93cab9bca07cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114381276001706378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5423,7 +5403,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f54648f7f7a1e4e91f22e3b4642027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114681382376369860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5457,7 +5436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704ab95294025d64f8451cc5bf12b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   hp: 0
   maxHP: 0
   bossHpFactor: 1
@@ -5473,7 +5451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacdc68fc98c3264cbac83e4eb90b56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   mp: 0
   maxMP: 0
 --- !u!114 &114562284303471690
@@ -5488,7 +5465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71cebfd486fbb43b10b60092d26bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   floatingTextPrefab: {fileID: 1714799235639700, guid: 6e3bc5c104624ff46bb5f54c441db490,
     type: 3}
   previouslySecretDoor: {fileID: 1189017862350778, guid: 06165edcbc5d2804daa871062e7e8997,
@@ -5538,7 +5514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
   resurrectionTimer: 0
 --- !u!114 &114118020785444784
 MonoBehaviour:
@@ -5552,7 +5527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5312f991bb255b64f90de4e518eed9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dependencies: []
 --- !u!114 &114141903211991780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5592,10 +5566,10 @@ MonoBehaviour:
   killer: {fileID: 0}
   diedToPlayer: 1
   fadeOutIntensity: 0
-  fading: 0
   shader: {fileID: 4800000, guid: c45daa60fef208c40a69be919f0bdb8f, type: 3}
   texture: {fileID: 2800000, guid: daeb6fc5a652c76438a9b98ea7b3039e, type: 3}
   gradientTexture: {fileID: 2800000, guid: c1fae007f2fca5140a067a645e305ac5, type: 3}
+  fadeOutTime: 5
 --- !u!114 &114724218281292096
 MonoBehaviour:
   m_ObjectHideFlags: 0

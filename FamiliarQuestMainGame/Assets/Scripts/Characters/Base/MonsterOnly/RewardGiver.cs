@@ -78,23 +78,8 @@ public class RewardGiver : MonoBehaviour {
         var statAdjusted3 = (int)statPreAdjusted3;
         int armor = Random.Range(67 + (14 * intendedLevel), 135 + (29 * intendedLevel));
         Equipment item = null;
-        int roll = Random.Range(0, 12);
-        var c = attacker.GetComponent<Character>();
-        var strength = CharacterAttribute.attributes["strength"].instances[c].TotalValue;
-        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].TotalValue;
-        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].TotalValue;
-        if (roll == 1) item = DropArmor(attacker, armor);
-        else if (roll == 2 && quality > 0) item = DropNecklace(attacker);
-        else if (roll == 3 && quality > 0) item = DropBelt(attacker);
-        else if (roll == 4 && quality > 0) item = DropCloak(attacker);
-        else if (roll == 5 && quality > 0) item = DropEarring(attacker);
-        else if (roll == 6) item = DropHat(attacker, armor);
-        else if (roll == 7) item = DropShoes(attacker, armor);
-        else if (roll > 7 && quality > 0) item = DropBracelet(attacker);
-        else if (roll == 0 && intelligence >= dexterity && intelligence >= strength) item = DropWand(attacker);
-        else if (roll == 0 && dexterity >= intelligence && dexterity >= strength) item = DropBow(attacker);
-        else if (roll == 0 && strength >= dexterity && strength >= intelligence) item = DropSword(attacker);
-        else return;
+        if (SceneInitializer.instance != null && SceneInitializer.instance.inside && LevelGen.dungeonData != null) item = DropItemForLootAffinities(attacker, armor, quality);
+        else item = DropItemDefault(attacker, armor, quality);
         if (statAdjusted1 > 0) BuffRandomStat(item, statAdjusted1);
         if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
@@ -149,6 +134,57 @@ public class RewardGiver : MonoBehaviour {
             DropsArea.AddItemDrop(item);
             StartCoroutine(pc.inventory.RefreshInABit());
         }
+    }
+
+    private Equipment DropItemForLootAffinities(Character attacker, int armor, int quality) {
+        try {
+            var slotAffinities = LevelGen.dungeonData.dungeonData.lootSlotAffinities;
+            if (GetComponent<Boss>() != null) slotAffinities = LevelGen.dungeonData.dungeonData.bossLootSlotAffinities;
+            Equipment item = null;
+            int roll = Random.Range(0, 9);
+            var c = attacker.GetComponent<Character>();
+            var strength = CharacterAttribute.attributes["strength"].instances[c].TotalValue;
+            var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].TotalValue;
+            var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].TotalValue;
+            if (roll == 1 && slotAffinities.Contains("armor")) item = DropArmor(attacker, armor);
+            else if (roll == 2 && quality > 0 && slotAffinities.Contains("necklace")) item = DropNecklace(attacker);
+            else if (roll == 3 && quality > 0 && slotAffinities.Contains("belt")) item = DropBelt(attacker);
+            else if (roll == 4 && quality > 0 && slotAffinities.Contains("cloak")) item = DropCloak(attacker);
+            else if (roll == 5 && quality > 0 && slotAffinities.Contains("earring")) item = DropEarring(attacker);
+            else if (roll == 6 && slotAffinities.Contains("hat")) item = DropHat(attacker, armor);
+            else if (roll == 7 && slotAffinities.Contains("shoes")) item = DropShoes(attacker, armor);
+            else if (roll == 8 && quality > 0 && slotAffinities.Contains("bracelet")) item = DropBracelet(attacker);
+            else if (roll == 0 && intelligence >= dexterity && intelligence >= strength && slotAffinities.Contains("weapon")) item = DropWand(attacker);
+            else if (roll == 0 && dexterity >= intelligence && dexterity >= strength && slotAffinities.Contains("weapon")) item = DropBow(attacker);
+            else if (roll == 0 && strength >= dexterity && strength >= intelligence && slotAffinities.Contains("weapon")) item = DropSword(attacker);
+            else return DropItemForLootAffinities(attacker, armor, quality);
+            return item;
+        }
+        catch {
+            return DropItemDefault(attacker, armor, quality);
+        }
+    }
+
+    private Equipment DropItemDefault(Character attacker, int armor, int quality) {
+        Equipment item = null;
+        int roll = Random.Range(0, 12);
+        var c = attacker.GetComponent<Character>();
+        var strength = CharacterAttribute.attributes["strength"].instances[c].TotalValue;
+        var dexterity = CharacterAttribute.attributes["dexterity"].instances[c].TotalValue;
+        var intelligence = CharacterAttribute.attributes["intelligence"].instances[c].TotalValue;
+        if (roll == 1) item = DropArmor(attacker, armor);
+        else if (roll == 2 && quality > 0) item = DropNecklace(attacker);
+        else if (roll == 3 && quality > 0) item = DropBelt(attacker);
+        else if (roll == 4 && quality > 0) item = DropCloak(attacker);
+        else if (roll == 5 && quality > 0) item = DropEarring(attacker);
+        else if (roll == 6) item = DropHat(attacker, armor);
+        else if (roll == 7) item = DropShoes(attacker, armor);
+        else if (roll > 7 && quality > 0) item = DropBracelet(attacker);
+        else if (roll == 0 && intelligence >= dexterity && intelligence >= strength) item = DropWand(attacker);
+        else if (roll == 0 && dexterity >= intelligence && dexterity >= strength) item = DropBow(attacker);
+        else if (roll == 0 && strength >= dexterity && strength >= intelligence) item = DropSword(attacker);
+        else return null;
+        return item;
     }
 
     private void EquipBraceletIfPossible(Equipment item, PlayerCharacter pc) {
@@ -207,11 +243,11 @@ public class RewardGiver : MonoBehaviour {
                     break;
             }
         }
-        if (statAdjusted1 > 0) BuffRandomStat(item, statAdjusted1);
-        if (statAdjusted2 > 0) BuffRandomStat(item, statAdjusted2);
-        if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
-        if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
-        if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
+        if (statAdjusted1 > 0) BuffRandomStatForShop(item, statAdjusted1);
+        if (statAdjusted2 > 0) BuffRandomStatForShop(item, statAdjusted2);
+        if (statAdjusted3 > 0) BuffRandomStatForShop(item, statAdjusted3);
+        if (quality >= 2) BuffRandomSecondaryStatForShop(item, statAdjusted1);
+        if (quality >= 3) BuffRandomSecondaryStatForShop(item, statAdjusted2);
 
         item.description += GetDescriptionText(item);
         item.level = level;
@@ -230,14 +266,13 @@ public class RewardGiver : MonoBehaviour {
         return output;
     }
 
-    private static void BuffRandomStat(Equipment item, int amount) {
-        int roll = Random.Range(0, 6);
+    private static void BuffRandomStatForShop(Equipment item, int amount) {
         var lookups = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        int roll = Random.Range(0, lookups.Count);
         item.AddStat(lookups[roll], amount);
     }
 
-    private static void BuffRandomSecondaryStat(Equipment item, int amount) {
-        int roll = Random.Range(0, 23);
+    private static void BuffRandomSecondaryStatForShop(Equipment item, int amount) {
         var lookups = new List<string>() {
             "hpRating",
             "hpRegenRating",
@@ -263,6 +298,57 @@ public class RewardGiver : MonoBehaviour {
             "slashingResistRating",
             "bashingResistRating"
         };
+        int roll = Random.Range(0, lookups.Count);
+        item.AddStat(lookups[roll], amount);
+    }
+
+    private void BuffRandomStat(Equipment item, int amount) {
+        List<string> lookups = new List<string>();
+        var baseLookups = new List<string>() { "strength", "dexterity", "constitution", "intelligence", "wisdom", "luck" };
+        if (!SceneInitializer.instance.inside || LevelGen.dungeonData == null) lookups = baseLookups;
+        else if (GetComponent<Boss>() != null) lookups = LevelGen.dungeonData.dungeonData.lootPrimaryStatAffinities;
+        else {
+            for (int i = 0; i < 4; i++) foreach (var entry in LevelGen.dungeonData.dungeonData.lootPrimaryStatAffinities) lookups.Add(entry);
+            foreach (var entry in baseLookups) lookups.Add(entry);
+        }
+        int roll = Random.Range(0, lookups.Count);
+        item.AddStat(lookups[roll], amount);
+    }
+
+    private void BuffRandomSecondaryStat(Equipment item, int amount) {
+        List<string> lookups = new List<string>();
+        var baseLookups = new List<string>() {
+            "hpRating",
+            "hpRegenRating",
+            "receivedHealingRating",
+            "armorMultiplierRating",
+            "physicalResistRating",
+            "mentalResistRating",
+            "mpRating",
+            "healingMultiplierRating",
+            "moveSpeedRating",
+            "cooldownReductionRating",
+            "mpRegenRating",
+            "criticalHitChanceRating",
+            "criticalDamageRating",
+            "statusEffectDurationRating",
+            "itemFindRating",
+            "fireResistRating",
+            "iceResistRating",
+            "acidResistRating",
+            "lightResistRating",
+            "darkResistRating",
+            "piercingResistRating",
+            "slashingResistRating",
+            "bashingResistRating"
+        };
+        if (!SceneInitializer.instance.inside || LevelGen.dungeonData == null) lookups = baseLookups;
+        else if (GetComponent<Boss>() != null) lookups = LevelGen.dungeonData.dungeonData.lootSecondaryStatAffinities;
+        else {
+            for (int i = 0; i < 4; i++) foreach (var entry in LevelGen.dungeonData.dungeonData.lootSecondaryStatAffinities) lookups.Add(entry);
+            foreach (var entry in baseLookups) lookups.Add(entry);
+        }
+        int roll = Random.Range(0, lookups.Count);
         item.AddStat(lookups[roll], amount);
     }
 

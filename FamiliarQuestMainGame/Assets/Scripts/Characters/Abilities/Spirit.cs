@@ -31,7 +31,8 @@ public class Spirit {
 
     public Spirit(int level) {
         if (!initialized) Initialize();
-        SetTypes();
+        if (SceneInitializer.instance != null && SceneInitializer.instance.inside && LevelGen.dungeonData != null && LevelGen.dungeonData.dungeonData.elementalAffinity != Element.none) types = new List<Element> { LevelGen.dungeonData.dungeonData.elementalAffinity };
+        else SetTypes();
         CreateRandomAffinities();
         RemoveRedundantElements();
         CreateRandomAbilities(level);

@@ -37,7 +37,7 @@ public class LOSFader : MonoBehaviour {
     }
 
     private bool RenderersEnabled() {
-        foreach (var renderer in renderers) if (renderer.enabled) return true;
+        foreach (var renderer in renderers) if (renderer!=null && renderer.enabled) return true;
         return false;
     }
 }

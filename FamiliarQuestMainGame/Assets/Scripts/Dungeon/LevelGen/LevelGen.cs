@@ -260,7 +260,7 @@ public class LevelGen : MonoBehaviour {
         if (dungeonType.environmentType == "vault") layout = new TreasureVault();
         else layout = new Tomb();
         var vaultLayout = (TreasureVault)layout;
-        vaultLayout.Initialize(targetLevel);
+        vaultLayout.Initialize();
         float ruinLevel = Random.Range(0f, 0.25f);
         if (resettled) {
             var numStructures = Random.Range(3, 11);
@@ -271,6 +271,8 @@ public class LevelGen : MonoBehaviour {
         else {
             vaultLayout.AddMonsters(targetLevel);
         }
+        vaultLayout.CreateAffinities();
+        vaultLayout.CreateRandomEnemyBuffs(targetLevel);
         var obj = Instantiate(darkRuinsLighting);
         obj.transform.parent = dungeonInstance.transform;
         foreach (var socialStruture in socialStructures) Debug.Log(socialStruture.Print());

@@ -145,27 +145,33 @@ public class TreasureVault : Vault {
         maxDimensions = 119;
     }
 
-    public void Initialize(int targetLevel) {
+    public void Initialize() {
         var completed = false;
         while (!completed) {
             rooms = CreateRooms();
             layout = new TreasureVaultLayout(this);
             completed = ((TreasureVaultLayout)layout).TryLayoutRooms();
         }
-        CreateAffinities();
-        CreateRandomEnemyBuffs(targetLevel);
     }
 
-    private void CreateAffinities() {
+    public void CreateAffinities() {
         for (int i = 0; i < 4; i++) lootSlotAffinities.Add(allLootTypes[RNG.Int(0, allLootTypes.Count)]);
         for (int i = 0; i < 2; i++) lootPrimaryStatAffinities.Add(allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
         for (int i = 0; i < 4; i++) lootSecondaryStatAffinities.Add(allSecondaryStats[RNG.Int(0, allSecondaryStats.Count)]);
         var elementalAffinityRoll = RNG.Int(0, 3);
-        if (elementalAffinity == 0) elementalAffinity = allElements[RNG.Int(0, allElements.Count)];
+        if (elementalAffinityRoll == 0) elementalAffinity = allElements[RNG.Int(0, allElements.Count)];
         for (int i = 0; i < 2; i++) bossLootSlotAffinities.Add(allLootTypes[RNG.Int(0, allLootTypes.Count)]);
+        Debug.Log("loot slots:");
+        foreach (var slot in lootSlotAffinities) Debug.Log(slot);
+        Debug.Log("stat affinities:");
+        foreach (var affinity in lootPrimaryStatAffinities) Debug.Log(affinity);
+        foreach (var affinity in lootSecondaryStatAffinities) Debug.Log(affinity);
+        if (elementalAffinityRoll == 0) Debug.Log("elemental affinity: " + elementalAffinity.ToString());
+        Debug.Log("boss loot slots");
+        foreach (var slot in bossLootSlotAffinities) Debug.Log(slot);
     }
 
-    private void CreateRandomEnemyBuffs(int targetLevel) {
+    public void CreateRandomEnemyBuffs(int targetLevel) {
         foreach (var enemy in localEnemyTypes) {
             var roll = RNG.Int(0, 10);
             if (roll==0) {
@@ -173,6 +179,8 @@ public class TreasureVault : Vault {
                 if (roll2 == 0) enemyStatBoosts.Add(enemy, allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
                 else if (elementalAffinity != Element.none) enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(new List<Element> { elementalAffinity }, targetLevel));
                 else enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(allElements, targetLevel));
+                if (roll2 == 0) Debug.Log(enemy + "s have +50% " + enemyStatBoosts[enemy]);
+                else Debug.Log(enemy + "s have bonus ability " + enemyBonusAbilities[enemy].name);
             }
         }
     }
@@ -461,6 +469,7 @@ public class TreasureVault : Vault {
                 break;
         }
         var monsterType = RetrieveMonsterType(validMonsterTypes, secondaryMonsterTypes, allMonsterTypes, difficultyLimit);
+        if (!localEnemyTypes.Contains(monsterType)) localEnemyTypes.Add(monsterType);
         int qualityRoll = RNG.Int(0, 100);
         int quality = 0;
         if (qualityRoll < 50) quality = 0;
