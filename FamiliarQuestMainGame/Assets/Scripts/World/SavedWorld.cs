@@ -80,7 +80,16 @@ public class SavedDungeon {
     public List<string> encounterThemes = new List<string>();
     public List<int> seeds = new List<int>();
     public string uuid = null;
-
+    public List<string> lootSlotAffinities = new List<string>();
+    public List<string> lootPrimaryStatAffinities = new List<string>();
+    public List<string> lootSecondaryStatAffinities = new List<string>();
+    public Element elementalAffinity = Element.none;
+    public List<string> bossLootSlotAffinities = new List<string>();
+    public List<string> enemyStatBoostEnemies = new List<string>();
+    public List<string> enemyStatBoostStats = new List<string>();
+    public List<string> enemyBonusAbilityEnemies = new List<string>();
+    public List<SavedActiveAbility> enemyBonusAbilityAbilities = new List<SavedActiveAbility>();
+    
     public static SavedDungeon ConvertFrom(OverworldDungeon dungeon) {
         if (dungeon.dungeonData == null) return new SavedDungeon() {
             location = SavedVector2.ConvertFrom(dungeon.position),
@@ -95,8 +104,21 @@ public class SavedDungeon {
             maxDimensions = dungeon.dungeonData.maxDimensions,
             encounterThemes = dungeon.dungeonData.encounterThemes,
             seeds = dungeon.seeds,
-            uuid = dungeon.uuid
+            uuid = dungeon.uuid,
+            lootSlotAffinities = dungeon.dungeonData.lootSlotAffinities,
+            lootPrimaryStatAffinities = dungeon.dungeonData.lootPrimaryStatAffinities,
+            lootSecondaryStatAffinities = dungeon.dungeonData.lootSecondaryStatAffinities,
+            elementalAffinity = dungeon.dungeonData.elementalAffinity,
+            bossLootSlotAffinities = dungeon.dungeonData.bossLootSlotAffinities
         };
+        foreach (var kvp in dungeon.dungeonData.enemyStatBoosts) {
+            output.enemyStatBoostEnemies.Add(kvp.Key);
+            output.enemyStatBoostStats.Add(kvp.Value);
+        }
+        foreach (var kvp in dungeon.dungeonData.enemyBonusAbilities) {
+            output.enemyBonusAbilityEnemies.Add(kvp.Key);
+            output.enemyBonusAbilityAbilities.Add(SavedActiveAbility.ConvertFrom(kvp.Value));
+        }
         foreach (var room in dungeon.dungeonData.rooms) output.rooms.Add(SavedRoom.ConvertFrom(room));
         foreach (var monster in dungeon.dungeonData.monsters) output.monsters.Add(SavedMonsterData.ConvertFrom(monster));
         foreach (var path in dungeon.dungeonData.paths) output.paths.Add(SavedVaultPath.ConvertFrom(path));
@@ -110,7 +132,12 @@ public class SavedDungeon {
                 grid = grid,
                 maxSocialTier = maxSocialTier,
                 maxDimensions = maxDimensions,
-                encounterThemes = encounterThemes
+                encounterThemes = encounterThemes,
+                lootSlotAffinities = lootSlotAffinities,
+                lootPrimaryStatAffinities = lootPrimaryStatAffinities,
+                lootSecondaryStatAffinities = lootSecondaryStatAffinities,
+                elementalAffinity = elementalAffinity,
+                bossLootSlotAffinities = bossLootSlotAffinities
             },
             position = location.ConvertTo(),
             type = "dungeon",
@@ -118,6 +145,8 @@ public class SavedDungeon {
             seeds = seeds,
             uuid = uuid
         };
+        for (int i = 0; i < enemyStatBoostEnemies.Count; i++) output.dungeonData.enemyStatBoosts.Add(enemyStatBoostEnemies[i], enemyStatBoostStats[i]);
+        for (int i = 0; i < enemyBonusAbilityEnemies.Count; i++) output.dungeonData.enemyBonusAbilities.Add(enemyBonusAbilityEnemies[i], enemyBonusAbilityAbilities[i].ConvertTo());
         foreach (var room in rooms) output.dungeonData.rooms.Add(room.ConvertTo());
         foreach (var monster in monsters) output.dungeonData.monsters.Add(monster.ConvertTo(output.dungeonData.rooms, output.dungeonData.monsters));
         foreach (var path in paths) output.dungeonData.paths.Add(path.ConvertTo(output.dungeonData.rooms));

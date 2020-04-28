@@ -260,7 +260,7 @@ public class LevelGen : MonoBehaviour {
         if (dungeonType.environmentType == "vault") layout = new TreasureVault();
         else layout = new Tomb();
         var vaultLayout = (TreasureVault)layout;
-        vaultLayout.Initialize();
+        vaultLayout.Initialize(targetLevel);
         float ruinLevel = Random.Range(0f, 0.25f);
         if (resettled) {
             var numStructures = Random.Range(3, 11);

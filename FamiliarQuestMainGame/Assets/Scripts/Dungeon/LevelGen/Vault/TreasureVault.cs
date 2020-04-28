@@ -54,11 +54,76 @@ public class TreasureVault : Vault {
         "Wolf",
         "Young Dragon"
     };
+    private static readonly List<string> allLootTypes = new List<string> {
+        "weapon",
+        "armor",
+        "necklace",
+        "belt",
+        "bracelet",
+        "bracelet",
+        "bracelet",
+        "bracelet",
+        "cloak",
+        "earring",
+        "hat",
+        "shoes"
+    };
+    private static readonly List<string> allPrimaryStats = new List<string> {
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "luck"
+    };
+    private static readonly List<string> allSecondaryStats = new List<string> {
+        "hpRating",
+        "hpRegenRating",
+        "receivedHealingRating",
+        "armorMultiplierRating",
+        "physicalResistRating",
+        "mentalResistRating",
+        "mpRating",
+        "healingMultiplierRating",
+        "moveSpeedRating",
+        "cooldownReductionRating",
+        "mpRegenRating",
+        "criticalHitChanceRating",
+        "criticalHitDamageRating",
+        "statusEffectDurationRating",
+        "itemFindRating",
+        "fireResistRating",
+        "iceResistRating",
+        "acidResistRating",
+        "lightResistRating",
+        "darkResistRating",
+        "piercingResistRating",
+        "slashingResistRating",
+        "bashingResistRating"
+    };
+    private static readonly List<Element> allElements = new List<Element> {
+        Element.acid,
+        Element.bashing,
+        Element.dark,
+        Element.fire,
+        Element.ice,
+        Element.light,
+        Element.piercing,
+        Element.slashing
+    };
     private static List<float> nishikadoBaseDifficultyLookup = new List<float>();
     private static List<float> nishikadoEncounterDifficultyLookup = new List<float>();
     private static List<GameObject> monsterPrefabs = new List<GameObject>();
     public List<VaultPath> paths = new List<VaultPath>();
     public List<string> encounterThemes = new List<string>();
+    public List<string> lootSlotAffinities = new List<string>();
+    public List<string> lootPrimaryStatAffinities = new List<string>();
+    public List<string> lootSecondaryStatAffinities = new List<string>();
+    public Element elementalAffinity = Element.none;
+    public List<string> bossLootSlotAffinities = new List<string>();
+    public List<string> localEnemyTypes = new List<string>();
+    public Dictionary<string, string> enemyStatBoosts = new Dictionary<string, string>();
+    public Dictionary<string, ActiveAbility> enemyBonusAbilities = new Dictionary<string, ActiveAbility>();
 
     static TreasureVault() {
         float baseDifficulty = 3f;
@@ -80,12 +145,35 @@ public class TreasureVault : Vault {
         maxDimensions = 119;
     }
 
-    public void Initialize() {
+    public void Initialize(int targetLevel) {
         var completed = false;
         while (!completed) {
             rooms = CreateRooms();
             layout = new TreasureVaultLayout(this);
             completed = ((TreasureVaultLayout)layout).TryLayoutRooms();
+        }
+        CreateAffinities();
+        CreateRandomEnemyBuffs(targetLevel);
+    }
+
+    private void CreateAffinities() {
+        for (int i = 0; i < 4; i++) lootSlotAffinities.Add(allLootTypes[RNG.Int(0, allLootTypes.Count)]);
+        for (int i = 0; i < 2; i++) lootPrimaryStatAffinities.Add(allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
+        for (int i = 0; i < 4; i++) lootSecondaryStatAffinities.Add(allSecondaryStats[RNG.Int(0, allSecondaryStats.Count)]);
+        var elementalAffinityRoll = RNG.Int(0, 3);
+        if (elementalAffinity == 0) elementalAffinity = allElements[RNG.Int(0, allElements.Count)];
+        for (int i = 0; i < 2; i++) bossLootSlotAffinities.Add(allLootTypes[RNG.Int(0, allLootTypes.Count)]);
+    }
+
+    private void CreateRandomEnemyBuffs(int targetLevel) {
+        foreach (var enemy in localEnemyTypes) {
+            var roll = RNG.Int(0, 10);
+            if (roll==0) {
+                var roll2 = RNG.Int(0, 2);
+                if (roll2 == 0) enemyStatBoosts.Add(enemy, allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
+                else if (elementalAffinity != Element.none) enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(new List<Element> { elementalAffinity }, targetLevel));
+                else enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(allElements, targetLevel));
+            }
         }
     }
 
