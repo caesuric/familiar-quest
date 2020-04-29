@@ -1,3 +1,22 @@
+# v0.15
+
+## Overworld + dungeon variety
+
+* There is now an overworld for the player to explore!
+* The overworld has a number of dungeons for the player to explore (they look like trees with a skull cave on the front)
+* The overworld, and each dungeon, are saved after being generated, so you can re-visit any dungeon by walking back to it
+* Dungeons found on the overworld will generate with special qualities, including unique loot tables, monster abilities, and resistances
+* Added dissolve visual effect on monster death
+
+### Known issues
+
+* Potions will continue to display on your hotbar even after you have used them all.
+* Monster unit frames can be seen on your minimap and around corners
+* There is no way to tell except by observation what the unique qualities of a dungeon are. Later patches will add scrying abilities and townspeople who can tell you about nearby dungeons
+* You will always respawn in the temporary starting area after leaving a dungeon
+* Save files are most likely incompatible with previous versions due to a radical restructing of world save data -- you may have to delete your character and start over (sorry!)
+* May be some instability in this version -- will be fixed in minor patches
+
 # v0.14.3
 
 ## Minor improvements and bugfixes
