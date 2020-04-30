@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ProtoClient {
 

@@ -96,7 +96,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
             if (type == NetworkCharacterSyncerType.player && ProtoClient.isHost && ProtoClient.localPlayer == this) {
                 AddNewCharacters();
                 GetPlayerUpdates();
-                //SendUpdates();
+                SendUpdates();
             }
             else if (type == NetworkCharacterSyncerType.player && !ProtoClient.isHost && ProtoClient.localPlayer == this) {
                 AddNewCharacters();
