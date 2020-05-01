@@ -44,18 +44,18 @@ public static partial class CharacterSyncReflection {
           "Eg4KBm1heF9ocBgDIAEoBSIhCh9VcGRhdGVDaGFyYWN0ZXJXb3JsZFN0YXRl",
           "UmVzdWx0Ii0KGkNoYXJhY3RlcldvcmxkU3RhdGVSZXF1ZXN0Eg8KB2dhbWVf",
           "aWQYASABKAkiQgoZUGVyc29uYWxXb3JsZFN0YXRlUmVxdWVzdBIPCgdnYW1l",
-          "X2lkGAEgASgJEhQKDGNoYXJhY3Rlcl9pZBgCIAEoCSJXChlDaGFyYWN0ZXJX",
+          "X2lkGAEgASgJEhQKDGNoYXJhY3Rlcl9pZBgCIAEoCSJsChlDaGFyYWN0ZXJX",
           "b3JsZFN0YXRlVXBkYXRlEg8KB2dhbWVfaWQYASABKAkSKQoLd29ybGRfc3Rh",
-          "dGUYAiABKAsyFC5DaGFyYWN0ZXJXb3JsZFN0YXRlIiAKHlVwZGF0ZVBlcnNv",
-          "bmFsV29ybGRTdGF0ZVJlc3VsdDLiAgoNQ2hhcmFjdGVyU3luYxJXChpVcGRh",
-          "dGVDaGFyYWN0ZXJXb3JsZFN0YXRlcxIVLkNoYXJhY3RlcldvcmxkU3RhdGVz",
-          "GiAuVXBkYXRlQ2hhcmFjdGVyV29ybGRTdGF0ZVJlc3VsdCIAEk8KF0dldENo",
-          "YXJhY3RlcldvcmxkU3RhdGVzEhsuQ2hhcmFjdGVyV29ybGRTdGF0ZVJlcXVl",
-          "c3QaFS5DaGFyYWN0ZXJXb3JsZFN0YXRlcyIAElkKGFVwZGF0ZVBlcnNvbmFs",
-          "V29ybGRTdGF0ZRIaLkNoYXJhY3RlcldvcmxkU3RhdGVVcGRhdGUaHy5VcGRh",
-          "dGVQZXJzb25hbFdvcmxkU3RhdGVSZXN1bHQiABJMChRHZXRQbGF5ZXJXb3Js",
-          "ZFN0YXRlcxIbLkNoYXJhY3RlcldvcmxkU3RhdGVSZXF1ZXN0GhUuQ2hhcmFj",
-          "dGVyV29ybGRTdGF0ZXMiAGIGcHJvdG8z"));
+          "dGUYAiABKAsyFC5DaGFyYWN0ZXJXb3JsZFN0YXRlEhMKC3VwZGF0ZV90aW1l",
+          "GAMgASgBIiAKHlVwZGF0ZVBlcnNvbmFsV29ybGRTdGF0ZVJlc3VsdDLiAgoN",
+          "Q2hhcmFjdGVyU3luYxJXChpVcGRhdGVDaGFyYWN0ZXJXb3JsZFN0YXRlcxIV",
+          "LkNoYXJhY3RlcldvcmxkU3RhdGVzGiAuVXBkYXRlQ2hhcmFjdGVyV29ybGRT",
+          "dGF0ZVJlc3VsdCIAEk8KF0dldENoYXJhY3RlcldvcmxkU3RhdGVzEhsuQ2hh",
+          "cmFjdGVyV29ybGRTdGF0ZVJlcXVlc3QaFS5DaGFyYWN0ZXJXb3JsZFN0YXRl",
+          "cyIAElkKGFVwZGF0ZVBlcnNvbmFsV29ybGRTdGF0ZRIaLkNoYXJhY3Rlcldv",
+          "cmxkU3RhdGVVcGRhdGUaHy5VcGRhdGVQZXJzb25hbFdvcmxkU3RhdGVSZXN1",
+          "bHQiABJMChRHZXRQbGF5ZXJXb3JsZFN0YXRlcxIbLkNoYXJhY3Rlcldvcmxk",
+          "U3RhdGVSZXF1ZXN0GhUuQ2hhcmFjdGVyV29ybGRTdGF0ZXMiAGIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -72,7 +72,7 @@ public static partial class CharacterSyncReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::UpdateCharacterWorldStateResult), global::UpdateCharacterWorldStateResult.Parser, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::CharacterWorldStateRequest), global::CharacterWorldStateRequest.Parser, new[]{ "GameId" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::PersonalWorldStateRequest), global::PersonalWorldStateRequest.Parser, new[]{ "GameId", "CharacterId" }, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CharacterWorldStateUpdate), global::CharacterWorldStateUpdate.Parser, new[]{ "GameId", "WorldState" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::CharacterWorldStateUpdate), global::CharacterWorldStateUpdate.Parser, new[]{ "GameId", "WorldState", "UpdateTime" }, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::UpdatePersonalWorldStateResult), global::UpdatePersonalWorldStateResult.Parser, null, null, null, null)
         }));
   }
@@ -2419,6 +2419,7 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
   public CharacterWorldStateUpdate(CharacterWorldStateUpdate other) : this() {
     gameId_ = other.gameId_;
     worldState_ = other.worldState_ != null ? other.worldState_.Clone() : null;
+    updateTime_ = other.updateTime_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -2449,6 +2450,17 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
     }
   }
 
+  /// <summary>Field number for the "update_time" field.</summary>
+  public const int UpdateTimeFieldNumber = 3;
+  private double updateTime_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public double UpdateTime {
+    get { return updateTime_; }
+    set {
+      updateTime_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as CharacterWorldStateUpdate);
@@ -2464,6 +2476,7 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
     }
     if (GameId != other.GameId) return false;
     if (!object.Equals(WorldState, other.WorldState)) return false;
+    if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(UpdateTime, other.UpdateTime)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -2472,6 +2485,7 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
     int hash = 1;
     if (GameId.Length != 0) hash ^= GameId.GetHashCode();
     if (worldState_ != null) hash ^= WorldState.GetHashCode();
+    if (UpdateTime != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(UpdateTime);
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -2493,6 +2507,10 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
       output.WriteRawTag(18);
       output.WriteMessage(WorldState);
     }
+    if (UpdateTime != 0D) {
+      output.WriteRawTag(25);
+      output.WriteDouble(UpdateTime);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -2506,6 +2524,9 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
     }
     if (worldState_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(WorldState);
+    }
+    if (UpdateTime != 0D) {
+      size += 1 + 8;
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -2527,6 +2548,9 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
       }
       WorldState.MergeFrom(other.WorldState);
     }
+    if (other.UpdateTime != 0D) {
+      UpdateTime = other.UpdateTime;
+    }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -2547,6 +2571,10 @@ public sealed partial class CharacterWorldStateUpdate : pb::IMessage<CharacterWo
             WorldState = new global::CharacterWorldState();
           }
           input.ReadMessage(WorldState);
+          break;
+        }
+        case 25: {
+          UpdateTime = input.ReadDouble();
           break;
         }
       }

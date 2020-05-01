@@ -45,14 +45,16 @@ public class ProtoClient {
         TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
         double timestamp = t.TotalSeconds;
         data.UpdateTime = timestamp;
-        foreach (var entry in syncedCharacters) data.CharacterData.Add(entry.worldState);
+        foreach (var entry in syncedCharacters) if (entry.type != NetworkCharacterSyncerType.player) data.CharacterData.Add(entry.worldState);
         var result = await characterSyncClient.UpdateCharacterWorldStatesAsync(data);
     }
 
     public static async void UpdatePersonalWorldState(CharacterWorldState worldState) {
         worldState.IsPlayer = true;
         worldState.IsVisible = true;
-        var request = new CharacterWorldStateUpdate() { GameId = gameId, WorldState = worldState };
+        TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
+        double timestamp = t.TotalSeconds;
+        var request = new CharacterWorldStateUpdate() { GameId = gameId, WorldState = worldState, UpdateTime = timestamp };
         var result = await characterSyncClient.UpdatePersonalWorldStateAsync(request);
     }
 
