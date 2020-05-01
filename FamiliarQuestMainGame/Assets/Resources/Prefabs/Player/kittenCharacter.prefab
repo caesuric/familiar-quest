@@ -1810,8 +1810,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0d178ba7e2a374783e576e4f5e4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsBetweenSelfUpdate: 0.1
-  secondsBetweenGlobalUpdate: 0.1
+  secondsBetweenSelfUpdate: 0.05
+  secondsBetweenGlobalUpdate: 0.05
   type: 1
   lerpTimer: 0
   lerpSeconds: 0
