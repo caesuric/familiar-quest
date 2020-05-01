@@ -76,7 +76,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
                 var orientation = worldState.Orientation;
                 if (location!=null && (location.X != 0 || location.Y != 0 || location.Z != 0)) {
                     lerpTimer = 0;
-                    lerpSeconds = 0.1f;
+                    lerpSeconds = secondsBetweenGlobalUpdate * 3f;
                     isLerping = true;
                     //finalLerpPoint = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z);
                     finalLerpPoint = new Vector3(location.X, location.Y, location.Z);
