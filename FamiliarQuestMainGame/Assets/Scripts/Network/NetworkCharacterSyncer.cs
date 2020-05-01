@@ -74,11 +74,12 @@ public class NetworkCharacterSyncer : MonoBehaviour
                 var location = worldState.Location;
                 var trajectory = worldState.Trajectory;
                 var orientation = worldState.Orientation;
-                if (location!=null && (location.X != 0 || location.Y != 0 || location.Z != 0) && location != null && trajectory != null) {
+                if (location!=null && (location.X != 0 || location.Y != 0 || location.Z != 0)) {
                     lerpTimer = 0;
-                    lerpSeconds = (float)(currentUpdateTimestamp - lastUpdateTimestamp);
+                    lerpSeconds = 0.1f; //(float)(currentUpdateTimestamp - lastUpdateTimestamp);
                     isLerping = true;
-                    finalLerpPoint = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z);
+                    //finalLerpPoint = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z);
+                    finalLerpPoint = new Vector3(location.X, location.Y, location.Z);
                     lerpRotation = new Quaternion(orientation.X, orientation.Y, orientation.Z, orientation.W);
                 }
                 RunAnimations();
@@ -127,12 +128,16 @@ public class NetworkCharacterSyncer : MonoBehaviour
 
     void FixedUpdate() {
         if (isLerping) {
+            var oldLerpTimer = lerpTimer;
             lerpTimer += Time.fixedDeltaTime;
             if (lerpTimer >= lerpSeconds) {
+                //transform.position = finalLerpPoint;
                 isLerping = false;
             }
-            else transform.position = Vector3.Lerp(transform.position, finalLerpPoint, lerpTimer / lerpSeconds);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lerpRotation, lerpTimer / lerpSeconds);
+            //else transform.position = Vector3.Lerp(transform.position, finalLerpPoint, lerpTimer / lerpSeconds);
+            else transform.position = Vector3.Lerp(transform.position, finalLerpPoint, (lerpTimer - oldLerpTimer) / (lerpSeconds - oldLerpTimer));
+            //transform.rotation = Quaternion.Lerp(transform.rotation, lerpRotation, lerpTimer / lerpSeconds);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lerpRotation, (lerpTimer - oldLerpTimer) / (lerpSeconds - oldLerpTimer));
         }
     }
     
