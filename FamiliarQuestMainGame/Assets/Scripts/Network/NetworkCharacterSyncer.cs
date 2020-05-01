@@ -14,7 +14,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
     public float lerpTimer = 0;
     public float lerpSeconds = 0;
     private bool isLerping = false;
-    private Vector3 lerpSpeed = new Vector3(0, 0, 0);
+    //private Vector3 lerpSpeed = new Vector3(0, 0, 0);
     private Vector3 finalLerpPoint = new Vector3(0, 0, 0);
     private Quaternion lerpRotation = new Quaternion();
     public string id = null;
@@ -78,9 +78,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
                     lerpTimer = 0;
                     lerpSeconds = (float)(currentUpdateTimestamp - lastUpdateTimestamp);
                     isLerping = true;
-                    lerpSpeed = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z) - transform.position;
-                    //finalLerpPoint = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z);
-                    finalLerpPoint = new Vector3(location.X, location.Y, location.Z);
+                    finalLerpPoint = new Vector3(location.X + trajectory.X, location.Y + trajectory.Y, location.Z + trajectory.Z);
                     lerpRotation = new Quaternion(orientation.X, orientation.Y, orientation.Z, orientation.W);
                 }
                 RunAnimations();
@@ -132,9 +130,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
             lerpTimer += Time.fixedDeltaTime;
             if (lerpTimer >= lerpSeconds) {
                 isLerping = false;
-                //transform.position = finalLerpPoint;
             }
-            //else transform.position += lerpSpeed * Time.deltaTime / lerpSeconds;
             else transform.position = Vector3.Lerp(transform.position, finalLerpPoint, lerpTimer / lerpSeconds);
             transform.rotation = Quaternion.Lerp(transform.rotation, lerpRotation, lerpTimer / lerpSeconds);
         }
@@ -152,7 +148,7 @@ public class NetworkCharacterSyncer : MonoBehaviour
             syncer.worldState.Location.X = syncer.transform.position.x;
             syncer.worldState.Location.Y = syncer.transform.position.y;
             syncer.worldState.Location.Z = syncer.transform.position.z;
-            if (syncer.worldState.Trajectory==null) syncer.worldState.Trajectory = new Trajectory() { X = 0, Y = 0, Z = 0 };
+            if (syncer.worldState.Trajectory == null) syncer.worldState.Trajectory = new Trajectory() { X = 0, Y = 0, Z = 0 };
             syncer.worldState.Orientation = new Orientation();
             syncer.worldState.Orientation.X = syncer.transform.rotation.x;
             syncer.worldState.Orientation.Y = syncer.transform.rotation.y;
@@ -220,9 +216,13 @@ public class NetworkCharacterSyncer : MonoBehaviour
             worldState.Trajectory = new Trajectory() { X = 0f, Y = 0f, Z = 0f };
         }
         else {
-            worldState.Trajectory.X = (transform.position.x - worldState.Location.X) / 4f;
-            worldState.Trajectory.Y = 0f;
-            worldState.Trajectory.Z = (transform.position.z - worldState.Location.Z) / 4f;
+            //worldState.Trajectory.X = (transform.position.x - worldState.Location.X) / 4f;
+            //worldState.Trajectory.Y = 0f;
+            //worldState.Trajectory.Z = (transform.position.z - worldState.Location.Z) / 4f;
+            var rb = GetComponent<Rigidbody>();
+            worldState.Trajectory.X = rb.velocity.x;
+            worldState.Trajectory.Y = rb.velocity.y;
+            worldState.Trajectory.Z = rb.velocity.z;
         }
         worldState.Location = new Location();
         worldState.Location.X = transform.position.x;
