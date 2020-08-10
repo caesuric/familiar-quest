@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class MinimapCameraLock : MonoBehaviour {
 
@@ -16,12 +19,18 @@ public class MinimapCameraLock : MonoBehaviour {
             instance = gameObject;
             camera.enabled = true;
             var canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
-            var width = (400f / (float)Screen.width) * canvas.scaleFactor;
-            var height = (300f / (float)Screen.height) * canvas.scaleFactor;
+            var width = (400f / Screen.width) * canvas.scaleFactor;
+            var height = (300f / Screen.height) * canvas.scaleFactor;
             camera.rect = new Rect(1f - width, 1f - (height * 0.29f / 0.25f), width, height);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else Destroy(gameObject);
         targetPositionOffset = positionOffset;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
+        camera.enabled = false;
+        camera.enabled = true;
     }
 
     // Update is called once per frame

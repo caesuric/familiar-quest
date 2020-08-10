@@ -10,6 +10,9 @@ public class LargeStatusTextUpdater : MonoBehaviour {
     public GameObject quitMenu;
     public GameObject canvas;
     public GameObject objectHelpText;
+    public GameObject rangedHitbox;
+    public GameObject minimapCamera;
+    public GameObject aoeHitbox;
     public static LargeStatusTextUpdater instance = null;
 
     // Use this for initialization
@@ -54,6 +57,9 @@ public class LargeStatusTextUpdater : MonoBehaviour {
         CharacterSelectScreen.characterByteArray = null;
         Destroy(canvas);
         Destroy(objectHelpText);
+        Destroy(rangedHitbox);
+        Destroy(minimapCamera);
+        Destroy(aoeHitbox);
         SceneManager.LoadScene("Character Selection");
         MusicController.instance.PlayMusic(MusicController.instance.menuMusic);
         //NetworkManager.Shutdown();
