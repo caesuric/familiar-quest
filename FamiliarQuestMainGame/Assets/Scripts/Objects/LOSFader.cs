@@ -29,6 +29,7 @@ public class LOSFader : MonoBehaviour {
         if (timer < fadeTime && timer > 0) {
             for (int i = 0; i < renderers.Count; i++) {
                 var renderer = renderers[i];
+                if (renderer == null) continue;
                 var alphaColor = alphaColors[i];
                 timer += Time.deltaTime;
                 renderer.material.color = Color.Lerp(alphaColors[i], originalColors[i], timer / fadeTime);

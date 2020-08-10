@@ -85,6 +85,7 @@ public class RewardGiver : MonoBehaviour {
         if (statAdjusted3 > 0) BuffRandomStat(item, statAdjusted3);
         if (quality >= 2) BuffRandomSecondaryStat(item, statAdjusted1);
         if (quality >= 3) BuffRandomSecondaryStat(item, statAdjusted2);
+        if (item == null) return;
 
         item.description += GetDescriptionText(item);
         item.level = intendedLevel;

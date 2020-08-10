@@ -10546,11 +10546,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4867849478184790}
-  - component: {fileID: 114909045778048004}
   - component: {fileID: 114407955926569194}
   - component: {fileID: 65217785517745940}
   - component: {fileID: 114674705531847646}
-  - component: {fileID: 114333704165474280}
   - component: {fileID: 7479102320411036409}
   m_Layer: 11
   m_Name: Entrance
@@ -10591,39 +10589,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
---- !u!114 &114909045778048004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669755865269214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114407955926569194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10678,23 +10643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bb81cb05abddc4c87acc9750997884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114333704165474280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669755865269214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4efd4bab6b1417b4fbba4a6ca345febb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  value: <
-  unmappable: 0
-  mapperRef: {fileID: 0}
-  xOffset: 0
-  yOffset: 0
 --- !u!114 &7479102320411036409
 MonoBehaviour:
   m_ObjectHideFlags: 0

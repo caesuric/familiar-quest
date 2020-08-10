@@ -24,6 +24,7 @@ public class SceneInitializer : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (MusicController.instance == null) return;
         if (LevelGen.instance == null && SceneManager.GetActiveScene().name == "Starting Area") {
             MusicController.instance.PlayMusic(MusicController.instance.townMusic);
             return;

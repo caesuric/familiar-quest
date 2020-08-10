@@ -133,6 +133,10 @@ public class Boss : MonoBehaviour {
             phaseNumber++;
             if (phaseNumber >= phases.Count) phaseNumber = 0;
             index++;
+            if (index >= healthPhaseThresholds.Count) {
+                index = healthPhaseThresholds.Count - 1;
+                break;
+            }
         }
         return phases[phaseNumber];
     }

@@ -66,7 +66,7 @@ namespace AI.Actions {
         }
 
         private void SetDestination() {
-            navMeshAgent.SetDestination(target.transform.position);
+            if (navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(target.transform.position);
         }
     }
 }

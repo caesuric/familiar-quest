@@ -29,7 +29,12 @@ public static class UtilityAttributeTable {
             { "speed+", () => GetSpeedPlus(points, mp, cooldown, numAttributes, targetType) },
             { "grapplingHook", () => GetGrapplingHook(points, mp, cooldown, numAttributes, targetType) }
         };
-        return table[roll]();
+        try {
+            return table[roll]();
+        }
+        catch {
+            return null;
+        }
     }
 
     private static AbilityAttribute GetOffGCD(float points, int mp, float cooldown, int numAttributes, string targetType) {

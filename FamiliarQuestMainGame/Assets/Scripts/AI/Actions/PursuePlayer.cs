@@ -46,7 +46,7 @@ namespace AI.Actions {
             }
             started = true;
             isDone = false;
-            navMeshAgent.SetDestination(playerMem.position);
+            if (navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(playerMem.position);
         }
 
         private void ContinueAction(GoapAgent agent) {

@@ -25,6 +25,7 @@ public class GameLog : MonoBehaviour {
     //}
 
     public static void AddText(string textToAdd) {
+        if (instance.textParent == null) return;
         textToAdd = textToAdd.Replace("(Clone)", "");
         var newText = Instantiate(instance.textPrefab, instance.textParent.transform);
         var textComponent = newText.GetComponent<Text>();
