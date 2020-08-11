@@ -28,8 +28,8 @@ EditorSettings:
   m_ShowLightmapResolutionOverlay: 1
   m_UseLegacyProbeSampleCount: 1
   m_AssetPipelineMode: 1
-  m_CacheServerMode: 0
-  m_CacheServerEndpoint: 
-  m_CacheServerNamespacePrefix: default
+  m_CacheServerMode: 1
+  m_CacheServerEndpoint: 192.168.1.10:10080
+  m_CacheServerNamespacePrefix: familiarquest
   m_CacheServerEnableDownload: 1
   m_CacheServerEnableUpload: 1

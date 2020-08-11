@@ -7,8 +7,8 @@ def main():
         token = app_token_file.read()
     auth = ('caesuric', token)
     create_release(auth)
-    release_id = get_release_id(auth)
-    upload_releases(release_id, auth)
+    # release_id = get_release_id(auth)
+    # upload_releases(release_id, auth)
 
 def create_release(auth):
     url = 'https://api.github.com/repos/caesuric/familiar-quest/releases'
