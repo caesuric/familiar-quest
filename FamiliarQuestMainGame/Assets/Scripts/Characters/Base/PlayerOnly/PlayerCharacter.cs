@@ -273,7 +273,7 @@ public class PlayerCharacter : MonoBehaviour {
     }
 
     public void GainSpirits(List<Spirit> spirits) {
-        if (spirits.Count == 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND AN ABILITY!", "Found an ability!");
+        if (spirits.Count == 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND A SOUL GEM!", "Found a soul gem!");
         else if (spirits.Count > 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND " + spirits.Count.ToString() + " ABILITIES!", "Found " + spirits.Count.ToString() + " abilities!");
         //foreach (var spirit in spirits) SharedInventory.instance.spareSpirits.Add(spirit);
         //foreach (var spirit in spirits) GetComponent<SpiritUser>().spirits[0].activeAbilities.Add(spirit.activeAbilities[0]);

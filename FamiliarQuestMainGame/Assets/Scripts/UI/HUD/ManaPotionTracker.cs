@@ -11,7 +11,7 @@ public class ManaPotionTracker : MonoBehaviour {
         if (pc == null) pc = PlayerCharacter.localPlayer;
         if (pc == null) return;
         int count = 0;
-        foreach (var item in pc.consumables) if (item.type == ConsumableType.mana) count = item.quantity;
+        foreach (var item in pc.consumables) if (item != null && item.type == ConsumableType.mana) count = item.quantity;
         if (count == 0) textObj.text = "";
         else textObj.text = count.ToString() + "x";
     }
