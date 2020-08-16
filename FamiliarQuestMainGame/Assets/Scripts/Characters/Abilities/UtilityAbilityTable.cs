@@ -77,8 +77,22 @@ public static class UtilityAbilityTable {
     private static bool AbilityValid(List<AbilityAttribute> attributes) {
         if (DuplicateStealthy(attributes)) return false;
         var validAttributeList = new List<string>() { "restoreMP", "shield", "elementalDamageBuff", "heal", "hot", "mpOverTime", "disableDevice", "stealth", "grapple", "speed-", "paralyze", "removeDebuff", "removeAllDebuffs", "eatDebuff", "speed+" };
-        foreach (var attribute in attributes) if (validAttributeList.Contains(attribute.type)) return true;
-        return false;
+        var found = false;
+        foreach (var attribute in attributes) {
+            if (validAttributeList.Contains(attribute.type)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return false;
+        found = false;
+        foreach (var attribute in attributes) {
+            if (attribute.priority >= 50) {
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     public static bool DuplicateStealthy(List<AbilityAttribute> attributes) {

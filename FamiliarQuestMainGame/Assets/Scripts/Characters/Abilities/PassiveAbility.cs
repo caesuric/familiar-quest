@@ -12,7 +12,7 @@ public class PassiveAbility : Ability {
         var initialPoints = points;
         var priority = Random.Range(12.5f, 100f);
         int attributesRoll = Random.Range(0, 100);
-        int numAttributes = Random.Range(0, 5);
+        int numAttributes = Random.Range(1, 5);
         //if (attributesRoll >= 80) numAttributes = 2;
         var attributes = new List<AbilityAttribute>();
         for (int i=0; i<numAttributes; i++) {
@@ -35,10 +35,8 @@ public class PassiveAbility : Ability {
     }
 
     public static bool AbilityValid(List<AbilityAttribute> attributes) {
-        return true;
-        //var validAttributeList = new List<string>() { "damageEnemiesOnScreen", "experienceBoost" };
-        //foreach (var attribute in attributes) if (validAttributeList.Contains(attribute.type)) return true;
-        //return false;
+        foreach (var attr in attributes) if (attr.priority >= 50) return true;
+        return false;
     }
 
     public int GetLevel() {

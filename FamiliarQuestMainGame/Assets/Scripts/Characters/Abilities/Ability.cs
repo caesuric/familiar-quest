@@ -19,4 +19,9 @@ public abstract class Ability {
         attributes.Sort((AbilityAttribute attr1, AbilityAttribute attr2) => { return attr1.priority.CompareTo(attr2.priority); });
         attributes.Reverse();
     }
+
+    public bool IsValid() {
+        foreach (var attr in attributes) if (attr.priority >= 50) return true;
+        return false;
+    }
 }
