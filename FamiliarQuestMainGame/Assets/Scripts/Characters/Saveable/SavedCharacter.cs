@@ -849,8 +849,10 @@ public class SavedElementalAffinity
 public class SavedAbilityAttribute
 {
     public string type;
-    public float points;
-    public float priority;
+    [OptionalField]
+    public float points = 0;
+    [OptionalField]
+    public float priority = 75f;
     public List<SavedAbilityParameter> parameters = new List<SavedAbilityParameter>();
 
     public static SavedAbilityAttribute ConvertFrom(AbilityAttribute attribute)

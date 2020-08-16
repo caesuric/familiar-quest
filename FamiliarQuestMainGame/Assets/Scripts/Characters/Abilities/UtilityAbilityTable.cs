@@ -19,9 +19,9 @@ public static class UtilityAbilityTable {
             points *= MpPointMod(mpRoll);
         }
         int attributesRoll = Random.Range(0, 100);
-        int numAttributes;
-        if (attributesRoll < 80) numAttributes = 1;
-        else numAttributes = 2;
+        int numAttributes = Random.Range(1, 5);
+        //if (attributesRoll < 80) numAttributes = 1;
+        //else numAttributes = 2;
         float cooldown = 0;
         int hasCDRoll = Random.Range(0, 100);
         if (hasCDRoll < 35) {
@@ -37,7 +37,7 @@ public static class UtilityAbilityTable {
         for (int i = 0; i < numAttributes; i++) {
             var attribute = AbilityAttribute.GetUtilityAttribute(points, priority, mp, cooldown, numAttributes, targetType);
             if (attribute != null) {
-                points -= attribute.points;
+                if (attribute.priority >= 50) points -= attribute.points;
                 attributes.Add(attribute);
             }
         }

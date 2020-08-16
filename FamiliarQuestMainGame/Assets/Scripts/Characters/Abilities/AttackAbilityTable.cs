@@ -203,22 +203,22 @@ public static class AttackAbilityTable {
             points = Mathf.Floor(points * 4f);
         }
         int attributesRoll = Random.Range(0, 100);
-        int numAttributes;
-        if (attributesRoll < 20) {
-            numAttributes = 0;
-        }
-        else if (attributesRoll < 81) {
-            numAttributes = 1;
-        }
-        else if (attributesRoll < 93) {
-            numAttributes = 2;
-        }
-        else if (attributesRoll < 98) {
-            numAttributes = 3;
-        }
-        else {
-            numAttributes = 4;
-        }
+        int numAttributes = Random.Range(0, 8);
+        //if (attributesRoll < 20) {
+        //    numAttributes = 0;
+        //}
+        //else if (attributesRoll < 81) {
+        //    numAttributes = 1;
+        //}
+        //else if (attributesRoll < 93) {
+        //    numAttributes = 2;
+        //}
+        //else if (attributesRoll < 98) {
+        //    numAttributes = 3;
+        //}
+        //else {
+        //    numAttributes = 4;
+        //}
         float cooldown = 0;
         int hasCDRoll = Random.Range(0, 100);
         if (hasCDRoll < 35) {
@@ -259,7 +259,7 @@ public static class AttackAbilityTable {
         for (int i = 0; i < numAttributes; i++) {
             var attribute = AbilityAttribute.GetAttackAttribute(points, priority, mp, isDot, radius, rangedRoll == 1, cooldown, element);
             if (attribute != null && !DuplicateStealthy(attribute, attributes)) {
-                points -= attribute.points;
+                if (attribute.priority >= 50) points -= attribute.points;
                 attributes.Add(attribute);
                 if (attribute.type == "createDamageZone") aoe = baseDamageZones[element];
             }

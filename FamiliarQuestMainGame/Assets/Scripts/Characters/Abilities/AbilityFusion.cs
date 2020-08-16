@@ -1,4 +1,5 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 public class AbilityFusion {
     public static ActiveAbility Fuse(ActiveAbility ability1, ActiveAbility ability2) {
         float calcPoints = (ability1.points + ability2.points) / 2;
-        calcPoints *= 1.05f;
+        calcPoints *= Mathf.Pow(1.05f, 3);
         float maxPoints = 70;
         for (int i = 1; i < PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level; i++) maxPoints = maxPoints * 1.05f;
         if (calcPoints > maxPoints) calcPoints = maxPoints;
@@ -20,55 +21,31 @@ public class AbilityFusion {
     }
 
     public static AttackAbility FuseAttack(int points, ActiveAbility ability1, ActiveAbility ability2) {
-        var am = AbilityMenu.instance;
         Element element;
         int icon, hitEffect, projectile, aoe;
-        if (am.fusionElementChoice == 0) {
-            element = ((AttackAbility)ability1).element;
-            icon = ((AttackAbility)ability1).icon;
-            hitEffect = ((AttackAbility)ability1).hitEffect;
-            projectile = ((AttackAbility)ability1).rangedProjectile;
-        }
-        else {
-            element = ((AttackAbility)ability2).element;
-            icon = ((AttackAbility)ability2).icon;
-            hitEffect = ((AttackAbility)ability2).hitEffect;
-            projectile = ((AttackAbility)ability2).rangedProjectile;
-        }
+        element = ((AttackAbility)ability1).element;
+        icon = ((AttackAbility)ability1).icon;
+        hitEffect = ((AttackAbility)ability1).hitEffect;
+        projectile = ((AttackAbility)ability1).rangedProjectile;
         aoe = GetAoe(element);
         BaseStat baseStat;
-        if (am.fusionBaseStatChoice == 0) baseStat = ability1.baseStat;
-        else baseStat = ability2.baseStat;
+        baseStat = ability1.baseStat;
         float damageRatio;
         float dotDamageRatio;
         float dotTime;
-        if (am.fusionDotChoice == 0) {
-            damageRatio = ((AttackAbility)ability1).damage;
-            dotDamageRatio = ((AttackAbility)ability1).dotDamage;
-            dotTime = ((AttackAbility)ability1).dotTime;
-        }
-        else {
-            damageRatio = ((AttackAbility)ability2).damage;
-            dotDamageRatio = ((AttackAbility)ability2).dotDamage;
-            dotTime = ((AttackAbility)ability2).dotTime;
-        }
-        bool isRanged = am.fusionIsRangedChoice;
+        damageRatio = ((AttackAbility)ability1).damage;
+        dotDamageRatio = ((AttackAbility)ability1).dotDamage;
+        dotTime = ((AttackAbility)ability1).dotTime;
+        bool isRanged = ((AttackAbility)ability1).isRanged;
         float cooldown;
-        if (am.fusionCooldownChoice == 0) cooldown = ability1.cooldown;
-        else cooldown = ability2.cooldown;
+        cooldown = ability1.cooldown;
         int mp, baseMp;
-        if (am.fusionMpUsageChoice == 0) {
-            mp = ability1.mpUsage;
-            baseMp = ability1.baseMpUsage;
-        }
-        else {
-            mp = ability2.mpUsage;
-            baseMp = ability2.baseMpUsage;
-        }
+        mp = ability1.mpUsage;
+        baseMp = ability1.baseMpUsage;
         float radius;
-        if (am.fusionRadiusChoice == 0) radius = ((AttackAbility)ability1).radius;
-        else radius = ((AttackAbility)ability2).radius;
-        return CreateNewAttackAbilityForFusion(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, am.fusionAbilityAttributesSelected);
+        radius = ((AttackAbility)ability1).radius;
+        var attributes = GetCombinedAttributes(ability1, ability2);
+        return CreateNewAttackAbilityForFusion(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes);
     }
 
     private static AttackAbility CreateNewAttackAbilityForFusion(int points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, int mp, int baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes) {
@@ -113,6 +90,7 @@ public class AbilityFusion {
         else if (baseMp == 20) points = (int)(points * 1.125f);
         if (radius != 0) points = points / (int)(radius * radius);
         foreach (var attribute in abilityAttributes) {
+            if (attribute.priority < 50) continue;
             switch (attribute.type) {
                 case "createDamageZone":
                     break;
@@ -208,20 +186,12 @@ public class AbilityFusion {
     }
 
     public static UtilityAbility FuseUtility(int points, ActiveAbility ability1, ActiveAbility ability2) {
-        var am = AbilityMenu.instance;
         float cooldown;
-        if (am.fusionCooldownChoice == 0) cooldown = ability1.cooldown;
-        else cooldown = ability2.cooldown;
-        int mp, baseMp;
-        if (am.fusionMpUsageChoice == 0) {
-            mp = ability1.mpUsage;
-            baseMp = ability1.baseMpUsage;
-        }
-        else {
-            mp = ability2.mpUsage;
-            baseMp = ability2.baseMpUsage;
-        }
-        return CreateNewUtilityAbilityForFusion(points, cooldown, mp, baseMp, am.fusionAbilityAttributesSelected);
+        cooldown = ability1.cooldown;
+        int mp = ability1.mpUsage;
+        int baseMp = ability1.baseMpUsage;
+        var attributes = GetCombinedAttributes(ability1, ability2);
+        return CreateNewUtilityAbilityForFusion(points, cooldown, mp, baseMp, attributes);
     }
 
     private static UtilityAbility CreateNewUtilityAbilityForFusion(int points, float cooldown, int mp, int baseMp, List<AbilityAttribute> abilityAttributes) {
@@ -250,6 +220,7 @@ public class AbilityFusion {
         else if (baseMp == 80) points = (int)(points * 1.75f);
         else if (baseMp == 20) points = (int)(points * 1.125f);
         foreach (var attribute in abilityAttributes) {
+            if (attribute.priority < 50) continue;
             switch (attribute.type) {
                 case "offGCD":
                     points = (int)(points * 0.5f);
@@ -357,5 +328,33 @@ public class AbilityFusion {
             default:
                 return 8;
         }
+    }
+
+    private static List<AbilityAttribute> GetCombinedAttributes(Ability ability1, Ability ability2) {
+        var output = new List<AbilityAttribute>();
+        foreach (var attr in ability1.attributes) {
+            var existingAttribute = GetExistingAttribute(output, attr);
+            if (existingAttribute == null) output.Add(attr.Copy());
+            else output[output.IndexOf(existingAttribute)] = SquashAttributes(existingAttribute, attr);
+        }
+        return output;
+    }
+
+    private static AbilityAttribute GetExistingAttribute(List<AbilityAttribute> list, AbilityAttribute checkedAttribute) {
+        foreach (var attr in list) if (attr.type == checkedAttribute.type) return attr;
+        return null;
+    }
+
+    private static AbilityAttribute SquashAttributes(AbilityAttribute attr1, AbilityAttribute attr2) {
+        var attr1Copy = attr1.Copy();
+        var attr2Copy = attr2.Copy();
+        attr1Copy.points = ((attr1Copy.points + attr2Copy.points) / 2) * Mathf.Pow(1.05f, 3);
+        attr1Copy.priority = attr1Copy.points + attr2Copy.points;
+        foreach (var param in attr1Copy.parameters) {
+            var param2 = attr2Copy.FindParameter(param.name);
+            if (param.type == DataType.floatType) param.floatVal = (param.floatVal + param2.floatVal) / 2f;
+            else if (param.type == DataType.intType) param.intVal = (param.intVal + param2.intVal) / 2;
+        }
+        return attr1Copy;
     }
 }
