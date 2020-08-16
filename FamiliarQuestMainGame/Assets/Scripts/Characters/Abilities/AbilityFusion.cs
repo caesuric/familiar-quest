@@ -337,6 +337,13 @@ public class AbilityFusion {
             if (existingAttribute == null) output.Add(attr.Copy());
             else output[output.IndexOf(existingAttribute)] = SquashAttributes(existingAttribute, attr);
         }
+        foreach (var attr in ability2.attributes) {
+            var existingAttribute = GetExistingAttribute(output, attr);
+            if (existingAttribute == null) output.Add(attr.Copy());
+            else output[output.IndexOf(existingAttribute)] = SquashAttributes(existingAttribute, attr);
+        }
+        output.Sort((AbilityAttribute attr1, AbilityAttribute attr2) => { return attr1.priority.CompareTo(attr2.priority); });
+        output.Reverse();
         return output;
     }
 

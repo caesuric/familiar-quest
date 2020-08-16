@@ -104,7 +104,7 @@ public static class AbilityDescriber {
         string afterDescription = "";
         int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (attribute.priority < 50 || count > 3) description += "LATENT - ";
+            if (attribute.priority < 50 || count > 3) afterDescription += "LATENT - ";
             switch (attribute.type) {
                 case "createDamageZone":
                     afterDescription += "Creates damage zone\n";
