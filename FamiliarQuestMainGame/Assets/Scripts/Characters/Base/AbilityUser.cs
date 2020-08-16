@@ -58,8 +58,16 @@ public class AbilityUser : MonoBehaviour {
         if (!AbilityUsable(ability)) return;
         GetComponent<Mana>().mp -= ability.mpUsage;
         AbilitySetCooldowns(ability);
-        foreach (var attr in ability.attributes) if (attr.priority >= 50 && attributeEffects.ContainsKey(attr.type)) attributeEffects[attr.type](ability, attr);
-        foreach (var attr in ability.attributes) if (attr.priority >= 50 && attr.type == "selfDestruct") return;
+        int count = 0;
+        foreach (var attr in ability.attributes) {
+            if (attr.priority >= 50 && count < 4 && attributeEffects.ContainsKey(attr.type)) attributeEffects[attr.type](ability, attr);
+            count++;
+        }
+        count = 0;
+        foreach (var attr in ability.attributes) {
+            if (attr.priority >= 50 && count < 4 && attr.type == "selfDestruct") return;
+            count++;
+        }
         if (ability is AttackAbility) GetComponent<Attacker>().UseAttack((AttackAbility)ability);
         AbilityAffectStealth(ability);
     }

@@ -69,7 +69,9 @@ public static class AbilityNamer {
     public static string Name(UtilityAbility ability) {
         string baseName = "";
         string nameMod = "";
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) continue;
             switch (attribute.type) {
                 case "restoreMP":
                     baseName = "Concentration";
@@ -132,6 +134,7 @@ public static class AbilityNamer {
                 default:
                     break;
             }
+            count++;
         }
         if (nameMod == "") return baseName;
         return nameMod + " " + baseName;
@@ -153,7 +156,9 @@ public static class AbilityNamer {
             name = "Draining " + name;
             prefixes++;
         }
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) continue;
             switch (attribute.type) {
                 case "createDamageZone":
                     if (suffixes < 1) {
@@ -334,6 +339,7 @@ public static class AbilityNamer {
                 default:
                     break;
             }
+            count++;
         }
         return name;
     }
@@ -341,7 +347,9 @@ public static class AbilityNamer {
     public static string Name(PassiveAbility ability) {
         string baseName = "";
         string nameMod = "";
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) continue;
             switch (attribute.type) {
                 case "damageEnemiesOnScreen":
                 default:
@@ -397,6 +405,7 @@ public static class AbilityNamer {
                     }
                     break;
             }
+            count++;
         }
         if (nameMod == "") return baseName;
         return nameMod + " " + baseName;

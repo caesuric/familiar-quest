@@ -14,4 +14,9 @@ public abstract class Ability {
         foreach (var item in attributes) if (item.type == attribute) return item;
         return null;
     }
+
+    public void SortAttributes() {
+        attributes.Sort((AbilityAttribute attr1, AbilityAttribute attr2) => { return attr1.priority.CompareTo(attr2.priority); });
+        attributes.Reverse();
+    }
 }

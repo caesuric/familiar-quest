@@ -259,7 +259,7 @@ public static class AttackAbilityTable {
         for (int i = 0; i < numAttributes; i++) {
             var attribute = AbilityAttribute.GetAttackAttribute(points, priority, mp, isDot, radius, rangedRoll == 1, cooldown, element);
             if (attribute != null && !DuplicateStealthy(attribute, attributes)) {
-                if (attribute.priority >= 50) points -= attribute.points;
+                if (attribute.priority >= 50 && i < 4) points -= attribute.points;
                 attributes.Add(attribute);
                 if (attribute.type == "createDamageZone") aoe = baseDamageZones[element];
             }

@@ -18,12 +18,13 @@ public class PassiveAbility : Ability {
         for (int i=0; i<numAttributes; i++) {
             var attribute = AbilityAttribute.GetPassiveAttribute(points, priority, numAttributes);
             if (attribute != null) {
-                if (attribute.priority >= 50) points -= attribute.points;
+                if (attribute.priority >= 50 && i < 4) points -= attribute.points;
                 attributes.Add(attribute);
             }
         }
         if (AbilityValid(attributes)) {
             var ability = new PassiveAbility("", "", 0, attributes.ToArray());
+            ability.SortAttributes();
             ability.icon = AbilityIconGenerator.Retrieve(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.points = (int)initialPoints;

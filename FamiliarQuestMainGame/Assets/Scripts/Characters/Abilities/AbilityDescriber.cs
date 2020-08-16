@@ -12,7 +12,9 @@ public static class AbilityDescriber {
         if (ability.mpUsage > 0) description += "<b>MP</b>: " + ability.mpUsage.ToString() + "\n";
         if (ability.cooldown >= 60) description += "<b>Cooldown</b>: " + (ability.cooldown / 60).ToString() + "m\n";
         else if (ability.cooldown > 0) description += "<b>Cooldown</b>: " + ability.cooldown.ToString() + "s\n";
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) description += "LATENT - ";
             switch (attribute.type) {
                 case "restoreMP":
                     description += "Restores {{restoreMP}} MP.\n";
@@ -81,6 +83,7 @@ public static class AbilityDescriber {
                 default:
                     break;
             }
+            count++;
         }
         return description;
     }
@@ -99,7 +102,9 @@ public static class AbilityDescriber {
         else if (ability.cooldown > 0) description += "<b>Cooldown</b>: " + ability.cooldown.ToString() + "s\n";
         var attributes = new List<AbilityAttribute>();
         string afterDescription = "";
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) description += "LATENT - ";
             switch (attribute.type) {
                 case "createDamageZone":
                     afterDescription += "Creates damage zone\n";
@@ -186,6 +191,7 @@ public static class AbilityDescriber {
                 default:
                     break;
             }
+            count++;
         }
         if (ability.dotDamage > 0) {
             description += "Deals {{dotDamage}} damage over " + ability.dotTime.ToString() + " seconds.\n";
@@ -199,7 +205,9 @@ public static class AbilityDescriber {
 
     public static string Describe(PassiveAbility ability) {
         string description = "L" + ability.GetLevel().ToString() + " <b>Passive</b>\n";
+        int count = 0;
         foreach (var attribute in ability.attributes) {
+            if (attribute.priority < 50 || count > 3) description += "LATENT - ";
             switch (attribute.type) {
                 case "damageEnemiesOnScreen":
                 default:
@@ -255,6 +263,7 @@ public static class AbilityDescriber {
                     }
                     break;
             }
+            count++;
         }
         return description;
     }

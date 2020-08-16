@@ -37,7 +37,7 @@ public static class UtilityAbilityTable {
         for (int i = 0; i < numAttributes; i++) {
             var attribute = AbilityAttribute.GetUtilityAttribute(points, priority, mp, cooldown, numAttributes, targetType);
             if (attribute != null) {
-                if (attribute.priority >= 50) points -= attribute.points;
+                if (attribute.priority >= 50 && i < 4) points -= attribute.points;
                 attributes.Add(attribute);
             }
         }
