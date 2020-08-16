@@ -10,12 +10,13 @@ public class PassiveAbility : Ability {
     }
     public static PassiveAbility Generate(float points) {
         var initialPoints = points;
+        var priority = Random.Range(12.5f, 100f);
         int attributesRoll = Random.Range(0, 100);
         int numAttributes = 1;
         if (attributesRoll >= 80) numAttributes = 2;
         var attributes = new List<AbilityAttribute>();
         for (int i=0; i<numAttributes; i++) {
-            var attribute = AbilityAttribute.GetPassiveAttribute(points, numAttributes);
+            var attribute = AbilityAttribute.GetPassiveAttribute(points, priority, numAttributes);
             if (attribute != null) {
                 points -= attribute.points;
                 attributes.Add(attribute);

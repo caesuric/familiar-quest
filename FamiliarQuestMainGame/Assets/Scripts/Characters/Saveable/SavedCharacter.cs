@@ -849,12 +849,16 @@ public class SavedElementalAffinity
 public class SavedAbilityAttribute
 {
     public string type;
+    public float points;
+    public float priority;
     public List<SavedAbilityParameter> parameters = new List<SavedAbilityParameter>();
 
     public static SavedAbilityAttribute ConvertFrom(AbilityAttribute attribute)
     {
         var obj = new SavedAbilityAttribute {
-            type = attribute.type
+            type = attribute.type,
+            points = attribute.points,
+            priority = attribute.priority
         };
         foreach (var parameter in attribute.parameters) obj.parameters.Add(SavedAbilityParameter.ConvertFrom(parameter));
         return obj;
@@ -869,7 +873,7 @@ public class SavedAbilityAttribute
             i++;
             paramList[i] = parameter.ConvertTo();
         }
-        return new AbilityAttribute(type, paramList);
+        return new AbilityAttribute(type, points, priority, paramList);
     }
 }
 

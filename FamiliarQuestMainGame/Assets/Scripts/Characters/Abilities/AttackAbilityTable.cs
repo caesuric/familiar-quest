@@ -104,6 +104,7 @@ public static class AttackAbilityTable {
 
     public static AttackAbility Retrieve(float points = 70f) {
         var startingPoints = points;
+        var priority = Random.Range(12.5f, 100f);
         int rangedRoll = Random.Range(0, 2);
         int usesMPRoll = Random.Range(0, 2);
         BaseStat baseStat;
@@ -256,7 +257,7 @@ public static class AttackAbilityTable {
         }
         var attributes = new List<AbilityAttribute>();
         for (int i = 0; i < numAttributes; i++) {
-            var attribute = AbilityAttribute.GetAttackAttribute(points, mp, isDot, radius, rangedRoll == 1, cooldown, element);
+            var attribute = AbilityAttribute.GetAttackAttribute(points, priority, mp, isDot, radius, rangedRoll == 1, cooldown, element);
             if (attribute != null && !DuplicateStealthy(attribute, attributes)) {
                 points -= attribute.points;
                 attributes.Add(attribute);

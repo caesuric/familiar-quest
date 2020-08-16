@@ -8,6 +8,7 @@ public static class UtilityAbilityTable {
 
     public static UtilityAbility Retrieve(float points) {
         var initialPoints = points;
+        var priority = Random.Range(12.5f, 100f);
         int usesMPRoll = Random.Range(0, 3);
         BaseStat baseStat = DetermineBaseStat(usesMPRoll);
         int mp;
@@ -34,7 +35,7 @@ public static class UtilityAbilityTable {
         int icon = 0;
         var attributes = new List<AbilityAttribute>();
         for (int i = 0; i < numAttributes; i++) {
-            var attribute = AbilityAttribute.GetUtilityAttribute(points, mp, cooldown, numAttributes, targetType);
+            var attribute = AbilityAttribute.GetUtilityAttribute(points, priority, mp, cooldown, numAttributes, targetType);
             if (attribute != null) {
                 points -= attribute.points;
                 attributes.Add(attribute);
