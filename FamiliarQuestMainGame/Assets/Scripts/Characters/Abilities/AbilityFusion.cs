@@ -10,7 +10,7 @@ public class AbilityFusion {
         float calcPoints = (ability1.points + ability2.points) / 2;
         calcPoints *= Mathf.Pow(1.05f, 3);
         float maxPoints = 70;
-        for (int i = 1; i < PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level; i++) maxPoints = maxPoints * 1.05f;
+        for (int i = 0; i < PlayerCharacter.localPlayer.GetComponent<ExperienceGainer>().level; i++) maxPoints = maxPoints * 1.05f;
         if (calcPoints > maxPoints) calcPoints = maxPoints;
         int points = (int)calcPoints;
         bool isAttack = false;

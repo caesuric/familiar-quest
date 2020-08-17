@@ -42,7 +42,7 @@ public class SpiritUser : MonoBehaviour {
     }
 
     public void MaintainPassives() {
-        foreach (var spirit in spirits) foreach (var passive in spirit.passiveAbilities) if (passive != null) foreach (var attribute in passive.attributes) if (passiveMethods.ContainsKey(attribute.type)) passiveMethods[attribute.type](attribute);
+        foreach (var spirit in spirits) foreach (var passive in spirit.passiveAbilities) if (passive != null) foreach (var attribute in passive.attributes) if (passiveMethods.ContainsKey(attribute.type) && attribute.priority >= 50) passiveMethods[attribute.type](attribute);
     }
 
     private void MaintainDamageEnemiesOnScreen(AbilityAttribute attribute) {

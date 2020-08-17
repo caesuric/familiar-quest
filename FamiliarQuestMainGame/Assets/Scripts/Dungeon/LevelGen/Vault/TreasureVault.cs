@@ -161,14 +161,14 @@ public class TreasureVault : Vault {
         var elementalAffinityRoll = RNG.Int(0, 3);
         if (elementalAffinityRoll == 0) elementalAffinity = allElements[RNG.Int(0, allElements.Count)];
         for (int i = 0; i < 2; i++) bossLootSlotAffinities.Add(allLootTypes[RNG.Int(0, allLootTypes.Count)]);
-        Debug.Log("loot slots:");
-        foreach (var slot in lootSlotAffinities) Debug.Log(slot);
-        Debug.Log("stat affinities:");
-        foreach (var affinity in lootPrimaryStatAffinities) Debug.Log(affinity);
-        foreach (var affinity in lootSecondaryStatAffinities) Debug.Log(affinity);
-        if (elementalAffinityRoll == 0) Debug.Log("elemental affinity: " + elementalAffinity.ToString());
-        Debug.Log("boss loot slots");
-        foreach (var slot in bossLootSlotAffinities) Debug.Log(slot);
+        //Debug.Log("loot slots:");
+        //foreach (var slot in lootSlotAffinities) Debug.Log(slot);
+        //Debug.Log("stat affinities:");
+        //foreach (var affinity in lootPrimaryStatAffinities) Debug.Log(affinity);
+        //foreach (var affinity in lootSecondaryStatAffinities) Debug.Log(affinity);
+        //if (elementalAffinityRoll == 0) Debug.Log("elemental affinity: " + elementalAffinity.ToString());
+        //Debug.Log("boss loot slots");
+        //foreach (var slot in bossLootSlotAffinities) Debug.Log(slot);
     }
 
     public void CreateRandomEnemyBuffs(int targetLevel) {

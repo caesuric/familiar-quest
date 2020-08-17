@@ -283,7 +283,11 @@ public class Health : MonoBehaviour {
 
     public void ApplyEffectsFromAttack(Character attacker, AttackAbility ability, float damage, Transform projectileTransform) {
         Dictionary<string, Effect> effects = SetUpEffectDictionary(attacker, ability, damage, projectileTransform);
-        foreach (var attribute in ability.attributes) if (effects.ContainsKey(attribute.type)) effects[attribute.type](attribute);
+        int count = 0;
+        foreach (var attribute in ability.attributes) {
+            if (effects.ContainsKey(attribute.type) && attribute.priority >= 50 && count < 4) effects[attribute.type](attribute);
+            count++;            
+        }
         if (attacker!=null && attacker.GetComponent<SpiritUser>().HasPassive("knockback")) Effects.KnockbackDefault(attacker, GetComponent<Character>());
         if (attacker!=null && attacker.GetComponent<SpiritUser>().HasPassive("pullEnemies")) Effects.PullTowardsDefault(attacker, GetComponent<Character>());
         if (ability.FindAttribute("createDamageZone") == null && ability.dotDamage > 0) GetComponent<StatusEffectHost>().AddStatusEffect("dot", ability.dotTime, degree: ability.CalculateDotDamage(attacker), inflicter: attacker, ability: ability);

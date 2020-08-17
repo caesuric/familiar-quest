@@ -107,7 +107,8 @@ public class ExperienceGainer : MonoBehaviour {
         xp += amount;
         if (xp >= xpTable[level - 1]) LevelUp();
         Calculate();
-        AddExperienceToSoulGems(amount / 2);
+        float halfAmount = amount / 2f;
+        AddExperienceToSoulGems(Mathf.CeilToInt(halfAmount));
     }
 
     private void AddExperienceToSoulGems(int amount) {

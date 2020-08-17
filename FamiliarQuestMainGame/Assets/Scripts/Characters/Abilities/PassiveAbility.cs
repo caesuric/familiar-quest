@@ -68,5 +68,6 @@ public class PassiveAbility : Ability {
                 else if (parameter.type == DataType.intType) parameter.intVal = (int)(parameter.intVal * ratio);
             }
         }
+        description = AbilityDescriber.Describe(this);
     }
 }

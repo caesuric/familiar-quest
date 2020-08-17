@@ -38,7 +38,7 @@ public abstract class Ability {
         xp += experienceGained;
         var targetLevel = 1;
         for (int i = 0; i < 50; i++) {
-            if (experienceGained >= ExperienceGainer.xpTable[i]) targetLevel++;
+            if (xp >= ExperienceGainer.xpTable[i]) targetLevel++;
             else break;
         }
         if (targetLevel > level) {
@@ -46,6 +46,7 @@ public abstract class Ability {
             ShowLevelUpFloatingText();
         }
         level = targetLevel;
+        //Debug.Log(name + ": " + xp.ToString() + ", " + level.ToString());
     }
 
     private void ShowLevelUpFloatingText() {

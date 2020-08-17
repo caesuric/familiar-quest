@@ -69,5 +69,6 @@ public class AttackAbility : ActiveAbility {
         mpUsage = newAbility.mpUsage;
         baseMpUsage = newAbility.baseMpUsage;
         attributes = newAbility.attributes;
+        description = AbilityDescriber.Describe(this);
     }
 }
