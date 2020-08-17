@@ -28,6 +28,7 @@ public class PassiveAbility : Ability {
             ability.icon = AbilityIconGenerator.Retrieve(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.points = (int)initialPoints;
+            ability.SetLevel(GetLevelFromPoints((int)initialPoints));
             ability.description = AbilityDescriber.Describe(ability);
             return ability;
         }
@@ -53,5 +54,19 @@ public class PassiveAbility : Ability {
         var newAbility = new PassiveAbility(name, description, icon, new AbilityAttribute[] { });
         foreach (var attribute in attributes) newAbility.attributes.Add(attribute.Copy());
         return newAbility;
+    }
+
+    protected override void LevelUp(int originalLevel, int targetLevel) {
+        float originalPoints = 70f;
+        float targetPoints = 70f;
+        for (int i = 1; i < originalLevel; i++) originalPoints *= 1.05f;
+        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
+        float ratio = targetPoints / originalPoints;
+        foreach (var attribute in attributes) {
+            foreach (var parameter in attribute.parameters) {
+                if (parameter.type == DataType.floatType) parameter.floatVal *= ratio;
+                else if (parameter.type == DataType.intType) parameter.intVal = (int)(parameter.intVal * ratio);
+            }
+        }
     }
 }

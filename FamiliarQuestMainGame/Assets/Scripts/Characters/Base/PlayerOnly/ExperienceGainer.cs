@@ -107,6 +107,20 @@ public class ExperienceGainer : MonoBehaviour {
         xp += amount;
         if (xp >= xpTable[level - 1]) LevelUp();
         Calculate();
+        AddExperienceToSoulGems(amount / 2);
+    }
+
+    private void AddExperienceToSoulGems(int amount) {
+        var su = GetComponent<SpiritUser>();
+        foreach (var passive in su.spirits[0].passiveAbilities) {
+            passive.GainExperience(amount);
+        }
+        foreach (var active in su.spirits[0].activeAbilities) {
+            active.GainExperience(amount);
+        }
+        foreach (var ability in su.overflowAbilities) {
+            ability.GainExperience(amount);
+        }
     }
 
     private void LevelUp() {

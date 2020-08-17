@@ -311,6 +311,7 @@ public static class AttackAbilityTable {
         var newAbility = new AttackAbility("", "", damage, element, baseStat, dotDamage: dotDamage, dotTime: dotTime, isRanged: rangedRoll == 1, cooldown: cooldown, mpUsage: mp, baseMpUsage: baseMp, radius: radius, icon: icon, hitEffect: hitEffect, rangedProjectile: projectile, aoe: aoe, attributes: attributes.ToArray());
         newAbility.name = AbilityNamer.Name(newAbility);
         newAbility.points = (int)startingPoints;
+        newAbility.SetLevel(Ability.GetLevelFromPoints((int)startingPoints));
         newAbility.description = AbilityDescriber.Describe(newAbility);
         return newAbility;
     }

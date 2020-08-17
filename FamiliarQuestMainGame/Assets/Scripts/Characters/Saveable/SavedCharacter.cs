@@ -697,6 +697,10 @@ public class SavedActiveAbility : SavedAbility
     [OptionalField]
     public int points = 70;
     [OptionalField]
+    public int level = 1;
+    [OptionalField]
+    public long xp = 0;
+    [OptionalField]
     public int baseMpUsage = 0;
 
     public static SavedActiveAbility ConvertFrom(ActiveAbility ability)
@@ -716,6 +720,8 @@ public class SavedActiveAbility : SavedAbility
         obj.description = ability.description;
         obj.baseStat = ability.baseStat;
         obj.points = ability.points;
+        obj.xp = ability.xp;
+        obj.level = ability.level;
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
     }
@@ -735,6 +741,8 @@ public class SavedActiveAbility : SavedAbility
         obj.baseStat = baseStat;
         if (points == 0) points = 70;
         obj.points = points;
+        obj.xp = xp;
+        obj.level = level;
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
         return obj;
     }
@@ -771,7 +779,9 @@ public class SavedAttackAbility : SavedActiveAbility
             rangedProjectile = ability.rangedProjectile,
             hitEffect = ability.hitEffect,
             aoe = ability.aoe,
-            points = ability.points
+            points = ability.points,
+            xp = ability.xp,
+            level = ability.level
         };
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
@@ -780,7 +790,10 @@ public class SavedAttackAbility : SavedActiveAbility
     public override ActiveAbility ConvertTo()
     {
         if (points == 0) points = 70;
-        var obj = new AttackAbility(name, description, damage, element, baseStat, icon, dotDamage, dotTime, isRanged, rangedProjectile, cooldown, mpUsage, baseMpUsage, radius, hitEffect, aoe, points: points);
+        var obj = new AttackAbility(name, description, damage, element, baseStat, icon, dotDamage, dotTime, isRanged, rangedProjectile, cooldown, mpUsage, baseMpUsage, radius, hitEffect, aoe, points: points) {
+            xp = xp,
+            level = level
+        };
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
         return obj;
     }
@@ -795,6 +808,10 @@ public class SavedPassiveAbility : SavedAbility {
     [OptionalField]
     public int points = 70;
     [OptionalField]
+    public int level = 1;
+    [OptionalField]
+    public long xp = 0;
+    [OptionalField]
     public int baseMpUsage = 0;
 
     public static SavedPassiveAbility ConvertFrom(PassiveAbility ability) {
@@ -806,6 +823,8 @@ public class SavedPassiveAbility : SavedAbility {
         obj.name = ability.name;
         obj.description = ability.description;
         obj.points = ability.points;
+        obj.level = ability.level;
+        obj.xp = ability.xp;
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
     }
@@ -816,6 +835,8 @@ public class SavedPassiveAbility : SavedAbility {
         };
         if (points == 0) points = 70;
         obj.points = points;
+        obj.level = level;
+        obj.xp = xp;
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
         return obj;
     }

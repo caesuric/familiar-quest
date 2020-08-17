@@ -48,6 +48,7 @@ public static class UtilityAbilityTable {
             ability.icon = AbilityIconGenerator.Retrieve(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.points = (int)initialPoints;
+            ability.SetLevel(Ability.GetLevelFromPoints((int)initialPoints));
             ability.description = AbilityDescriber.Describe(ability);
             return ability;
         }

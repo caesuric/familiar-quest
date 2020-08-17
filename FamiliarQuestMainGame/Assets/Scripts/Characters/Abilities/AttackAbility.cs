@@ -58,4 +58,16 @@ public class AttackAbility : ActiveAbility {
         }
         return attackPower * dotDamage / dotTime;
     }
+
+    protected override void LevelUp(int originalLevel, int targetLevel) {
+        float targetPoints = 70f;
+        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
+        var newAbility = AbilityFusion.CreateNewAttackAbilityForFusion((int)targetPoints, element, baseStat, damage, dotDamage, dotTime, isRanged, cooldown, mpUsage, baseMpUsage, radius, icon, hitEffect, rangedProjectile, aoe, attributes);
+        points = (int)targetPoints;
+        damage = newAbility.damage;
+        dotDamage = newAbility.dotDamage;
+        mpUsage = newAbility.mpUsage;
+        baseMpUsage = newAbility.baseMpUsage;
+        attributes = newAbility.attributes;
+    }
 }

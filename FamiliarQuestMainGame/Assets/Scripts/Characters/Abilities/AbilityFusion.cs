@@ -16,8 +16,11 @@ public class AbilityFusion {
         bool isAttack = false;
         if (AbilityMenu.instance.fusionAbilityTypeChoice == 0 && ability1 is AttackAbility) isAttack = true;
         else if (AbilityMenu.instance.fusionAbilityTypeChoice == 1 && ability2 is AttackAbility) isAttack = true;
-        if (isAttack) return FuseAttack(points, ability1, ability2);
-        else return FuseUtility(points, ability1, ability2);
+        ActiveAbility ability = null;
+        if (isAttack) ability = FuseAttack(points, ability1, ability2);
+        else ability = FuseUtility(points, ability1, ability2);
+        ability.SetLevel(Ability.GetLevelFromPoints(points));
+        return ability;
     }
 
     public static AttackAbility FuseAttack(int points, ActiveAbility ability1, ActiveAbility ability2) {
@@ -48,7 +51,7 @@ public class AbilityFusion {
         return CreateNewAttackAbilityForFusion(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes);
     }
 
-    private static AttackAbility CreateNewAttackAbilityForFusion(int points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, int mp, int baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes) {
+    public static AttackAbility CreateNewAttackAbilityForFusion(int points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, int mp, int baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes) {
         var startingPoints = points;
         List<AbilityAttribute> paralysis = new List<AbilityAttribute>();
         foreach (var attribute in abilityAttributes) if (attribute.type == "paralyze") paralysis.Add(attribute);
@@ -194,7 +197,7 @@ public class AbilityFusion {
         return CreateNewUtilityAbilityForFusion(points, cooldown, mp, baseMp, attributes);
     }
 
-    private static UtilityAbility CreateNewUtilityAbilityForFusion(int points, float cooldown, int mp, int baseMp, List<AbilityAttribute> abilityAttributes) {
+    public static UtilityAbility CreateNewUtilityAbilityForFusion(int points, float cooldown, int mp, int baseMp, List<AbilityAttribute> abilityAttributes) {
         var startingPoints = points;
         points = CalculateUtilityAbilityPoints(points, mp, baseMp, cooldown, abilityAttributes);
         var newAbility = new UtilityAbility("", "", cooldown: cooldown, mpUsage: ActiveAbility.CalculateMpUsage(baseMp, points), baseMpUsage: baseMp, attributes: abilityAttributes.ToArray()) {

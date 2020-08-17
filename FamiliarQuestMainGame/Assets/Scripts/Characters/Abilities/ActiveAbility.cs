@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveAbility : Ability {
+public abstract class ActiveAbility : Ability {
     public float cooldown = 0f;
     public float currentCooldown = 0f;
     public int mpUsage = 0;

@@ -16,4 +16,14 @@ public class UtilityAbility : ActiveAbility {
         this.baseStat = baseStat;
         foreach (var item in attributes) this.attributes.Add(item);
     }
+
+    protected override void LevelUp(int originalLevel, int targetLevel) {
+        float targetPoints = 70f;
+        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
+        var newAbility = AbilityFusion.CreateNewUtilityAbilityForFusion((int)targetPoints, cooldown, mpUsage, baseMpUsage, attributes);
+        points = (int)targetPoints;
+        mpUsage = newAbility.mpUsage;
+        baseMpUsage = newAbility.baseMpUsage;
+        attributes = newAbility.attributes;
+    }
 }
