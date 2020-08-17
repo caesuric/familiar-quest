@@ -39,7 +39,7 @@ public static class AttackAttributeTable {
     }
 
     private static AbilityAttribute GetCreateDamageZone(float points, float priority, int mp, bool isDot, float radius, bool isRanged, float cooldown, Element baseElement) {
-        if (radius > 0 && isDot) return new AbilityAttribute("createDamageZone", priority, 0);
+        if (radius > 0 && isDot) return new AbilityAttribute("createDamageZone", 0, priority);
         else return Retrieve(points, priority, mp, isDot, radius, isRanged, cooldown, baseElement);
     }
 
