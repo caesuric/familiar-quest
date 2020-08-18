@@ -3,7 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class UtilityAbility: ActiveAbility {
+    public string targetType = "";
 
+    public override Ability Copy() {
+        var newAbility = new UtilityAbility {
+            name = name,
+            description = description,
+            baseStat = baseStat,
+            icon = icon,
+            cooldown = cooldown,
+            mpUsage = mpUsage,
+            baseMpUsage = baseMpUsage,
+            radius = radius,
+            points = points
+        };
+        foreach (var attribute in attributes) newAbility.attributes.Add(attribute.Copy());
+        return newAbility;
+    }
 }
 
 //public class UtilityAbility : ActiveAbility {

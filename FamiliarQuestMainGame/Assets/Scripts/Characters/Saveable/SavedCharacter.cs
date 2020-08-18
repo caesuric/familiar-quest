@@ -889,7 +889,7 @@ public class SavedAbilityAttribute
 
     public AbilityAttribute ConvertTo()
     {
-        var paramList = new AbilityParameter[parameters.Count];
+        var paramList = new AbilityAttributeParameter[parameters.Count];
         int i = -1;
         foreach (var parameter in parameters)
         {
@@ -913,7 +913,7 @@ public class SavedAbilityParameter {
     public float floatVal;
     public string stringVal;
 
-    public static SavedAbilityParameter ConvertFrom(AbilityParameter parameter) {
+    public static SavedAbilityParameter ConvertFrom(AbilityAttributeParameter parameter) {
         var obj = new SavedAbilityParameter {
             name = parameter.name,
             type = parameter.type,
@@ -924,8 +924,8 @@ public class SavedAbilityParameter {
         return obj;
     }
 
-    public AbilityParameter ConvertTo() {
-        return new AbilityParameter(name, type, intVal, floatVal, stringVal);
+    public AbilityAttributeParameter ConvertTo() {
+        return new AbilityAttributeParameter(name, type, intVal, floatVal, stringVal);
     }
 }
 

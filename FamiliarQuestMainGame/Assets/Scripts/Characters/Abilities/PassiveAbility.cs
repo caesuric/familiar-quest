@@ -2,7 +2,15 @@
 using UnityEngine;
 
 public class PassiveAbility: Ability {
-
+    public override Ability Copy() {
+        var newAbility = new PassiveAbility {
+            name = name,
+            description = description,
+            icon = icon
+        };
+        foreach (var attribute in attributes) newAbility.attributes.Add(attribute.Copy());
+        return newAbility;
+    }
 }
 
 //public class PassiveAbility : Ability {

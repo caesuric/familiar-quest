@@ -40,7 +40,7 @@ public class ObjectSpawner : MonoBehaviour {
     }
 
     //[Command]
-    public void CmdCreateFloatingText(string str, Color color, int size, string logText) {
+    public void CreateFloatingText(string str, Color color, int size, string logText) {
         var text = Instantiate(floatingTextPrefab, transform.position, Quaternion.Euler(0, 0, 0));
         var billboard = text.GetComponent<Billboard>();
         billboard.mainCamera = GetComponent<Camera>();
