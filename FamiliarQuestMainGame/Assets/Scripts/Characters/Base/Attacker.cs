@@ -11,7 +11,6 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(SimulatedNoiseGenerator))]
 [RequireComponent(typeof(CacheGrabber))]
 [RequireComponent(typeof(AbilityUser))]
-[RequireComponent(typeof(SpiritUser))]
 public class Attacker : MonoBehaviour {
     public bool isAttacking = false;
     //public float critRate;
@@ -161,7 +160,7 @@ public class Attacker : MonoBehaviour {
     private void UseMeleeAttack(AttackAbility ability, float damage, float calculatedDamage) {
         if (ability==null && GetComponent<AbilityUser>().GCDTime > 0) return;
         GetComponent<AbilityUser>().GCDTime = AbilityUser.maxGCDTime;
-        if (ability.FindAttribute("chargeTowards") != null || GetComponent<SpiritUser>().HasPassive("charge")) ChargeTowards();
+        if (ability.FindAttribute("chargeTowards") != null || GetComponent<AbilityUser>().HasPassive("charge")) ChargeTowards();
         if (ability.FindAttribute("createDamageZone") != null) CreateMeleeDamageZone(ability);
         else if (ability.radius > 0) HitAllInRadius((int)calculatedDamage, ability.radius, ability);
         else {

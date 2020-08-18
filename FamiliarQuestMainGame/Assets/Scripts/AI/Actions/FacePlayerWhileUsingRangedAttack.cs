@@ -10,7 +10,7 @@ namespace AI.Actions {
         private float timer = 0f;
         private static readonly float turnTime = 0.1f;
         MonsterBaseAbilities monsterBaseAbilities = null;
-        SpiritUser spiritUser = null;
+        AbilityUser abilityUser = null;
         private MonsterAnimationController monsterAnimationController = null;
 
         public FacePlayerWhileUsingRangedAttack() {
@@ -50,7 +50,7 @@ namespace AI.Actions {
         private void ContinueAction(GoapAgent agent) {
             if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
             if (monsterBaseAbilities == null) monsterBaseAbilities = agent.GetComponent<MonsterBaseAbilities>();
-            if (spiritUser == null) spiritUser = agent.GetComponent<SpiritUser>();
+            if (abilityUser == null) abilityUser = agent.GetComponent<AbilityUser>();
             if (!ActionPossible(agent)) {
                 monsterAnimationController.attacking = false;
             }
@@ -78,19 +78,17 @@ namespace AI.Actions {
         }
 
         private void UseRangedAbility(GoapAgent agent) {
-            if (monsterBaseAbilities == null || spiritUser == null) return;
+            if (monsterBaseAbilities == null || abilityUser == null) return;
             foreach (var ability in monsterBaseAbilities.baseAbilities) {
                 if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
                     agent.GetComponent<AbilityUser>().UseAbility(ability);
                     return;
                 }
             }
-            foreach (var spirit in spiritUser.spirits) {
-                foreach (var ability in spirit.activeAbilities) {
-                    if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
-                        agent.GetComponent<AbilityUser>().UseAbility(ability);
-                        return;
-                    }
+            foreach (var ability in abilityUser.soulGemActives) {
+                if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
+                    agent.GetComponent<AbilityUser>().UseAbility(ability);
+                    return;
                 }
             }
         }

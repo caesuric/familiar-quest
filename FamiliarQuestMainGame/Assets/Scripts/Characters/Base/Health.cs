@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System;
 
 [RequireComponent(typeof(Character))]
-[RequireComponent(typeof(SpiritUser))]
 [RequireComponent(typeof(StatusEffectHost))]
 [RequireComponent(typeof(ObjectSpawner))]
 public class Health : MonoBehaviour {
@@ -149,14 +148,13 @@ public class Health : MonoBehaviour {
     }
 
     private void ResurrectIfApplicable() {
-        if (hp <= 0 && GetComponent<SpiritUser>().HasPassive("resurrectOnDeath") && GetComponent<SpiritUser>().resurrectionTimer == 0) {
-            hp = maxHP;
-            GetComponent<SpiritUser>().resurrectionTimer = 60 * 60;
-        }
+        //if (hp <= 0 && GetComponent<AbilityUser>().HasPassive("resurrectOnDeath") && GetComponent<SpiritUser>().resurrectionTimer == 0) {
+        //    hp = maxHP;
+        //    GetComponent<AbilityUser>().resurrectionTimer = 60 * 60;
+        //}
     }
 
     private float ModifyDamage(float amount, float criticalRoll, Element type, Character attacker, AttackAbility ability) {
-        amount = GetComponent<SpiritUser>().ModifyDamageForSpirits(amount, type);
         if (GetComponent<Monster>() != null) amount = GetComponent<Monster>().ModifyDamageForElements(amount, type);
         float critRate = 0;
         //if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = attacker.GetComponent<Attacker>().critRate;
@@ -178,34 +176,28 @@ public class Health : MonoBehaviour {
     }
 
     private float ModifyDamageForDamageBoosts(AttackAbility ability, float amount, Character attacker) {
-        var spiritUser = attacker.GetComponent<SpiritUser>();
-        if (spiritUser.spirits.Count == 0) return amount;
-        foreach (var passive in spiritUser.spirits[0].passiveAbilities) {
-            if (passive == null) continue;
-            foreach (var attribute in passive.attributes) {
-                if (attribute.type == "boostDamage") {
-                    amount *= (1 + attribute.FindParameter("degree").floatVal);
-                }
-                else if (attribute.type == "boostElementalDamage" && attribute.FindParameter("element").stringVal == ability.element.ToString()) {
-                    amount *= (1 + attribute.FindParameter("degree").floatVal);
-                }
+        var abilityUser = attacker.GetComponent<AbilityUser>();
+        if (abilityUser.soulGemPassive == null) return amount;
+        foreach (var attribute in abilityUser.soulGemPassive.attributes) {
+            if (attribute.type == "boostDamage") {
+                amount *= (1 + attribute.FindParameter("degree").floatVal);
+            }
+            else if (attribute.type == "boostElementalDamage" && attribute.FindParameter("element").stringVal == ability.element.ToString()) {
+                amount *= (1 + attribute.FindParameter("degree").floatVal);
             }
         }
         return amount;
     }
 
     private float ModifyDamageForDamageReduction(AttackAbility ability, float amount) {
-        var spiritUser = GetComponent<SpiritUser>();
-        if (spiritUser.spirits.Count == 0) return amount;
-        foreach (var passive in spiritUser.spirits[0].passiveAbilities) {
-            if (passive == null) continue;
-            foreach (var attribute in passive.attributes) {
-                if (attribute.type == "reduceDamage") {
-                    amount *= (1 - attribute.FindParameter("degree").floatVal);
-                }
-                else if (attribute.type=="reduceElementalDamage" && attribute.FindParameter("element").stringVal==ability.element.ToString()) {
-                    amount *= (1 - attribute.FindParameter("degree").floatVal);
-                }
+        var abilityUser = GetComponent<AbilityUser>();
+        if (abilityUser.soulGemPassive == null) return amount;
+        foreach (var attribute in abilityUser.soulGemPassive.attributes) {
+            if (attribute.type == "reduceDamage") {
+                amount *= (1 - attribute.FindParameter("degree").floatVal);
+            }
+            else if (attribute.type == "reduceElementalDamage" && attribute.FindParameter("element").stringVal == ability.element.ToString()) {
+                amount *= (1 - attribute.FindParameter("degree").floatVal);
             }
         }
         return amount;
@@ -288,8 +280,8 @@ public class Health : MonoBehaviour {
             if (effects.ContainsKey(attribute.type) && attribute.priority >= 50 && count < 4) effects[attribute.type](attribute);
             count++;            
         }
-        if (attacker!=null && attacker.GetComponent<SpiritUser>().HasPassive("knockback")) Effects.KnockbackDefault(attacker, GetComponent<Character>());
-        if (attacker!=null && attacker.GetComponent<SpiritUser>().HasPassive("pullEnemies")) Effects.PullTowardsDefault(attacker, GetComponent<Character>());
+        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("knockback")) Effects.KnockbackDefault(attacker, GetComponent<Character>());
+        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("pullEnemies")) Effects.PullTowardsDefault(attacker, GetComponent<Character>());
         if (ability.FindAttribute("createDamageZone") == null && ability.dotDamage > 0) GetComponent<StatusEffectHost>().AddStatusEffect("dot", ability.dotTime, degree: ability.CalculateDotDamage(attacker), inflicter: attacker, ability: ability);
     }
 

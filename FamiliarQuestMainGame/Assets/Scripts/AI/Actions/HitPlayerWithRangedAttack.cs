@@ -4,7 +4,7 @@ namespace AI.Actions {
     public class HitPlayerWithRangedAttack : GoapAction {
 
         MonsterBaseAbilities monsterBaseAbilities = null;
-        SpiritUser spiritUser = null;
+        AbilityUser abilityUser = null;
         private MonsterAnimationController monsterAnimationController = null;
 
         public HitPlayerWithRangedAttack() {
@@ -26,7 +26,7 @@ namespace AI.Actions {
         public override void Execute(GoapAgent agent) {
             if (monsterAnimationController == null) monsterAnimationController = agent.GetComponent<MonsterAnimationController>();
             if (monsterBaseAbilities == null) monsterBaseAbilities = agent.GetComponent<MonsterBaseAbilities>();
-            if (spiritUser == null) spiritUser = agent.GetComponent<SpiritUser>();
+            if (abilityUser == null) abilityUser = agent.GetComponent<AbilityUser>();
             if (!ActionPossible(agent)) {
                 monsterAnimationController.attacking = false;
                 Fail(agent);
@@ -43,19 +43,17 @@ namespace AI.Actions {
         }
 
         private void UseRangedAbility(GoapAgent agent) {
-            if (monsterBaseAbilities == null || spiritUser == null) return;
+            if (monsterBaseAbilities == null || abilityUser == null) return;
             foreach (var ability in monsterBaseAbilities.baseAbilities) {
                 if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
                     agent.GetComponent<AbilityUser>().UseAbility(ability);
                     return;
                 }
             }
-            foreach (var spirit in spiritUser.spirits) {
-                foreach (var ability in spirit.activeAbilities) {
-                    if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
-                        agent.GetComponent<AbilityUser>().UseAbility(ability);
-                        return;
-                    }
+            foreach (var ability in abilityUser.soulGemActives) {
+                if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
+                    agent.GetComponent<AbilityUser>().UseAbility(ability);
+                    return;
                 }
             }
         }
