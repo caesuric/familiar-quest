@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 public static class AbilityTables {
     public static readonly Dictionary<Element, Dictionary<bool, string>> baseAttackNames;
+    public static readonly Dictionary<Element, int> baseHitEffects;
+    public static readonly Dictionary<Element, int> baseProjectiles;
+    public static readonly Dictionary<Element, int> baseAoes;
+    public static readonly Dictionary<Element, int> baseDamageZones;
 
     static AbilityTables() {
         baseAttackNames = new Dictionary<Element, Dictionary<bool, string>> {
@@ -45,6 +49,50 @@ public static class AbilityTables {
                 [true] = "Nullbolt",
                 [false] = "Nullstrike"
             }
+        };
+        baseHitEffects = new Dictionary<Element, int> {
+            [Element.bashing] = 1,
+            [Element.slashing] = 0,
+            [Element.piercing] = 2,
+            [Element.fire] = 3,
+            [Element.ice] = 4,
+            [Element.acid] = 5,
+            [Element.light] = 6,
+            [Element.dark] = 7,
+            [Element.none] = 8
+        };
+        baseProjectiles = new Dictionary<Element, int> {
+            [Element.bashing] = 3,
+            [Element.slashing] = 4,
+            [Element.piercing] = 0,
+            [Element.fire] = 1,
+            [Element.ice] = 5,
+            [Element.acid] = 2,
+            [Element.light] = 6,
+            [Element.dark] = 7,
+            [Element.none] = 8
+        };
+        baseAoes = new Dictionary<Element, int> {
+            [Element.bashing] = 2,
+            [Element.slashing] = 0,
+            [Element.piercing] = 1,
+            [Element.fire] = 3,
+            [Element.ice] = 4,
+            [Element.acid] = 5,
+            [Element.light] = 6,
+            [Element.dark] = 7,
+            [Element.none] = 8
+        };
+        baseDamageZones = new Dictionary<Element, int> {
+            [Element.bashing] = 0,
+            [Element.slashing] = 1,
+            [Element.piercing] = 2,
+            [Element.fire] = 3,
+            [Element.ice] = 4,
+            [Element.acid] = 5,
+            [Element.light] = 6,
+            [Element.dark] = 7,
+            [Element.none] = 8
         };
     }
 }
