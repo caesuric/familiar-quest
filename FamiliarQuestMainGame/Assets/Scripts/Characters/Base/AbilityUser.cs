@@ -12,12 +12,18 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Attacker))]
 public class AbilityUser : MonoBehaviour {
     private delegate void Effect(ActiveAbility ability, AbilityAttribute attr);
+    private delegate void Maintainer(AbilityAttribute attribute);
     private Dictionary<string, Effect> attributeEffects;
     //[SyncVar]
     public float GCDTime = 0.0f; //when <0 onGCD would have been false
     public static float maxGCDTime = 0.5f;
     public GameObject mirrorImagePrefab;
     public GameObject teleportPrefab;
+    public List<ActiveAbility> soulGemActives = new List<ActiveAbility>();
+    public PassiveAbility soulGemPassive = null;
+    public List<ActiveAbility> soulGemActivesOverflow = new List<ActiveAbility>();
+    public List<PassiveAbility> soulGemPassivesOverflow = new List<PassiveAbility>();
+    private Dictionary<string, Maintainer> passiveMethods;
 
     private void Start() {
         attributeEffects = new Dictionary<string, Effect>() {
@@ -46,12 +52,55 @@ public class AbilityUser : MonoBehaviour {
             { "bossEatMinion", (ActiveAbility ability, AbilityAttribute attr) => AttrBossEatMinion(ability) },
             { "bossSummonMinions", (ActiveAbility ability, AbilityAttribute attr) => AttrBossSummonMinions() }
         };
+        passiveMethods = new Dictionary<string, Maintainer>() {
+            { "damageEnemiesOnScreen", (AbilityAttribute attribute) => MaintainDamageEnemiesOnScreen(attribute) }
+        };
         teleportPrefab = Resources.Load("Prefabs/Teleport") as GameObject;
+    }
+
+    private void MaintainDamageEnemiesOnScreen(AbilityAttribute attribute) {
+        //if (GetComponent<PlayerCharacter>() != null) {
+        //    foreach (var monster in Monster.monsters) if (Vector3.Distance(transform.position, monster.transform.position) < 20f && monster.GetComponent<MonsterCombatant>().InCombat()) monster.GetComponent<Health>().TakeDamage(attribute.FindParameter("degree").floatVal * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
+        //}
+        //else if (GetComponent<MonsterCombatant>().InCombat()) foreach (var player in PlayerCharacter.players) if (Vector3.Distance(transform.position, player.transform.position) < 20f) player.GetComponent<Health>().TakeDamage(attribute.FindParameter("degree").floatVal * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
     }
 
     private void Update() {
         //if (NetworkServer.active) GCDTime = Mathf.Max(0, GCDTime - Time.deltaTime);
         GCDTime = Mathf.Max(0, GCDTime - Time.deltaTime);
+        foreach (var ability in soulGemActives) if (ability != null) ability.currentCooldown = Mathf.Max(0, ability.currentCooldown - Time.deltaTime);
+        foreach (var ability in soulGemActivesOverflow) if (ability != null) ability.currentCooldown = Mathf.Max(0, ability.currentCooldown - Time.deltaTime);
+        MaintainPassives();
+    }
+
+    public void MaintainPassives() {
+        if (soulGemPassive != null) foreach (var attribute in soulGemPassive.attributes) if (passiveMethods.ContainsKey(attribute.type) && attribute.priority >= 50) passiveMethods[attribute.type](attribute);
+    }
+
+    public void RemovePassive(PassiveAbility ability) {
+        if (ability == null) return;
+        var character = GetComponent<Character>();
+        foreach (var attribute in ability.attributes) {
+            if (attribute.type == "boostStat") {
+                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue -= attribute.FindParameter("degree").intVal;
+            }
+        }
+        character.CalculateAll();
+    }
+
+    public void AddPassive(PassiveAbility ability) {
+        var character = GetComponent<Character>();
+        foreach (var attribute in ability.attributes) {
+            if (attribute.type == "boostStat") {
+                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue += attribute.FindParameter("degree").intVal;
+            }
+        }
+        character.CalculateAll();
+    }
+
+    public bool HasPassive(string type) {
+        if (soulGemPassive != null) foreach (var attribute in soulGemPassive.attributes) if (attribute.type == type) return true;
+        return false;
     }
 
     public void UseAbility(ActiveAbility ability) {

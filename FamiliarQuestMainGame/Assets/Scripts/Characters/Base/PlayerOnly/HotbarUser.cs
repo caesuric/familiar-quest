@@ -7,7 +7,6 @@ using DuloGames.UI;
 
 [RequireComponent(typeof(Character))]
 [RequireComponent(typeof(PlayerCharacter))]
-[RequireComponent(typeof(SpiritUser))]
 [RequireComponent(typeof(Mana))]
 [RequireComponent(typeof(AbilityUser))]
 [RequireComponent(typeof(CacheGrabber))]
@@ -67,7 +66,7 @@ public class HotbarUser : MonoBehaviour {
             //if (isLocalPlayer) CmdRefreshAbilityInfo();
             CmdRefreshAbilityInfo();
         }
-        if (!ready && GetComponent<CacheGrabber>().iconCache!=null && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<SpiritUser>().spirits.Count > 0) {
+        if (!ready && GetComponent<CacheGrabber>().iconCache!=null && GetComponent<CacheGrabber>().iconCache.Count > 0 && GetComponent<AbilityUser>().soulGemActives.Count > 0) {
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.sprite = images[GetComponent<PlayerCharacter>().weapon.icon];
             hotbarButtons[0].GetComponent<MouseOverHotbarButton>().image.gameObject.SetActive(true);
             //if (isLocalPlayer) CmdRefreshAbilityInfo();
@@ -108,13 +107,13 @@ public class HotbarUser : MonoBehaviour {
         //if (abilityCurrentCDs.Count < 1) abilityCurrentCDs.Add(0);
         //abilityCurrentCDs[0] = 0;
         int number = -1;
-        foreach (var spirit in GetComponent<SpiritUser>().spirits) foreach (var ability in spirit.activeAbilities) {
-                number++;
-                if (ability == null) abilityCurrentCDs[number] = -1;
-                else if (ability.mpUsage > GetComponent<Mana>().mp) abilityCurrentCDs[number] = -1;
-                //else if (ability.FindAttribute("stealth") != null && MonsterCombatant.AnyInCombat()) abilityCurrentCDs[number] = -1;
-                else abilityCurrentCDs[number] = ability.currentCooldown;
-            }
+        foreach (var ability in GetComponent<AbilityUser>().soulGemActives) {
+            number++;
+            if (ability == null) abilityCurrentCDs[number] = -1;
+            else if (ability.mpUsage > GetComponent<Mana>().mp) abilityCurrentCDs[number] = -1;
+            //else if (ability.FindAttribute("stealth") != null && MonsterCombatant.AnyInCombat()) abilityCurrentCDs[number] = -1;
+            else abilityCurrentCDs[number] = ability.currentCooldown;
+        }
     }
 
     private void AddHotbarButtonToList(GameObject obj) {
@@ -127,11 +126,6 @@ public class HotbarUser : MonoBehaviour {
         catch {
             // pass
         }
-    }
-
-    public void UseHotbarAbility(int spiritSelected, int abilitySelected) {
-        if (spiritSelected + 1 > GetComponent<SpiritUser>().spirits.Count || abilitySelected + 1 > GetComponent<SpiritUser>().spirits[spiritSelected].activeAbilities.Count || GetComponent<SpiritUser>().spirits[spiritSelected].activeAbilities[abilitySelected] == null) return;
-        GetComponent<AbilityUser>().UseAbility(GetComponent<SpiritUser>().spirits[spiritSelected].activeAbilities[abilitySelected]);
     }
 
     public void UseItem(int number) {
@@ -175,15 +169,14 @@ public class HotbarUser : MonoBehaviour {
         //AddWeaponAbilityData();
         //SortAbilities();
         PutAbilitiesIntoOverflow();
-        var su = GetComponent<SpiritUser>();
+        var au = GetComponent<AbilityUser>();
         //foreach (var spirit in su.spirits) foreach (var ability in spirit.activeAbilities) AddAbilityInfo(ability);
-        if (su.spirits.Count == 0) return;
-        foreach (var ability in su.spirits[0].activeAbilities) AddAbilityInfo(ability);
+        foreach (var ability in au.soulGemActives) AddAbilityInfo(ability);
         AddAbilityBlankPadding(10);
         SortConsumables();
         foreach (var consumable in GetComponent<PlayerCharacter>().consumables) AddHotbarConsumable(consumable);
         AddAbilityBlankPadding(13);
-        if (su.spirits.Count>0) AddPassiveInfo(su.spirits[0].passiveAbilities[0]);
+        AddPassiveInfo(au.soulGemPassive);
         AddTooltipData();
         //RefreshSpiritInfo();
     }
@@ -206,10 +199,10 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private void PutAbilitiesIntoOverflow() {
-        var su = GetComponent<SpiritUser>();
-        if (su!=null && su.spirits.Count>0) {
-            var abilities = su.spirits[0].activeAbilities;
-            var overflowAbilities = su.overflowAbilities;
+        var au = GetComponent<AbilityUser>();
+        if (au!=null) {
+            var abilities = au.soulGemActives;
+            var overflowAbilities = au.soulGemActivesOverflow;
             while (abilities.Count > 10 && HasNullSpots(abilities)) MoveToNullSpots(abilities);
             if (abilities.Count > 10) {
                 for (int i = 10; i < abilities.Count; i++) overflowAbilities.Add(abilities[i]);
@@ -239,7 +232,7 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private void SortAbilities() {
-        var abilities = GetComponent<SpiritUser>().spirits[0].activeAbilities;
+        var abilities = GetComponent<AbilityUser>().soulGemActives;
         var newAbilitiesCooldowns = new List<ActiveAbility>();
         var newAbilitiesConstant = new List<ActiveAbility>();
         var newAbilitiesAll = new List<ActiveAbility>();
@@ -253,7 +246,7 @@ public class HotbarUser : MonoBehaviour {
         while (newAbilitiesAll.Count < 4) newAbilitiesAll.Add(null);
         for (int i = 0; i < 4 && i < newAbilitiesConstant.Count; i++) newAbilitiesAll.Add(newAbilitiesConstant[i]);
         while (newAbilitiesAll.Count < 8) newAbilitiesAll.Add(null);
-        GetComponent<SpiritUser>().spirits[0].activeAbilities = newAbilitiesAll;
+        GetComponent<AbilityUser>().soulGemActives = newAbilitiesAll;
     }
 
     private void SortConsumables() {
@@ -264,41 +257,6 @@ public class HotbarUser : MonoBehaviour {
         foreach (var consumable in consumables) if (consumable != null && consumable.type == ConsumableType.mana) newConsumables.Add(consumable);
         if (newConsumables.Count < 2) newConsumables.Add(null);
         GetComponent<PlayerCharacter>().consumables = newConsumables;
-    }
-
-    private void CreateSpiritAffinityText() {
-        var affinities = new List<ElementalAffinity>();
-        foreach (var spirit in GetComponent<SpiritUser>().spirits) foreach (var affinity in spirit.elements) AddAffinity(affinity, affinities);
-        CreateSpiritAffinityText(affinities);
-    }
-
-    private void AddAffinity(ElementalAffinity affinity, List<ElementalAffinity> affinities) {
-        var type = affinity.type;
-        ElementalAffinity match = null;
-        foreach (var existingAffinity in affinities) if (existingAffinity.type == affinity.type) match = existingAffinity;
-        if (match == null) {
-            var newAffinity = new ElementalAffinity(affinity.type) {
-                type = affinity.type,
-                amount = affinity.amount
-            };
-            affinities.Add(newAffinity);
-        }
-        else match.amount += affinity.amount;
-    }
-
-    private void CreateSpiritAffinityText(List<ElementalAffinity> affinities) {
-        var text = "<b>Affinities</b>: ";
-        for (int i = 0; i < affinities.Count; i++) {
-            var affinity = affinities[i];
-            text += affinity.type.ToString() + " " + affinity.amount.ToString();
-            if (i < affinities.Count - 1) text += ", ";
-        }
-        GetComponent<MenuUser>().spiritAffinityText = text;
-    }
-
-    private void AddSpiritNameAndDescription(Spirit spirit) {
-        spiritNames.Add(spirit.name);
-        GetComponent<MenuUser>().spiritDescriptions.Add(spirit.description);
     }
 
     private void ClearAbilityLists() {

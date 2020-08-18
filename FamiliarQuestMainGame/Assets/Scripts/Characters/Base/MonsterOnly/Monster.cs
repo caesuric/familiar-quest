@@ -26,13 +26,14 @@ public class Monster : MonoBehaviour { //Hideable
         //if (!NetworkServer.active && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().enabled = false;
         //items.Add(this);
         //if (NetworkServer.active) {
-            monsters.Add(this);
-            if (GetComponent<RewardGiver>().generatedMonster) return;
-            int spiritRoll = Random.Range(0, 200);
-            if (spiritRoll < 10) {
-                GetComponent<SpiritUser>().spirits.Add(new Spirit(GetComponent<MonsterScaler>().level));
-                foreach (var passive in GetComponent<SpiritUser>().spirits[0].passiveAbilities) GetComponent<SpiritUser>().AddPassive(passive);
-            }
+        monsters.Add(this);
+        if (GetComponent<RewardGiver>().generatedMonster) return;
+        int spiritRoll = Random.Range(0, 200);
+        if (spiritRoll < 10) {
+            GetComponent<AbilityUser>().soulGemActives.Add(new Ability(GetComponent<MonsterScaler>().level));
+            //GetComponent<SpiritUser>().spirits.Add(new Spirit(GetComponent<MonsterScaler>().level));
+            if (GetComponent<AbilityUser>().soulGemPassive != null) GetComponent<AbilityUser>().AddPassive(GetComponent<AbilityUser>().soulGemPassive);
+        }
         renderers = GetComponentsInChildren<Renderer>();
         //}
     }

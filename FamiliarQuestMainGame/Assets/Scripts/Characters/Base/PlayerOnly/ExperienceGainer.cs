@@ -91,16 +91,12 @@ public class ExperienceGainer : MonoBehaviour {
     }
 
     public void GainXP(int amount) {
-        if (GetComponent<SpiritUser>().HasPassive("experienceBoost")) {
-            foreach (var passive in GetComponent<SpiritUser>().spirits[0].passiveAbilities) {
-                {
-                    foreach (var attribute in passive.attributes) {
-                        if (attribute.type == "experienceBoost") {
-                            float amountFloat = amount;
-                            amountFloat *= (1 + attribute.FindParameter("degree").floatVal);
-                            amount = (int)amountFloat;
-                        }
-                    }
+        if (GetComponent<AbilityUser>().HasPassive("experienceBoost")) {
+            foreach (var attribute in GetComponent<AbilityUser>().soulGemPassive.attributes) {
+                if (attribute.type == "experienceBoost") {
+                    float amountFloat = amount;
+                    amountFloat *= (1 + attribute.FindParameter("degree").floatVal);
+                    amount = (int)amountFloat;
                 }
             }
         }
@@ -112,14 +108,12 @@ public class ExperienceGainer : MonoBehaviour {
     }
 
     private void AddExperienceToSoulGems(int amount) {
-        var su = GetComponent<SpiritUser>();
-        foreach (var passive in su.spirits[0].passiveAbilities) {
-            passive.GainExperience(amount);
-        }
-        foreach (var active in su.spirits[0].activeAbilities) {
+        var au = GetComponent<AbilityUser>();
+        au.soulGemPassive.GainExperience(amount);
+        foreach (var active in au.soulGemActives) {
             active.GainExperience(amount);
         }
-        foreach (var ability in su.overflowAbilities) {
+        foreach (var ability in au.soulGemActivesOverflow) {
             ability.GainExperience(amount);
         }
     }

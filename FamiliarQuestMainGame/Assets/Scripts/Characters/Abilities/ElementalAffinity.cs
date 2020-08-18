@@ -1,7 +1,11 @@
-﻿//using System;
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ElementalAffinity {
+
+}
 
 //public class ElementalAffinity {
 //    public Element type;

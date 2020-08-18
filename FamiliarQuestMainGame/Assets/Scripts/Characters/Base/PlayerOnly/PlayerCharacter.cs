@@ -111,11 +111,9 @@ public class PlayerCharacter : MonoBehaviour {
     }
 
     public void GainGold(int amount) {
-        if (GetComponent<SpiritUser>().HasPassive("goldBoost")) {
-            foreach (var passive in GetComponent<SpiritUser>().spirits[0].passiveAbilities) {
-                foreach (var attribute in passive.attributes) {
-                    if (attribute.type == "goldBoost") amount = (int)(amount * (1f + attribute.FindParameter("degree").floatVal));
-                }
+        if (GetComponent<AbilityUser>().HasPassive("goldBoost")) {
+            foreach (var attribute in GetComponent<AbilityUser>().soulGemPassive.attributes) {
+                if (attribute.type == "goldBoost") amount = (int)(amount * (1f + attribute.FindParameter("degree").floatVal));
             }
         }
         gold += amount;
@@ -272,23 +270,16 @@ public class PlayerCharacter : MonoBehaviour {
         ready = false;
     }
 
-    public void GainSpirits(List<Spirit> spirits) {
-        if (spirits.Count == 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND A SOUL GEM!", "Found a soul gem!");
-        else if (spirits.Count > 1) GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND " + spirits.Count.ToString() + " ABILITIES!", "Found " + spirits.Count.ToString() + " abilities!");
-        //foreach (var spirit in spirits) SharedInventory.instance.spareSpirits.Add(spirit);
-        //foreach (var spirit in spirits) GetComponent<SpiritUser>().spirits[0].activeAbilities.Add(spirit.activeAbilities[0]);
-        if (spirits.Count > 0) {
-            if (spirits[0].activeAbilities.Count>0) {
-                spirits[0].activeAbilities[0].currentCooldown = 0;
-                GetComponent<SpiritUser>().spirits[0].activeAbilities.Add(spirits[0].activeAbilities[0]);
-                DropsArea.AddAbilityDrop(spirits[0].activeAbilities[0]);
-            }
-            else if (spirits[0].passiveAbilities.Count>0) {
-                GetComponent<SpiritUser>().overflowAbilities.Add(spirits[0].passiveAbilities[0]);
-                DropsArea.AddAbilityDrop(spirits[0].passiveAbilities[0]);
-            }
-            
+    public void GainSoulGem(Ability ability) {
+        GetComponent<ObjectSpawner>().CreateFloatingStatusText("FOUND A SOUL GEM!", "Found a soul gem!");
+        if (ability is ActiveAbility activeAbility) {
+            activeAbility.currentCooldown = 0;
+            GetComponent<AbilityUser>().soulGemActives.Add(activeAbility);
         }
+        else {
+            GetComponent<AbilityUser>().soulGemPassivesOverflow.Add((PassiveAbility)ability);
+        }
+        DropsArea.AddAbilityDrop(ability);
         GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 

@@ -24,7 +24,8 @@ public class AbilityMenu : MonoBehaviour {
     public int fusionSourceSlot2 = -1;
     private List<GameObject> abilityIcons = new List<GameObject>();
     private int lastAbilityCount = 0;
-    private List<Ability> abilities;
+    private List<ActiveAbility> activeAbilities;
+    private List<PassiveAbility> passiveAbilities;
     private bool initialized = false;
     public int fusionAbilityTypeChoice = 0;
     public int fusionElementChoice = 0;
@@ -83,13 +84,15 @@ public class AbilityMenu : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (!initialized && PlayerCharacter.players.Count > 0 && PlayerCharacter.localPlayer != null) {
-            abilities = PlayerCharacter.localPlayer.GetComponent<SpiritUser>().overflowAbilities;
+            activeAbilities = PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActivesOverflow;
+            passiveAbilities = PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemPassivesOverflow;
             initialized = true;
         }
-        if (initialized && lastAbilityCount != abilities.Count) {
+        if (initialized && lastAbilityCount != activeAbilities.Count + passiveAbilities.Count) {
             UpdateAbilities();
             RefreshDustPanel();
             RefreshDustUsagePanel();
+            lastAbilityCount = activeAbilities.Count + passiveAbilities.Count;
         }
     }
 
@@ -116,15 +119,20 @@ public class AbilityMenu : MonoBehaviour {
     public void UpdateAbilities() {
         foreach (var icon in abilityIcons) Destroy(icon);
         abilityIcons.RemoveRange(0, abilityIcons.Count);
-        foreach (var ability in abilities) {
+        foreach (var ability in activeAbilities) {
             if (FilteredOut(ability)) continue;
             var go = Instantiate(iconPrefab);
             abilityIcons.Add(go);
-            if (ability is ActiveAbility) go.transform.SetParent(activeAbilityPane.transform);
-            else go.transform.SetParent(passiveAbilityPane.transform);
+            go.transform.SetParent(activeAbilityPane.transform);
             go.GetComponent<AbilityScreenIcon>().Initialize(ability);
         }
-        lastAbilityCount = abilities.Count;
+        foreach (var ability in passiveAbilities) {
+            if (FilteredOut(ability)) continue;
+            var go = Instantiate(iconPrefab);
+            abilityIcons.Add(go);
+            go.transform.SetParent(passiveAbilityPane.transform);
+            go.GetComponent<AbilityScreenIcon>().Initialize(ability);
+        }
         fusionSourceObj1.Initialize(fusionSource1);
         fusionSourceObj2.Initialize(fusionSource2);
         fusionResultObj.Initialize(fusionResult);
@@ -136,14 +144,14 @@ public class AbilityMenu : MonoBehaviour {
 
     public void Fuse() {
         if (!ValidFusionSources()) return;
-        var su = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
-        if (fusionSourceSlot1 != -1) fusionSourceSlot1 = su.spirits[0].activeAbilities.IndexOf(fusionSource1);
-        if (fusionSourceSlot2 != -1) fusionSourceSlot2 = su.spirits[0].activeAbilities.IndexOf(fusionSource2);
-        if (fusionSourceSlot1 == -1) su.overflowAbilities.Remove(fusionSource1);
-        if (fusionSourceSlot1 > -1) su.spirits[0].activeAbilities[fusionSourceSlot1] = null;
-        if (fusionSourceSlot2 == -1) su.overflowAbilities.Remove(fusionSource2);
-        if (fusionSourceSlot2 > -1) su.spirits[0].activeAbilities[fusionSourceSlot2] = null;
-        su.overflowAbilities.Add(fusionResult);
+        var au = PlayerCharacter.localPlayer.GetComponent<AbilityUser>();
+        if (fusionSourceSlot1 != -1) fusionSourceSlot1 = au.soulGemActives.IndexOf(fusionSource1);
+        if (fusionSourceSlot2 != -1) fusionSourceSlot2 = au.soulGemActives.IndexOf(fusionSource2);
+        if (fusionSourceSlot1 == -1) au.soulGemActivesOverflow.Remove(fusionSource1);
+        if (fusionSourceSlot1 > -1) au.soulGemActives[fusionSourceSlot1] = null;
+        if (fusionSourceSlot2 == -1) au.soulGemActivesOverflow.Remove(fusionSource2);
+        if (fusionSourceSlot2 > -1) au.soulGemActives[fusionSourceSlot2] = null;
+        au.soulGemActivesOverflow.Add(fusionResult);
         UpdateAbilities();
         PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
         fusionSource1 = null;
@@ -158,12 +166,12 @@ public class AbilityMenu : MonoBehaviour {
     }
 
     private bool ValidFusionSources() {
-        var su = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
+        var au = PlayerCharacter.localPlayer.GetComponent<AbilityUser>();
         if (fusionSource1 == null || fusionSource2 == null) return false;
-        if (fusionSourceSlot1 == -1 && !su.overflowAbilities.Contains(fusionSource1)) return false;
-        if (fusionSourceSlot1 > -1 && !su.spirits[0].activeAbilities.Contains(fusionSource1)) return false;
-        if (fusionSourceSlot2 == -1 && !su.overflowAbilities.Contains(fusionSource2)) return false;
-        if (fusionSourceSlot2 > -1 && !su.spirits[0].activeAbilities.Contains(fusionSource2)) return false;
+        if (fusionSourceSlot1 == -1 && !au.soulGemActivesOverflow.Contains(fusionSource1)) return false;
+        if (fusionSourceSlot1 > -1 && !au.soulGemActives.Contains(fusionSource1)) return false;
+        if (fusionSourceSlot2 == -1 && !au.soulGemActivesOverflow.Contains(fusionSource2)) return false;
+        if (fusionSourceSlot2 > -1 && !au.soulGemActives.Contains(fusionSource2)) return false;
         return true;
     }
 
@@ -366,40 +374,6 @@ public class AbilityMenu : MonoBehaviour {
         }
     }
 
-    public void DustAbilities() {
-        foreach (var ability in abilitiesToDust) {
-            var activeAbilities = PlayerCharacter.localPlayer.GetComponent<SpiritUser>().spirits[0].activeAbilities;
-            if (ability is ActiveAbility && activeAbilities.Contains((ActiveAbility)ability)) {
-                activeAbilities[activeAbilities.IndexOf((ActiveAbility)ability)] = null;
-                PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
-            }
-            else if (abilities.Contains(ability)) {
-                abilities.Remove(ability);
-                UpdateAbilities();
-            }
-            MakeDust(ability);
-        }
-        abilitiesToDust.Clear();
-        RefreshDustPanel();
-        RefreshDustUsagePanel();
-    }
-
-    public void MakeDust(Ability ability) {
-        if (ability.attributes.Count == 0) MakePowerDust(ability);
-        else {
-            int chosenNum = Random.Range(0, ability.attributes.Count);
-            var attribute = ability.attributes[chosenNum];
-            var degree = attribute.FindParameter("degree");
-            if (degree != null && degree.floatVal != 0) AddDust(attribute.type, degree.floatVal);
-            else if (degree != null && degree.intVal != 0) AddDust(attribute.type, degree.intVal);
-            else AddDust(attribute.type, 1f);
-        }
-    }
-
-    public void MakePowerDust(Ability ability) {
-        AddDust("power", ((float)ability.points) / 20f);
-    }
-
     public void AddDust(string type, float amount) {
         foreach (var dustItem in PlayerCharacter.localPlayer.GetComponent<DustUser>().dust) {
             if (dustItem.type == type) {
@@ -427,24 +401,6 @@ public class AbilityMenu : MonoBehaviour {
             }
             go.GetComponent<DustItem>().Initialize(dust);
         }
-    }
-
-    public void Enhance() {
-        if (abilityToEnhance == null || enhancedAbility == null) return;
-        if (abilityToEnhance is PassiveAbility) return;
-        var su = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
-        if (su.spirits[0].activeAbilities.Contains((ActiveAbility)abilityToEnhance)) {
-            su.spirits[0].activeAbilities[su.spirits[0].activeAbilities.IndexOf((ActiveAbility)abilityToEnhance)] = (ActiveAbility)enhancedAbility;
-            PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
-        }
-        else if (abilities.Contains(abilityToEnhance)) {
-            abilities[abilities.IndexOf(abilityToEnhance)] = enhancedAbility;
-        }
-        abilityToEnhance = null;
-        enhancedAbility = null;
-        abilityToEnhanceObj.GetComponent<Image>().sprite = placeholder;
-        enhancedAbilityObj.GetComponent<Image>().sprite = placeholder;
-        UpdateAbilities();
     }
 
     public void ClearFusionSlot1() {
