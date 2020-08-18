@@ -20,37 +20,37 @@ public static class AttackAbilityIconSelector {
             ["paralyze"] = 49
         };
         basicMeleeIcons = new Dictionary<Element, int>() {
-            { Element.bashing, 24 },
-            { Element.slashing, 25 },
-            { Element.piercing, 26 },
-            { Element.acid, 27 },
-            { Element.fire, 28 },
-            { Element.ice, 29 },
-            { Element.light, 30 },
-            { Element.dark, 31 },
-            { Element.none, 37 }
+            [Element.bashing] = 24,
+            [Element.slashing] = 25,
+            [Element.piercing] = 26,
+            [Element.acid] = 27,
+            [Element.fire] = 28,
+            [Element.ice] = 29,
+            [Element.light] = 30,
+            [Element.dark] = 31,
+            [Element.none] = 37
         };
         basicRangedIcons = new Dictionary<Element, int>() {
-            { Element.bashing, 32 },
-            { Element.slashing, 33 },
-            { Element.piercing, 3 },
-            { Element.acid, 12 },
-            { Element.fire, 9 },
-            { Element.ice, 34 },
-            { Element.light, 35 },
-            { Element.dark, 36 },
-            { Element.none, 38 }
+            [Element.bashing] = 32,
+            [Element.slashing] = 33,
+            [Element.piercing] = 3,
+            [Element.acid] = 12,
+            [Element.fire] = 9,
+            [Element.ice] = 34,
+            [Element.light] = 35,
+            [Element.dark] = 36,
+            [Element.none] = 38
         };
         basicAoeIcons = new Dictionary<Element, int>() {
-            { Element.bashing, 40 },
-            { Element.slashing, 41 },
-            { Element.piercing, 42 },
-            { Element.acid, 43 },
-            { Element.fire, 10 },
-            { Element.ice, 44 },
-            { Element.light, 45 },
-            { Element.dark, 46 },
-            { Element.none, 39 }
+            [Element.bashing] = 40,
+            [Element.slashing] = 41,
+            [Element.piercing] = 42,
+            [Element.acid] = 43,
+            [Element.fire] = 10,
+            [Element.ice] = 44,
+            [Element.light] = 45,
+            [Element.dark] = 46,
+            [Element.none] = 39
         };
     }
 
