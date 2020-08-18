@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class PushingEffect : MonoBehaviour {
 
@@ -13,7 +12,7 @@ public class PushingEffect : MonoBehaviour {
     private float currentTime = 0;
 
     // Update is called once per frame
-	void FixedUpdate () {
+    void FixedUpdate() {
         //if (!NetworkServer.active) return;
         if (started) {
             currentTime += Time.deltaTime;
@@ -26,9 +25,9 @@ public class PushingEffect : MonoBehaviour {
             }
             var newPosition = transform.position + (Time.deltaTime / time * movementAmount);
             transform.position = new Vector3(newPosition.x, 0, newPosition.z);
-            if (currentTime>=time) Destroy(this);
+            if (currentTime >= time) Destroy(this);
         }
-	}
+    }
 
     public void Initialize(Vector3 targetPos, float time) {
         startPos = transform.position;
