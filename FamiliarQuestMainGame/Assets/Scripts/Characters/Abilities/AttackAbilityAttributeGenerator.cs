@@ -1,4 +1,225 @@
-﻿//using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System;
+
+public static class AttackAbilityAttributeGenerator {
+    private delegate AbilityAttribute AbilityAttributeDelegate(AttackAbility ability);
+    private static readonly List<string> simpleAttributes;
+    private static readonly Dictionary<string, AbilityAttributeDelegate> attributes;
+
+    static AttackAbilityAttributeGenerator() {
+        simpleAttributes = new List<string> {
+            "usableWhileParalyzed",
+            "removeDebuff",
+            "stealthy"
+        };
+        attributes = new Dictionary<string, AbilityAttributeDelegate> {
+            ["createDamageZone"] = GetCreateDamageZone,
+            ["projectileSpread"] = GetProjectileSpread,
+            ["jumpBack"] = GetJumpBack,
+            ["chargeTowards"] = GetChargeTowards,
+            ["pullTowards"] = GetPullTowards,
+            ["knockback"] = GetKnockback,
+            ["offGCD"] = GetOffGcd,
+            ["paralyze"] = GetParalyze,
+            ["lifeleech"] = GetLifeleech,
+            ["mpOverTime"] = GetMpOverTime,
+            ["elementalDamageBuff"] = GetElementalDamageBuff,
+            ["blunting"] = GetBlunting,
+            ["inflictVulnerability"] = GetInflictVulnerability,
+            ["delay"] = GetDelay,
+            ["damageShield"] = GetDamageShield,
+            ["restoreMP"] = GetRestoreMP,
+            ["addedDot"] = GetAddedDot,
+            ["backstab"] = GetBackstab,
+            ["increasedCritChance"] = GetIncreasedCritChance,
+            ["increasedCritDamage"] = GetIncreasedCritDamage,
+            ["speed-"] = GetSpeedMinus,
+            ["immobilizeSelf"] = GetImmobilizeSelf,
+        };
+    }
+
+    public static AbilityAttribute Generate(AttackAbility ability) {
+        for (int i = 0; i < 10000; i++) {
+            string roll = TableRoller.Roll("AttackAttributes");
+            AbilityAttribute attribute;
+            if (simpleAttributes.Contains(roll)) {
+                attribute = new AbilityAttribute {
+                    type = roll
+                };
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+            attribute = attributes[roll](ability);
+            if (attribute != null) {
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+        }
+        Debug.Log("FAILED TO FIND VALID ATTRIBUTE FOR ABILITY!");
+        return null;
+    }
+
+    private static AbilityAttribute GetCreateDamageZone(AttackAbility ability) {
+        if (ability.radius > 0 && ability.dotDamage > 0) return new AbilityAttribute {
+            type = "createDamageZone"
+        };
+        else return null;
+    }
+
+    private static AbilityAttribute GetProjectileSpread(AttackAbility ability) {
+        if (ability.isRanged) return new AbilityAttribute {
+            type = "projectileSpread"
+        };
+        else return null;
+    }
+
+    private static AbilityAttribute GetJumpBack(AttackAbility ability) {
+        return new AbilityAttribute {
+            type = "jumpBack",
+            parameters = new List<AbilityAttributeParameter>
+            {
+                new AbilityAttributeParameter {
+                    name = "degree",
+                    value = 5f
+                }
+            }
+        };
+    }
+
+    private static AbilityAttribute GetChargeTowards(AttackAbility ability) {
+        if (!ability.isRanged) return new AbilityAttribute {
+            type = "chargeTowards"
+        };
+        else return null;
+    }
+
+    private static AbilityAttribute GetPullTowards(AttackAbility ability) {
+        if (ability.isRanged) return new AbilityAttribute {
+            type = "pullTowards"
+        };
+        else return null;
+    }
+
+    private static AbilityAttribute GetKnockback(AttackAbility ability) {
+        return new AbilityAttribute {
+            type = "knockback",
+            parameters = new List<AbilityAttributeParameter>
+            {
+                new AbilityAttributeParameter {
+                    name = "degree",
+                    value = 5f
+                }
+            }
+        };
+    }
+
+    private static AbilityAttribute GetOffGcd(AttackAbility ability) {
+        if (ability.cooldown > 0) return new AbilityAttribute {
+            type = "offGCD"
+        };
+        else return null;
+    }
+
+    private static AbilityAttribute GetParalyze(AttackAbility ability) {
+        return new AbilityAttribute {
+            type = "paralyze",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = 3f
+                }
+            }
+        };
+    }
+
+    private static AbilityAttribute GetLifeleech(AttackAbility ability) {
+        int leechAmountInt = UnityEngine.Random.Range(5, 120);
+        leechAmountInt = Mathf.Min(leechAmountInt, 100);
+        float leechAmount = leechAmountInt / 100f;
+        return new AbilityAttribute {
+            type = "lifeleech",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "degree",
+                    value = leechAmount
+                }
+            }
+        };
+    }
+
+    private static AbilityAttribute GetMpOverTime(AttackAbility ability) {
+        int mpAmount = (int)(ability.points * 80f / 70f);
+        return new AbilityAttribute {
+            type = "mpOverTime",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "degree",
+                    value = mpAmount
+                },
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = 8f
+                }
+            }
+        };
+    }
+
+    private static AbilityAttribute GetElementalDamageBuff(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetBlunting(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetInflictVulnerability(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetDelay(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetDamageShield(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetRestoreMP(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetAddedDot(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetBackstab(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetIncreasedCritChance(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetIncreasedCritDamage(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetSpeedMinus(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+
+    private static AbilityAttribute GetImmobilizeSelf(AttackAbility ability) {
+        throw new NotImplementedException();
+    }
+}
+
+//using UnityEngine;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
