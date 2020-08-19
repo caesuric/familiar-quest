@@ -12,4 +12,10 @@ public class RNG {
         if (MainThreadTest.OnMainThread()) return UnityEngine.Random.Range(min, max);
         else return (float)((random.NextDouble() * (max - min)) + min);
     }
+    
+    public static T EnumValue<T>() where T:struct,IConvertible {
+        if (!typeof(T).IsEnum) throw new ArgumentException("T must be an enumerated type.");
+        var values = Enum.GetValues(typeof(T));
+        return (T)values.GetValue(random.Next(values.Length));
+    }
 }
