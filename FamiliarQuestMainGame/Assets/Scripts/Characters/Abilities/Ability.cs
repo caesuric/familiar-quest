@@ -24,6 +24,13 @@ public abstract class Ability {
     }
 
     public bool IsValid() {
+        for (int i=0; i<attributes.Count-1; i++) {
+            var attr = attributes[i];
+            for (int j=i+1; j<attributes.Count; j++) {
+                var attr2 = attributes[j];
+                if (attr.type == "stealthy" && attr2.type == "stealthy") return false;
+            }
+        }
         foreach (var attr in attributes) if (attr.priority >= 50) return true;
         return false;
     }
