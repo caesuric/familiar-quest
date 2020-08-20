@@ -114,7 +114,7 @@ public static class AttackAbilityGenerator {
     }
 
     private static Tuple<bool, float, float> GetDotStatusAndTimeAndPointsMod() {
-        var dotRoll = RNG.Int(1, 10000);
+        var dotRoll = RNG.Int(0, 10000);
         if (dotRoll < 8500) return new Tuple<bool, float, float>(false, 0f, 1f);
         else if (dotRoll < 8875) return new Tuple<bool, float, float>(true, 4f, 1.25f);
         else if (dotRoll < 9625) return new Tuple<bool, float, float>(true, 8f, 2f);
