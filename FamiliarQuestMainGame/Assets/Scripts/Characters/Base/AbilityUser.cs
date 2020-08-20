@@ -24,6 +24,7 @@ public class AbilityUser : MonoBehaviour {
     public List<ActiveAbility> soulGemActivesOverflow = new List<ActiveAbility>();
     public List<PassiveAbility> soulGemPassivesOverflow = new List<PassiveAbility>();
     private Dictionary<string, Maintainer> passiveMethods;
+    public float resurrectionTimer = 0f;
 
     private void Start() {
         attributeEffects = new Dictionary<string, Effect>() {

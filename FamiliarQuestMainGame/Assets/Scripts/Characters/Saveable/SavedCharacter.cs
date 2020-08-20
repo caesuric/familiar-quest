@@ -21,13 +21,15 @@ public class SavedCharacter {
     public SavedHat hat;
     public SavedShoes shoes;
     public List<SavedConsumable> consumables = new List<SavedConsumable>();
-    public List<SavedSpirit> spirits = new List<SavedSpirit>();
+    public List<SavedAbility> soulGemActives = new List<SavedAbility>();
+    public SavedAbility soulGemPassive;
+    public List<SavedAbility> soulGemActivesOverflow = new List<SavedAbility>();
+    public List<SavedAbility> soulGemPassivesOverflow = new List<SavedAbility>();
     public List<SavedAbility> overflowAbilities = new List<SavedAbility>();
-    [OptionalField]
-    public List<SavedDust> dust = new List<SavedDust>();
+    //[OptionalField]
+    //public List<SavedDust> dust = new List<SavedDust>();
     public int currentAbility;
     public int currentAltAbility;
-    public string selectedClass;
     public int sparePoints;
     public int strength;
     public int dexterity;
@@ -45,7 +47,7 @@ public class SavedCharacter {
             level = 1,
             xpToLevel = 200,
             gold = 0,
-            weapon = SavedWeapon.StartingWeapon(ClassSelectMenu.selectedClass),
+            weapon = new SavedWeapon(),
             armor = null,
             necklace = null,
             belt = null
@@ -59,17 +61,15 @@ public class SavedCharacter {
         obj.hat = null;
         obj.shoes = null;
         //obj.spirits.Add(SavedSpirit.ConvertFrom(Spirit.classDefaults[ClassSelectMenu.selectedClass]));
-        obj.dust = new List<SavedDust>();
         obj.currentAbility = 0;
         obj.currentAltAbility = 1;
-        obj.selectedClass = ClassSelectMenu.selectedClass;
         obj.sparePoints = 0;
-        obj.strength = ClassSelectMenu.strength;
-        obj.dexterity = ClassSelectMenu.dexterity;
-        obj.constitution = ClassSelectMenu.constitution;
-        obj.intelligence = ClassSelectMenu.intelligence;
-        obj.wisdom = ClassSelectMenu.wisdom;
-        obj.luck = ClassSelectMenu.luck;
+        obj.strength = 10;
+        obj.dexterity = 10;
+        obj.constitution = 10;
+        obj.intelligence = 10;
+        obj.wisdom = 10;
+        obj.luck = 10;
         obj.resurrectionTimer = 0;
         obj.name = name;
         obj.furType = furType;
@@ -79,9 +79,8 @@ public class SavedCharacter {
     public static SavedCharacter ConvertFrom(GameObject go) {
         var pc = go.GetComponent<PlayerCharacter>();
         var character = go.GetComponent<Character>();
-        var su = go.GetComponent<SpiritUser>();
+        var au = go.GetComponent<AbilityUser>();
         var obj = new SavedCharacter();
-        var du = go.GetComponent<DustUser>();
         obj.xp = pc.GetComponent<ExperienceGainer>().xp;
         obj.level = pc.GetComponent<ExperienceGainer>().level;
         obj.xpToLevel = pc.GetComponent<ExperienceGainer>().xpToLevel;
@@ -99,26 +98,20 @@ public class SavedCharacter {
         obj.hat = SavedHat.ConvertFrom(pc.hat);
         obj.shoes = SavedShoes.ConvertFrom(pc.shoes);
         foreach (var consumable in pc.consumables) obj.consumables.Add(SavedConsumable.ConvertFrom(consumable));
-        foreach (var spirit in character.GetComponent<SpiritUser>().spirits) obj.spirits.Add(SavedSpirit.ConvertFrom(spirit));
-        foreach (var ability in su.overflowAbilities) obj.overflowAbilities.Add(SavedAbility.ConvertFrom(ability));
-        foreach (var dust in du.dust) obj.dust.Add(SavedDust.ConvertFrom(dust));
+        foreach (var ability in au.soulGemActives) obj.soulGemActives.Add(SavedAbility.ConvertFrom(ability));
+        obj.soulGemPassive = SavedAbility.ConvertFrom(au.soulGemPassive);
+        foreach (var ability in au.soulGemActivesOverflow) obj.soulGemActivesOverflow.Add(SavedAbility.ConvertFrom(ability));
+        foreach (var ability in au.soulGemPassivesOverflow) obj.soulGemPassivesOverflow.Add(SavedAbility.ConvertFrom(ability));
         obj.currentAbility = character.GetComponent<InputController>().currentAbility;
         obj.currentAltAbility = character.GetComponent<InputController>().currentAltAbility;
-        obj.selectedClass = pc.selectedClass;
         obj.sparePoints = pc.GetComponent<ExperienceGainer>().sparePoints;
-        //obj.strength = character.strength;
-        //obj.dexterity = character.dexterity;
-        //obj.constitution = character.constitution;
-        //obj.intelligence = character.intelligence;
-        //obj.wisdom = character.wisdom;
-        //obj.luck = character.luck;
         obj.strength = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue;
         obj.dexterity = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue;
         obj.constitution = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue;
         obj.intelligence = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue;
         obj.wisdom = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue;
         obj.luck = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue;
-        obj.resurrectionTimer = character.GetComponent<SpiritUser>().resurrectionTimer;
+        obj.resurrectionTimer = au.resurrectionTimer;
         obj.name = pc.GetComponent<PlayerSyncer>().characterName;
         obj.furType = pc.GetComponent<PlayerSyncer>().furType;
         return obj;
@@ -151,12 +144,13 @@ public class SavedCharacter {
         if (shoes != null) pc.shoes = shoes.ConvertTo();
         else pc.shoes = null;
         foreach (var consumable in consumables) pc.consumables.Add(consumable.ConvertTo());
-        foreach (var spirit in spirits) character.GetComponent<SpiritUser>().spirits.Add(spirit.ConvertTo());
-        foreach (var ability in overflowAbilities) character.GetComponent<SpiritUser>().overflowAbilities.Add(ability.ConvertTo());
-        if (dust!=null) foreach (var dustItem in dust) character.GetComponent<DustUser>().dust.Add(dustItem.ConvertTo());
+        var au = character.GetComponent<AbilityUser>();
+        foreach (var ability in soulGemActives) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
+        au.soulGemPassive = ((SavedPassiveAbility)soulGemPassive).ConvertTo();
+        foreach (var ability in soulGemActivesOverflow) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
+        foreach (var ability in soulGemPassivesOverflow) au.soulGemPassivesOverflow.Add(((SavedPassiveAbility)ability).ConvertTo());
         character.GetComponent<InputController>().currentAbility = currentAbility;
         character.GetComponent<InputController>().currentAltAbility = currentAltAbility;
-        pc.selectedClass = selectedClass;
         pc.GetComponent<ExperienceGainer>().sparePoints = sparePoints;
         CharacterAttribute.attributes["strength"].instances[character].BaseValue = strength;
         CharacterAttribute.attributes["dexterity"].instances[character].BaseValue = dexterity;
@@ -173,7 +167,7 @@ public class SavedCharacter {
         ApplyItemValue(character, pc.hat);
         ApplyItemValue(character, pc.shoes);
         for (int i=0; i<4; i++) ApplyItemValue(character, pc.bracelets[i]);
-        character.GetComponent<SpiritUser>().resurrectionTimer = resurrectionTimer;
+        character.GetComponent<AbilityUser>().resurrectionTimer = resurrectionTimer;
         pc.GetComponent<PlayerSyncer>().characterName = name;
         pc.GetComponent<PlayerSyncer>().furType = furType;
         pc.GetComponent<PlayerSyncer>().furTypeSet = true;
@@ -194,7 +188,6 @@ public class SavedItem
     public List<int> statValues = new List<int>();
     public int armor = 0;
     public int quality;
-    [OptionalField]
     public int level = 0;
 
     public static SavedItem ConvertFrom(Item item) {
@@ -622,53 +615,6 @@ public class SavedConsumable : SavedItem
 }
 
 [System.Serializable]
-public class SavedSpirit
-{
-    public List<SavedActiveAbility> activeAbilities = new List<SavedActiveAbility>();
-    public List<SavedPassiveAbility> passiveAbilities = new List<SavedPassiveAbility>();
-    public List<SavedElementalAffinity> elements = new List<SavedElementalAffinity>();
-    public List<Element> types = new List<Element>();
-    public string name;
-    public string description = "";
-
-    public static SavedSpirit ConvertFrom(Spirit spirit)
-    {
-        var obj = new SavedSpirit {
-            types = spirit.types,
-            name = spirit.name,
-            description = spirit.description
-        };
-        foreach (var affinity in spirit.elements) obj.elements.Add(SavedElementalAffinity.ConvertFrom(affinity));
-        //foreach (var ability in spirit.activeAbilities) if (ability != null) obj.activeAbilities.Add(SavedActiveAbility.ConvertFrom(ability));
-        foreach (var ability in spirit.activeAbilities) obj.activeAbilities.Add(SavedActiveAbility.ConvertFrom(ability));
-        foreach (var ability in spirit.passiveAbilities) obj.passiveAbilities.Add(SavedPassiveAbility.ConvertFrom(ability));
-        return obj;
-    }
-
-    public Spirit ConvertTo()
-    {
-        var obj = new Spirit(1);
-        obj.activeAbilities.Clear();
-        obj.passiveAbilities.Clear();
-        obj.elements.Clear();
-        obj.types.Clear();
-        foreach (var item in types) obj.types.Add(item);
-        obj.name = name;
-        obj.description = description;
-        foreach (var ability in activeAbilities) {
-            if (ability == null) obj.activeAbilities.Add(null);
-            else obj.activeAbilities.Add(ability.ConvertTo());
-        }
-        foreach (var ability in passiveAbilities) {
-            if (ability != null) obj.passiveAbilities.Add(ability.ConvertTo());
-            else obj.passiveAbilities.Add(null);
-        }
-        foreach (var element in elements) obj.elements.Add(element.ConvertTo());
-        return obj;
-    }
-}
-
-[System.Serializable]
 public class SavedAbility {
 
     public static SavedAbility ConvertFrom(Ability ability) {
@@ -688,20 +634,16 @@ public class SavedActiveAbility : SavedAbility
     public List<SavedAbilityAttribute> attributes = new List<SavedAbilityAttribute>();
     public int icon;
     public float cooldown = 0f;
-    public int mpUsage = 0;
+    public float mpUsage = 0;
     public float radius = 0;
     public string name;
     public string description;
     public string targetType = "";
     public BaseStat baseStat;
-    [OptionalField]
-    public int points = 70;
-    [OptionalField]
+    public float points = 70;
     public int level = 1;
-    [OptionalField]
     public long xp = 0;
-    [OptionalField]
-    public int baseMpUsage = 0;
+    public float baseMpUsage = 0;
 
     public static SavedActiveAbility ConvertFrom(ActiveAbility ability)
     {
@@ -729,7 +671,9 @@ public class SavedActiveAbility : SavedAbility
     public virtual ActiveAbility ConvertTo()
     {
         if (this is SavedAttackAbility) return ((SavedAttackAbility)this).ConvertTo();
-        var obj = new UtilityAbility(name, description) {
+        var obj = new UtilityAbility {
+            name = name,
+            description = description,
             targetType = targetType,
             icon = icon,
             cooldown = cooldown,
@@ -790,9 +734,26 @@ public class SavedAttackAbility : SavedActiveAbility
     public override ActiveAbility ConvertTo()
     {
         if (points == 0) points = 70;
-        var obj = new AttackAbility(name, description, damage, element, baseStat, icon, dotDamage, dotTime, isRanged, rangedProjectile, cooldown, mpUsage, baseMpUsage, radius, hitEffect, aoe, points: points) {
-            xp = xp,
-            level = level
+        var obj = new AttackAbility {
+            name = name,
+            description = description,
+            damage = damage,
+            element = element,
+            baseStat = baseStat,
+            icon = icon,
+            dotDamage = dotDamage,
+            dotTime = dotTime,
+            isRanged = isRanged,
+            rangedProjectile = rangedProjectile,
+            cooldown = cooldown,
+            mpUsage = mpUsage,
+            baseMpUsage = baseMpUsage,
+            radius = radius,
+            hitEffect = hitEffect,
+            aoe = aoe,
+            points = points,
+            level = level,
+            xp = xp
         };
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
         return obj;
@@ -805,13 +766,9 @@ public class SavedPassiveAbility : SavedAbility {
     public int icon;
     public string name;
     public string description;
-    [OptionalField]
-    public int points = 70;
-    [OptionalField]
+    public float points = 70;
     public int level = 1;
-    [OptionalField]
     public long xp = 0;
-    [OptionalField]
     public int baseMpUsage = 0;
 
     public static SavedPassiveAbility ConvertFrom(PassiveAbility ability) {
@@ -830,7 +787,9 @@ public class SavedPassiveAbility : SavedAbility {
     }
 
     public PassiveAbility ConvertTo() {
-        var obj = new PassiveAbility(name, description) {
+        var obj = new PassiveAbility {
+            name=name,
+            description=description,
             icon = icon
         };
         if (points == 0) points = 70;
@@ -842,37 +801,35 @@ public class SavedPassiveAbility : SavedAbility {
     }
 }
 
-[System.Serializable]
-public class SavedElementalAffinity
-{
-    public Element type;
-    public int amount;
+//[System.Serializable]
+//public class SavedElementalAffinity
+//{
+//    public Element type;
+//    public int amount;
 
-    public static SavedElementalAffinity ConvertFrom(ElementalAffinity affinity)
-    {
-        var obj = new SavedElementalAffinity {
-            type = affinity.type,
-            amount = affinity.amount
-        };
-        return obj;
-    }
+//    public static SavedElementalAffinity ConvertFrom(ElementalAffinity affinity)
+//    {
+//        var obj = new SavedElementalAffinity {
+//            type = affinity.type,
+//            amount = affinity.amount
+//        };
+//        return obj;
+//    }
 
-    public ElementalAffinity ConvertTo()
-    {
-        var obj = new ElementalAffinity(type) {
-            amount = amount
-        };
-        return obj;
-    }
-}
+//    public ElementalAffinity ConvertTo()
+//    {
+//        var obj = new ElementalAffinity(type) {
+//            amount = amount
+//        };
+//        return obj;
+//    }
+//}
 
 [System.Serializable]
 public class SavedAbilityAttribute
 {
     public string type;
-    [OptionalField]
     public float points = 0;
-    [OptionalField]
     public float priority = 75f;
     public List<SavedAbilityParameter> parameters = new List<SavedAbilityParameter>();
 
@@ -896,7 +853,12 @@ public class SavedAbilityAttribute
             i++;
             paramList[i] = parameter.ConvertTo();
         }
-        return new AbilityAttribute(type, points, priority, paramList);
+        return new AbilityAttribute {
+            type = type,
+            points = points,
+            priority = priority,
+            parameters = paramList.ToList()
+        };
     }
 }
 
@@ -908,24 +870,38 @@ public class SavedUtilityAbility : SavedActiveAbility {
 [System.Serializable]
 public class SavedAbilityParameter {
     public string name;
-    public DataType type;
+    public string type;
     public int intVal;
     public float floatVal;
     public string stringVal;
 
     public static SavedAbilityParameter ConvertFrom(AbilityAttributeParameter parameter) {
         var obj = new SavedAbilityParameter {
-            name = parameter.name,
-            type = parameter.type,
-            intVal = parameter.intVal,
-            floatVal = parameter.floatVal,
-            stringVal = parameter.stringVal
+            name = parameter.name
         };
+        if (parameter.value is int) {
+            obj.type = "int";
+            obj.intVal = (int)parameter.value;
+        }
+        else if (parameter.value is float) {
+            obj.type = "float";
+            obj.floatVal = (float)parameter.value;
+        }
+        else {
+            obj.type = "string";
+            obj.stringVal = (string)parameter.value;
+        }
         return obj;
     }
 
     public AbilityAttributeParameter ConvertTo() {
-        return new AbilityAttributeParameter(name, type, intVal, floatVal, stringVal);
+        var aap = new AbilityAttributeParameter {
+            name=name
+        };
+        if (type == "int") aap.value = intVal;
+        else if (type == "float") aap.value = floatVal;
+        else aap.value = stringVal;
+        return aap;
     }
 }
 
