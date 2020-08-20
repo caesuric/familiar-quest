@@ -15,13 +15,13 @@ public static class AttackAbilityGenerator {
             var baseStat = statResults.Item1;
             startingPoints *= statResults.Item2;
             int mp, baseMp;
-            if (usesMp) baseMp = 0;
+            if (!usesMp) baseMp = 0;
             else {
-                var mpResult = GetBaseMpCostAndPointsMod();
+                var mpResult = AbilityCalculator.GetBaseMpCostAndPointsMod();
                 baseMp = mpResult.Item1;
                 startingPoints *= mpResult.Item2;
             }
-            mp = ScaleMp(baseMp, level);
+            mp = AbilityCalculator.ScaleMp(baseMp, level);
             var element = RNG.EnumValue<Element>();
             int hitEffect = 0, projectile = 0;
             if (isRanged) projectile = AbilityTables.baseProjectiles[element];
@@ -36,10 +36,9 @@ public static class AttackAbilityGenerator {
             var dotTime = dotResults.Item2;
             startingPoints *= dotResults.Item3;
             int numAttributes = RNG.Int(0, 8);
-            var cooldownResults = GetCooldownAndPointsMod();
+            var cooldownResults = AbilityCalculator.GetCooldownAndPointsMod();
             var cooldown = cooldownResults.Item1;
             startingPoints *= cooldownResults.Item2;
-            var attributes = new List<AbilityAttribute>();
             var ability = new AttackAbility {
                 element = element,
                 baseStat = baseStat,
@@ -84,20 +83,6 @@ public static class AttackAbilityGenerator {
         return 1f / 70f * points;
     }
 
-    private static Tuple<int, float> GetBaseMpCostAndPointsMod() {
-        var mpRoll = RNG.Int(0, 100);
-        if (mpRoll < 80) return new Tuple<int, float>(40, 2f);
-        else if (mpRoll < 90) return new Tuple<int, float>(20, 1.5f);
-        else if (mpRoll < 95) return new Tuple<int, float>(60, 3f);
-        else return new Tuple<int, float>(80, 4f);
-    }
-
-    private static int ScaleMp(int baseMp, int level) {
-        float tempMp = baseMp;
-        for (int i = 1; i < level; i++) tempMp *= 1.1f;
-        return (int)tempMp;
-    }
-
     private static Tuple<BaseStat, float> GetBaseStatAndPointsMod(bool isRanged, bool usesMp) {
         if (isRanged && usesMp) return new Tuple<BaseStat, float>(BaseStat.intelligence, 1f);
         else if (isRanged) return new Tuple<BaseStat, float>(BaseStat.dexterity, 1f);
@@ -119,18 +104,5 @@ public static class AttackAbilityGenerator {
         else if (dotRoll < 8875) return new Tuple<bool, float, float>(true, 4f, 1.25f);
         else if (dotRoll < 9625) return new Tuple<bool, float, float>(true, 8f, 2f);
         else return new Tuple<bool, float, float>(true, 12f, 2.5f);
-    }
-
-    private static Tuple<float, float> GetCooldownAndPointsMod() {
-        int hasCooldownRoll = RNG.Int(0, 100);
-        if (hasCooldownRoll >= 35) return new Tuple<float, float>(0, 1f);
-        var cooldownRoll = RNG.Int(0, 7);
-        if (cooldownRoll == 0) return new Tuple<float, float>(1.5f, 1.3f);
-        else if (cooldownRoll == 1) return new Tuple<float, float>(3f, 1.4f);
-        else if (cooldownRoll == 2) return new Tuple<float, float>(8f, 1.5f);
-        else if (cooldownRoll == 3) return new Tuple<float, float>(15f, 1.67f);
-        else if (cooldownRoll == 4) return new Tuple<float, float>(30f, 2f);
-        else if (cooldownRoll == 5) return new Tuple<float, float>(90f, 2.22f);
-        else return new Tuple<float, float>(150f, 5f);
     }
 }

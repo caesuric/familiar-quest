@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class RNG {
     private static Random random = new Random();
@@ -23,5 +24,10 @@ public class RNG {
         var values = Enum.GetValues(typeof(T));
         if (MainThreadTest.OnMainThread()) return (T)values.GetValue(UnityEngine.Random.Range(0, values.Length));
         else return (T)values.GetValue(random.Next(values.Length));
+    }
+
+    public static T List<T>(List<T> input) {
+        var roll = Int(0, input.Count);
+        return input[roll];
     }
 }
