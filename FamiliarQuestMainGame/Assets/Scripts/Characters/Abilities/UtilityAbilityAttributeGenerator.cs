@@ -224,16 +224,71 @@ public static class UtilityAbilityAttributeGenerator {
     }
 
     private static AbilityAttribute GetParalyze(UtilityAbility ability) {
-        throw new NotImplementedException();
+        int duration = RNG.Int(2, 9);
+        bool rollForRadius = false;
+        float radius = 2f;
+        if (ability.targetType == "none") rollForRadius = true;
+        else rollForRadius = RNG.Bool();
+        if (rollForRadius) {
+            int radiusRoll = RNG.Int(0, 30);
+            if (radiusRoll < 21) radius = 2;
+            else if (radiusRoll < 27) radius = 4;
+            else if (radiusRoll < 29) radius = 6;
+            else radius = 8;
+        }
+        if (rollForRadius) return new AbilityAttribute {
+            type = "paralyze",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "radius",
+                    value = radius
+                },
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = (float)duration
+                }
+            }
+        };
+        else return new AbilityAttribute {
+            type = "paralyze",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = (float)duration
+                }
+            }
+        };
     }
 
     private static AbilityAttribute GetImmobilizeSelf(UtilityAbility ability) {
-        throw new NotImplementedException();
+        int duration = RNG.Int(2, 9);
+        return new AbilityAttribute {
+            type = "immobilizeSelf",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = (float)duration
+                }
+            }
+        };
     }
 
     private static AbilityAttribute GetSpeedPlus(UtilityAbility ability) {
-        throw new NotImplementedException();
+        int duration = RNG.Int(2, 11);
+        int degree = RNG.Int(30, 120);
+        if (degree > 100) degree = 100;
+        return new AbilityAttribute {
+            type = "speed+",
+            parameters = new List<AbilityAttributeParameter> {
+                new AbilityAttributeParameter {
+                    name = "duration",
+                    value = (float)duration
+                },
+                new AbilityAttributeParameter {
+                    name = "degree",
+                    value = degree / 100f
+                }
+            }
+        };
     }
-
-
 }
