@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System;
 
 public static class AttackAbilityGenerator {
-    public static AttackAbility Generate(int level = 1) {
+    public static AttackAbility Generate(int level = 1, Element element = Element.none) {
         for (int i = 0; i < 10000; i++) {
             var startingPoints = AbilityCalculator.GetPointsFromLevel(level);
             var isRanged = RNG.Bool();
@@ -22,7 +22,7 @@ public static class AttackAbilityGenerator {
                 startingPoints *= mpResult.Item2;
             }
             mp = AbilityCalculator.ScaleMp(baseMp, level);
-            var element = RNG.EnumValue<Element>();
+            if (element == Element.none) RNG.EnumValue<Element>();
             int hitEffect = 0, projectile = 0;
             if (isRanged) projectile = AbilityTables.baseProjectiles[element];
             else hitEffect = AbilityTables.baseHitEffects[element];

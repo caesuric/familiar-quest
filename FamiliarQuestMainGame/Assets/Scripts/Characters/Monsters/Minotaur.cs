@@ -11,7 +11,28 @@ public class Minotaur : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.bashing, BaseStat.strength, hitEffect: 1), new AttackAbility("Charge", "Charge", 2.62f, Element.bashing, BaseStat.strength, cooldown: 3, hitEffect: 1, attributes: new AbilityAttribute("chargeTowards")));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Basic attack.",
+                damage = 1.5f,
+                element = Element.bashing,
+                baseStat = BaseStat.strength,
+                hitEffect = 1
+            },
+            new AttackAbility {
+                name = "Charge",
+                description = "Charge.",
+                damage = 2.62f,
+                element = Element.bashing,
+                baseStat = BaseStat.strength,
+                cooldown = 3f,
+                hitEffect = 1,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "chargeTowards"
+                    }
+                }
+            });
         }
     }
 }

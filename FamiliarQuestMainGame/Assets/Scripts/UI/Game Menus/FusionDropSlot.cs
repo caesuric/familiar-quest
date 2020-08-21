@@ -46,7 +46,7 @@ public class FusionDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler,
             abilityMenu.ResetFusionChoices();
         }
         else if (data.pointerDrag != null && data.pointerDrag.GetComponent<MouseOverHotbarButton>() != null) {
-            var abilities = PlayerCharacter.localPlayer.GetComponent<SpiritUser>().spirits[0].activeAbilities;
+            var abilities = PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActives;
             var num = data.pointerDrag.GetComponent<MouseOverHotbarButton>().number;
             var ability = abilities[num];
             if (slot == 1) {

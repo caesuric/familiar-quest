@@ -11,7 +11,31 @@ public class Warlock : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Spell attack.", 0.25f, Element.dark, BaseStat.intelligence, hitEffect: 7, rangedProjectile: 7, isRanged: true, attributes: new AbilityAttribute("inflictVulnerability", new AbilityAttributeParameter("degree", DataType.floatType, floatVal: 100), new AbilityAttributeParameter("duration", DataType.floatType, floatVal: 10f))));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Spell attack.",
+                damage = 0.25f,
+                element = Element.dark,
+                baseStat = BaseStat.intelligence,
+                hitEffect = 7,
+                rangedProjectile = 7,
+                isRanged = true,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "inflictVulnerability",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "degree",
+                                value = 100f
+                            },
+                            new AbilityAttributeParameter {
+                                name = "duration",
+                                value = 10f
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }

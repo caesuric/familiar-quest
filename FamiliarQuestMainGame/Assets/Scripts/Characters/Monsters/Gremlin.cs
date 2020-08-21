@@ -12,7 +12,19 @@ public class Gremlin : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Mug", "Steals an item.", 1.5f, Element.bashing, BaseStat.strength, hitEffect: 1, attributes: new AbilityAttribute("steal")));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Mug",
+                description = "Does damage and steals an item.",
+                damage = 1.5f,
+                element = Element.slashing,
+                baseStat = BaseStat.strength,
+                hitEffect = 1,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "steal"
+                    }
+                }
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.light, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.bashing, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.dark, 50));

@@ -10,6 +10,15 @@ public class Ogre : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (!NetworkServer.active) return;
-        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1f, Element.bashing, BaseStat.strength, radius: 2, hitEffect: 1, aoe: 2));
+        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+            name = "Attack",
+            description = "Basic attack.",
+            damage = 1f,
+            element = Element.bashing,
+            baseStat = BaseStat.strength,
+            hitEffect = 1,
+            radius = 2,
+            aoe = 2
+        });
 	}
 }

@@ -13,7 +13,15 @@ public class Imp : MonoBehaviour {
 	void Update () {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Fireball", "Fireball", 1.0f, Element.fire, BaseStat.intelligence, isRanged: true, rangedProjectile: 1));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Fireball",
+                description = "Fireball.",
+                damage = 1.0f,
+                element = Element.fire,
+                baseStat = BaseStat.intelligence,
+                isRanged = true,
+                rangedProjectile = 1
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.light, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.dark, 50));
         }

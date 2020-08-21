@@ -55,7 +55,6 @@ namespace Tests
             cgo.AddComponent<ObjectSpawner>();
             cgo.AddComponent<StatusEffectHost>();
             cgo.AddComponent<AbilityUser>();
-            cgo.AddComponent<SpiritUser>();
             cgo.AddComponent<ConfigGrabber>();
             cgo.AddComponent<HotbarUser>();
             cgo.AddComponent<Health>();

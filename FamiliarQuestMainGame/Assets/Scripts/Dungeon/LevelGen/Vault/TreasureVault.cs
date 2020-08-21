@@ -177,8 +177,8 @@ public class TreasureVault : Vault {
             if (roll==0) {
                 var roll2 = RNG.Int(0, 2);
                 if (roll2 == 0) enemyStatBoosts.Add(enemy, allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
-                else if (elementalAffinity != Element.none) enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(new List<Element> { elementalAffinity }, targetLevel));
-                else enemyBonusAbilities.Add(enemy, ActiveAbility.Generate(allElements, targetLevel));
+                else if (elementalAffinity != Element.none) enemyBonusAbilities.Add(enemy, AttackAbilityGenerator.Generate(targetLevel, elementalAffinity));
+                else enemyBonusAbilities.Add(enemy, AttackAbilityGenerator.Generate(targetLevel));
                 if (roll2 == 0) Debug.Log(enemy + "s have +50% " + enemyStatBoosts[enemy]);
                 else Debug.Log(enemy + "s have bonus ability " + enemyBonusAbilities[enemy].name);
             }

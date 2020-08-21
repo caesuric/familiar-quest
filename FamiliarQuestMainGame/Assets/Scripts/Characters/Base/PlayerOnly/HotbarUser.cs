@@ -128,6 +128,11 @@ public class HotbarUser : MonoBehaviour {
         }
     }
 
+    public void UseHotbarAbility(int deprecated, int abilitySelected) {
+        var ability = GetComponent<AbilityUser>().soulGemActives[abilitySelected];
+        if (ability != null) GetComponent<AbilityUser>().UseAbility(ability);
+    }
+
     public void UseItem(int number) {
         if (GetComponent<PlayerCharacter>().consumables.Count > number) {
             GetComponent<AbilityUser>().GCDTime = AbilityUser.maxGCDTime;
@@ -440,20 +445,20 @@ public class HotbarUser : MonoBehaviour {
         float factor = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].TotalValue;
         factor *= GetComponent<PlayerCharacter>().weapon.attackPower;
         float healing = 0;
-        //foreach (var attribute in ability.attributes) if (attribute.type=="heal") healing += attribute.FindParameter("degree").floatVal * factor * GetComponent<Health>().healingMultiplier;
-        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
+        //foreach (var attribute in ability.attributes) if (attribute.type=="heal") healing += (float)attribute.FindParameter("degree").value * factor * GetComponent<Health>().healingMultiplier;
+        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += (float)attribute.FindParameter("degree").value * factor * CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
         return ((int)healing).ToString();
     }
 
     private string GetShieldText(ActiveAbility ability, BaseStat stat) {
         float shield = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += attribute.FindParameter("degree").floatVal * GetComponent<Attacker>().GetBaseDamage(stat);
+        foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += (float)attribute.FindParameter("degree").value * GetComponent<Attacker>().GetBaseDamage(stat);
         return ((int)shield).ToString();
     }
 
     private string GetRestoreMpText(ActiveAbility ability, int baseAttributeScore) {
         float mp = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type == "restoreMP") mp += attribute.FindParameter("degree").floatVal;
+        foreach (var attribute in ability.attributes) if (attribute.type == "restoreMP") mp += (float)attribute.FindParameter("degree").value;
         return ((int)mp).ToString();
     }
 
@@ -462,8 +467,8 @@ public class HotbarUser : MonoBehaviour {
         float duration = 0;
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "hot") {
-                healing += attribute.FindParameter("degree").floatVal;
-                duration = Mathf.Max(duration, attribute.FindParameter("duration").floatVal);
+                healing += (float)attribute.FindParameter("degree").value;
+                duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
             }
         }
         return ((int)healing).ToString() + " over " + ((int)duration).ToString() + " seconds";
@@ -474,8 +479,8 @@ public class HotbarUser : MonoBehaviour {
         float duration = 0;
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "mpOverTime") {
-                mp += attribute.FindParameter("degree").floatVal;
-                duration = Mathf.Max(duration, attribute.FindParameter("duration").floatVal);
+                mp += (float)attribute.FindParameter("degree").value;
+                duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
             }
         }
         return ((int)mp).ToString() + " over " + ((int)duration).ToString() + " seconds";
@@ -506,10 +511,10 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private int GetDotDamage(AbilityAttribute attribute, int baseAttributeScore) {
-        return (int)(attribute.FindParameter("degree").floatVal * baseAttributeScore);
+        return (int)((float)attribute.FindParameter("degree").value * baseAttributeScore);
     }
 
     private int GetDotSeconds(AbilityAttribute attribute) {
-        return (int)(attribute.FindParameter("duration").floatVal);
+        return (int)((float)attribute.FindParameter("duration").value);
     }
 }

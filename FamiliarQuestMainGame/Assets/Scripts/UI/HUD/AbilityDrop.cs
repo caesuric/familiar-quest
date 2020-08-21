@@ -10,7 +10,8 @@ public class AbilityDrop : MonoBehaviour {
     }
 
     public void OnClick() {
-        if (PlayerCharacter.localPlayer.GetComponent<SpiritUser>().overflowAbilities.Contains(ability)) DropsArea.OpenAbilities();
+        if (ability is ActiveAbility activeAbility && PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActivesOverflow.Contains(activeAbility)) DropsArea.OpenAbilities();
+        else if (ability is PassiveAbility passiveAbility && PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemPassivesOverflow.Contains(passiveAbility)) DropsArea.OpenAbilities();
         DropsArea.ClearDrops();
     }
 }

@@ -12,7 +12,26 @@ public class YoungDragon : MonoBehaviour {
 	void Update () {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.piercing, BaseStat.strength, hitEffect: 2), new AttackAbility("Fire Breath", "Dragon breath", 0.58f, Element.fire, BaseStat.strength, isRanged: true, rangedProjectile: 1, cooldown: 3, radius: 4, aoe: 3));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Basic attack.",
+                damage = 1.5f,
+                element = Element.piercing,
+                baseStat = BaseStat.strength,
+                hitEffect = 2
+            },
+            new AttackAbility {
+                name = "Fire Breath",
+                description = "Dragon breath.",
+                damage = 0.58f,
+                element = Element.fire,
+                baseStat = BaseStat.strength,
+                isRanged = true,
+                rangedProjectile = 1,
+                cooldown = 3,
+                radius = 4,
+                aoe = 3
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.fire, 50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.ice, -50));
         }

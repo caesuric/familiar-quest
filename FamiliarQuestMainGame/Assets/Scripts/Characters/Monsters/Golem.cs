@@ -11,7 +11,14 @@ public class Golem : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.bashing, BaseStat.strength, hitEffect: 1));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Basic attack.",
+                damage = 1.5f,
+                element = Element.slashing,
+                baseStat = BaseStat.strength,
+                hitEffect = 1
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.ice, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.piercing, 50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.slashing, 50));

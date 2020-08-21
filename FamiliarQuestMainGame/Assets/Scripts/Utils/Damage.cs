@@ -58,8 +58,8 @@ public class Damage {
         character.GetComponent<SimulatedNoiseGenerator>().CmdMakeNoise(gameObject.transform.position, 22);
         DamageCharacter(character, otherCharacter, ability, damage, element);
         if (ability != null) {
-            var attr = ActiveAbility.FindAttribute(ability.attributes, "knockback");
-            if (attr != null) otherCharacter.transform.position += gameObject.transform.forward * attr.FindParameter("degree").floatVal;
+            var attr = ability.FindAttribute("knockback");
+            if (attr != null) otherCharacter.transform.position += gameObject.transform.forward * (float)attr.FindParameter("degree").value;
         }
     }
 

@@ -174,7 +174,6 @@ public class CharacterSelectScreen : MonoBehaviour {
         var characterName = characterNameMenu.GetComponentInChildren<InputField>().text;
         if (characterName == "") return;
         var character = SavedCharacter.BrandNewCharacter(characterName, selectedFurType);
-        var spirit = new SavedSpirit();
         character.strength = strength;
         character.dexterity = dexterity;
         character.constitution = constitution;
@@ -183,33 +182,32 @@ public class CharacterSelectScreen : MonoBehaviour {
         character.luck = luck;
         foreach (var attribute in selectedAbilities[3].attributes) {
             if (attribute.type == "boostStat") {
-                switch (attribute.FindParameter("stat").stringVal) {
+                switch ((string)attribute.FindParameter("stat").value) {
                     case "strength":
-                        character.strength += attribute.FindParameter("degree").intVal;
+                        character.strength += (int)attribute.FindParameter("degree").value;
                         break;
                     case "dexterity":
-                        character.dexterity += attribute.FindParameter("degree").intVal;
+                        character.dexterity += (int)attribute.FindParameter("degree").value;
                         break;
                     case "constitution":
-                        character.constitution += attribute.FindParameter("degree").intVal;
+                        character.constitution += (int)attribute.FindParameter("degree").value;
                         break;
                     case "intelligence":
-                        character.intelligence += attribute.FindParameter("degree").intVal;
+                        character.intelligence += (int)attribute.FindParameter("degree").value;
                         break;
                     case "wisdom":
-                        character.wisdom += attribute.FindParameter("degree").intVal;
+                        character.wisdom += (int)attribute.FindParameter("degree").value;
                         break;
                     case "luck":
-                        character.luck += attribute.FindParameter("degree").intVal;
+                        character.luck += (int)attribute.FindParameter("degree").value;
                         break;
                 }
             }
         }
-        spirit.activeAbilities.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[0]));
-        spirit.activeAbilities.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[1]));
-        spirit.activeAbilities.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[2]));
-        spirit.passiveAbilities.Add(SavedPassiveAbility.ConvertFrom((PassiveAbility)selectedAbilities[3]));
-        character.spirits.Add(spirit);
+        character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[0]));
+        character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[1]));
+        character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[2]));
+        character.soulGemPassive = SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[3]);
         BinaryFormatter bf = new BinaryFormatter();
         if (!Directory.Exists(Application.persistentDataPath + "/characters")) Directory.CreateDirectory(Application.persistentDataPath + "/characters");
         FileStream file = File.Create(Application.persistentDataPath + "/characters/" + characterName + ".character");
@@ -265,7 +263,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GenerateNonCooldownAbility() {
         AttackAbility ability = null;
         while (ability == null || ability.cooldown > 0 || WrongStat(ability)) {
-            ability = AttackAbilityTable.Retrieve();
+            ability = AttackAbilityGenerator.Generate();
         }
         attackAbilities1.Add(ability);
     }
@@ -273,7 +271,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GenerateCooldownAbility() {
         AttackAbility ability = null;
         while (ability == null || ability.cooldown == 0 || WrongStat(ability)) {
-            ability = AttackAbilityTable.Retrieve();
+            ability = AttackAbilityGenerator.Generate();
         }
         attackAbilities2.Add(ability);
     }
@@ -281,8 +279,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GenerateUtilityAbility() {
         UtilityAbility ability = null;
         while (ability == null) {
-            var element = Spirit.RandomElement();
-            ability = UtilityAbilityTable.Retrieve(80f);
+            ability = UtilityAbilityGenerator.Generate();
         }
         utilityAbilities.Add(ability);
     }
@@ -290,7 +287,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     private void GeneratePassiveAbility() {
         PassiveAbility ability = null;
         while (ability == null) {
-            ability = PassiveAbility.Generate(70f);
+            ability = PassiveAbilityGenerator.Generate();
         }
         passiveAbilities.Add(ability);
     }

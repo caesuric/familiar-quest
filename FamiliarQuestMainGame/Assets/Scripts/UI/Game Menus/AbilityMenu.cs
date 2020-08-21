@@ -90,8 +90,8 @@ public class AbilityMenu : MonoBehaviour {
         }
         if (initialized && lastAbilityCount != activeAbilities.Count + passiveAbilities.Count) {
             UpdateAbilities();
-            RefreshDustPanel();
-            RefreshDustUsagePanel();
+            //RefreshDustPanel();
+            //RefreshDustUsagePanel();
             lastAbilityCount = activeAbilities.Count + passiveAbilities.Count;
         }
     }
@@ -363,45 +363,45 @@ public class AbilityMenu : MonoBehaviour {
         FusionDropSlot.instance.FusionSettingsUpdated();
     }
 
-    public void RefreshDustPanel() {
-        foreach (var icon in dustAbilityObjects) Destroy(icon);
-        dustAbilityObjects.Clear();
-        foreach (var ability in abilitiesToDust) {
-            var go = Instantiate(iconPrefab);
-            dustAbilityObjects.Add(go);
-            go.transform.SetParent(dustingAbilityPane.transform);
-            go.GetComponent<AbilityScreenIcon>().Initialize(ability);
-        }
-    }
+    //public void RefreshDustPanel() {
+    //    foreach (var icon in dustAbilityObjects) Destroy(icon);
+    //    dustAbilityObjects.Clear();
+    //    foreach (var ability in abilitiesToDust) {
+    //        var go = Instantiate(iconPrefab);
+    //        dustAbilityObjects.Add(go);
+    //        go.transform.SetParent(dustingAbilityPane.transform);
+    //        go.GetComponent<AbilityScreenIcon>().Initialize(ability);
+    //    }
+    //}
 
-    public void AddDust(string type, float amount) {
-        foreach (var dustItem in PlayerCharacter.localPlayer.GetComponent<DustUser>().dust) {
-            if (dustItem.type == type) {
-                dustItem.quantity += amount;
-                return;
-            }
-        }
-        PlayerCharacter.localPlayer.GetComponent<DustUser>().dust.Add(new Dust(type, amount));
-    }
+    //public void AddDust(string type, float amount) {
+    //    foreach (var dustItem in PlayerCharacter.localPlayer.GetComponent<DustUser>().dust) {
+    //        if (dustItem.type == type) {
+    //            dustItem.quantity += amount;
+    //            return;
+    //        }
+    //    }
+    //    PlayerCharacter.localPlayer.GetComponent<DustUser>().dust.Add(new Dust(type, amount));
+    //}
 
-    public void RefreshDustUsagePanel() {
-        foreach (var icon in dustItems) Destroy(icon);
-        foreach (var icon in dustToUseItems) Destroy(icon);
-        dustItems.Clear();
-        dustToUseItems.Clear();
-        foreach (var dust in PlayerCharacter.localPlayer.GetComponent<DustUser>().dust) {
-            var go = Instantiate(dustPrefab);
-            if (dustToUse.Contains(dust)) {
-                dustToUseItems.Add(go);
-                go.transform.SetParent(dustToUsePane.transform);
-            }
-            else {
-                dustItems.Add(go);
-                go.transform.SetParent(dustStoragePane.transform);
-            }
-            go.GetComponent<DustItem>().Initialize(dust);
-        }
-    }
+    //public void RefreshDustUsagePanel() {
+    //    foreach (var icon in dustItems) Destroy(icon);
+    //    foreach (var icon in dustToUseItems) Destroy(icon);
+    //    dustItems.Clear();
+    //    dustToUseItems.Clear();
+    //    foreach (var dust in PlayerCharacter.localPlayer.GetComponent<DustUser>().dust) {
+    //        var go = Instantiate(dustPrefab);
+    //        if (dustToUse.Contains(dust)) {
+    //            dustToUseItems.Add(go);
+    //            go.transform.SetParent(dustToUsePane.transform);
+    //        }
+    //        else {
+    //            dustItems.Add(go);
+    //            go.transform.SetParent(dustStoragePane.transform);
+    //        }
+    //        go.GetComponent<DustItem>().Initialize(dust);
+    //    }
+    //}
 
     public void ClearFusionSlot1() {
         fusionSource1 = null;

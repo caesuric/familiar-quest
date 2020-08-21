@@ -44,7 +44,8 @@ public class OchreJelly : MonoBehaviour {
         var newCharacter = obj.GetComponent<Character>();
         character.GetComponent<Health>().maxHP = character.GetComponent<Health>().hp = character.GetComponent<Health>().hp / 2;
         newCharacter.GetComponent<Health>().maxHP = newCharacter.GetComponent<Health>().hp = character.GetComponent<Health>().hp;
-        newCharacter.GetComponent<SpiritUser>().spirits.Clear();
+        newCharacter.GetComponent<AbilityUser>().soulGemActives.Clear();
+        newCharacter.GetComponent<AbilityUser>().soulGemPassive = null;
         obj.GetComponent<RewardGiver>().xpValue = Mathf.Max(mob.GetComponent<RewardGiver>().xpValue / 2, 1);
         mob.GetComponent<RewardGiver>().xpValue = Mathf.Max(mob.GetComponent<RewardGiver>().xpValue / 2, 1);
         obj.GetComponent<OchreJelly>().generation = generation + 1;

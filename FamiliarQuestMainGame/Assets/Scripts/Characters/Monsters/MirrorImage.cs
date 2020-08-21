@@ -13,7 +13,16 @@ public class MirrorImage : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Spell attack.", 0.01f, Element.fire, BaseStat.intelligence, hitEffect: 3, rangedProjectile: 1, isRanged: true));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Spell attack.",
+                damage = 0.01f,
+                element = Element.fire,
+                baseStat = BaseStat.intelligence,
+                hitEffect = 3,
+                rangedProjectile = 1,
+                isRanged = true
+            });
             health = GetComponent<Health>();
         }
         if (creator==null) {

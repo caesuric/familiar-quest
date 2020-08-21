@@ -26,16 +26,17 @@ public class AbilityListDropHandler : MonoBehaviour, IDropHandler, IPointerEnter
         GetComponent<Image>().color = startingColor;
         var mouseOverHotbarButton = data.pointerDrag.GetComponent<MouseOverHotbarButton>();
         if (mouseOverHotbarButton != null) {
-            var spiritUser = PlayerCharacter.localPlayer.GetComponent<SpiritUser>();
-            var abilities = spiritUser.spirits[0].activeAbilities;
+            var au = PlayerCharacter.localPlayer.GetComponent<AbilityUser>();
+            var activeAbilities = au.soulGemActives;
+            var passive = au.soulGemPassive;
             if (mouseOverHotbarButton.number < 12) {
-                spiritUser.overflowAbilities.Add(abilities[mouseOverHotbarButton.number]);
-                abilities[mouseOverHotbarButton.number] = null;
+                au.soulGemActivesOverflow.Add(activeAbilities[mouseOverHotbarButton.number]);
+                activeAbilities[mouseOverHotbarButton.number] = null;
             }
             else {
-                spiritUser.RemovePassive(spiritUser.spirits[0].passiveAbilities[0]);
-                spiritUser.overflowAbilities.Add(spiritUser.spirits[0].passiveAbilities[0]);
-                spiritUser.spirits[0].passiveAbilities[0] = null;
+                au.RemovePassive(passive);
+                au.soulGemPassivesOverflow.Add(passive);
+                au.soulGemPassive = null;
             }
             PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
         }

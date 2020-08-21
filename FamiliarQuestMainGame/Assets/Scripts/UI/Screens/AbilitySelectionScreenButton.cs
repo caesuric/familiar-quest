@@ -77,7 +77,7 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         float factor = characterSelectScreen.wisdom;
         factor *= 0.8437f;
         float healing = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += attribute.FindParameter("degree").floatVal * factor * SecondaryStatUtility.CalcHealingMultiplier(characterSelectScreen.strength, 1);
+        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += (float)attribute.FindParameter("degree").value * factor * SecondaryStatUtility.CalcHealingMultiplier(characterSelectScreen.strength, 1);
         return ((int)healing).ToString();
     }
 
@@ -90,13 +90,13 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         else if (stat == BaseStat.intelligence) factor = 0.8437f * characterSelectScreen.intelligence;
         else if (stat == BaseStat.wisdom) factor = 0.8437f * characterSelectScreen.wisdom;
         else factor = 0.8437f * characterSelectScreen.luck;
-        foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += attribute.FindParameter("degree").floatVal * factor;
+        foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += (float)attribute.FindParameter("degree").value * factor;
         return ((int)shield).ToString();
     }
 
     private string GetRestoreMpText(ActiveAbility ability, int baseAttributeScore) {
         float mp = 0;
-        foreach (var attribute in ability.attributes) if (attribute.type == "restoreMP") mp += attribute.FindParameter("degree").floatVal;
+        foreach (var attribute in ability.attributes) if (attribute.type == "restoreMP") mp += (float)attribute.FindParameter("degree").value;
         return ((int)mp).ToString();
     }
 
@@ -105,8 +105,8 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         float duration = 0;
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "hot") {
-                healing += attribute.FindParameter("degree").floatVal;
-                duration = Mathf.Max(duration, attribute.FindParameter("duration").floatVal);
+                healing += (float)attribute.FindParameter("degree").value;
+                duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
             }
         }
         return ((int)healing).ToString() + " over " + ((int)duration).ToString() + " seconds";
@@ -117,8 +117,8 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         float duration = 0;
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "mpOverTime") {
-                mp += attribute.FindParameter("degree").floatVal;
-                duration = Mathf.Max(duration, attribute.FindParameter("duration").floatVal);
+                mp += (float)attribute.FindParameter("degree").value;
+                duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
             }
         }
         return ((int)mp).ToString() + " over " + ((int)duration).ToString() + " seconds";
@@ -149,11 +149,11 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
     }
 
     private int GetDotDamage(AbilityAttribute attribute, int baseAttributeScore) {
-        return (int)(attribute.FindParameter("degree").floatVal * baseAttributeScore);
+        return (int)((float)attribute.FindParameter("degree").value * baseAttributeScore);
     }
 
     private int GetDotSeconds(AbilityAttribute attribute) {
-        return (int)(attribute.FindParameter("duration").floatVal);
+        return (int)((float)attribute.FindParameter("duration").value);
     }
 
     public void Click() {

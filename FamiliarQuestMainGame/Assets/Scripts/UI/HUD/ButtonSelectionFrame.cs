@@ -130,11 +130,12 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
         if (data.pointerDrag != null && data.pointerDrag.GetComponent<AbilityScreenIcon>() != null) {
             var ability = data.pointerDrag.GetComponent<AbilityScreenIcon>().ability;
             ActiveAbility hotbarAbility;
-            if (number > -1) hotbarAbility = PlayerCharacter.localPlayer.GetComponent<SpiritUser>().spirits[0].activeAbilities[number];
+            if (number > -1) hotbarAbility = PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActives[number];
             else hotbarAbility = null;
-            PlayerCharacter.localPlayer.GetComponent<SpiritUser>().spirits[0].activeAbilities[number] = (ActiveAbility)ability;
-            if (hotbarAbility != null && !PlayerCharacter.localPlayer.GetComponent<SpiritUser>().overflowAbilities.Contains(hotbarAbility)) PlayerCharacter.localPlayer.GetComponent<SpiritUser>().overflowAbilities.Add(hotbarAbility);
-            PlayerCharacter.localPlayer.GetComponent<SpiritUser>().overflowAbilities.Remove(ability);
+            PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActives[number] = (ActiveAbility)ability;
+            if (hotbarAbility != null && !PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActivesOverflow.Contains(hotbarAbility)) PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActivesOverflow.Add(hotbarAbility);
+            if (ability is ActiveAbility activeAbility) PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActivesOverflow.Remove(activeAbility);
+            else if (ability is PassiveAbility passiveAbility) PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemPassivesOverflow.Remove(passiveAbility);
             PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
             GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>().UpdateAbilities();
         }

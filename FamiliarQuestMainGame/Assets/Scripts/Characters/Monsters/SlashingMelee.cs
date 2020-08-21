@@ -10,6 +10,13 @@ public class SlashingMelee : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (!NetworkServer.active) return;
-        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.slashing, BaseStat.strength, hitEffect: 0));
+        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+            name = "Attack",
+            description = "Basic attack.",
+            damage = 1.5f,
+            element = Element.slashing,
+            baseStat = BaseStat.strength,
+            hitEffect = 0
+        });
 	}
 }
