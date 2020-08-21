@@ -20,6 +20,17 @@ public class UtilityAbility: ActiveAbility {
         foreach (var attribute in attributes) newAbility.attributes.Add(attribute.Copy());
         return newAbility;
     }
+
+    protected override void LevelUp(int originalLevel, int targetLevel) {
+        float targetPoints = 70f;
+        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
+        var newAbility = AbilityScaler.ScaleUtilityAbility(targetPoints, cooldown, mpUsage, baseMpUsage, targetType, attributes);
+        points = (int)targetPoints;
+        mpUsage = newAbility.mpUsage;
+        baseMpUsage = newAbility.baseMpUsage;
+        attributes = newAbility.attributes;
+        description = AbilityDescriber.Describe(this);
+    }
 }
 
 //public class UtilityAbility : ActiveAbility {

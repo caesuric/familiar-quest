@@ -10,6 +10,15 @@ public static class AbilityCalculator {
         return points;
     }
 
+    public static int GetLevelFromPoints(float points) {
+        int level = 1;
+        while (points>70f) {
+            points /= 1.05f;
+            level++;
+        }
+        return level;
+    }
+
     public static int ScaleMp(int baseMp, int level) {
         float tempMp = baseMp;
         for (int i = 1; i < level; i++) tempMp *= 1.1f;

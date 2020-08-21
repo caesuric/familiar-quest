@@ -50,29 +50,29 @@ public class SavedCharacter {
             weapon = new SavedWeapon(),
             armor = null,
             necklace = null,
-            belt = null
+            belt = null,
+            cloak = null,
+            earring = null,
+            hat = null,
+            shoes = null,
+            currentAbility = 0,
+            currentAltAbility = 1,
+            sparePoints = 0,
+            strength = 10,
+            dexterity = 10,
+            constitution = 10,
+            intelligence = 10,
+            wisdom = 10,
+            luck = 10,
+            resurrectionTimer = 0,
+            name = name,
+            furType = furType
         };
         obj.bracelets[0] = null;
         obj.bracelets[1] = null;
         obj.bracelets[2] = null;
         obj.bracelets[3] = null;
-        obj.cloak = null;
-        obj.earring = null;
-        obj.hat = null;
-        obj.shoes = null;
         //obj.spirits.Add(SavedSpirit.ConvertFrom(Spirit.classDefaults[ClassSelectMenu.selectedClass]));
-        obj.currentAbility = 0;
-        obj.currentAltAbility = 1;
-        obj.sparePoints = 0;
-        obj.strength = 10;
-        obj.dexterity = 10;
-        obj.constitution = 10;
-        obj.intelligence = 10;
-        obj.wisdom = 10;
-        obj.luck = 10;
-        obj.resurrectionTimer = 0;
-        obj.name = name;
-        obj.furType = furType;
         return obj;
     }
 
@@ -80,40 +80,41 @@ public class SavedCharacter {
         var pc = go.GetComponent<PlayerCharacter>();
         var character = go.GetComponent<Character>();
         var au = go.GetComponent<AbilityUser>();
-        var obj = new SavedCharacter();
-        obj.xp = pc.GetComponent<ExperienceGainer>().xp;
-        obj.level = pc.GetComponent<ExperienceGainer>().level;
-        obj.xpToLevel = pc.GetComponent<ExperienceGainer>().xpToLevel;
-        obj.gold = pc.gold;
-        obj.weapon = SavedWeapon.ConvertFrom(pc.weapon);
-        obj.armor = SavedArmor.ConvertFrom(pc.armor);
-        obj.necklace = SavedNecklace.ConvertFrom(pc.necklace);
-        obj.belt = SavedBelt.ConvertFrom(pc.belt);
+        var obj = new SavedCharacter {
+            xp = pc.GetComponent<ExperienceGainer>().xp,
+            level = pc.GetComponent<ExperienceGainer>().level,
+            xpToLevel = pc.GetComponent<ExperienceGainer>().xpToLevel,
+            gold = pc.gold,
+            weapon = SavedWeapon.ConvertFrom(pc.weapon),
+            armor = SavedArmor.ConvertFrom(pc.armor),
+            necklace = SavedNecklace.ConvertFrom(pc.necklace),
+            belt = SavedBelt.ConvertFrom(pc.belt),
+            cloak = SavedCloak.ConvertFrom(pc.cloak),
+            earring = SavedEarring.ConvertFrom(pc.earring),
+            hat = SavedHat.ConvertFrom(pc.hat),
+            shoes = SavedShoes.ConvertFrom(pc.shoes),
+            soulGemPassive = SavedAbility.ConvertFrom(au.soulGemPassive),
+            currentAbility = character.GetComponent<InputController>().currentAbility,
+            currentAltAbility = character.GetComponent<InputController>().currentAltAbility,
+            sparePoints = pc.GetComponent<ExperienceGainer>().sparePoints,
+            strength = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue,
+            dexterity = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue,
+            constitution = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue,
+            intelligence = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue,
+            wisdom = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue,
+            luck = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue,
+            resurrectionTimer = au.resurrectionTimer,
+            name = pc.GetComponent<PlayerSyncer>().characterName,
+            furType = pc.GetComponent<PlayerSyncer>().furType
+        };
         obj.bracelets[0] = SavedBracelet.ConvertFrom(pc.bracelets[0]);
         obj.bracelets[1] = SavedBracelet.ConvertFrom(pc.bracelets[1]);
         obj.bracelets[2] = SavedBracelet.ConvertFrom(pc.bracelets[2]);
         obj.bracelets[3] = SavedBracelet.ConvertFrom(pc.bracelets[3]);
-        obj.cloak = SavedCloak.ConvertFrom(pc.cloak);
-        obj.earring = SavedEarring.ConvertFrom(pc.earring);
-        obj.hat = SavedHat.ConvertFrom(pc.hat);
-        obj.shoes = SavedShoes.ConvertFrom(pc.shoes);
         foreach (var consumable in pc.consumables) obj.consumables.Add(SavedConsumable.ConvertFrom(consumable));
         foreach (var ability in au.soulGemActives) obj.soulGemActives.Add(SavedAbility.ConvertFrom(ability));
-        obj.soulGemPassive = SavedAbility.ConvertFrom(au.soulGemPassive);
         foreach (var ability in au.soulGemActivesOverflow) obj.soulGemActivesOverflow.Add(SavedAbility.ConvertFrom(ability));
         foreach (var ability in au.soulGemPassivesOverflow) obj.soulGemPassivesOverflow.Add(SavedAbility.ConvertFrom(ability));
-        obj.currentAbility = character.GetComponent<InputController>().currentAbility;
-        obj.currentAltAbility = character.GetComponent<InputController>().currentAltAbility;
-        obj.sparePoints = pc.GetComponent<ExperienceGainer>().sparePoints;
-        obj.strength = (int)CharacterAttribute.attributes["strength"].instances[character].BaseValue;
-        obj.dexterity = (int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue;
-        obj.constitution = (int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue;
-        obj.intelligence = (int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue;
-        obj.wisdom = (int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue;
-        obj.luck = (int)CharacterAttribute.attributes["luck"].instances[character].BaseValue;
-        obj.resurrectionTimer = au.resurrectionTimer;
-        obj.name = pc.GetComponent<PlayerSyncer>().characterName;
-        obj.furType = pc.GetComponent<PlayerSyncer>().furType;
         return obj;
     }
 

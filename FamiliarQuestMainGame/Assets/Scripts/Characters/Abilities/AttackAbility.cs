@@ -46,6 +46,18 @@ public class AttackAbility: ActiveAbility {
         foreach (var attribute in attributes) newAbility.attributes.Add(attribute.Copy());
         return newAbility;
     }
+
+    protected override void LevelUp(int originalLevel, int targetLevel) {
+        float targetPoints = AbilityCalculator.GetPointsFromLevel(targetLevel);
+        var newAbility = AbilityScaler.ScaleAttackAbility((int)targetPoints, element, baseStat, damage, dotDamage, dotTime, isRanged, cooldown, mpUsage, baseMpUsage, radius, icon, hitEffect, rangedProjectile, aoe, attributes);
+        points = (int)targetPoints;
+        damage = newAbility.damage;
+        dotDamage = newAbility.dotDamage;
+        mpUsage = newAbility.mpUsage;
+        baseMpUsage = newAbility.baseMpUsage;
+        attributes = newAbility.attributes;
+        description = AbilityDescriber.Describe(this);
+    }
 }
 
 //public class AttackAbility : ActiveAbility {

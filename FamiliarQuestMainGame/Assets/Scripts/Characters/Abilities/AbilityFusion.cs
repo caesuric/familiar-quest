@@ -42,7 +42,7 @@ public class AbilityFusion {
         var baseMp = ability2.baseMpUsage;
         var radius = ((AttackAbility)ability1).radius;
         var attributes = GetCombinedAttributes(ability1, ability2);
-        return CreateNewAttackAbilityForFusion(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes);
+        return AbilityScaler.ScaleAttackAbility(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes);
     }
 
     public static UtilityAbility FuseUtility(float points, ActiveAbility ability1, ActiveAbility ability2) {
@@ -51,61 +51,7 @@ public class AbilityFusion {
         var baseMp = ability1.baseMpUsage;
         var targetType = ((UtilityAbility)ability1).targetType;
         var attributes = GetCombinedAttributes(ability1, ability2);
-        return CreateNewUtilityAbilityForFusion(points, cooldown, mp, baseMp, targetType, attributes);
-    }
-
-    public static AttackAbility CreateNewAttackAbilityForFusion(float points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, int mp, int baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes) {
-        var startingPoints = points;
-        List<AbilityAttribute> paralysis = new List<AbilityAttribute>();
-        foreach (var attribute in abilityAttributes) if (attribute.type == "paralyze") paralysis.Add(attribute);
-        if (paralysis.Count > 0 && cooldown == 0) foreach (var attribute in paralysis) abilityAttributes.Remove(attribute);
-        var newAbility = new AttackAbility {
-            element = element,
-            baseStat = baseStat,
-            dotTime = dotTime,
-            isRanged = isRanged,
-            cooldown = cooldown,
-            mpUsage = mp,
-            baseMpUsage = baseMp,
-            radius = radius,
-            points = points,
-            icon = icon,
-            hitEffect = hitEffect,
-            rangedProjectile = projectile,
-            aoe = aoe,
-            level = AbilityCalculator.GetLevelFromPoints(startingPoints)
-        };
-        foreach (var attribute in abilityAttributes) {
-            points -= AbilityAttributeAppraiser.Appraise(newAbility, attribute);
-            if (points >= 0) newAbility.attributes.Add(attribute);
-        }
-        var totalDamage = AttackAbilityGenerator.CalculateDamage(points);
-        var regularDamage = totalDamage * damageRatio / (damageRatio + dotDamageRatio);
-        var dotDamage = totalDamage * dotDamageRatio / (damageRatio + dotDamageRatio);
-        newAbility.damage = regularDamage;
-        newAbility.dotDamage = dotDamage;
-        newAbility.name = AbilityNamer.Name(newAbility);
-        newAbility.description = AbilityDescriber.Describe(newAbility);
-        return newAbility;
-    }
-
-    public static UtilityAbility CreateNewUtilityAbilityForFusion(float points, float cooldown, float mp, float baseMp, string targetType, List<AbilityAttribute> abilityAttributes) {
-        var startingPoints = points;
-        var newAbility = new UtilityAbility {
-            points = points,
-            cooldown = cooldown,
-            mpUsage = mp,
-            baseMpUsage = baseMp,
-            targetType = targetType,
-            level = AbilityCalculator.GetLevelFromPoints(startingPoints)
-        };
-        foreach (var attribute in abilityAttributes) {
-            points -= AbilityAttributeAppraiser.Appraise(newAbility, attribute);
-            if (points >= 0) newAbility.attributes.Add(attribute);
-        }
-        newAbility.name = AbilityNamer.Name(newAbility);
-        newAbility.description = AbilityDescriber.Describe(newAbility);
-        return newAbility;
+        return AbilityScaler.ScaleUtilityAbility(points, cooldown, mp, baseMp, targetType, attributes);
     }
 
     private static List<AbilityAttribute> GetCombinedAttributes(Ability ability1, Ability ability2) {
