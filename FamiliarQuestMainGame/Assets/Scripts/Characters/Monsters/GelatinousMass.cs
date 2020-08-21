@@ -12,7 +12,33 @@ public class GelatinousMass : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Spitting attack", "Spitting attack.", 0f, Element.acid, BaseStat.strength, hitEffect: 5, dotDamage: 0.75f, dotTime: 8, isRanged: true, rangedProjectile: 2, attributes: new AbilityAttribute("speed-", new AbilityAttributeParameter("degree", DataType.floatType, floatVal: 0.75f), new AbilityAttributeParameter("duration", DataType.floatType, floatVal: 8f))));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Spitting Attack",
+                description = "Spitting attack.",
+                damage = 0f,
+                element = Element.acid,
+                baseStat = BaseStat.strength,
+                hitEffect = 5,
+                dotDamage = 0.75f,
+                dotTime = 8f,
+                rangedProjectile = 2,
+                isRanged = true,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "speed-",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "degree",
+                                value = 0.75f
+                            },
+                            new AbilityAttributeParameter {
+                                name = "duration",
+                                value = 8f
+                            }
+                        }
+                    }
+                }
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.piercing, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.acid, 100));
         }

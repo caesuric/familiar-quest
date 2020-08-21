@@ -45,4 +45,8 @@ public static class AbilityCalculator {
         else if (cooldownRoll == 5) return new Tuple<float, float>(90f, 2.22f);
         else return new Tuple<float, float>(150f, 5f);
     }
+
+    public static Element StringToElement(string text) {
+        return (Element)Enum.Parse(typeof(Element), text, true);
+    }
 }

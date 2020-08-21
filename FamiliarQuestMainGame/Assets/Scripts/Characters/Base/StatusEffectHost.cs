@@ -27,7 +27,7 @@ public class StatusEffectHost : MonoBehaviour {
     // Use this for initialization
     void Start() {
         var data = TextReader.ReadSets("DdeSpellEffects");
-        foreach (var item in data) ddeSpellEffects.Add(ElementalAffinity.StringToElement(item[0]), int.Parse(item[1]));
+        foreach (var item in data) ddeSpellEffects.Add(AbilityCalculator.StringToElement(item[0]), int.Parse(item[1]));
         Calculate();
     }
 

@@ -113,7 +113,7 @@ public class PlayerCharacter : MonoBehaviour {
     public void GainGold(int amount) {
         if (GetComponent<AbilityUser>().HasPassive("goldBoost")) {
             foreach (var attribute in GetComponent<AbilityUser>().soulGemPassive.attributes) {
-                if (attribute.type == "goldBoost") amount = (int)(amount * (1f + attribute.FindParameter("degree").floatVal));
+                if (attribute.type == "goldBoost") amount = (int)(amount * (1f + (float)attribute.FindParameter("degree").value));
             }
         }
         gold += amount;

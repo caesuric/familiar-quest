@@ -10,6 +10,13 @@ public class BashingMelee : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (!NetworkServer.active) return;
-        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.bashing, BaseStat.strength, hitEffect: 1));
+        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+            name = "Attack",
+            description = "Basic attack.",
+            damage = 1.5f,
+            element = Element.bashing,
+            baseStat = BaseStat.strength,
+            hitEffect = 1
+        });
 	}
 }

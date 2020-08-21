@@ -9,13 +9,9 @@ class MonsterAnimationController : MonoBehaviour {
     public float rotationTimer = 0;
     public float rotationCount = 4;
     public Quaternion rotationAngle;
-    //[SyncVar]
     private bool showSpiritEffect = false;
-    //[SyncVar]
     public bool moving = false;
-    //[SyncVar]
     public bool attacking = false;
-    //[SyncVar]
     public string attackAnimation;
     public string idleAnimation;
     public string moveAnimation;
@@ -23,14 +19,12 @@ class MonsterAnimationController : MonoBehaviour {
 
 
     void Start() {
-        //if (NetworkServer.active) {
-            rotationTimer += Random.Range(0, 4);
-            if (spiritEffect == null) {
-                var particleSystem = gameObject.GetComponentInChildren<ParticleSystem>();
-                if (particleSystem != null) spiritEffect = particleSystem.gameObject;
-            }
-            showSpiritEffect = (GetComponent<SpiritUser>().spirits.Count > 0);
-        //}
+        rotationTimer += Random.Range(0, 4);
+        if (spiritEffect == null) {
+            var particleSystem = gameObject.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem != null) spiritEffect = particleSystem.gameObject;
+        }
+        showSpiritEffect = (GetComponent<AbilityUser>().soulGemActives.Count > 0 || GetComponent<AbilityUser>().soulGemPassive != null);
     }
 
     void Update() {

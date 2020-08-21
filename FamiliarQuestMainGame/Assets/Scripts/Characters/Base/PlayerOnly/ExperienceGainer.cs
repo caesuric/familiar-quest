@@ -95,7 +95,7 @@ public class ExperienceGainer : MonoBehaviour {
             foreach (var attribute in GetComponent<AbilityUser>().soulGemPassive.attributes) {
                 if (attribute.type == "experienceBoost") {
                     float amountFloat = amount;
-                    amountFloat *= (1 + attribute.FindParameter("degree").floatVal);
+                    amountFloat *= (1 + (float)attribute.FindParameter("degree").value);
                     amount = (int)amountFloat;
                 }
             }

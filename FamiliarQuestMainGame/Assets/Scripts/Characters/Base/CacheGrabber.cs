@@ -21,7 +21,7 @@ public class CacheGrabber : MonoBehaviour {
     void Start()
     {
         var data = TextReader.ReadSets("DotSpellEffects");
-        foreach (var item in data) dotSpellEffects.Add(ElementalAffinity.StringToElement(item[0]), int.Parse(item[1]));
+        foreach (var item in data) dotSpellEffects.Add(AbilityCalculator.StringToElement(item[0]), int.Parse(item[1]));
     }
 
     // Update is called once per frame

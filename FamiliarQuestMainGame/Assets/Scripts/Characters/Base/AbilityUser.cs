@@ -83,7 +83,7 @@ public class AbilityUser : MonoBehaviour {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "boostStat") {
-                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue -= attribute.FindParameter("degree").intVal;
+                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue -= (int)attribute.FindParameter("degree").value;
             }
         }
         character.CalculateAll();
@@ -93,7 +93,7 @@ public class AbilityUser : MonoBehaviour {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "boostStat") {
-                CharacterAttribute.attributes[attribute.FindParameter("stat").stringVal].instances[GetComponent<Character>()].BuffValue += attribute.FindParameter("degree").intVal;
+                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue += (int)attribute.FindParameter("degree").value;
             }
         }
         character.CalculateAll();
@@ -123,7 +123,7 @@ public class AbilityUser : MonoBehaviour {
     }
 
     public void AttrImmobilizeSelf(AbilityAttribute attr) {
-        GetComponent<StatusEffectHost>().AddStatusEffect("immobilize", attr.FindParameter("duration").floatVal);
+        GetComponent<StatusEffectHost>().AddStatusEffect("immobilize", (float)attr.FindParameter("duration").value);
     }
 
     public void AttrSelfDestruct(ActiveAbility ability, AbilityAttribute attr) {
@@ -152,43 +152,43 @@ public class AbilityUser : MonoBehaviour {
     }
 
     public void AttrDamagePlus(ActiveAbility ability, AbilityAttribute attr) {
-        var degree = attr.FindParameter("degree").floatVal;
-        var duration = attr.FindParameter("duration").floatVal;
+        var degree = (float)attr.FindParameter("degree").value;
+        var duration = (float)attr.FindParameter("duration").value;
         FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("damage+", duration, degree, good: true);
         FindTarget().CalculateAll();
     }
 
     public void AttrSpeedPlus(ActiveAbility ability, AbilityAttribute attr) {
-        var degree = attr.FindParameter("degree").floatVal;
-        var duration = attr.FindParameter("duration").floatVal;
+        var degree = (float)attr.FindParameter("degree").value;
+        var duration = (float)attr.FindParameter("duration").value;
         FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("speed+", duration, degree, good: true);
     }
 
     public void AttrSpeedMinus(ActiveAbility ability, AbilityAttribute attr) {
         if (!(ability is UtilityAbility)) return;
-        var degree = attr.FindParameter("degree").floatVal;
-        var duration = attr.FindParameter("duration").floatVal;
+        var degree = (float)attr.FindParameter("degree").value;
+        var duration = (float)attr.FindParameter("duration").value;
         float radius = 0;
-        if (attr.FindParameter("radius") != null) radius = attr.FindParameter("radius").floatVal * 3;
+        if (attr.FindParameter("radius") != null) radius = (float)attr.FindParameter("radius").value * 3;
         var utilityAbility = (UtilityAbility)ability;
         List<StatusEffectHost> targets = new List<StatusEffectHost>();
         if (utilityAbility.targetType == "none" && radius > 0) targets = GetTargetsWithinRadiusOfPoint(transform.position, radius);
         else if (utilityAbility.targetType == "point" && radius > 0 && GetMouseCursorTargetLocation() != Vector3.positiveInfinity) targets = GetTargetsWithinRadiusOfPoint(GetMouseCursorTargetLocation(), radius);
         else if (utilityAbility.targetType == "point" && radius == 0 && GetMouseCursorTargetCharacter() != null) targets.Add(GetMouseCursorTargetCharacter());
-        foreach (var target in targets) target.AddStatusEffect("speed-", attr.FindParameter("duration").floatVal, attr.FindParameter("degree").floatVal, GetComponent<Character>(), false, ability);
+        foreach (var target in targets) target.AddStatusEffect("speed-", (float)attr.FindParameter("duration").value, (float)attr.FindParameter("degree").value, GetComponent<Character>(), false, ability);
     }
 
     public void AttrParalyze(ActiveAbility ability, AbilityAttribute attr) {
         if (!(ability is UtilityAbility)) return;
-        var duration = attr.FindParameter("duration").floatVal;
+        var duration = (float)attr.FindParameter("duration").value;
         float radius = 0;
-        if (attr.FindParameter("radius") != null) radius = attr.FindParameter("radius").floatVal * 3;
+        if (attr.FindParameter("radius") != null) radius = (float)attr.FindParameter("radius").value * 3;
         var utilityAbility = (UtilityAbility)ability;
         List<StatusEffectHost> targets = new List<StatusEffectHost>();
         if (utilityAbility.targetType == "none" && radius > 0) targets = GetTargetsWithinRadiusOfPoint(transform.position, radius);
         else if (utilityAbility.targetType == "point" && radius > 0 && GetMouseCursorTargetLocation() != Vector3.positiveInfinity) targets = GetTargetsWithinRadiusOfPoint(GetMouseCursorTargetLocation(), radius);
         else if (utilityAbility.targetType == "point" && radius == 0 && GetMouseCursorTargetCharacter() != null) targets.Add(GetMouseCursorTargetCharacter());
-        foreach (var target in targets) target.AddStatusEffect("paralysis", attr.FindParameter("duration").floatVal, inflicter: GetComponent<Character>(), good: false, ability: ability);
+        foreach (var target in targets) target.AddStatusEffect("paralysis", (float)attr.FindParameter("duration").value, inflicter: GetComponent<Character>(), good: false, ability: ability);
     }
 
     public Vector3 GetMouseCursorTargetLocation() {
@@ -234,7 +234,7 @@ public class AbilityUser : MonoBehaviour {
     }
 
     public void AttrTimestop(ActiveAbility ability, AbilityAttribute attr) {
-        var duration = attr.FindParameter("duration").floatVal;
+        var duration = (float)attr.FindParameter("duration").value;
         var radius = ability.radius;
         string tag = GetComponent<Character>().oppositeFaction;
         AddStatusEffectToAllWithTag(tag, "paralysis", duration, distance: radius);
@@ -258,8 +258,8 @@ public class AbilityUser : MonoBehaviour {
         else level = GetComponent<MonsterScaler>().level;
         //factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
         factor *= CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
-        //var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
-        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
+        //var healingAmount = (int)((float)attr.FindParameter("degree").value * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        var healingAmount = (int)((float)attr.FindParameter("degree").value * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
         FindTarget(heal: true).GetComponent<Health>().Heal(healingAmount);
         GetComponent<AudioGenerator>().PlaySoundByName("sfx_magic_heal2");
     }
@@ -272,34 +272,34 @@ public class AbilityUser : MonoBehaviour {
         else level = GetComponent<MonsterScaler>().level;
         //factor *= SecondaryStatUtility.CalcHealingMultiplier(GetComponent<Character>().wisdom, level);
         factor *= CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
-        //var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * FindTarget().GetComponent<Health>().healingMultiplier);
-        var healingAmount = (int)(attr.FindParameter("degree").floatVal * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
+        //var healingAmount = (int)((float)attr.FindParameter("degree").value * factor * FindTarget().GetComponent<Health>().healingMultiplier);
+        var healingAmount = (int)((float)attr.FindParameter("degree").value * factor * CharacterAttribute.attributes["receivedHealing"].instances[FindTarget()].TotalValue / 100f);
         //foreach (var monster in Monster.monsters) if (monster.GetComponent<MonsterCombatant>().InCombat()) monster.GetComponent<Health>().Heal(healingAmount);
         foreach (var monster in Monster.monsters) monster.GetComponent<Health>().Heal(healingAmount); // temp
         GetComponent<AudioGenerator>().PlaySoundByName("sfx_magic_heal2");
     }
     public void AttrShield(ActiveAbility ability, AbilityAttribute attr) {
-        var shieldAmount = (int)(attr.FindParameter("degree").floatVal * GetComponent<Attacker>().GetBaseDamage(ability.baseStat));
+        var shieldAmount = (int)((float)attr.FindParameter("degree").value * GetComponent<Attacker>().GetBaseDamage(ability.baseStat));
         FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("shield", 60f, degree: shieldAmount, good: true);
     }
     public void AttrRestoreMp(ActiveAbility ability, AbilityAttribute attr) {
-        FindTarget().GetComponent<Mana>().mp = Mathf.Min(FindTarget().GetComponent<Mana>().maxMP, FindTarget().GetComponent<Mana>().mp + attr.FindParameter("degree").floatVal);
+        FindTarget().GetComponent<Mana>().mp = Mathf.Min(FindTarget().GetComponent<Mana>().maxMP, FindTarget().GetComponent<Mana>().mp + (float)attr.FindParameter("degree").value);
     }
     public void AttrElementalDamageBuff(ActiveAbility ability, AbilityAttribute attr) {
-        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect(attr.FindParameter("element").stringVal + "DamageBuff", attr.FindParameter("duration").floatVal, attr.FindParameter("degree").floatVal, good: true);
+        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect((string)attr.FindParameter("element").value + "DamageBuff", (float)attr.FindParameter("duration").value, (float)attr.FindParameter("degree").value, good: true);
     }
     public void AttrHot(ActiveAbility ability, AbilityAttribute attr) {
-        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("hot", attr.FindParameter("duration").floatVal, attr.FindParameter("degree").floatVal, good: true);
+        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("hot", (float)attr.FindParameter("duration").value, (float)attr.FindParameter("degree").value, good: true);
     }
     public void AttrMpOverTime(ActiveAbility ability, AbilityAttribute attr) {
-        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("mpOverTime", attr.FindParameter("duration").floatVal, attr.FindParameter("degree").floatVal, good: true);
+        FindTarget().GetComponent<StatusEffectHost>().AddStatusEffect("mpOverTime", (float)attr.FindParameter("duration").value, (float)attr.FindParameter("degree").value, good: true);
     }
     public void AttrGrapplingHook(ActiveAbility ability, AbilityAttribute attr) {
         var obj = gameObject.AddComponent<GrapplingEffect>();
         RpcAddGrapplingEffect();
     }
     public void AttrDisableDevice(ActiveAbility ability, AbilityAttribute attr) {
-        var items = Physics.OverlapSphere(transform.position, attr.FindParameter("radius").floatVal);
+        var items = Physics.OverlapSphere(transform.position, (float)attr.FindParameter("radius").value);
         foreach (var item in items) {
             var lockedDoor = item.GetComponent<LockedDoor>();
             if (lockedDoor != null) lockedDoor.Unlock(gameObject);

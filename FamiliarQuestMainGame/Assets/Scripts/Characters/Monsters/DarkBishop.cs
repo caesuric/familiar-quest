@@ -11,7 +11,33 @@ public class DarkBishop : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Spell attack.", 1f, Element.dark, BaseStat.intelligence, hitEffect: 7, rangedProjectile: 7, isRanged: true), new UtilityAbility("Cure", "Cure wounds.", BaseStat.wisdom, mpUsage: 20, attributes: new AbilityAttribute("heal", new AbilityAttributeParameter("degree", DataType.floatType, floatVal: 1.125f))));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Spell attack.",
+                damage = 1f,
+                element = Element.dark,
+                baseStat = BaseStat.intelligence,
+                hitEffect = 7,
+                rangedProjectile = 7,
+                isRanged = true
+            },
+            new UtilityAbility {
+                name = "Cure",
+                description = "Cure wounds.",
+                baseStat = BaseStat.wisdom,
+                mpUsage = 20,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "heal",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "degree",
+                                value = 1.125f
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 }

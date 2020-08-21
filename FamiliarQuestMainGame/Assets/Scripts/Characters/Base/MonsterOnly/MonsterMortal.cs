@@ -36,7 +36,8 @@ class MonsterMortal : MonoBehaviour {
             if (PlayerCharacter.players.Count > 0 && killer != null) {
                 var pc = killer.GetComponent<PlayerCharacter>();
                 if (pc != null) {
-                    pc.GainSpirits(GetComponent<SpiritUser>().spirits);
+                    if (GetComponent<AbilityUser>().soulGemPassive != null) pc.GainSoulGem(GetComponent<AbilityUser>().soulGemPassive);
+                    else pc.GainSoulGem(GetComponent<AbilityUser>().soulGemActives[0]);
                     GetComponent<RewardGiver>().DropLoot(pc.GetComponent<Character>());
                 }
             }

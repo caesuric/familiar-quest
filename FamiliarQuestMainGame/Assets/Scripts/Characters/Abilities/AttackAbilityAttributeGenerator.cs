@@ -204,7 +204,7 @@ public static class AttackAbilityAttributeGenerator {
             parameters = new List<AbilityAttributeParameter> {
                 new AbilityAttributeParameter {
                     name = "degree",
-                    value = AttackAbilityGenerator.GetPotency(ability.points * 0.5f)
+                    value = AttackAbilityGenerator.CalculateDamage(ability.points * 0.5f)
                 }
             }
         };

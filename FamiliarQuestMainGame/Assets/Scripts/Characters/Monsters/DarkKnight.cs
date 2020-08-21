@@ -11,7 +11,36 @@ public class DarkKnight : MonoBehaviour {
     void Update() {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Pulling Attack", "Pulling attack.", 1.4f, Element.dark, BaseStat.strength, cooldown: 3, hitEffect: 7, isRanged: true, rangedProjectile: 7, attributes: new AbilityAttribute("pullTowards", new AbilityAttributeParameter("degree", DataType.floatType, floatVal: 5.0f))), new AttackAbility("Basic Attack", "Basic attack.", 1.5f, Element.slashing, BaseStat.strength, hitEffect: 0));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Pulling Attack",
+                description = "Pulling attack.",
+                damage = 1.4f,
+                element = Element.dark,
+                baseStat = BaseStat.strength,
+                cooldown = 3,
+                hitEffect = 7,
+                rangedProjectile = 7,
+                isRanged = true,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "pullTowards",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "degree",
+                                value = 5f
+                            }
+                        }
+                    }
+                }
+            },
+            new AttackAbility {
+                name = "Basic Attack",
+                description = "Basic attack.",
+                damage = 1.5f,
+                element = Element.slashing,
+                baseStat = BaseStat.strength,
+                hitEffect = 0
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.slashing, 50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.bashing, 50));
         }

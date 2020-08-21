@@ -12,7 +12,34 @@ public class Ghoul : MonoBehaviour {
     {
         //if (!NetworkServer.active) return;
         if (!initialized) {
-            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility("Attack", "Basic attack.", 1.5f, Element.piercing, BaseStat.strength), new AttackAbility("Ghoul Paralysis", "Ghoul paralysis", 3f, Element.dark, BaseStat.strength, cooldown: 10f, hitEffect: 1, attributes: new AbilityAttribute("paralyze", new AbilityAttributeParameter("duration", DataType.floatType, floatVal: 1))));
+            initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+                name = "Attack",
+                description = "Basic attack.",
+                damage = 1.5f,
+                element = Element.piercing,
+                baseStat = BaseStat.strength,
+                hitEffect = 0
+            },
+            new AttackAbility {
+                name = "Ghoul Paralysis",
+                description = "Ghoul paralysis.",
+                damage = 3f,
+                element = Element.dark,
+                baseStat = BaseStat.strength,
+                cooldown = 10f,
+                hitEffect = 1,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        type = "paralyze",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "duration",
+                                value = 1f
+                            }
+                        }
+                    }
+                }
+            });
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.light, -50));
             GetComponent<Monster>().elementalAffinities.Add(new ElementalAffinity(Element.dark, 50));
         }

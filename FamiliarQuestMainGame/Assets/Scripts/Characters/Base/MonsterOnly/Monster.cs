@@ -30,8 +30,9 @@ public class Monster : MonoBehaviour { //Hideable
         if (GetComponent<RewardGiver>().generatedMonster) return;
         int spiritRoll = Random.Range(0, 200);
         if (spiritRoll < 10) {
-            GetComponent<AbilityUser>().soulGemActives.Add(new Ability(GetComponent<MonsterScaler>().level));
-            //GetComponent<SpiritUser>().spirits.Add(new Spirit(GetComponent<MonsterScaler>().level));
+            var ability = AbilityGenerator.Generate(GetComponent<MonsterScaler>().level);
+            if (ability is PassiveAbility passiveAbility) GetComponent<AbilityUser>().soulGemPassive = passiveAbility;
+            else GetComponent<AbilityUser>().soulGemActives.Add((ActiveAbility)ability);
             if (GetComponent<AbilityUser>().soulGemPassive != null) GetComponent<AbilityUser>().AddPassive(GetComponent<AbilityUser>().soulGemPassive);
         }
         renderers = GetComponentsInChildren<Renderer>();

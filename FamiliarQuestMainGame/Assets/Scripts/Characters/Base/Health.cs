@@ -133,7 +133,7 @@ public class Health : MonoBehaviour {
         if (attackerName == "kittenCharacter(Clone)") attackerName = "Player";
         //var critRate = attacker.GetComponent<Attacker>().critRate;
         var critRate = CharacterAttribute.attributes["criticalHitChance"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
-        if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += ability.FindAttribute("increasedCritChance").FindParameter("degree").floatVal;
+        if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += (float)ability.FindAttribute("increasedCritChance").FindParameter("degree").value;
         if (amount < 0) GetComponent<ObjectSpawner>().CreateFloatingHealingText((int)amount * -1, name + " healed for " + amount.ToString() + ".");
         else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate && amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
         else if (amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
@@ -159,11 +159,11 @@ public class Health : MonoBehaviour {
         float critRate = 0;
         //if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = attacker.GetComponent<Attacker>().critRate;
         if (attacker != null && attacker.GetComponent<Attacker>() != null) critRate = CharacterAttribute.attributes["criticalHitChance"].instances[GetComponent<Character>()].TotalValue / 100f;
-        if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += ability.FindAttribute("increasedCritChance").FindParameter("degree").floatVal;
+        if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += (float)ability.FindAttribute("increasedCritChance").FindParameter("degree").value;
         float critMultiplier = 0;
         //if (attacker != null && attacker.GetComponent<Attacker>() != null) critMultiplier = attacker.GetComponent<Attacker>().critMultiplier;
         if (attacker != null && attacker.GetComponent<Attacker>() != null) critMultiplier = CharacterAttribute.attributes["criticalDamage"].instances[GetComponent<Character>()].TotalValue / 100f;
-        if (ability != null && ability.FindAttribute("increasedCritDamage") != null) critMultiplier += ability.FindAttribute("increasedCritDamage").FindParameter("degree").floatVal;
+        if (ability != null && ability.FindAttribute("increasedCritDamage") != null) critMultiplier += (float)ability.FindAttribute("increasedCritDamage").FindParameter("degree").value;
         if (attacker != null && criticalRoll <= critRate) amount *= critMultiplier;
         amount = ModifyDamageForVulnerability(amount);
         amount = ModifyDamageForShield(amount);
@@ -180,10 +180,10 @@ public class Health : MonoBehaviour {
         if (abilityUser.soulGemPassive == null) return amount;
         foreach (var attribute in abilityUser.soulGemPassive.attributes) {
             if (attribute.type == "boostDamage") {
-                amount *= (1 + attribute.FindParameter("degree").floatVal);
+                amount *= (1 + (float)attribute.FindParameter("degree").value);
             }
-            else if (attribute.type == "boostElementalDamage" && attribute.FindParameter("element").stringVal == ability.element.ToString()) {
-                amount *= (1 + attribute.FindParameter("degree").floatVal);
+            else if (attribute.type == "boostElementalDamage" && (string)attribute.FindParameter("element").value == ability.element.ToString()) {
+                amount *= (1 + (float)attribute.FindParameter("degree").value);
             }
         }
         return amount;
@@ -194,10 +194,10 @@ public class Health : MonoBehaviour {
         if (abilityUser.soulGemPassive == null) return amount;
         foreach (var attribute in abilityUser.soulGemPassive.attributes) {
             if (attribute.type == "reduceDamage") {
-                amount *= (1 - attribute.FindParameter("degree").floatVal);
+                amount *= (1 - (float)attribute.FindParameter("degree").value);
             }
-            else if (attribute.type == "reduceElementalDamage" && attribute.FindParameter("element").stringVal == ability.element.ToString()) {
-                amount *= (1 - attribute.FindParameter("degree").floatVal);
+            else if (attribute.type == "reduceElementalDamage" && (string)attribute.FindParameter("element").value == ability.element.ToString()) {
+                amount *= (1 - (float)attribute.FindParameter("degree").value);
             }
         }
         return amount;
@@ -280,30 +280,30 @@ public class Health : MonoBehaviour {
             if (effects.ContainsKey(attribute.type) && attribute.priority >= 50 && count < 4) effects[attribute.type](attribute);
             count++;            
         }
-        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("knockback")) Effects.KnockbackDefault(attacker, GetComponent<Character>());
-        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("pullEnemies")) Effects.PullTowardsDefault(attacker, GetComponent<Character>());
+        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("knockback")) AbilityEffects.KnockbackDefault(attacker, GetComponent<Character>());
+        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("pullEnemies")) AbilityEffects.PullTowardsDefault(attacker, GetComponent<Character>());
         if (ability.FindAttribute("createDamageZone") == null && ability.dotDamage > 0) GetComponent<StatusEffectHost>().AddStatusEffect("dot", ability.dotTime, degree: ability.CalculateDotDamage(attacker), inflicter: attacker, ability: ability);
     }
 
     private Dictionary<string, Effect> SetUpEffectDictionary(Character attacker, AttackAbility ability, float damage, Transform projectileTransform) {
         return new Dictionary<string, Effect>() {
-            { "lifeleech", (AbilityAttribute attribute) => Effects.Lifeleech(attacker, GetComponent<Character>(), damage, attribute) },
-            { "paralyze", (AbilityAttribute attribute) => Effects.Paralyze(attacker, GetComponent<Character>(), attribute) },
-            { "blind", (AbilityAttribute attribute) => Effects.Blind(attacker, GetComponent<Character>(), attribute) },
-            { "knockback", (AbilityAttribute attribute) => Effects.Knockback(attacker, GetComponent<Character>(), attribute) },
-            { "jumpBack", (AbilityAttribute attribute) => Effects.JumpBack(attacker, GetComponent<Character>(), attribute) },
-            { "pullTowards", (AbilityAttribute attribute) => Effects.PullTowards(attacker, GetComponent<Character>(), attribute) },
-            { "mpOverTime", (AbilityAttribute attribute) => Effects.MpOverTime(attacker, attribute) },
-            { "elementalDamageBuff", (AbilityAttribute attribute) => Effects.ElementalDamageBuff(attacker, attribute) },
-            { "blunting", (AbilityAttribute attribute) => Effects.Blunting(GetComponent<Character>(), attribute) },
-            { "inflictVulnerability", (AbilityAttribute attribute) => Effects.InflictVulnerability(GetComponent<Character>(), attribute) },
-            { "delay", (AbilityAttribute attribute) => Effects.Delay(attacker, GetComponent<Character>(), ability, damage, attribute) },
-            { "damageShield", (AbilityAttribute attribute) => Effects.DamageShield(attacker, ability, attribute) },
-            { "restoreMP", (AbilityAttribute attribute) => Effects.RestoreMp(attacker, attribute) },
-            { "removeDebuff", (AbilityAttribute attribute) => Effects.RemoveDebuff(attacker, ability, attribute) },
-            { "addedDot", (AbilityAttribute attribute) => Effects.AddedDot(attacker, GetComponent<Character>(), ability, attribute) },
-            { "speed-", (AbilityAttribute attribute) => Effects.SpeedMinus(GetComponent<Character>(), attribute) },
-            { "steal", (AbilityAttribute attribute) => Effects.AttrSteal(attacker, GetComponent<Character>()) }
+            { "lifeleech", (AbilityAttribute attribute) => AbilityEffects.Lifeleech(attacker, GetComponent<Character>(), damage, attribute) },
+            { "paralyze", (AbilityAttribute attribute) => AbilityEffects.Paralyze(attacker, GetComponent<Character>(), attribute) },
+            { "blind", (AbilityAttribute attribute) => AbilityEffects.Blind(attacker, GetComponent<Character>(), attribute) },
+            { "knockback", (AbilityAttribute attribute) => AbilityEffects.Knockback(attacker, GetComponent<Character>(), attribute) },
+            { "jumpBack", (AbilityAttribute attribute) => AbilityEffects.JumpBack(attacker, GetComponent<Character>(), attribute) },
+            { "pullTowards", (AbilityAttribute attribute) => AbilityEffects.PullTowards(attacker, GetComponent<Character>(), attribute) },
+            { "mpOverTime", (AbilityAttribute attribute) => AbilityEffects.MpOverTime(attacker, attribute) },
+            { "elementalDamageBuff", (AbilityAttribute attribute) => AbilityEffects.ElementalDamageBuff(attacker, attribute) },
+            { "blunting", (AbilityAttribute attribute) => AbilityEffects.Blunting(GetComponent<Character>(), attribute) },
+            { "inflictVulnerability", (AbilityAttribute attribute) => AbilityEffects.InflictVulnerability(GetComponent<Character>(), attribute) },
+            { "delay", (AbilityAttribute attribute) => AbilityEffects.Delay(attacker, GetComponent<Character>(), ability, damage, attribute) },
+            { "damageShield", (AbilityAttribute attribute) => AbilityEffects.DamageShield(attacker, ability, attribute) },
+            { "restoreMP", (AbilityAttribute attribute) => AbilityEffects.RestoreMp(attacker, attribute) },
+            { "removeDebuff", (AbilityAttribute attribute) => AbilityEffects.RemoveDebuff(attacker, ability, attribute) },
+            { "addedDot", (AbilityAttribute attribute) => AbilityEffects.AddedDot(attacker, GetComponent<Character>(), ability, attribute) },
+            { "speed-", (AbilityAttribute attribute) => AbilityEffects.SpeedMinus(GetComponent<Character>(), attribute) },
+            { "steal", (AbilityAttribute attribute) => AbilityEffects.AttrSteal(attacker, GetComponent<Character>()) }
         };
     }
 }

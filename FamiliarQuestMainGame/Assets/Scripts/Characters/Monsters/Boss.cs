@@ -44,7 +44,7 @@ public class Boss : MonoBehaviour {
         tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
         tm.availableActions.Add(new AI.Actions.FacePlayerWhileUsingBossRangedAttack());
         tm.availableActions.Add(new AI.Actions.UseBossUtilityAbility());
-        element = Spirit.RandomElement();
+        element = RNG.EnumValue<Element>();
         if (!phasesTimeBased) SetupHealthThresholds();
     }
 
@@ -160,42 +160,168 @@ public class Boss : MonoBehaviour {
         Debug.Log("switching to mechanic: " + mechanic.type);
         switch (mechanic.type) {
             case "damageZones":
-                if (mechanic.options.Contains("heals")) abilities.Add(new AttackAbility("Healing Damage Zone", "Damage zone that heals the caster.", 0f, element, baseStat, dotDamage: 4f, dotTime: 10, isRanged: true, cooldown: 10, radius: 4, aoe: aoe, attributes: new AbilityAttribute("bossHealingDamageZone")));
-                else abilities.Add(new AttackAbility("Damage Zone", "Damage zone.", 0f, element, baseStat, dotDamage: 4f, dotTime: 10, isRanged: true, cooldown: 10, radius: 4, aoe: aoe, attributes: new AbilityAttribute("bossDamageZone")));
+                if (mechanic.options.Contains("heals")) abilities.Add(new AttackAbility {
+                    name = "Healing Damage Zone",
+                    description = "Damage zone that heals the caster.",
+                    damage = 0f,
+                    element = element,
+                    baseStat = baseStat,
+                    dotDamage = 4f,
+                    dotTime = 10f,
+                    isRanged = true,
+                    cooldown = 10,
+                    radius = 4,
+                    aoe = aoe,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossHealingDamageZone" } }
+                });
+                else abilities.Add(new AttackAbility {
+                    name = "Damage Zone",
+                    description = "Damage zone.",
+                    damage = 0f,
+                    element = element,
+                    baseStat = baseStat,
+                    dotDamage = 4f,
+                    dotTime = 10,
+                    isRanged = true,
+                    cooldown = 10,
+                    radius = 4,
+                    aoe = aoe,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossDamageZone" } }
+                });
                 break;
             case "circleAoe":
-                abilities.Add(new AttackAbility("Circle AOE", "Circular AOE that targets player.", 4f, element, baseStat, isRanged: true, cooldown: 5, radius: 4, aoe: aoe, attributes: new AbilityAttribute("bossCircleAoe")));
+                abilities.Add(new AttackAbility {
+                    name = "Circle AOE",
+                    description = "Circular AOE that targets player.",
+                    damage = 4f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    cooldown = 5,
+                    radius = 4,
+                    aoe = aoe,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossCircleAoe" } }
+                });
                 break;
             case "lineAoe":
-                abilities.Add(new AttackAbility("Line AOE", "Line AOE that targets player.", 4f, element, baseStat, isRanged: true, cooldown: 5, aoe: aoe, attributes: new AbilityAttribute("bossLineAoe")));
+                abilities.Add(new AttackAbility {
+                    name = "Line AOE",
+                    description = "Line AOE that targets player.",
+                    damage = 4f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    cooldown = 5,
+                    aoe = aoe,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossLineAoe" } }
+                });
                 break;
             case "rage":
-                abilities.Add(new UtilityAbility("Rage", "Become enraged.", cooldown: 30, attributes: new AbilityAttribute("bossRage")));
+                abilities.Add(new UtilityAbility {
+                    name = "Rage",
+                    description = "Become enraged.",
+                    cooldown = 30,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossRage" } }
+                });
                 break;
             case "bulletHell":
-                abilities.Add(new AttackAbility("Bullet Hell", "Creates a living hell of projectiles.", 2f, element, baseStat, isRanged: true, rangedProjectile: proj, hitEffect: hitEffect, attributes: new AbilityAttribute("bossBulletHell")));
+                abilities.Add(new AttackAbility {
+                    name = "Bullet Hell",
+                    description = "Creates a living hell of projectiles.",
+                    damage = 2f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    rangedProjectile = proj,
+                    hitEffect = hitEffect,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossBulletHell" } }
+                });
                 break;
             case "homingProjectiles":
-                abilities.Add(new AttackAbility("Homing Projectile", "Fires a homing projectile.", 2f, element, baseStat, isRanged: true, rangedProjectile: proj, hitEffect: hitEffect, attributes: new AbilityAttribute("bossHomingProjectile")));
+                abilities.Add(new AttackAbility {
+                    name = "Homing Projectile",
+                    description = "Fires a homing projectile.",
+                    damage = 2f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    rangedProjectile = proj,
+                    hitEffect = hitEffect,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossHomingProjectile" } }
+                });
                 break;
             case "projectileSpreads":
-                abilities.Add(new AttackAbility("Projectile Spread", "Fires a projectile spread.", 2f, element, baseStat, isRanged: true, rangedProjectile: proj, hitEffect: hitEffect, attributes: new AbilityAttribute("projectileSpread")));
+                abilities.Add(new AttackAbility {
+                    name = "Projectile Spread",
+                    description = "Fires a projectile spread.",
+                    damage = 2f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    rangedProjectile = proj,
+                    hitEffect = hitEffect,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "projectileSpread" } }
+                });
                 break;
             case "jumpAndShoot":
-                abilities.Add(new AttackAbility("Jump and fire", "Jumps and fires.", 2.1f, element, baseStat, cooldown: 1.5f, isRanged: true, rangedProjectile: proj, hitEffect: hitEffect, attributes: new AbilityAttribute("bossJumpAndShoot")));
-                abilities.Add(new AttackAbility("Fire", "Ranged attack.", 2f, element, baseStat, isRanged: true, rangedProjectile: proj, hitEffect: hitEffect));
+                abilities.Add(new AttackAbility {
+                    name = "Jump and Fire",
+                    description = "Jumps and fires.",
+                    damage = 2.1f,
+                    element = element,
+                    baseStat = baseStat,
+                    cooldown = 1.5f,
+                    isRanged = true,
+                    rangedProjectile = proj,
+                    hitEffect = hitEffect,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossJumpAndShoot" } }
+                });
+                abilities.Add(new AttackAbility {
+                    name = "Fire",
+                    description = "Ranged attack.",
+                    damage = 2f,
+                    element = element,
+                    baseStat = baseStat,
+                    isRanged = true,
+                    rangedProjectile = proj,
+                    hitEffect = hitEffect
+                });
                 break;
             case "charges":
-                abilities.Add(new AttackAbility("Charge", "Charges the enemy.", 4f, element, baseStat, cooldown: 5, hitEffect: hitEffect, attributes: new AbilityAttribute("chargeTowards")));
+                abilities.Add(new AttackAbility {
+                    name = "Charge",
+                    description = "Charges the enemy.",
+                    damage = 4f,
+                    element = element,
+                    baseStat = baseStat,
+                    cooldown = 5f,
+                    hitEffect = hitEffect,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "chargeTowards" } }
+                });
                 break;
             case "teleports":
-                abilities.Add(new UtilityAbility("Teleport", "Teleport somewhere useful.", cooldown: 5, attributes: new AbilityAttribute("bossTeleport")));
+                abilities.Add(new UtilityAbility {
+                    name = "Teleport",
+                    description = "Teleports somewhere useful.",
+                    cooldown = 10,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossTeleport" } }
+                });
                 break;
             case "eatMinions":
-                abilities.Add(new UtilityAbility("Eat Minion", "Eats a minion.", cooldown: 30, attributes: new AbilityAttribute("bossEatMinion")));
+                abilities.Add(new UtilityAbility {
+                    name = "Eat Minion",
+                    description = "Eats a minion.",
+                    cooldown = 30,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossEatMinion" } }
+                });
                 break;
             case "spawnAdds":
-                abilities.Add(new UtilityAbility("Summon", "Summons minions.", cooldown: 30, attributes: new AbilityAttribute("bossSummonMinions")));
+                abilities.Add(new UtilityAbility {
+                    name = "Summon",
+                    description = "Summons minions.",
+                    cooldown = 30,
+                    attributes = new List<AbilityAttribute> { new AbilityAttribute { type = "bossSummonMinions" } }
+                });
                 break;
             default:
                 break;
@@ -249,7 +375,7 @@ public class Boss : MonoBehaviour {
     }
 
     private void AddRandomElementalStrength() {
-        var element = Spirit.RandomElement();
+        var element = RNG.EnumValue<Element>();
         foreach (var affinity in GetComponent<Monster>().elementalAffinities) {
             if (affinity.type==element) {
                 affinity.amount += RandomElementalStrengthAmount();

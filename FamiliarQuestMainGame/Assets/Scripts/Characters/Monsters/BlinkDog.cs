@@ -11,6 +11,13 @@ public class BlinkDog : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //if (!NetworkServer.active) return;
-        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, abilities: new ActiveAbility[] {new AttackAbility("Attack", "Basic attack.", 1.5f, Element.piercing, BaseStat.strength, hitEffect: 4)});
+        if (!initialized) initialized = MonsterInitializer.Initialize(gameObject, new AttackAbility {
+            name = "Attack",
+            description = "Basic attack.",
+            damage = 1.5f,
+            element = Element.piercing,
+            baseStat = BaseStat.strength,
+            hitEffect = 4
+        });   
 	}
 }
