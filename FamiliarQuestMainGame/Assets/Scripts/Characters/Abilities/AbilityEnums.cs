@@ -8,7 +8,3 @@ public enum Element {
 public enum BaseStat {
     strength, dexterity, constitution, intelligence, wisdom, luck
 }
-
-//public enum DataType {
-//    intType, floatType, stringType
-//}
