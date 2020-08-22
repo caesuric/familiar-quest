@@ -7,8 +7,8 @@ def main():
         token = app_token_file.read()
     auth = ('caesuric', token)
     create_release(auth)
-    # release_id = get_release_id(auth)
-    # upload_releases(release_id, auth)
+    release_url = get_release_url(auth)
+    upload_releases(release_url, auth)
 
 def create_release(auth):
     url = 'https://api.github.com/repos/caesuric/familiar-quest/releases'
@@ -32,20 +32,18 @@ def create_release(auth):
     print('created release')
     print(response.status_code)
 
-def get_release_id(auth):
+def get_release_url(auth):
     tag_name = 'v'
     with open('./version.txt', 'r') as version_file:
         tag_name += version_file.read()
     url = f'https://api.github.com/repos/caesuric/familiar-quest/releases/tags/{tag_name}'
     response = requests.get(url, auth=auth)
     json_response = json.loads(response.text)
-    release_id = json_response['id']
-    print('got release id')
-    print(f'release id: {release_id}')
-    return release_id
+    release_url = json_response['upload_url']
+    return release_url
 
-def upload_releases(release_id, auth):
-    url = f'https://api.github.com/repos/caesuric/familiar-quest/releases/{release_id}/assets'
+def upload_releases(release_url, auth):
+    url = release_url
     version = 'v'
     with open('./version.txt', 'r') as version_file:
         version += version_file.read()
@@ -66,17 +64,18 @@ def upload_releases(release_id, auth):
     }
     with open(f'./Builds/{windows_params["name"]}', 'rb') as windows_release_file:
         print('opened windows release')
-        response = requests.post(url, params=windows_params, data=windows_release_file, auth=auth)
+        response = requests.post(url, headers=windows_params, data=windows_release_file, auth=auth)
         print('uploaded windows release')
         print(response.status_code)
     with open(f'./Builds/{linux_params["name"]}', 'rb') as linux_release_file:
         print('opened linux release')
-        response = requests.post(url, params=linux_params, data=linux_release_file, auth=auth)
+        response = requests.post(url, headers=linux_params, data=linux_release_file, auth=auth)
         print('uploaded linux release')
         print(response.status_code)
     with open(f'./Builds/{mac_params["name"]}', 'rb') as mac_release_file:
         print('opened mac release')
-        response = requests.post(url, params=mac_params, data=mac_release_file, auth=auth)
+        response = requests.post(
+            url, headers=mac_params, data=mac_release_file, auth=auth)
         print('uploaded mac release')
         print(response.status_code)
 

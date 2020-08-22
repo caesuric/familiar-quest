@@ -1,7 +1,8 @@
-# v0.16 - Major Bugfix and Stability Update
+# v0.17 - Ability Updates
 
-* Many bug fixes and stability updates
+* Re-added ability fusion to the game -- you can now fuse two abilities together to create a new one in the abilities menu!
 
 ## Known Issues
 
-* Overworld is very alpha, still not thoroughly tested and likely has performance issues
+* You cannot fuse passive abilities yet
+* Fusing attack and utility abilities together may give you strange results
