@@ -1176,7 +1176,6 @@ GameObject:
   - component: {fileID: 114575585487534646}
   - component: {fileID: 114559845986099158}
   - component: {fileID: 114401115872199274}
-  - component: {fileID: 114462042353730502}
   - component: {fileID: 114499221152250364}
   - component: {fileID: 114051082505564152}
   - component: {fileID: 114075219232774502}
@@ -1188,7 +1187,6 @@ GameObject:
   - component: {fileID: 114353114732997418}
   - component: {fileID: 82092643273701914}
   - component: {fileID: 114820153383103738}
-  - component: {fileID: 114491107368638206}
   - component: {fileID: 114002175373596332}
   - component: {fileID: 1543559797605787078}
   m_Layer: 9
@@ -1323,6 +1321,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114604209106469104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1478,19 +1477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 1950134915899922, guid: e5f5c913e52ffea4b92561c19585dd04, type: 3}
---- !u!114 &114462042353730502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350960040594250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114499221152250364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1770,18 +1756,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e39c612969c9e214db20b524b2c5bfeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114491107368638206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350960040594250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6613a5a9f725ee74b849690b130ceb98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114002175373596332

@@ -24,7 +24,8 @@ class MonsterAnimationController : MonoBehaviour {
             var particleSystem = gameObject.GetComponentInChildren<ParticleSystem>();
             if (particleSystem != null) spiritEffect = particleSystem.gameObject;
         }
-        showSpiritEffect = (GetComponent<AbilityUser>().soulGemActives.Count > 0 || GetComponent<AbilityUser>().soulGemPassive != null);
+        //showSpiritEffect = (GetComponent<AbilityUser>().soulGemActives.Count > 0 || GetComponent<AbilityUser>().soulGemPassive != null);
+        showSpiritEffect = false;
     }
 
     void Update() {

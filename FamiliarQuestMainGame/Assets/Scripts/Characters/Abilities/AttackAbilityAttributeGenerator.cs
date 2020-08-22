@@ -160,7 +160,7 @@ public static class AttackAbilityAttributeGenerator {
             parameters = new List<AbilityAttributeParameter> {
                 new AbilityAttributeParameter {
                     name = "degree",
-                    value = mpAmount
+                    value = (float)mpAmount
                 },
                 new AbilityAttributeParameter {
                     name = "duration",
@@ -179,6 +179,7 @@ public static class AttackAbilityAttributeGenerator {
         int elementRoll = UnityEngine.Random.Range(0, 2);
         if (elementRoll == 0) element = ability.element;
         else element = RNG.EnumValue<Element>();
+        while (element == Element.none) element = RNG.EnumValue<Element>();
         return new AbilityAttribute {
             type = "elementalDamageBuff",
             parameters=new List<AbilityAttributeParameter> {
@@ -267,7 +268,7 @@ public static class AttackAbilityAttributeGenerator {
 
     private static AbilityAttribute GetAddedDot(AttackAbility ability) {
         int roll = UnityEngine.Random.Range(0, 4);
-        var dotDurations = new List<int> { 4, 8, 8, 12 };
+        var dotDurations = new List<float> { 4f, 8f, 8f, 12f };
         var dotMultipliers = new List<float> { 1.5f, 3f, 3f, 4f };
         var dotDuration = dotDurations[roll];
         var dotMultiplier = dotMultipliers[roll];

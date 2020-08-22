@@ -78,7 +78,7 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         factor *= 0.8437f;
         float healing = 0;
         foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += (float)attribute.FindParameter("degree").value * factor * SecondaryStatUtility.CalcHealingMultiplier(characterSelectScreen.strength, 1);
-        return ((int)healing).ToString();
+        return Mathf.FloorToInt(healing).ToString();
     }
 
     private string GetShieldText(ActiveAbility ability, BaseStat stat) {
@@ -91,13 +91,13 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         else if (stat == BaseStat.wisdom) factor = 0.8437f * characterSelectScreen.wisdom;
         else factor = 0.8437f * characterSelectScreen.luck;
         foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += (float)attribute.FindParameter("degree").value * factor;
-        return ((int)shield).ToString();
+        return Mathf.FloorToInt(shield).ToString();
     }
 
     private string GetRestoreMpText(ActiveAbility ability, int baseAttributeScore) {
         float mp = 0;
         foreach (var attribute in ability.attributes) if (attribute.type == "restoreMP") mp += (float)attribute.FindParameter("degree").value;
-        return ((int)mp).ToString();
+        return Mathf.FloorToInt(mp).ToString();
     }
 
     private string GetRestoreHpOverTimeText(ActiveAbility ability, int baseAttributeScore) {
@@ -109,7 +109,7 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
                 duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
             }
         }
-        return ((int)healing).ToString() + " over " + ((int)duration).ToString() + " seconds";
+        return Mathf.FloorToInt(healing).ToString() + " over " + Mathf.FloorToInt(duration).ToString() + " seconds";
     }
 
     private string GetRestoreMpOverTimeText(ActiveAbility ability, int baseAttributeScore) {
@@ -117,11 +117,11 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         float duration = 0;
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "mpOverTime") {
-                mp += (float)attribute.FindParameter("degree").value;
-                duration = Mathf.Max(duration, (float)attribute.FindParameter("duration").value);
+                mp += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+                duration = Mathf.Max(duration, Mathf.FloorToInt((float)attribute.FindParameter("duration").value));
             }
         }
-        return ((int)mp).ToString() + " over " + ((int)duration).ToString() + " seconds";
+        return Mathf.FloorToInt(mp).ToString() + " over " + Mathf.FloorToInt(duration).ToString() + " seconds";
     }
 
     private string GetAttackText(ActiveAbility ability, int baseAttributeScore) {
@@ -149,11 +149,11 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
     }
 
     private int GetDotDamage(AbilityAttribute attribute, int baseAttributeScore) {
-        return (int)((float)attribute.FindParameter("degree").value * baseAttributeScore);
+        return Mathf.FloorToInt((float)attribute.FindParameter("degree").value * baseAttributeScore);
     }
 
     private int GetDotSeconds(AbilityAttribute attribute) {
-        return (int)((float)attribute.FindParameter("duration").value);
+        return Mathf.FloorToInt((float)attribute.FindParameter("duration").value);
     }
 
     public void Click() {

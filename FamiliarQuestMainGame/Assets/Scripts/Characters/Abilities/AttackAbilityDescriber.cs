@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public static class AttackAbilityDescriber {
     private delegate string DescriberDelegate(AttackAbility ability, AbilityAttribute attribute);
@@ -79,14 +80,14 @@ public static class AttackAbilityDescriber {
     }
 
     private static string ImmobilizeSelfDescription(AttackAbility ability, AbilityAttribute attribute) {
-        var duration = (int)attribute.FindParameter("duration").value;
-        return "Immobilizes self for " + duration.ToString() + " seconds.\n";
+        var duration = (float)attribute.FindParameter("duration").value;
+        return "Immobilizes self for " + Mathf.FloorToInt(duration).ToString() + " seconds.\n";
     }
 
     private static string SpeedMinusDescription(AttackAbility ability, AbilityAttribute attribute) {
         var degree = (int)(((float)attribute.FindParameter("degree").value) * 100f);
-        var duration = (int)attribute.FindParameter("duration").value;
-        return "Slow target's movement by " + degree.ToString() + "% for " + duration.ToString() + " seconds.\n";
+        var duration = (float)attribute.FindParameter("duration").value;
+        return "Slow target's movement by " + degree.ToString() + "% for " + Mathf.FloorToInt(duration).ToString() + " seconds.\n";
     }
 
     private static string IncreasedCritDamageDescription(AttackAbility ability, AbilityAttribute attribute) {

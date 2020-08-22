@@ -60,8 +60,6 @@ public class PlayerCharacter : MonoBehaviour {
     }
 
     private void Update() {
-        isMe = true; // VERY TEMPORARY
-
         if (!isMe) return;
         if (localPlayer==null) localPlayer = this;
         if (!ready && GetComponent<NetworkCharacterSyncer>() == ProtoClient.localPlayer) {

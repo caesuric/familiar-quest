@@ -487,6 +487,7 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private string GetAttackText(ActiveAbility ability, int baseAttributeScore) {
+        if (GetComponent<PlayerCharacter>() == null) return "";
         var text = Mathf.Floor(GetComponent<PlayerCharacter>().weapon.attackPower * baseAttributeScore * ((AttackAbility)ability).damage).ToString();
         text += GetTextFromDots(ability, baseAttributeScore);
         return text;

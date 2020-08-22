@@ -174,9 +174,9 @@ public class TreasureVault : Vault {
     public void CreateRandomEnemyBuffs(int targetLevel) {
         foreach (var enemy in localEnemyTypes) {
             var roll = RNG.Int(0, 10);
-            if (roll==0) {
-                var roll2 = RNG.Int(0, 2);
-                if (roll2 == 0) enemyStatBoosts.Add(enemy, allPrimaryStats[RNG.Int(0, allPrimaryStats.Count)]);
+            if (roll < 5) {
+                var roll2 = RNG.Int(0, 5);
+                if (roll2 == 0) enemyStatBoosts.Add(enemy, RNG.List(allPrimaryStats));
                 else if (elementalAffinity != Element.none) enemyBonusAbilities.Add(enemy, AttackAbilityGenerator.Generate(targetLevel, elementalAffinity));
                 else enemyBonusAbilities.Add(enemy, AttackAbilityGenerator.Generate(targetLevel));
                 if (roll2 == 0) Debug.Log(enemy + "s have +50% " + enemyStatBoosts[enemy]);

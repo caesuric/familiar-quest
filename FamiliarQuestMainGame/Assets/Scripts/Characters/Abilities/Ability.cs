@@ -14,7 +14,7 @@ public abstract class Ability {
     protected abstract void LevelUp(int originalLevel, int targetLevel);
 
     public AbilityAttribute FindAttribute(string attribute) {
-        foreach (var item in attributes) if (item.type == attribute) return item;
+        foreach (var item in attributes) if (item.type == attribute && item.priority >= 50) return item;
         return null;
     }
 

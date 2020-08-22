@@ -21,10 +21,18 @@ public class UtilityAbility: ActiveAbility {
         return newAbility;
     }
 
+    public new bool IsValid() {
+        if (!base.IsValid()) return false;
+        var invalidStandaloneAttributes = new List<string> { "immobilizeSelf", "stealthy", "offGCD", "usableWhileParalyzed" };
+        foreach (var attribute in attributes) if (!invalidStandaloneAttributes.Contains(attribute.type) && attribute.priority >= 50) return true;
+        return false;
+    }
+
     protected override void LevelUp(int originalLevel, int targetLevel) {
         float targetPoints = 70f;
         for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
         var newAbility = AbilityScaler.ScaleUtilityAbility(targetPoints, cooldown, mpUsage, baseMpUsage, targetType, attributes);
+        level = targetLevel;
         points = (int)targetPoints;
         mpUsage = newAbility.mpUsage;
         baseMpUsage = newAbility.baseMpUsage;

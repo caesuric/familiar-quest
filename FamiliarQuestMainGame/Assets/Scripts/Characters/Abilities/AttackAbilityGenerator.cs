@@ -22,7 +22,7 @@ public static class AttackAbilityGenerator {
                 startingPoints *= mpResult.Item2;
             }
             mp = AbilityCalculator.ScaleMp(baseMp, level);
-            if (element == Element.none) RNG.EnumValue<Element>();
+            if (element == Element.none) element = RNG.EnumValue<Element>();
             int hitEffect = 0, projectile = 0;
             if (isRanged) projectile = AbilityTables.baseProjectiles[element];
             else hitEffect = AbilityTables.baseHitEffects[element];
@@ -35,7 +35,7 @@ public static class AttackAbilityGenerator {
             var isDot = dotResults.Item1;
             var dotTime = dotResults.Item2;
             startingPoints *= dotResults.Item3;
-            int numAttributes = RNG.Int(0, 8);
+            int numAttributes = RNG.Int(0, 6);
             var cooldownResults = AbilityCalculator.GetCooldownAndPointsMod();
             var cooldown = cooldownResults.Item1;
             startingPoints *= cooldownResults.Item2;
@@ -61,8 +61,8 @@ public static class AttackAbilityGenerator {
                     var attribute = AbilityAttributeGenerator.Generate(ability);
                     if (attribute != null && attribute.points <= ability.points) {
                         ability.attributes.Add(attribute);
-                        ability.points -= attribute.points;
-                        if (attribute.type == "createDamageZone") ability.aoe = AbilityTables.baseDamageZones[element];
+                        if (attribute.priority >= 50) ability.points -= attribute.points;
+                        if (attribute.priority >= 50 && attribute.type == "createDamageZone") ability.aoe = AbilityTables.baseDamageZones[element];
                         break;
                     }
                 }
@@ -71,6 +71,7 @@ public static class AttackAbilityGenerator {
             if (isDot) ability.dotDamage = damage;
             else ability.damage = damage;
             ability.points = startingPoints;
+            ability.SortAttributes();
             ability.icon = AbilityIconSelector.Select(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.description = AbilityDescriber.Describe(ability);
@@ -80,7 +81,7 @@ public static class AttackAbilityGenerator {
     }
 
     public static float CalculateDamage(float points) {
-        return 1f / 70f * points;
+        return Mathf.Max(1f / 70f * points, 0f);
     }
 
     private static Tuple<BaseStat, float> GetBaseStatAndPointsMod(bool isRanged, bool usesMp) {

@@ -81,6 +81,7 @@ public static class UtilityAbilityAttributeGenerator {
         var damageBoostTable = new List<float> { 100, 50, 25 };
         var damageBoost = damageBoostTable[roll];
         var element = RNG.EnumValue<Element>();
+        while (element == Element.none) element = RNG.EnumValue<Element>();
         return new AbilityAttribute {
             type = "elementalDamageBuff",
             parameters = new List<AbilityAttributeParameter>

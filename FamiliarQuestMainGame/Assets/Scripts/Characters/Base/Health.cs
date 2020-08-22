@@ -37,7 +37,7 @@ public class Health : MonoBehaviour {
             if (GetComponent<Monster>() != null) GetComponent<MonsterMortal>().OnDeath();
         }
         else if (hp > maxHP) hp = maxHP;
-        if (!isPlayer && unitFrame!=null) unitFrame.SetHealthPercentage(hp / maxHP * 100f);
+        if (!isPlayer && unitFrame != null) unitFrame.SetHealthPercentage(hp / maxHP * 100f);
     }
 
     public void Calculate() {
@@ -52,11 +52,11 @@ public class Health : MonoBehaviour {
     }
 
     public float GetHpFactor(float baseFactor, int level) {
-        for (var i=1; i<level; i++) baseFactor *= 1.1f;
+        for (var i = 1; i < level; i++) baseFactor *= 1.1f;
         return baseFactor;
     }
 
-    public void Heal(float amount, bool silent = false, bool noEffect=false) {
+    public void Heal(float amount, bool silent = false, bool noEffect = false) {
         if (hp <= 0) return;
         //if (GetComponent<PlayerCharacter>()!=null) AggroTable.IncreaseAggroWithAll(gameObject, amount);
         hp = Mathf.Min(hp + amount, maxHP);
@@ -79,12 +79,12 @@ public class Health : MonoBehaviour {
         var criticalRoll = UnityEngine.Random.Range(0f, 1f);
         amount = ModifyDamage(amount, criticalRoll, type, attacker, ability);
         if (BossImmunity()) amount = 0;
-        if (ability == null || ability.FindAttribute("delay") == null) hp -= amount;
+        if (ability == null || ability.FindAttribute("delay") == null || ability.FindAttribute("delay").priority < 50) hp -= amount;
         if (hp <= 0 && GetComponent<MonsterMortal>() != null) GetComponent<MonsterMortal>().killer = attacker.gameObject;
         if (amount >= 0 && ability != null) ApplyEffectsFromAttack(attacker, ability, amount, projectileTransform);
         if (amount > 0 && GetComponent<MonsterSounds>() != null) GetComponentInChildren<AudioGenerator>().PlaySoundByName(GetComponent<MonsterSounds>().onHit);
         if (amount > 0 && GetComponent<OchreJelly>() != null) GetComponent<OchreJelly>().Split();
-        if (ability == null || ability.FindAttribute("delay") == null) {
+        if (ability == null || ability.FindAttribute("delay") == null || ability.FindAttribute("delay").priority < 50) {
             if (!silent && amount == 0 && amount != originalAmount) CreateFloatingImmunityText(attacker);
             else if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
             ResurrectIfApplicable();
@@ -111,13 +111,11 @@ public class Health : MonoBehaviour {
         ShowHitVisual(ability);
         var criticalRoll = UnityEngine.Random.Range(0f, 1f);
         amount = ModifyDamage(amount, criticalRoll, type, attacker, ability);
-        if (ability == null || ability.FindAttribute("delay") == null) hp -= amount;
+        hp -= amount;
         //if (amount >= 0 && ability != null) ApplyEffectsFromAttack(attacker, ability, amount, projectileTransform);
         if (hp <= 0 && GetComponent<MonsterMortal>() != null) GetComponent<MonsterMortal>().killer = attacker.gameObject;
-        if (ability == null || ability.FindAttribute("delay") == null) {
-            if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
-            ResurrectIfApplicable();
-        }
+        if (!silent) CreateFloatingText(amount, criticalRoll, attacker, ability);
+        ResurrectIfApplicable();
     }
 
     private void ShowHitVisual(AttackAbility ability) {
@@ -126,7 +124,7 @@ public class Health : MonoBehaviour {
     }
 
     private void CreateFloatingText(float amount, float criticalRoll, Character attacker, AttackAbility ability) {
-        if (attacker == null || gameObject==null) return;
+        if (attacker == null || gameObject == null) return;
         var name = gameObject.name;
         if (name == "kittenCharacter(Clone)") name = "Player";
         var attackerName = attacker.gameObject.name;
@@ -169,9 +167,9 @@ public class Health : MonoBehaviour {
         amount = ModifyDamageForShield(amount);
         amount = ModifyDamageForArmor(amount, attacker);
         amount = ModifyDamageForLuck(amount, type);
-        if (attacker!=null) amount = ModifyDamageForDamageBoosts(ability, amount, attacker);
+        if (attacker != null) amount = ModifyDamageForDamageBoosts(ability, amount, attacker);
         amount = ModifyDamageForDamageReduction(ability, amount);
-        if (attacker!=null) amount = ModifyDamageForBlunting(amount, attacker);
+        if (attacker != null) amount = ModifyDamageForBlunting(amount, attacker);
         return amount;
     }
 
@@ -209,6 +207,7 @@ public class Health : MonoBehaviour {
         //if (GetComponent<ExperienceGainer>() != null) level = GetComponent<ExperienceGainer>().level;
         //else level = GetComponent<MonsterScaler>().level;
         //return amount * (1 - SecondaryStatUtility.CalcElementalResistanceFromLuck(GetComponent<Character>().luck, level));
+        if (type == Element.none) return amount;
         var resistances = new Dictionary<Element, string> {
             {  Element.acid, "acidResistance" },
             {  Element.fire, "fireResistance" },
@@ -225,7 +224,7 @@ public class Health : MonoBehaviour {
 
     private float ModifyDamageForArmor(float amount, Character attacker) {
         var pc = GetComponent<PlayerCharacter>();
-        if (pc == null || attacker==null) return amount;
+        if (pc == null || attacker == null) return amount;
         var scaler = attacker.GetComponent<MonsterScaler>();
         if (scaler == null) return amount;
         var attackerLevel = scaler.level;
@@ -278,10 +277,10 @@ public class Health : MonoBehaviour {
         int count = 0;
         foreach (var attribute in ability.attributes) {
             if (effects.ContainsKey(attribute.type) && attribute.priority >= 50 && count < 4) effects[attribute.type](attribute);
-            count++;            
+            count++;
         }
-        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("knockback")) AbilityEffects.KnockbackDefault(attacker, GetComponent<Character>());
-        if (attacker!=null && attacker.GetComponent<AbilityUser>().HasPassive("pullEnemies")) AbilityEffects.PullTowardsDefault(attacker, GetComponent<Character>());
+        if (attacker != null && attacker.GetComponent<AbilityUser>().HasPassive("knockback")) AbilityEffects.KnockbackDefault(attacker, GetComponent<Character>());
+        if (attacker != null && attacker.GetComponent<AbilityUser>().HasPassive("pullEnemies")) AbilityEffects.PullTowardsDefault(attacker, GetComponent<Character>());
         if (ability.FindAttribute("createDamageZone") == null && ability.dotDamage > 0) GetComponent<StatusEffectHost>().AddStatusEffect("dot", ability.dotTime, degree: ability.CalculateDotDamage(attacker), inflicter: attacker, ability: ability);
     }
 

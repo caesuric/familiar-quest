@@ -27,8 +27,12 @@ public static class AbilityScaler {
             level = AbilityCalculator.GetLevelFromPoints(startingPoints)
         };
         foreach (var attribute in abilityAttributes) {
-            points -= AbilityAttributeAppraiser.Appraise(newAbility, attribute);
-            if (points >= 0) newAbility.attributes.Add(attribute);
+            if (attribute.priority >= 50) {
+                var pointCost = AbilityAttributeAppraiser.Appraise(newAbility, attribute);
+                points -= pointCost;
+                if (points >= 0) newAbility.attributes.Add(attribute);
+                else points += pointCost;
+            }
         }
         var totalDamage = AttackAbilityGenerator.CalculateDamage(points);
         var regularDamage = totalDamage * damageRatio / (damageRatio + dotDamageRatio);

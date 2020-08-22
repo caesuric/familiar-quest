@@ -59,7 +59,7 @@ public class Damage {
         DamageCharacter(character, otherCharacter, ability, damage, element);
         if (ability != null) {
             var attr = ability.FindAttribute("knockback");
-            if (attr != null) otherCharacter.transform.position += gameObject.transform.forward * (float)attr.FindParameter("degree").value;
+            if (attr != null && attr.priority >= 50) otherCharacter.transform.position += gameObject.transform.forward * (float)attr.FindParameter("degree").value;
         }
     }
 

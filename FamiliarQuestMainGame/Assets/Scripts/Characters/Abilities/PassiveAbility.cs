@@ -24,6 +24,7 @@ public class PassiveAbility: Ability {
                 else if (parameter.value is int) parameter.value = (int)((float)parameter.value * ratio);
             }
         }
+        level = targetLevel;
         description = AbilityDescriber.Describe(this);
     }
 }

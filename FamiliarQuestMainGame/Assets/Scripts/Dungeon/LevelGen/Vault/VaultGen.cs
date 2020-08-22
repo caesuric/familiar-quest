@@ -87,7 +87,7 @@ public class VaultGen : MonoBehaviour {
     }
 
     private static void ApplyMonsterBonusAbility(GameObject obj, ActiveAbility ability) {
-        obj.GetComponent<MonsterBaseAbilities>().baseAbilities.Add(ability);
+        obj.GetComponent<AbilityUser>().soulGemActives.Add(ability);
     }
 
     private static void AddElementalAffinity(GameObject obj, Element element) {

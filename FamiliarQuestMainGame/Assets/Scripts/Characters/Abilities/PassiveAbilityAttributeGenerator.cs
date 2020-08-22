@@ -143,6 +143,7 @@ public static class PassiveAbilityAttributeGenerator {
     private static AbilityAttribute ReduceElementalDamage(PassiveAbility ability) {
         int degree = RNG.Int(60, 151);
         string element = RNG.EnumValue<Element>().ToString();
+        while (element == "none") element = RNG.EnumValue<Element>().ToString();
         return new AbilityAttribute {
             type = "reduceElementalDamage",
             parameters = new List<AbilityAttributeParameter>
@@ -162,6 +163,7 @@ public static class PassiveAbilityAttributeGenerator {
     private static AbilityAttribute BoostElementalDamage(PassiveAbility ability) {
         int degree = RNG.Int(60, 151);
         string element = RNG.EnumValue<Element>().ToString();
+        while (element == "none") element = RNG.EnumValue<Element>().ToString();
         return new AbilityAttribute {
             type = "boostElementalDamage",
             parameters = new List<AbilityAttributeParameter>

@@ -50,6 +50,7 @@ public static class UtilityAbilityGenerator {
                 }
             }
             ability.points = startingPoints;
+            ability.SortAttributes();
             ability.icon = AbilityIconSelector.Select(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.description = AbilityDescriber.Describe(ability);

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //public class AbilityEnhancementDropSlot : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
-public class AbilityEnhancementDropSlot {
+public class AbilityEnhancementDropSlot: MonoBehaviour {
 
     //public Image background;
     //public int slot = 1;

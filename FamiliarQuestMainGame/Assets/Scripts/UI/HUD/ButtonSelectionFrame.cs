@@ -43,15 +43,16 @@ public class ButtonSelectionFrame : MonoBehaviour, IDropHandler, IPointerEnterHa
         transform.position = PlayerCharacter.localPlayer.GetComponent<HotbarUser>().hotbarButtons[number].transform.position;
         transform.SetAsLastSibling();
         var tooltip = GetComponent<UITooltipShow>();
-        tooltip.contentLines = new UITooltipLineContent[2];
-        tooltip.contentLines[0] = new UITooltipLineContent() {
-            LineStyle = UITooltipLines.LineStyle.Title,
-            Content = pc.GetComponent<HotbarUser>().abilityNames[number]
-        };
-        tooltip.contentLines[1] = new UITooltipLineContent() {
-            LineStyle = UITooltipLines.LineStyle.Custom,
-            CustomLineStyle = "ItemAttribute",
-            Content = pc.GetComponent<HotbarUser>().abilityDescriptions[number]
+        tooltip.contentLines = new UITooltipLineContent[2] {
+            new UITooltipLineContent() {
+                LineStyle = UITooltipLines.LineStyle.Title,
+                Content = pc.GetComponent<HotbarUser>().abilityNames[number]
+            },
+            new UITooltipLineContent() {
+                LineStyle = UITooltipLines.LineStyle.Custom,
+                CustomLineStyle = "ItemAttribute",
+                Content = pc.GetComponent<HotbarUser>().abilityDescriptions[number]
+            }
         };
     }
 

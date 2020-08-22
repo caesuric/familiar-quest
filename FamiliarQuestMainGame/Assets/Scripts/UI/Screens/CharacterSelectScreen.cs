@@ -184,22 +184,22 @@ public class CharacterSelectScreen : MonoBehaviour {
             if (attribute.type == "boostStat") {
                 switch ((string)attribute.FindParameter("stat").value) {
                     case "strength":
-                        character.strength += (int)attribute.FindParameter("degree").value;
+                        character.strength += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                     case "dexterity":
-                        character.dexterity += (int)attribute.FindParameter("degree").value;
+                        character.dexterity += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                     case "constitution":
-                        character.constitution += (int)attribute.FindParameter("degree").value;
+                        character.constitution += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                     case "intelligence":
-                        character.intelligence += (int)attribute.FindParameter("degree").value;
+                        character.intelligence += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                     case "wisdom":
-                        character.wisdom += (int)attribute.FindParameter("degree").value;
+                        character.wisdom += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                     case "luck":
-                        character.luck += (int)attribute.FindParameter("degree").value;
+                        character.luck += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
                         break;
                 }
             }
@@ -207,7 +207,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[0]));
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[1]));
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[2]));
-        character.soulGemPassive = SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[3]);
+        character.soulGemPassive = SavedPassiveAbility.ConvertFrom((PassiveAbility)selectedAbilities[3]);
         BinaryFormatter bf = new BinaryFormatter();
         if (!Directory.Exists(Application.persistentDataPath + "/characters")) Directory.CreateDirectory(Application.persistentDataPath + "/characters");
         FileStream file = File.Create(Application.persistentDataPath + "/characters/" + characterName + ".character");

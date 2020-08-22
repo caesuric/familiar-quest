@@ -134,7 +134,7 @@ public class Attacker : MonoBehaviour {
         var damage = CalculateAttackDamage(ability);
         var calculatedDamage = damage * ability.damage;
         if (ability.isRanged) {
-            if (ability.FindAttribute("projectileSpread") != null) UseProjectileSpread(ability, damage, calculatedDamage);
+            if (ability.FindAttribute("projectileSpread") != null && ability.FindAttribute("projectileSpread").priority >= 50) UseProjectileSpread(ability, damage, calculatedDamage);
             else if (ability.FindAttribute("bossDamageZone") != null) UseBossDamageZone(ability, damage, calculatedDamage);
             else if (ability.FindAttribute("bossHealingDamageZone") != null) UseBossHealingDamageZone(ability, damage, calculatedDamage);
             else if (ability.FindAttribute("bossCircleAoe") != null) UseBossCircleAoe(ability, damage, calculatedDamage);
@@ -160,7 +160,7 @@ public class Attacker : MonoBehaviour {
     private void UseMeleeAttack(AttackAbility ability, float damage, float calculatedDamage) {
         if (ability==null && GetComponent<AbilityUser>().GCDTime > 0) return;
         GetComponent<AbilityUser>().GCDTime = AbilityUser.maxGCDTime;
-        if (ability.FindAttribute("chargeTowards") != null || GetComponent<AbilityUser>().HasPassive("charge")) ChargeTowards();
+        if ((ability.FindAttribute("chargeTowards") != null && ability.FindAttribute("chargeTowards").priority >= 50) || GetComponent<AbilityUser>().HasPassive("charge")) ChargeTowards();
         if (ability.FindAttribute("createDamageZone") != null) CreateMeleeDamageZone(ability);
         else if (ability.radius > 0) HitAllInRadius((int)calculatedDamage, ability.radius, ability);
         else {

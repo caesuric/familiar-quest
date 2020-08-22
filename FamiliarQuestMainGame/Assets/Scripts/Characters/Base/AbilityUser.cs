@@ -83,7 +83,7 @@ public class AbilityUser : MonoBehaviour {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "boostStat") {
-                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue -= (int)attribute.FindParameter("degree").value;
+                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue -= (float)attribute.FindParameter("degree").value;
             }
         }
         character.CalculateAll();
@@ -93,7 +93,7 @@ public class AbilityUser : MonoBehaviour {
         var character = GetComponent<Character>();
         foreach (var attribute in ability.attributes) {
             if (attribute.type == "boostStat") {
-                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue += (int)attribute.FindParameter("degree").value;
+                CharacterAttribute.attributes[(string)attribute.FindParameter("stat").value].instances[GetComponent<Character>()].BuffValue += (float)attribute.FindParameter("degree").value;
             }
         }
         character.CalculateAll();

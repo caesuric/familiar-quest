@@ -177,11 +177,10 @@ public static class AbilityAttributeAppraiser {
     }
 
     private static float GetParalyze(UtilityAbility ability, AbilityAttribute attribute) {
-        var degree = (float)attribute.FindParameter("degree").value;
         var duration = (float)attribute.FindParameter("duration").value;
         float radius = 0f;
         if (attribute.ContainsAttribute("radius")) radius = (float)attribute.FindParameter("radius").value;
-        var pointCost = 280f * degree * duration / 10f;
+        var pointCost = 280f * duration / 10f;
         if (radius == 2) pointCost *= 2f;
         else if (radius == 4) pointCost *= 8f;
         else if (radius == 6) pointCost *= 18f;

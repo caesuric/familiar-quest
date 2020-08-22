@@ -47,7 +47,7 @@ public class SavedCharacter {
             level = 1,
             xpToLevel = 200,
             gold = 0,
-            weapon = new SavedWeapon(),
+            weapon = SavedWeapon.StartingWeapon(),
             armor = null,
             necklace = null,
             belt = null,
@@ -237,48 +237,13 @@ public class SavedWeapon : SavedItem {
     public float attackPower;
     public string icon;
 
-    public static SavedWeapon StartingWeapon(string selectedClass) {
-        SavedWeapon obj;
-        switch (selectedClass)
-        {
-            case "paladin":
-            case "fighter":
-            case "rogue":
-            case "cleric":
-            default:
-                obj = new SavedMeleeWeapon {
-                    attackPower = 0.8437f,
-                    description = "",
-                    icon = "Weapon_01",
-                    name = "Starting Sword"
-                };
-                obj.description = "{{AttackPower}}";
-                break;
-            case "infernoMage":
-            case "warlock":
-                obj = new SavedRangedWeapon {
-                    attackPower = 0.8437f,
-                    description = "",
-                    icon = "Weapon_16",
-                    name = "Starting Wand"
-                };
-                obj.description = "{{AttackPower}}";
-                ((SavedRangedWeapon)obj).projectileModel = 1;
-                ((SavedRangedWeapon)obj).usesInt = false;
-                break;
-            case "archer":
-                obj = new SavedRangedWeapon {
-                    attackPower = 0.8437f,
-                    description = "",
-                    icon = "bow_2",
-                    name = "Starting Bow"
-                };
-                obj.description = "{{AttackPower}}";
-                ((SavedRangedWeapon)obj).projectileModel = 0;
-                ((SavedRangedWeapon)obj).usesInt = false;
-                break;
-        }
-        return obj;
+    public static SavedWeapon StartingWeapon() {
+        return new SavedMeleeWeapon {
+            attackPower = 0.8437f,
+            description = "{{AttackPower}}",
+            icon = "Weapon_01",
+            name = "Starting Sword",
+        };
     }
 
     public Weapon ConvertTo()
