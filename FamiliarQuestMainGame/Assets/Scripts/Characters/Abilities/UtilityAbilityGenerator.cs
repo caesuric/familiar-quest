@@ -54,7 +54,10 @@ public static class UtilityAbilityGenerator {
             ability.icon = AbilityIconSelector.Select(ability);
             ability.name = AbilityNamer.Name(ability);
             ability.description = AbilityDescriber.Describe(ability);
-            if (ability.IsValid()) return ability;
+            if (ability.IsValid()) {
+                ability.skillTree = new AbilitySkillTree(ability);
+                return ability;
+            }
         }
         return null;
     }

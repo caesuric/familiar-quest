@@ -8,9 +8,11 @@ public abstract class Ability {
     public float points = 70f;
     public long xp = 0;
     public int level = 1;
+    public int skillPoints = 0;
     public string name;
     public string description;
     public abstract Ability Copy();
+    public AbilitySkillTree skillTree = null;
     protected abstract void LevelUp(int originalLevel, int targetLevel);
 
     public AbilityAttribute FindAttribute(string attribute) {
@@ -57,5 +59,9 @@ public abstract class Ability {
 
     private void ShowLevelUpFloatingText() {
         PlayerCharacter.localPlayer.GetComponent<ObjectSpawner>().CreateFloatingText(name.ToUpper() + " GAINED A LEVEL!", Color.green, 90, name + " gained a level!");
+    }
+
+    protected void LevelUp () {
+        skillPoints++;
     }
 }

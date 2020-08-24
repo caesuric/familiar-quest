@@ -48,6 +48,7 @@ public class AttackAbility: ActiveAbility {
     }
 
     protected override void LevelUp(int originalLevel, int targetLevel) {
+        LevelUp();
         float targetPoints = AbilityCalculator.GetPointsFromLevel(targetLevel);
         var newAbility = AbilityScaler.ScaleAttackAbility((int)targetPoints, element, baseStat, damage, dotDamage, dotTime, isRanged, cooldown, mpUsage, baseMpUsage, radius, icon, hitEffect, rangedProjectile, aoe, attributes);
         level = targetLevel;

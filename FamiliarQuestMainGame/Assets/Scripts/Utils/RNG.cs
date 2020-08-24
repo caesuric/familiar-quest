@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RNG {
     private static Random random = new Random();
@@ -29,5 +30,10 @@ public class RNG {
     public static T List<T>(List<T> input) {
         var roll = Int(0, input.Count);
         return input[roll];
+    }
+
+    public static T DictionaryKey<T,U>(Dictionary<T,U> input) {
+        var roll = Int(0, input.Count);
+        return input.ElementAt(roll).Key;
     }
 }

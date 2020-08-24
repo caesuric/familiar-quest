@@ -13,6 +13,7 @@ public class PassiveAbility: Ability {
     }
 
     protected override void LevelUp(int originalLevel, int targetLevel) {
+        LevelUp();
         float originalPoints = 70f;
         float targetPoints = 70f;
         for (int i = 1; i < originalLevel; i++) originalPoints *= 1.05f;
