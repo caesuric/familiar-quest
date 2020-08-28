@@ -9,8 +9,11 @@ public class AbilityFusion {
     public static ActiveAbility Fuse(ActiveAbility ability1, ActiveAbility ability2) {
         var points = GetPoints(ability1, ability2);
         var isAttack = IsAttack(ability1, ability2);
-        if (isAttack) return FuseAttack(points, ability1, ability2);
-        else return FuseUtility(points, ability1, ability2);
+        ActiveAbility output;
+        if (isAttack) output = FuseAttack(points, ability1, ability2);
+        else output = FuseUtility(points, ability1, ability2);
+        output.skillTree = new AbilitySkillTree(output);
+        return output;
     }
 
     private static float GetPoints(ActiveAbility ability1, ActiveAbility ability2) {
