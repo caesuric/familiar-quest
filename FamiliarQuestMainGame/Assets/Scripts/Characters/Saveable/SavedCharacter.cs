@@ -147,7 +147,8 @@ public class SavedCharacter {
         foreach (var consumable in consumables) pc.consumables.Add(consumable.ConvertTo());
         var au = character.GetComponent<AbilityUser>();
         foreach (var ability in soulGemActives) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
-        au.soulGemPassive = ((SavedPassiveAbility)soulGemPassive).ConvertTo();
+        if (soulGemPassive != null) au.soulGemPassive = ((SavedPassiveAbility)soulGemPassive).ConvertTo();
+        else au.soulGemPassive = null;
         foreach (var ability in soulGemActivesOverflow) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
         foreach (var ability in soulGemPassivesOverflow) au.soulGemPassivesOverflow.Add(((SavedPassiveAbility)ability).ConvertTo());
         character.GetComponent<InputController>().currentAbility = currentAbility;
@@ -610,6 +611,7 @@ public class SavedActiveAbility : SavedAbility
     public int level = 1;
     public long xp = 0;
     public float baseMpUsage = 0;
+    public int skillPoints = 0;
     public SavedSkillTree skillTree;
 
     public static SavedActiveAbility ConvertFrom(ActiveAbility ability)
@@ -631,6 +633,7 @@ public class SavedActiveAbility : SavedAbility
         obj.points = ability.points;
         obj.xp = ability.xp;
         obj.level = ability.level;
+        obj.skillPoints = ability.skillPoints;
         obj.skillTree = SavedSkillTree.ConvertFrom(ability.skillTree);
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
@@ -655,6 +658,7 @@ public class SavedActiveAbility : SavedAbility
         obj.points = points;
         obj.xp = xp;
         obj.level = level;
+        obj.skillPoints = skillPoints;
         obj.skillTree = skillTree.ConvertTo();
         foreach (var list in obj.skillTree.nodesByLayer) foreach (var item in list) item.ability = obj;
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
@@ -695,7 +699,9 @@ public class SavedAttackAbility : SavedActiveAbility
             aoe = ability.aoe,
             points = ability.points,
             xp = ability.xp,
-            level = ability.level
+            level = ability.level,
+            skillPoints = ability.skillPoints,
+            skillTree = SavedSkillTree.ConvertFrom(ability.skillTree)
         };
         foreach (var attribute in ability.attributes) obj.attributes.Add(SavedAbilityAttribute.ConvertFrom(attribute));
         return obj;
@@ -723,8 +729,11 @@ public class SavedAttackAbility : SavedActiveAbility
             aoe = aoe,
             points = points,
             level = level,
-            xp = xp
+            xp = xp,
+            skillPoints = skillPoints,
+            skillTree = skillTree.ConvertTo()
         };
+        foreach (var list in obj.skillTree.nodesByLayer) foreach (var item in list) item.ability = obj;
         foreach (var attribute in attributes) obj.attributes.Add(attribute.ConvertTo());
         return obj;
     }
@@ -777,17 +786,11 @@ public class SavedPassiveAbility : SavedAbility {
 
 [System.Serializable]
 public class SavedSkillTree {
-    public List<List<SavedSkillTreeNode>> nodes = new List<List<SavedSkillTreeNode>>();
+    public List<SavedSkillTreeNode> nodes = new List<SavedSkillTreeNode>();
 
     public static SavedSkillTree ConvertFrom(AbilitySkillTree skillTree) {
-        var nodes = new List<List<SavedSkillTreeNode>>();
-        foreach (var list in skillTree.nodesByLayer) {
-            var newList = new List<SavedSkillTreeNode>();
-            nodes.Add(newList);
-            foreach (var item in list) {
-                newList.Add(SavedSkillTreeNode.ConvertFrom(item));
-            }
-        }
+        var nodes = new List<SavedSkillTreeNode>();
+        foreach (var item in skillTree.baseNodes) nodes.Add(SavedSkillTreeNode.ConvertFrom(item));
         return new SavedSkillTree {
             nodes = nodes
         };
@@ -795,18 +798,23 @@ public class SavedSkillTree {
 
     public AbilitySkillTree ConvertTo() {
         var ast = new AbilitySkillTree();
-        foreach (var list in nodes) {
-            var outputList = new List<AbilitySkillTreeNode>();
-            ast.nodesByLayer.Add(outputList);
-            foreach (var item in list) {
-                outputList.Add(item.ConvertTo());
-            }
-        }
-        ast.baseNodes = ast.nodesByLayer[0];
+        foreach (var item in nodes) ast.baseNodes.Add(item.ConvertTo());
+        ReconstructNodesByLayer(ast);
         return ast;
+    }
+
+    private void ReconstructNodesByLayer(AbilitySkillTree ast) {
+        foreach (var item in ast.baseNodes) ReconstructNode(ast, item, 0);
+    }
+
+    private void ReconstructNode(AbilitySkillTree ast, AbilitySkillTreeNode node, int depth) {
+        if (ast.nodesByLayer.Count < depth + 1) ast.nodesByLayer.Add(new List<AbilitySkillTreeNode>());
+        ast.nodesByLayer[depth].Add(node);
+        foreach (var child in node.children) ReconstructNode(ast, child, depth + 1);
     }
 }
 
+[System.Serializable]
 public class SavedSkillTreeNode {
     public List<SavedSkillTreeNode> children = new List<SavedSkillTreeNode>();
     public List<SavedSoulGemEnhancement> effects = new List<SavedSoulGemEnhancement>();
@@ -834,6 +842,7 @@ public class SavedSkillTreeNode {
     }
 }
 
+[System.Serializable]
 public class SavedSoulGemEnhancement {
     public string name = "";
     public string description = "";

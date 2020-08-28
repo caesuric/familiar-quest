@@ -15,15 +15,20 @@ public class SkillTreeRenderer : MonoBehaviour {
     public AbilitySkillTree skillTree = null;
     public RectTransform rectTransform;
     public Vector2 size;
-    public GameObject canvas;
+    public GameObject parentObject;
     public bool initialized = false;
+
+    private void Start() {
+        //Initialize(new AbilitySkillTree(AbilityGenerator.Generate())); //temporary until integrated into main game
+    }
 
     private void Update() {
         if (!initialized && skillTree != null) {
-            canvas = transform.parent.gameObject;
-            rectTransform = canvas.GetComponent<RectTransform>();
-            width = GetComponent<RectTransform>().rect.width;
-            height = GetComponent<RectTransform>().rect.height;
+            parentObject = transform.parent.gameObject;
+            rectTransform = parentObject.GetComponent<RectTransform>();
+            //var scaler = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasScaler>();
+            width = GetComponent<RectTransform>().rect.width; //* scaler.transform.localScale.x;
+            height = GetComponent<RectTransform>().rect.height; //* scaler.transform.localScale.y;
             for (int y = 0; y < skillTree.nodesByLayer.Count; y++) {
                 for (int x = 0; x < skillTree.nodesByLayer[y].Count; x++) {
                     skillTree.nodesByLayer[y][x].position = new Vector2(width * (x + 1) / (skillTree.nodesByLayer[y].Count + 1), height - (height * (y + 1) / (skillTree.nodesByLayer.Count + 1)));
@@ -38,11 +43,12 @@ public class SkillTreeRenderer : MonoBehaviour {
         var newSize = rectTransform.rect.size;
         if (newSize != size) {
             foreach (Transform child in transform) Destroy(child.gameObject);
-            width = GetComponent<RectTransform>().rect.width;
-            height = GetComponent<RectTransform>().rect.height;
+            //var scaler = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasScaler>();
+            width = GetComponent<RectTransform>().rect.width; //* scaler.transform.localScale.x;
+            height = GetComponent<RectTransform>().rect.height; //* scaler.transform.localScale.y;
             for (int y = 0; y < skillTree.nodesByLayer.Count; y++) {
                 for (int x = 0; x < skillTree.nodesByLayer[y].Count; x++) {
-                    skillTree.nodesByLayer[y][x].position = new Vector2(width * (x + 1) / (skillTree.nodesByLayer[y].Count + 1), height - (height * (y + 1) / (skillTree.nodesByLayer.Count + 1)));
+                    skillTree.nodesByLayer[y][x].position = new Vector2((width * (x + 1) / (skillTree.nodesByLayer[y].Count + 1)), height - (height * (y + 1) / (skillTree.nodesByLayer.Count + 1)));
                 }
             }
             GenerateLines(skillTree);
@@ -52,7 +58,9 @@ public class SkillTreeRenderer : MonoBehaviour {
     }
 
     public void Initialize(AbilitySkillTree skillTree) {
+        foreach (Transform child in transform) Destroy(child.gameObject);
         this.skillTree = skillTree;
+        initialized = false;
     }
 
     private void GenerateLines(AbilitySkillTree skillTree) {
@@ -63,9 +71,11 @@ public class SkillTreeRenderer : MonoBehaviour {
         foreach (var line in skillTree.nodesByLayer) {
             foreach (var icon in line) {
                 var node = Instantiate(nodePrefab);
-                node.GetComponent<RectTransform>().localPosition = icon.position;
-                node.GetComponent<SkillTreeNodeRenderer>().Initialize(icon);
                 node.transform.SetParent(transform);
+                node.GetComponent<RectTransform>().localPosition = icon.position;
+                node.GetComponent<RectTransform>().anchorMin -= new Vector2(0.5f, 0.5f);
+                node.GetComponent<RectTransform>().anchorMax -= new Vector2(0.5f, 0.5f);
+                node.GetComponent<SkillTreeNodeRenderer>().Initialize(icon);
             }
         }
     }
@@ -86,11 +96,12 @@ public class SkillTreeRenderer : MonoBehaviour {
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
         rectTransform.sizeDelta = GetComponent<RectTransform>().rect.size;
         rectTransform.localScale = new Vector2(0.5f, 0.5f);
-        var size = 1000;
-        var x1 = parent.position.x * size / width;
-        var x2 = child.position.x * size / width;
-        var y1 = parent.position.y * size / height;
-        var y2 = child.position.y * size / height;
-        uiLine.Initialize(1000, 1000, (int)x1, (int)y1, (int)x2, (int)y2);
+        var sizeX = 1000 - this.rectTransform.offsetMin.x - this.rectTransform.offsetMax.x;
+        var sizeY = 1000 - this.rectTransform.offsetMin.y - this.rectTransform.offsetMax.y;
+        var x1 = (parent.position.x * sizeX / width) - this.rectTransform.offsetMin.x;
+        var x2 = (child.position.x * sizeX / width) - this.rectTransform.offsetMin.x;
+        var y1 = (parent.position.y * sizeY / height) - this.rectTransform.offsetMin.y;
+        var y2 = (child.position.y * sizeY / height) - this.rectTransform.offsetMin.y;
+        uiLine.Initialize((int)sizeX, (int)sizeY, (int)x1, (int)y1, (int)x2, (int)y2);
     }
 }

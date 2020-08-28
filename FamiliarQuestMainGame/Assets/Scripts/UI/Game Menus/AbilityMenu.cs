@@ -74,6 +74,8 @@ public class AbilityMenu : MonoBehaviour {
     public AbilityScreenIcon abilityToEnhanceObj;
     public AbilityScreenIcon enhancedAbilityObj;
     public InputField filterInput;
+    public Ability skillTreeAbility = null;
+    public SkillTreeRenderer skillTreeRenderer;
     public static AbilityMenu instance = null;
 
     void Start() {
@@ -430,5 +432,9 @@ public class AbilityMenu : MonoBehaviour {
         if (filterText == null || filterText == "") return false;
         if (!ability.description.ToUpper().Contains(filterText)) return true;
         return false;
+    }
+
+    public void UpdateSkillTree() {
+        skillTreeRenderer.Initialize(skillTreeAbility.skillTree);
     }
 }

@@ -16,7 +16,10 @@ class SkillTreeNodeRenderer : MonoBehaviour {
             var config = GameObject.FindGameObjectWithTag("ConfigObject");
             if (config == null) return;
             if (config.GetComponent<IconCache>().newIcons.ContainsKey(enhancements[0].icon)) GetComponent<Image>().sprite = config.GetComponent<IconCache>().newIcons[enhancements[0].icon];
-            else GetComponent<Image>().sprite = config.GetComponent<IconCache>().icons[int.Parse(enhancements[0].icon)];
+            else {
+                Debug.Log(enhancements[0].icon);
+                GetComponent<Image>().sprite = config.GetComponent<IconCache>().icons[int.Parse(enhancements[0].icon)];
+            }
             if (!node.active) GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1f);
             else GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
             var tooltip = GetComponent<DuloGames.UI.UITooltipShow>();
@@ -39,6 +42,7 @@ class SkillTreeNodeRenderer : MonoBehaviour {
     public void Click() {
         if (node.clickable && node.ability.skillPoints > 0 && !node.active) {
             node.active = true;
+            node.Activate();
             node.ability.skillPoints--;
             foreach (var child in node.children) child.clickable = true;
             initStatus = 1;

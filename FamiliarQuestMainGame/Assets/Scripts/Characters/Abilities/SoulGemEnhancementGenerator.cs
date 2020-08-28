@@ -16,7 +16,7 @@ public static class SoulGemEnhancementGenerator {
             ["reduceDotTime"] = GetReduceDotTime,
             ["reduceCooldown"] = GetReduceCooldown,
             ["reduceMpUsage"] = GetReduceMpUsage,
-            ["increaseRadius"] = GetIncreaseRadius,
+            ["increaseRadius"] = GetIncreasedAttackRadius,
             ["increaseDamage"] = GetIncreaseDamage,
             ["increaseDotDamage"] = GetIncreaseDotDamage,
             ["increasedDegree"] = GetIncreasedDegree,
@@ -149,7 +149,7 @@ public static class SoulGemEnhancementGenerator {
         else return null;
     }
 
-    private static SoulGemEnhancement GetIncreaseRadius(Ability ability) {
+    private static SoulGemEnhancement GetIncreasedAttackRadius(Ability ability) {
         if (ability is ActiveAbility activeAbility && activeAbility.radius > 0) {
             float newRadius = activeAbility.radius * 1.2f;
             return new SoulGemEnhancement {

@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 public static class AbilityDescriber {
 
+    public static string Describe(Ability ability) {
+        if (ability is AttackAbility attackAbility) return Describe(attackAbility);
+        else if (ability is UtilityAbility utilityAbility) return Describe(utilityAbility);
+        else if (ability is PassiveAbility passiveAbility) return Describe(passiveAbility);
+        else return "";
+    }
+
     public static string Describe(UtilityAbility ability) {
         return UtilityAbilityDescriber.Describe(ability);
     }
