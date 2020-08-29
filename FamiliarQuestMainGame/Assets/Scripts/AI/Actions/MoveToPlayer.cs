@@ -13,7 +13,8 @@ namespace AI.Actions {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", true },
                 { "inMeleeRangeOfPlayer", false },
-                { "playerAlive", true }
+                { "playerAlive", true },
+                { "paralyzed", false }
             };
             effects = new Dictionary<string, object>() {
                 { "inMeleeRangeOfPlayer", true },
@@ -66,7 +67,10 @@ namespace AI.Actions {
         }
 
         private void SetDestination() {
-            if (navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(target.transform.position);
+            if (navMeshAgent.isOnNavMesh) {
+                navMeshAgent.isStopped = false;
+                navMeshAgent.SetDestination(target.transform.position);
+            }
         }
     }
 }

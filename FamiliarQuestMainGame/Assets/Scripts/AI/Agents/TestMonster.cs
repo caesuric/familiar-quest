@@ -21,6 +21,7 @@ public class TestMonster : GoapAgent {
             new AI.Sensors.GcdTracking(),
             new AI.Sensors.Sight(),
             new AI.Sensors.Memory(),
+            new AI.Sensors.EffectTracking()
         };
         state = new Dictionary<string, object>() {
             { "seePlayer", false },
@@ -33,7 +34,8 @@ public class TestMonster : GoapAgent {
             { "rangedAttackAvailable", false },
             { "bossMeleeAttackAvailable", false },
             { "bossRangedAttackAvailable", false },
-            { "bossUtilityAbilityAvailable", false }
+            { "bossUtilityAbilityAvailable", false },
+            { "paralyzed", false }
         };
     }
 }

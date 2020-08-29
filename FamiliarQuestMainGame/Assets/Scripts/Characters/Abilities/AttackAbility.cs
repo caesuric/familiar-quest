@@ -12,6 +12,12 @@ public class AttackAbility: ActiveAbility {
     public int hitEffect = 0;
     public int aoe = 0;
 
+    public new bool IsValid() {
+        if (!base.IsValid()) return false;
+        if (FindAttribute("paralyze") != null && cooldown == 0) return false;
+        return true;
+    }
+
     public float CalculateDotDamage(Character character) {
         float attackPower;
         if (character.GetComponent<PlayerCharacter>() != null) attackPower = character.GetComponent<PlayerCharacter>().weapon.attackPower;

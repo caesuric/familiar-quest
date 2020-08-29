@@ -227,8 +227,10 @@ public static class SoulGemEnhancementGenerator {
             ["boostElementalDamage"] = "Elemental Damage Boost"
         };
         var validAttributeInstances = new List<AbilityAttribute>();
+        int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (validAttributeTypes.ContainsKey(attribute.type)) validAttributeInstances.Add(attribute);
+            if (validAttributeTypes.ContainsKey(attribute.type) && count < 4 && attribute.priority >= 50) validAttributeInstances.Add(attribute);
+            count++;
         }
         if (validAttributeInstances.Count == 0) return null;
         var chosenAttribute = RNG.List(validAttributeInstances);
@@ -254,8 +256,10 @@ public static class SoulGemEnhancementGenerator {
             ["speed+"] = "Speed Up"
         };
         var validAttributeInstances = new List<AbilityAttribute>();
+        int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (validAttributeTypes.ContainsKey(attribute.type)) validAttributeInstances.Add(attribute);
+            if (validAttributeTypes.ContainsKey(attribute.type) && count < 4 && attribute.priority >= 50) validAttributeInstances.Add(attribute);
+            count++;
         }
         if (validAttributeInstances.Count == 0) return null;
         var chosenAttribute = RNG.List(validAttributeInstances);
@@ -279,8 +283,10 @@ public static class SoulGemEnhancementGenerator {
             ["speed-"] = "Speed Down"
         };
         var validAttributeInstances = new List<AbilityAttribute>();
+        int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (validAttributeTypes.ContainsKey(attribute.type) && attribute.FindParameter("radius") != null) validAttributeInstances.Add(attribute);
+            if (validAttributeTypes.ContainsKey(attribute.type) && attribute.FindParameter("radius") != null && count < 4 && attribute.priority >= 50) validAttributeInstances.Add(attribute);
+            count++;
         }
         if (validAttributeInstances.Count == 0) return null;
         var chosenAttribute = RNG.List(validAttributeInstances);
@@ -299,7 +305,7 @@ public static class SoulGemEnhancementGenerator {
 
     private static SoulGemEnhancement GetDecreaseDelay(Ability ability) {
         var delay = ability.FindAttribute("delay");
-        if (delay == null) return null;
+        if (delay == null || delay.priority < 50 || ability.attributes.IndexOf(delay) > 3) return null;
         var newDelay = ((float)delay.FindParameter("time").value) / 2f;
         return new SoulGemEnhancement {
             name = "Reduce Delay",
@@ -334,7 +340,7 @@ public static class SoulGemEnhancementGenerator {
         var validAttributeInstances = new List<AbilityAttribute>();
         int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (count > 3 || attribute.priority < 50) validAttributeInstances.Add(attribute);
+            if ((count > 3 || attribute.priority < 50) && attribute.type != "delay" && attribute.type != "immobilizeSelf") validAttributeInstances.Add(attribute);
             count++;
         }
         if (validAttributeInstances.Count == 0) return null;
@@ -360,8 +366,10 @@ public static class SoulGemEnhancementGenerator {
             ["immobilizeSelf"] = "Immobilize Self"
         };
         var validAttributeInstances = new List<AbilityAttribute>();
+        int count = 0;
         foreach (var attribute in ability.attributes) {
-            if (validAttributeTypes.ContainsKey(attribute.type)) validAttributeInstances.Add(attribute);
+            if (validAttributeTypes.ContainsKey(attribute.type) && count < 4 && attribute.priority >= 50) validAttributeInstances.Add(attribute);
+            count++;
         }
         if (validAttributeInstances.Count == 0) return null;
         var chosenAttribute = RNG.List(validAttributeInstances);

@@ -13,7 +13,8 @@ namespace AI.Actions {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", false },
                 { "haveSeenPlayer", true },
-                { "playerAlive", true }
+                { "playerAlive", true },
+                { "paralyzed", false }
             };
             effects = new Dictionary<string, object>() {
                 { "seePlayer", true }
@@ -46,7 +47,10 @@ namespace AI.Actions {
             }
             started = true;
             isDone = false;
-            if (navMeshAgent.isOnNavMesh) navMeshAgent.SetDestination(playerMem.position);
+            if (navMeshAgent.isOnNavMesh) {
+                navMeshAgent.isStopped = false;
+                navMeshAgent.SetDestination(playerMem.position);
+            }
         }
 
         private void ContinueAction(GoapAgent agent) {

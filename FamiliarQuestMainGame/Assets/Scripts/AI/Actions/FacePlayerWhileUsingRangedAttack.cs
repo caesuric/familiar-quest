@@ -17,7 +17,8 @@ namespace AI.Actions {
             preconditions = new Dictionary<string, object>() {
                 { "seePlayer", true },
                 { "rangedAttackAvailable", true },
-                { "playerAlive", true }
+                { "playerAlive", true },
+                { "paralyzed", false }
             };
             effects = new Dictionary<string, object>() {
                 { "facingPlayer", true },

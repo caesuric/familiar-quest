@@ -146,7 +146,10 @@ public class SavedCharacter {
         else pc.shoes = null;
         foreach (var consumable in consumables) pc.consumables.Add(consumable.ConvertTo());
         var au = character.GetComponent<AbilityUser>();
-        foreach (var ability in soulGemActives) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
+        foreach (var ability in soulGemActives) {
+            if (ability != null) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());
+            else au.soulGemActives.Add(null);
+        }
         if (soulGemPassive != null) au.soulGemPassive = ((SavedPassiveAbility)soulGemPassive).ConvertTo();
         else au.soulGemPassive = null;
         foreach (var ability in soulGemActivesOverflow) au.soulGemActives.Add(((SavedActiveAbility)ability).ConvertTo());

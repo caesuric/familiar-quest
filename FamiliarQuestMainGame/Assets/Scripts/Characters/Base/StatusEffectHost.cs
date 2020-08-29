@@ -110,6 +110,7 @@ public class StatusEffectHost : MonoBehaviour {
     public void AddStatusEffect(string type, float duration, float degree = 0, Character inflicter = null, bool good = false, ActiveAbility ability = null) {
         var saveType = GetSaveType(type);
         if (inflicter != null && SavedOnEffect(saveType, type, inflicter)) return;
+        if (type == "paralysis" && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().isStopped = true;
         var existingEffect = GetEffect(type);
         if (type!="dot" && type!="hot" && type!="mpOverTime" && existingEffect!=null) {
             if (degree>= existingEffect.degree) {

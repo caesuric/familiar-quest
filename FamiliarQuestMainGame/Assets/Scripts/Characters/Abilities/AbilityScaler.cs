@@ -41,6 +41,7 @@ public static class AbilityScaler {
         newAbility.dotDamage = dotDamage;
         newAbility.name = AbilityNamer.Name(newAbility);
         newAbility.description = AbilityDescriber.Describe(newAbility);
+        newAbility.xp = GetXpFromLevel(newAbility.level);
         return newAbility;
     }
 
@@ -60,6 +61,12 @@ public static class AbilityScaler {
         }
         newAbility.name = AbilityNamer.Name(newAbility);
         newAbility.description = AbilityDescriber.Describe(newAbility);
+        newAbility.xp = GetXpFromLevel(newAbility.level);
         return newAbility;
+    }
+
+    private static long GetXpFromLevel(int level) {
+        if (level == 1) return 0;
+        return ExperienceGainer.xpTable[level - 2];
     }
 }

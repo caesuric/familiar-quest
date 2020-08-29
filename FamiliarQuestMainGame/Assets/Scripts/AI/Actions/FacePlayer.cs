@@ -12,7 +12,8 @@ namespace AI.Actions {
 
         public FacePlayer() {
             preconditions = new Dictionary<string, object>() {
-                { "seePlayer", true }
+                { "seePlayer", true },
+                { "paralyzed", false }
             };
             effects = new Dictionary<string, object>() {
                 { "facingPlayer", true },
