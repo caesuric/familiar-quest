@@ -88,7 +88,8 @@ public static class SoulGemEnhancementGenerator {
             ["increasedCritChance"] = "increased critical hit chance",
             ["increasedCritDamage"] = "increased critical hit damage",
             ["offGCD"] = "off GCD",
-            ["grapplingHook"] = "grappling hook"
+            ["grapplingHook"] = "grappling hook",
+            ["boostElementalDamage"] = "boost elemental damage"
         };
     }
 

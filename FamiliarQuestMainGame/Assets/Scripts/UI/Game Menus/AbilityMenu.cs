@@ -76,6 +76,8 @@ public class AbilityMenu : MonoBehaviour {
     public InputField filterInput;
     public Ability skillTreeAbility = null;
     public SkillTreeRenderer skillTreeRenderer;
+    public AbilityScreenIcon skillTreeDropSlot;
+    public List<DuloGames.UI.UITab> tabs;
     public static AbilityMenu instance = null;
 
     void Start() {

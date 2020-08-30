@@ -9,11 +9,35 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private string title = "";
     private string description = "";
     private AbilityMenu abilityScreen;
+    private float timer = 0f;
+    private int clickCount = 0;
     private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
 
     // Use this for initialization
     void Start() {
         abilityScreen = GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>();
+    }
+
+    void Update() {
+        if (clickCount > 0) timer += Time.deltaTime;
+        if (timer >=0.5f) {
+            timer = 0f;
+            clickCount = 0;
+        }
+    }
+
+    public void Click() {
+        clickCount++;
+        if (clickCount == 2) DoubleClickAbility();
+    }
+
+    private void DoubleClickAbility() {
+        abilityScreen.skillTreeAbility = ability;
+        abilityScreen.skillTreeDropSlot.Initialize(ability);
+        abilityScreen.UpdateSkillTree();
+        abilityScreen.tabs[0].isOn = false;
+        abilityScreen.tabs[1].isOn = false;
+        abilityScreen.tabs[2].isOn = true;
     }
 
     public void Initialize(Ability abilityParam) {
