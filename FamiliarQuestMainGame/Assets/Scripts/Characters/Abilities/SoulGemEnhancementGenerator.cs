@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,7 +86,9 @@ public static class SoulGemEnhancementGenerator {
             ["pullTowards"] = "pull towards",
             ["addedDot"] = "added damage over time",
             ["increasedCritChance"] = "increased critical hit chance",
-            ["increasedCritDamage"] = "increased critical hit damage"
+            ["increasedCritDamage"] = "increased critical hit damage",
+            ["offGCD"] = "off GCD",
+            ["grapplingHook"] = "grappling hook"
         };
     }
 
@@ -327,7 +330,7 @@ public static class SoulGemEnhancementGenerator {
         var friendlyName = attribute.type;
         if (friendlyAttributeNames.ContainsKey(friendlyName)) friendlyName = friendlyAttributeNames[friendlyName];
         return new SoulGemEnhancement {
-            name = "Add " + friendlyName.Substring(0, 1).ToUpper() + friendlyName.Substring(1),
+            name = "Add " + Capitalize(friendlyName),
             description = "Adds " + friendlyName + " to ability",
             generalType = "addAttribute",
             type = "addAttribute",
@@ -350,7 +353,7 @@ public static class SoulGemEnhancementGenerator {
         var friendlyName = chosenAttribute.type;
         if (friendlyAttributeNames.ContainsKey(friendlyName)) friendlyName = friendlyAttributeNames[friendlyName];
         return new SoulGemEnhancement {
-            name = "Activate " + friendlyName.Substring(0, 1).ToUpper() + friendlyName.Substring(1),
+            name = "Activate " + Capitalize(friendlyName),
             description = "Activates ability's " + friendlyName + " attribute",
             generalType = "activateAttribute",
             type = "activateAttribute",
@@ -381,5 +384,10 @@ public static class SoulGemEnhancementGenerator {
             target = chosenAttribute.type,
             icon = "removeDrawback"
         };
+    }
+
+    private static string Capitalize(string input) {
+        TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+        return textInfo.ToTitleCase(input);
     }
 }
