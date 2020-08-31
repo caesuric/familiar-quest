@@ -4,15 +4,15 @@ echo Started build %date% %time%
 echo Building Windows distributable
 rmdir /s /q Builds\Windows
 mkdir Builds\Windows
-start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.11f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget Win -buildWindowsPlayer "..\Builds\Windows\FamiliarQuest.exe"
+start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.15f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget Win -buildWindowsPlayer "..\Builds\Windows\FamiliarQuest.exe"
 echo Building Linux distributable
 rmdir /s /q Builds\Linux
 mkdir Builds\Linux
-start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.11f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget Linux64 -buildLinux64Player "..\Builds\Linux\FamiliarQuest"
+start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.15f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget Linux64 -buildLinux64Player "..\Builds\Linux\FamiliarQuest"
 echo Building Mac distributable
 rmdir /s /q Builds\Mac
 mkdir Builds\Mac
-start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.11f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget OSXUniversal -buildOSXUniversalPlayer "..\Builds\Mac\FamiliarQuest.app"
+start /b /wait "dummy" "C:\Program Files\Unity\Hub\Editor\2019.3.15f1\Editor\Unity" -batchmode -quit -projectPath FamiliarQuestMainGame -buildTarget OSXUniversal -buildOSXUniversalPlayer "..\Builds\Mac\FamiliarQuest.app"
 
 butler push --userversion-file version.txt Builds\Windows caesuric/familiar-quest:windows
 butler push --fix-permissions --userversion-file version.txt Builds\Linux caesuric/familiar-quest:linux

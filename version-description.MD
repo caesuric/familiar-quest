@@ -12,3 +12,4 @@
 
 * You cannot fuse passive abilities yet
 * Fusing attack and utility abilities together may give you strange results
+* Older save files are not compatible with this version

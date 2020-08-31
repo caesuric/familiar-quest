@@ -40,6 +40,7 @@ def get_release_url(auth):
     response = requests.get(url, auth=auth)
     json_response = json.loads(response.text)
     release_url = json_response['upload_url']
+    release_url = release_url.replace("{?name,label}", "")
     return release_url
 
 def upload_releases(release_url, auth):
@@ -64,18 +65,17 @@ def upload_releases(release_url, auth):
     }
     with open(f'./Builds/{windows_params["name"]}', 'rb') as windows_release_file:
         print('opened windows release')
-        response = requests.post(url, headers=windows_params, data=windows_release_file, auth=auth)
+        response = requests.post(url+f'?name={windows_params["name"]}', headers=windows_params, data=windows_release_file, auth=auth)
         print('uploaded windows release')
         print(response.status_code)
     with open(f'./Builds/{linux_params["name"]}', 'rb') as linux_release_file:
         print('opened linux release')
-        response = requests.post(url, headers=linux_params, data=linux_release_file, auth=auth)
+        response = requests.post(url+f'?name={linux_params["name"]}', headers=linux_params, data=linux_release_file, auth=auth)
         print('uploaded linux release')
         print(response.status_code)
     with open(f'./Builds/{mac_params["name"]}', 'rb') as mac_release_file:
         print('opened mac release')
-        response = requests.post(
-            url, headers=mac_params, data=mac_release_file, auth=auth)
+        response = requests.post(url+f'?name={mac_params["name"]}', headers=mac_params, data=mac_release_file, auth=auth)
         print('uploaded mac release')
         print(response.status_code)
 
