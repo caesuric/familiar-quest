@@ -43,6 +43,11 @@ class MonsterMortal : MonoBehaviour {
                 }
             }
         }
+        if (GetComponent<Boss>()!=null) {
+            LevelGen.instance.bossFightActive = false;
+            var boss = GetComponent<Boss>();
+            Instantiate(boss.exitPortal, boss.originalLocation, boss.exitPortal.transform.rotation);
+        }
         GetComponent<AudioGenerator>().CreateDeathSound();
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers) {

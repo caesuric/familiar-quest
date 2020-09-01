@@ -98,17 +98,17 @@ public class Boss : MonoBehaviour {
         //else fightTime += Time.deltaTime;
     }
 
-    public void OnDestroy() {
-        foreach (var player in PlayerCharacter.players) {
-            LevelGen.instance.bossFightActive = false;
+    //public void OnDestroy() {
+        //foreach (var player in PlayerCharacter.players) {
+            //LevelGen.instance.bossFightActive = false;
             //player.GetComponent<ConfigGrabber>().questLog.quests[0].completed = true;
             //foreach (var door in doors) {
             //    NetworkServer.Destroy(door);
             //    Destroy(door);
             //}
-            Instantiate(exitPortal, originalLocation, exitPortal.transform.rotation);
-        }
-    }
+            //Instantiate(exitPortal, originalLocation, exitPortal.transform.rotation);
+    //    }
+    //}
 
     private BossPhase DeterminePhase() {
         if (phasesTimeBased) return DetermineTimeBasedPhase();
