@@ -21,6 +21,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
     private Vector3 originalPosition;
     public Image image;
     public GameObject hoverOverlay;
+    private Vector2 resolution;
 
     // Use this for initialization
     void Start() {
@@ -30,6 +31,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
         originalParent = transform.parent.gameObject;
         originalPosition = transform.position;
         hoverOverlay.SetActive(false);
+        resolution = new Vector2(Screen.width, Screen.height);
     }
 
     // Update is called once per frame
@@ -39,6 +41,11 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
             foreach (var item in players) if (item.isMe) pc = item.GetComponent<PlayerCharacter>();
         }
         if (pc != null && hitbox == null) hitbox = pc.gameObject.GetComponentInChildren<HitboxDealDamage>().GetComponent<MeshRenderer>();
+        if (resolution.x != Screen.width || resolution.y != Screen.height) {
+            resolution = new Vector2(Screen.width, Screen.height);
+            originalPosition = transform.position;
+            mouseOverCanvasOriginalPosition = mouseOverCanvas.transform.position;
+        }
     }
 
     public void OnMouseEnter() {

@@ -183,6 +183,8 @@ public class HotbarUser : MonoBehaviour {
         AddAbilityBlankPadding(13);
         AddPassiveInfo(au.soulGemPassive);
         AddTooltipData();
+        SkillTreeDropSlot.UpdateAbility();
+        AbilityScreenIcon.UpdateAbilities();
         //RefreshSpiritInfo();
     }
 

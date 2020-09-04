@@ -35,6 +35,7 @@ public class HotbarButtonDropHandler : MonoBehaviour, IDropHandler, IPointerEnte
             var num1 = data.pointerDrag.GetComponent<MouseOverHotbarButton>().number;
             var num2 = GetComponent<MouseOverHotbarButton>().number;
             if (num1 == 12 || num2 == 12) return;
+            while (abilities.Count < 10 && (num1 >= abilities.Count || num2 >= abilities.Count)) abilities.Add(null);
             var temp = abilities[num1];
             abilities[num1] = abilities[num2];
             abilities[num2] = temp;

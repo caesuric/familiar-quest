@@ -12,10 +12,12 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private float timer = 0f;
     private int clickCount = 0;
     private readonly Dictionary<int, RectTransform> m_DraggingPlanes = new Dictionary<int, RectTransform>();
+    public static List<AbilityScreenIcon> instances = new List<AbilityScreenIcon>();
 
     // Use this for initialization
     void Start() {
         abilityScreen = GameObject.FindGameObjectWithTag("AbilityScreen").GetComponent<AbilityMenu>();
+        instances.Add(this);
     }
 
     void Update() {
@@ -24,6 +26,14 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
             timer = 0f;
             clickCount = 0;
         }
+    }
+
+    public void OnDestroy() {
+        instances.Remove(this);
+    }
+
+    public static void UpdateAbilities() {
+        foreach (var asi in instances) if (asi != null) asi.Initialize(asi.ability);
     }
 
     public void Click() {
