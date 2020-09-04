@@ -466,7 +466,7 @@ public class Boss : MonoBehaviour {
     }
 
     public bool PlayersInRoom() {
-        foreach (var player in PlayerCharacter.players) if (Vector3.Distance(player.transform.position, originalLocation) >= 150f) return false;
+        foreach (var player in PlayerCharacter.players) if (Vector3.Distance(player.transform.position, originalLocation) >= 42.5f) return false;
         return true;
     }
 }
