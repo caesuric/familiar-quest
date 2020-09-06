@@ -15,6 +15,13 @@ public class AttackAbility: ActiveAbility {
     public new bool IsValid() {
         if (!base.IsValid()) return false;
         if (FindAttribute("paralyze") != null && cooldown == 0) return false;
+        int knockbackCount = 0;
+        int pullTowardsCount = 0;
+        foreach (var attribute in attributes) {
+            if (attribute.type == "knockback") knockbackCount++;
+            else if (attribute.type == "pullTowards") pullTowardsCount++;
+            if (knockbackCount > 1 || pullTowardsCount > 1) return false;
+        }
         return true;
     }
 
