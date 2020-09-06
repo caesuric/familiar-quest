@@ -38,7 +38,7 @@ public class Boss : MonoBehaviour {
         AddRandomElementalStrengths();
         SetupBossPatterns();
         gameObject.name += " (BOSS)";
-        var tm = GetComponent<TestMonster>();
+        var tm = GetComponent<MonsterAi>();
         tm.sensors.Add(new AI.Sensors.BossAbilityTracking());
         tm.availableActions.Add(new AI.Actions.HitPlayerWithBossMeleeAttack());
         tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //if (!NetworkServer.active) return;
-        var canSeePlayer = GetComponent<TestMonster>().state["seePlayer"].Equals(true);
+        var canSeePlayer = GetComponent<MonsterAi>().state["seePlayer"].Equals(true);
         if (canSeePlayer && !fightStarted) {
             if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) <= 150f) {
                 fightStarted = true;

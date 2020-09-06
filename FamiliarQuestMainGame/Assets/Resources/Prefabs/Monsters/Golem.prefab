@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 114612469358202260}
   - component: {fileID: 114464028294356692}
   - component: {fileID: 114391155076332192}
-  - component: {fileID: 114657467061537888}
   - component: {fileID: 114857705397737046}
   - component: {fileID: 114990710705956658}
   - component: {fileID: 114411928734195000}
@@ -129,8 +128,8 @@ GameObject:
   - component: {fileID: 114621336775600618}
   - component: {fileID: 1796778604234154138}
   - component: {fileID: -8418565396747651860}
-  - component: {fileID: -8002047876185221788}
   - component: {fileID: 7306114013052450474}
+  - component: {fileID: 3860530091719098138}
   m_Layer: 8
   m_Name: Golem
   m_TagString: Enemy
@@ -271,6 +270,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114614290633611448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,19 +426,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114657467061537888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1040067436685960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114857705397737046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,21 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8002047876185221788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1040067436685960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &7306114013052450474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,6 +604,21 @@ MonoBehaviour:
   intelligence: 1
   wisdom: 1
   luck: 1
+--- !u!114 &3860530091719098138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040067436685960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 
 --- !u!1 &1051001706062948
 GameObject:
   m_ObjectHideFlags: 0

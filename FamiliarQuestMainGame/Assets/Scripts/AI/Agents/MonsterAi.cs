@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-public class TestMonster : GoapAgent {
-    public TestMonster() {
+public class MonsterAi : GoapAgent {
+    public MonsterAi() {
         goals = new List<GoapGoal> {
             new AI.Goals.HurtPlayer(1),
             new AI.Goals.StayAlert(0.01f)

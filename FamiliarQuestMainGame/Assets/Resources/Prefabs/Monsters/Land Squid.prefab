@@ -6181,7 +6181,6 @@ GameObject:
   - component: {fileID: 114184008517683974}
   - component: {fileID: 114316052420449820}
   - component: {fileID: 114746587505101676}
-  - component: {fileID: 114347261824865852}
   - component: {fileID: 114902428015877638}
   - component: {fileID: 114217307049414028}
   - component: {fileID: 114965935885650032}
@@ -6191,8 +6190,8 @@ GameObject:
   - component: {fileID: 114814752130152396}
   - component: {fileID: 922824511606608512}
   - component: {fileID: 8344147733418711024}
-  - component: {fileID: -1211299801276946612}
   - component: {fileID: 2387153582761158359}
+  - component: {fileID: 7891134568764258177}
   m_Layer: 8
   m_Name: Land Squid
   m_TagString: Enemy
@@ -6345,6 +6344,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114894100534159800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6500,19 +6500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114347261824865852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757708974260342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114902428015877638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6661,21 +6648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1211299801276946612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757708974260342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &2387153582761158359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6694,6 +6666,21 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
+--- !u!114 &7891134568764258177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757708974260342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 
 --- !u!1 &1759228983166236
 GameObject:
   m_ObjectHideFlags: 0

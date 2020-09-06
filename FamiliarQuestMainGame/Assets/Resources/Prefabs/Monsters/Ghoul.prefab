@@ -8350,7 +8350,6 @@ GameObject:
   - component: {fileID: 114538026228782194}
   - component: {fileID: 114256255902536662}
   - component: {fileID: 114471593362650278}
-  - component: {fileID: 114624148548188082}
   - component: {fileID: 114026297596919456}
   - component: {fileID: 114995993862447722}
   - component: {fileID: 114545446698184544}
@@ -8361,8 +8360,8 @@ GameObject:
   - component: {fileID: 114315780547206462}
   - component: {fileID: 8302694290020307511}
   - component: {fileID: -7282018753349266852}
-  - component: {fileID: 927905003080634631}
   - component: {fileID: 8737448824170324921}
+  - component: {fileID: -2767758825435759548}
   m_Layer: 8
   m_Name: Ghoul
   m_TagString: Enemy
@@ -8503,6 +8502,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114080121036666246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8658,19 +8658,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114624148548188082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992158986572322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114026297596919456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8831,21 +8818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &927905003080634631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992158986572322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &8737448824170324921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8864,3 +8836,18 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 8
   luck: 10
+--- !u!114 &-2767758825435759548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992158986572322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 

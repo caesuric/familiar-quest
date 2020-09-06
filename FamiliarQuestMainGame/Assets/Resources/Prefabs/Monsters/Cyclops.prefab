@@ -7638,7 +7638,6 @@ GameObject:
   - component: {fileID: 114859494338367792}
   - component: {fileID: 114107105694854354}
   - component: {fileID: 114848880198327138}
-  - component: {fileID: 114386467092118326}
   - component: {fileID: 114749163141433902}
   - component: {fileID: 114067686826303182}
   - component: {fileID: 114786412032653696}
@@ -7649,8 +7648,8 @@ GameObject:
   - component: {fileID: 114284079986681786}
   - component: {fileID: -3429835688470679073}
   - component: {fileID: 8693348825805597902}
-  - component: {fileID: -1686069121021267329}
   - component: {fileID: 353920398343266551}
+  - component: {fileID: -4854638993717721221}
   m_Layer: 8
   m_Name: Cyclops
   m_TagString: Enemy
@@ -7791,6 +7790,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114686638013031372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7946,19 +7946,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114386467092118326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826898279954660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114749163141433902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8119,21 +8106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1686069121021267329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826898279954660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &353920398343266551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8152,6 +8124,21 @@ MonoBehaviour:
   intelligence: 6
   wisdom: 6
   luck: 6
+--- !u!114 &-4854638993717721221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826898279954660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 
 --- !u!1 &1841114854683098
 GameObject:
   m_ObjectHideFlags: 0

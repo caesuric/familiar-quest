@@ -6021,7 +6021,6 @@ GameObject:
   - component: {fileID: 114362866311117140}
   - component: {fileID: 114816771183007506}
   - component: {fileID: 114574958337202206}
-  - component: {fileID: 114975971794799872}
   - component: {fileID: 114770420034616528}
   - component: {fileID: 114666157650714426}
   - component: {fileID: 114386195150588664}
@@ -6031,8 +6030,8 @@ GameObject:
   - component: {fileID: 114521135922603784}
   - component: {fileID: -7356377495207383994}
   - component: {fileID: -2935737927255590642}
-  - component: {fileID: -7704125560438680216}
   - component: {fileID: 5197667160806071163}
+  - component: {fileID: 335093163275633659}
   m_Layer: 8
   m_Name: Fire Elemental
   m_TagString: Enemy
@@ -6185,6 +6184,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114729768554157166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6340,19 +6340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114975971794799872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603361124138068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114770420034616528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6501,21 +6488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-7704125560438680216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1603361124138068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &5197667160806071163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6534,6 +6506,21 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
+--- !u!114 &335093163275633659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603361124138068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 
 --- !u!1 &1707061090984542
 GameObject:
   m_ObjectHideFlags: 0

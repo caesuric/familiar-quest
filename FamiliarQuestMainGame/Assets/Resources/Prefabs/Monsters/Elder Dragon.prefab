@@ -2243,7 +2243,6 @@ GameObject:
   - component: {fileID: 114802315227891984}
   - component: {fileID: 114799122671371278}
   - component: {fileID: 114939399737942394}
-  - component: {fileID: 114019143835734358}
   - component: {fileID: 114530918471697982}
   - component: {fileID: 114416289552984026}
   - component: {fileID: 114437404413431200}
@@ -2253,8 +2252,8 @@ GameObject:
   - component: {fileID: 114095800096111156}
   - component: {fileID: -1527075882602990694}
   - component: {fileID: -7819410295583287598}
-  - component: {fileID: 8618458674213778712}
   - component: {fileID: 3897722734689149038}
+  - component: {fileID: 3219931675267027716}
   m_Layer: 8
   m_Name: Elder Dragon
   m_TagString: Enemy
@@ -2407,6 +2406,7 @@ MonoBehaviour:
   GCDTime: 0
   mirrorImagePrefab: {fileID: 0}
   teleportPrefab: {fileID: 0}
+  resurrectionTimer: 0
 --- !u!114 &114063634905953512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2562,19 +2562,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smell: {fileID: 0}
---- !u!114 &114019143835734358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654624983273588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a81c104e0061248a787666c604a177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resurrectionTimer: 0
 --- !u!114 &114530918471697982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2723,21 +2710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e83934414d2e54d86481500c35a558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8618458674213778712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654624983273588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!114 &3897722734689149038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2756,6 +2728,21 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
+--- !u!114 &3219931675267027716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654624983273588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  busy: 0
+  planning: 0
+  currentAction: 
 --- !u!1 &1655953029870944
 GameObject:
   m_ObjectHideFlags: 0

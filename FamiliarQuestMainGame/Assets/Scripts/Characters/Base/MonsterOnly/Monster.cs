@@ -16,6 +16,7 @@ public class Monster : MonoBehaviour { //Hideable
     public GameObject unitFramePrefab;
     public GameObject unitFrame;
     public Renderer[] renderers;
+    private MonsterAi monsterAi = null;
     //private MonsterCombatant monsterCombatant;
 
     // Use this for initialization
@@ -36,15 +37,14 @@ public class Monster : MonoBehaviour { //Hideable
             if (GetComponent<AbilityUser>().soulGemPassive != null) GetComponent<AbilityUser>().AddPassive(GetComponent<AbilityUser>().soulGemPassive);
         }
         renderers = GetComponentsInChildren<Renderer>();
+        monsterAi = GetComponent<MonsterAi>();
         //}
     }
 
     private void Update() {
-        //var inCombat = monsterCombatant.InCombat();
-        //if (inCombat && !unitFrame.activeSelf) unitFrame.SetActive(true);
-        //else if (!inCombat && unitFrame.activeSelf) unitFrame.SetActive(false);
-
-        if (unitFrame != null) unitFrame.SetActive(true); // until I have a way to determine if monsters are in combat with new AI
+        var inCombat = (bool)monsterAi.state["seePlayer"];
+        if (inCombat && !unitFrame.activeSelf) unitFrame.SetActive(true);
+        else if (!inCombat && unitFrame.activeSelf) unitFrame.SetActive(false);
     }
 
     void OnDestroy() {
