@@ -54,7 +54,8 @@ public static class SoulGemEnhancementGenerator {
             ["goldBoost"] = 73,
             ["boostDamage"] = 77,
             ["reduceDamage"] = 19,
-            ["reduceElementalDamage"] = 19
+            ["reduceElementalDamage"] = 19,
+            ["chargeTowards"] = 5
         };
         friendlyAttributeNames = new Dictionary<string, string> {
             ["lifeleech"] = "lifeleech",
@@ -89,7 +90,8 @@ public static class SoulGemEnhancementGenerator {
             ["increasedCritDamage"] = "increased critical hit damage",
             ["offGCD"] = "off GCD",
             ["grapplingHook"] = "grappling hook",
-            ["boostElementalDamage"] = "boost elemental damage"
+            ["boostElementalDamage"] = "boost elemental damage",
+            ["chargeTowards"] = "charge"
         };
     }
 
