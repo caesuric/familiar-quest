@@ -59,10 +59,12 @@ public class AbilityUser : MonoBehaviour {
     }
 
     private void MaintainDamageEnemiesOnScreen(AbilityAttribute attribute) {
-        //if (GetComponent<PlayerCharacter>() != null) {
-        //    foreach (var monster in Monster.monsters) if (Vector3.Distance(transform.position, monster.transform.position) < 20f && monster.GetComponent<MonsterCombatant>().InCombat()) monster.GetComponent<Health>().TakeDamage(attribute.FindParameter("degree").floatVal * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
-        //}
-        //else if (GetComponent<MonsterCombatant>().InCombat()) foreach (var player in PlayerCharacter.players) if (Vector3.Distance(transform.position, player.transform.position) < 20f) player.GetComponent<Health>().TakeDamage(attribute.FindParameter("degree").floatVal * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
+        if (GetComponent<PlayerCharacter>()!=null) {
+            foreach (var monster in Monster.monsters) if (Vector3.Distance(transform.position, monster.transform.position) < 20f) monster.GetComponent<Health>().TakeDamage((float)attribute.FindParameter("degree").value * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
+        }
+        else {
+            foreach (var player in PlayerCharacter.players) if (Vector3.Distance(transform.position, player.transform.position) < 20f) player.GetComponent<Health>().TakeDamage((float)attribute.FindParameter("degree").value * Time.deltaTime, Element.none, GetComponent<Character>(), silent: true);
+        }
     }
 
     private void Update() {
