@@ -68,7 +68,6 @@ public class AbilityUser : MonoBehaviour {
     }
 
     private void Update() {
-        //if (NetworkServer.active) GCDTime = Mathf.Max(0, GCDTime - Time.deltaTime);
         GCDTime = Mathf.Max(0, GCDTime - Time.deltaTime);
         foreach (var ability in soulGemActives) if (ability != null) ability.currentCooldown = Mathf.Max(0, ability.currentCooldown - Time.deltaTime);
         foreach (var ability in soulGemActivesOverflow) if (ability != null) ability.currentCooldown = Mathf.Max(0, ability.currentCooldown - Time.deltaTime);
