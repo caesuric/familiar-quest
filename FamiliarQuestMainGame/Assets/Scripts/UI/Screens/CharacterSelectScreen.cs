@@ -53,6 +53,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     public Text abilityScreenWisdomText;
     public Text abilityScreenLuckText;
     public GameObject characterDeleteConfirmPanel;
+    private bool generatedAbilities = false;
     private List<AttackAbility> attackAbilities1 = new List<AttackAbility>();
     private List<AttackAbility> attackAbilities2 = new List<AttackAbility>();
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
@@ -149,10 +150,17 @@ public class CharacterSelectScreen : MonoBehaviour {
         foreach (var appearanceButton in appearanceButtons) appearanceButton.selectionFrame.SetActive(false);
         playButton.SetActive(false);
         finalizeAppearanceButton.SetActive(false);
+        generatedAbilities = false;
     }
 
     public void MoveToStats() {
         characterAppearanceMenu.SetActive(false);
+        characterStatMenu.SetActive(true);
+        generatedAbilities = false;
+    }
+
+    public void MoveBackToStats() {
+        characterAbilityMenu.SetActive(false);
         characterStatMenu.SetActive(true);
     }
 
@@ -160,8 +168,11 @@ public class CharacterSelectScreen : MonoBehaviour {
         if (sparePoints > 0) return;
         characterStatMenu.SetActive(false);
         characterAbilityMenu.SetActive(true);
-        GenerateAbilities();
-        AddAbilitiesToBoxes();
+        if (!generatedAbilities) {
+            GenerateAbilities();
+            AddAbilitiesToBoxes();
+        }
+        generatedAbilities = true;
     }
 
     public void MoveToName() {
@@ -214,6 +225,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         bf.Serialize(file, character);
         file.Close();
         FinishCharacterCreation();
+        generatedAbilities = false;
     }
 
     private void FinishCharacterCreation() {
