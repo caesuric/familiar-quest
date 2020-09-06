@@ -31,7 +31,10 @@ public static class AbilityScaler {
             if (attribute.priority >= 50 && count < 4) {
                 var pointCost = AbilityAttributeAppraiser.Appraise(newAbility, attribute);
                 points -= pointCost;
-                if (points >= 0) newAbility.attributes.Add(attribute);
+                if (points >= 0) {
+                    newAbility.attributes.Add(attribute);
+                    newAbility.points -= pointCost;
+                }
                 else points += pointCost;
             }
             count++;
@@ -58,8 +61,13 @@ public static class AbilityScaler {
             level = AbilityCalculator.GetLevelFromPoints(startingPoints)
         };
         foreach (var attribute in abilityAttributes) {
-            points -= AbilityAttributeAppraiser.Appraise(newAbility, attribute);
-            if (points >= 0) newAbility.attributes.Add(attribute);
+            var pointCost = AbilityAttributeAppraiser.Appraise(newAbility, attribute);
+            points -= pointCost;
+            if (points >= 0) {
+                newAbility.attributes.Add(attribute);
+                newAbility.points -= pointCost;
+            }
+            else points += pointCost;
         }
         newAbility.name = AbilityNamer.Name(newAbility);
         newAbility.description = AbilityDescriber.Describe(newAbility);

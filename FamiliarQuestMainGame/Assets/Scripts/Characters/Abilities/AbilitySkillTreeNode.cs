@@ -71,7 +71,7 @@ public class AbilitySkillTreeNode {
     public void Activate() {
         foreach (var effect in effects) if (enhancementLookup.ContainsKey(effect.type)) enhancementLookup[effect.type](effect);
         ability.description = AbilityDescriber.Describe(ability);
-        PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
+        if (PlayerCharacter.localPlayer != null) PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
     private void GetReduceDotTime(SoulGemEnhancement effect) {
@@ -85,7 +85,7 @@ public class AbilitySkillTreeNode {
     private void GetReduceMpUsage(SoulGemEnhancement effect) {
         if (ability is ActiveAbility activeAbility) {
             var oldMpUsage = activeAbility.mpUsage;
-            activeAbility.mpUsage -= effect.effect;
+            activeAbility.mpUsage += effect.effect;
             activeAbility.baseMpUsage *= activeAbility.mpUsage / oldMpUsage;
         }
     }
@@ -119,13 +119,12 @@ public class AbilitySkillTreeNode {
     }
 
     private void GetAddAttribute(SoulGemEnhancement effect) {
-        for (int i=0; i<10000; i++) {
-            var attribute = AbilityAttributeGenerator.Generate(ability);
-            if (attribute.type==effect.target && attribute.priority >= 50) {
-                ability.attributes.Add(attribute);
-                return;
-            }
-        }
+        var attribute = AbilityAttributeGenerator.Generate(ability, effect.target);
+        if (attribute == null) return;
+        if (attribute.priority < 50) attribute.priority = RNG.Float(50f, 100f);
+        ability.attributes.Add(attribute);
+        ability.SortAttributes();
+        ability.points += attribute.points;
     }
 
     private void GetActivateAttribute(SoulGemEnhancement effect) {

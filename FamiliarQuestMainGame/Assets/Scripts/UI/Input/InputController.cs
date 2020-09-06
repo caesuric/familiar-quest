@@ -67,7 +67,13 @@ public class InputController : MonoBehaviour {
             if (button.GetComponent<RightClickHandler>() != null) button.GetComponent<RightClickHandler>().onClick = () => AssignAltMouseToHotbarButton(mohb.number);
         }
         //inputs = new Dictionary<string, Action>() { { "SwitchTarget", CmdSwitchTarget }, { "Cancel", ToggleInventory }, { "SpiritScreen", ToggleSpiritScreen }, { "Minimap", ToggleMinimap }, { "Fuse", ToggleFusion }, { "Toggle Gamepad", ToggleGamepadMode }, { "Toggle FPS", ToggleFPS }, { "Character Sheet", ToggleCharacterSheet } };
-        inputs = new Dictionary<string, Action>() { { "SwitchTarget", SwitchTarget }, { "Cancel", ClearWindows }, { "Use Item", UseWorldObject }, { "Character Sheet", ToggleCharacterSheet }, { "Inventory", ToggleInventory } };
+        inputs = new Dictionary<string, Action>() {
+            ["SwitchTarget"] = SwitchTarget,
+            ["Cancel"] = ClearWindows,
+            ["Use Item"] = UseWorldObject,
+            ["Character Sheet"] = ToggleCharacterSheet,
+            ["Inventory"] = ToggleInventory
+        };
     }
 
     public void Restart() {

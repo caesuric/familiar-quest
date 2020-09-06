@@ -14,8 +14,7 @@ public class AbilityUser : MonoBehaviour {
     private delegate void Effect(ActiveAbility ability, AbilityAttribute attr);
     private delegate void Maintainer(AbilityAttribute attribute);
     private Dictionary<string, Effect> attributeEffects;
-    //[SyncVar]
-    public float GCDTime = 0.0f; //when <0 onGCD would have been false
+    public float GCDTime = 0f;
     public static float maxGCDTime = 0.5f;
     public GameObject mirrorImagePrefab;
     public GameObject teleportPrefab;

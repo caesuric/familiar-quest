@@ -65,6 +65,28 @@ public static class AttackAbilityAttributeGenerator {
         return null;
     }
 
+    public static AbilityAttribute Generate(AttackAbility ability, string attributeType) {
+        for (int i = 0; i < 10000; i++) {
+            AbilityAttribute attribute;
+            if (simpleAttributes.Contains(attributeType)) {
+                attribute = new AbilityAttribute {
+                    type = attributeType
+                };
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+            attribute = attributes[attributeType](ability);
+            if (attribute != null) {
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+        }
+        Debug.Log("FAILED TO FIND VALID ATTRIBUTE FOR ABILITY!");
+        return null;
+    }
+
     private static AbilityAttribute GetCreateDamageZone(AttackAbility ability) {
         if (ability.radius > 0 && ability.dotDamage > 0) return new AbilityAttribute {
             type = "createDamageZone"

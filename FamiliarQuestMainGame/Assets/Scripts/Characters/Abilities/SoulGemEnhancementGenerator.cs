@@ -324,6 +324,7 @@ public static class SoulGemEnhancementGenerator {
     }
 
     private static SoulGemEnhancement GetAddAttribute(Ability ability) {
+        if (!ability.CanAddNewAttribute()) return null;
         var attribute = AbilityAttributeGenerator.Generate(ability);
         if (attribute == null || attribute.type == "delay" || attribute.type == "immobilizeSelf") return null;
         var icon = "addAttribute";

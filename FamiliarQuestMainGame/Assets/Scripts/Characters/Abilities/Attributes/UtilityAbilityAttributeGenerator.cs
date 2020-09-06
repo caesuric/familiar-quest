@@ -59,6 +59,28 @@ public static class UtilityAbilityAttributeGenerator {
         return null;
     }
 
+    public static AbilityAttribute Generate(UtilityAbility ability, string attributeType) {
+        for (int i = 0; i < 10000; i++) {
+            AbilityAttribute attribute;
+            if (simpleAttributes.Contains(attributeType)) {
+                attribute = new AbilityAttribute {
+                    type = attributeType
+                };
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+            attribute = attributes[attributeType](ability);
+            if (attribute != null) {
+                attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
+                attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                return attribute;
+            }
+        }
+        Debug.Log("FAILED TO FIND VALID ATTRIBUTE FOR ABILITY!");
+        return null;
+    }
+
     private static AbilityAttribute GetMpOverTime(UtilityAbility ability) {
         return new AbilityAttribute {
             type = "mpOverTime",

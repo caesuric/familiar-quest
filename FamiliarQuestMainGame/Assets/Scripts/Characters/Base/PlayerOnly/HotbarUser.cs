@@ -443,12 +443,12 @@ public class HotbarUser : MonoBehaviour {
     }
 
     private string GetHealingText(ActiveAbility ability, int baseAttributeScore) {
-        //float factor = GetComponent<Character>().wisdom;
-        float factor = CharacterAttribute.attributes["wisdom"].instances[GetComponent<Character>()].TotalValue;
+        float factor = 10;
         factor *= GetComponent<PlayerCharacter>().weapon.attackPower;
+        int level = GetComponent<ExperienceGainer>().level;
+        factor *= CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
         float healing = 0;
-        //foreach (var attribute in ability.attributes) if (attribute.type=="heal") healing += (float)attribute.FindParameter("degree").value * factor * GetComponent<Health>().healingMultiplier;
-        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += (float)attribute.FindParameter("degree").value * factor * CharacterAttribute.attributes["healingMultiplier"].instances[GetComponent<Character>()].TotalValue / 100f;
+        foreach (var attribute in ability.attributes) if (attribute.type == "heal") healing += ((float)attribute.FindParameter("degree").value) * factor * CharacterAttribute.attributes["receivedHealing"].instances[GetComponent<Character>()].TotalValue / 100f;
         return ((int)healing).ToString();
     }
 
