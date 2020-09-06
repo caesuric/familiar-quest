@@ -54,6 +54,7 @@ public class CharacterSelectScreen : MonoBehaviour {
     public Text abilityScreenLuckText;
     public GameObject characterDeleteConfirmPanel;
     private bool generatedAbilities = false;
+    int maxMpAvailable = 0;
     private List<AttackAbility> attackAbilities1 = new List<AttackAbility>();
     private List<AttackAbility> attackAbilities2 = new List<AttackAbility>();
     private List<UtilityAbility> utilityAbilities = new List<UtilityAbility>();
@@ -277,7 +278,7 @@ public class CharacterSelectScreen : MonoBehaviour {
 
     private void GenerateNonCooldownAbility() {
         AttackAbility ability = null;
-        while (ability == null || ability.cooldown > 0 || WrongStat(ability)) {
+        while (ability == null || ability.cooldown > 0 || WrongStat(ability) || ability.mpUsage > maxMpAvailable) {
             ability = AttackAbilityGenerator.Generate();
         }
         attackAbilities1.Add(ability);
@@ -285,7 +286,7 @@ public class CharacterSelectScreen : MonoBehaviour {
 
     private void GenerateCooldownAbility() {
         AttackAbility ability = null;
-        while (ability == null || ability.cooldown == 0 || WrongStat(ability)) {
+        while (ability == null || ability.cooldown == 0 || WrongStat(ability) || ability.mpUsage > maxMpAvailable) {
             ability = AttackAbilityGenerator.Generate();
         }
         attackAbilities2.Add(ability);
@@ -293,7 +294,7 @@ public class CharacterSelectScreen : MonoBehaviour {
 
     private void GenerateUtilityAbility() {
         UtilityAbility ability = null;
-        while (ability == null) {
+        while (ability == null || ability.mpUsage > maxMpAvailable) {
             ability = UtilityAbilityGenerator.Generate();
         }
         utilityAbilities.Add(ability);
@@ -487,6 +488,7 @@ public class CharacterSelectScreen : MonoBehaviour {
         armorBonusText.text = GetStatAsString("armorMultiplier") + "%";
         physicalResistText.text = GetStatAsString("physicalResistance") + "%";
         mentalResistText.text = GetStatAsString("mentalResistance") + "%";
+        maxMpAvailable = (int)CharacterAttribute.attributes["bonusMp"].instances[fakeCharacter].TotalValue;
         mpText.text = GetStatAsString("bonusMp");
         mpRegenRateText.text = GetStatAsString("mpRegen") + " MP/sec.";
         healingBonusText.text = GetStatAsString("healingMultiplier") + "%";
