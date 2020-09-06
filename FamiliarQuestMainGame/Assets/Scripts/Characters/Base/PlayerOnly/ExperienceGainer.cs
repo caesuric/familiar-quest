@@ -109,13 +109,10 @@ public class ExperienceGainer : MonoBehaviour {
 
     private void AddExperienceToSoulGems(int amount) {
         var au = GetComponent<AbilityUser>();
-        au.soulGemPassive.GainExperience(amount);
-        foreach (var active in au.soulGemActives) {
-            if (active != null) active.GainExperience(amount);
-        }
-        foreach (var ability in au.soulGemActivesOverflow) {
-            if (ability!=null) ability.GainExperience(amount);
-        }
+        if (au.soulGemPassive != null) au.soulGemPassive.GainExperience(amount);
+        foreach (var active in au.soulGemActives) if (active != null) active.GainExperience(amount);
+        foreach (var ability in au.soulGemActivesOverflow) if (ability!=null) ability.GainExperience(amount);
+        foreach (var ability in au.soulGemPassivesOverflow) if (ability != null) ability.GainExperience(amount);
     }
 
     private void LevelUp() {
