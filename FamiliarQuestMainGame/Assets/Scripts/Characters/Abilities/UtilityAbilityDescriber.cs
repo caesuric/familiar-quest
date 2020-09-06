@@ -26,6 +26,7 @@ public static class UtilityAbilityDescriber {
             ["removeDebuff"] = "Removes a debuff.\n",
             ["removeAllDebuffs"] = "Removes all debuffs.\n",
             ["eatDebuff"] = "Removes a debuff to gain 50 MP.\n",
+            ["grapplingHook"] = "Pulls user directly forward to the next creature or object ahead of them.\n"
         };
         descriptionTable = new Dictionary<string, DescriberDelegate> {
             ["elementalDamageBuff"] = ElementalDamageBuffDescription,

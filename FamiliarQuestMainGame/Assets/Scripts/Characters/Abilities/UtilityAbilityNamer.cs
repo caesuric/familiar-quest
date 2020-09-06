@@ -36,7 +36,8 @@ public static class UtilityAbilityNamer {
             ["removeDebuff"] = "Cleanse",
             ["removeAllDebuffs"] = "Greater Cleanse",
             ["eatDebuff"] = "Consume Ailment",
-            ["speed+"] = "Swiftness"
+            ["speed+"] = "Swiftness",
+            ["grapplingHook"] = "Grappling Hook"
         };
         namesTable = new Dictionary<string, NameDelegate> {
             ["elementalDamageBuff"] = ElementalDamageBuffName
