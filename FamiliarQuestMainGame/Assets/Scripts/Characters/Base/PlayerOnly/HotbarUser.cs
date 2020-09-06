@@ -416,6 +416,8 @@ public class HotbarUser : MonoBehaviour {
         };
         int baseAttributeScore = lookups[((AttackAbility)ability).baseStat];
         text = text.Replace("{{damage}}", (GetAttackText(ability, baseAttributeScore)));
+        text = text.Replace("{{blunting}}", GetBluntingText(ability, baseAttributeScore));
+        text = text.Replace("{{shield}}", GetShieldText(ability, ((AttackAbility)ability).baseStat));
         return text.Replace("{{dotDamage}}", (Mathf.Floor(GetComponent<PlayerCharacter>().weapon.attackPower * baseAttributeScore * ((AttackAbility)ability).dotDamage).ToString()));
     }
 
@@ -440,6 +442,15 @@ public class HotbarUser : MonoBehaviour {
         text = text.Replace("{{restoreMP}}", GetRestoreMpText(ability, baseAttributeScore));
         text = text.Replace("{{hot}}", GetRestoreHpOverTimeText(ability, baseAttributeScore));
         return text.Replace("{{restoreMpOverTime}}", GetRestoreMpOverTimeText(ability, baseAttributeScore));
+    }
+
+    private string GetBluntingText(ActiveAbility ability, int baseAttributeScore) {
+        float blunting = 0;
+        float multiplier;
+        if (GetComponent<PlayerCharacter>() != null) multiplier = GetComponent<PlayerCharacter>().weapon.attackPower;
+        else multiplier = GetComponent<Monster>().attackFactor;
+        foreach (var attribute in ability.attributes) if (attribute.type == "blunting") blunting += ((float)attribute.FindParameter("degree").value) * multiplier;
+        return ((int)blunting).ToString();
     }
 
     private string GetHealingText(ActiveAbility ability, int baseAttributeScore) {

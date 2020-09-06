@@ -53,6 +53,8 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
             };
         int baseAttributeScore = lookups[((AttackAbility)ability).baseStat];
         text = text.Replace("{{damage}}", (GetAttackText(ability, baseAttributeScore)));
+        text = text.Replace("{{blunting}}", GetBluntingText(ability, baseAttributeScore));
+        text = text.Replace("{{shield}}", GetDamageShieldText(ability, ((AttackAbility)ability).baseStat));
         return text.Replace("{{dotDamage}}", (Mathf.Floor(0.8437f * baseAttributeScore * ((AttackAbility)ability).dotDamage).ToString()));
     }
 
@@ -73,6 +75,19 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         return text.Replace("{{restoreMpOverTime}}", GetRestoreMpOverTimeText(ability, baseAttributeScore));
     }
 
+    private string GetBluntingText(ActiveAbility ability, int baseAttributeScore) {
+        float blunting = 0;
+        float factor = 0;
+        if (ability.baseStat == BaseStat.strength) factor = 0.8437f * characterSelectScreen.strength;
+        else if (ability.baseStat == BaseStat.dexterity) factor = 0.8437f * characterSelectScreen.dexterity;
+        else if (ability.baseStat == BaseStat.constitution) factor = 0.8437f * characterSelectScreen.constitution;
+        else if (ability.baseStat == BaseStat.intelligence) factor = 0.8437f * characterSelectScreen.intelligence;
+        else if (ability.baseStat == BaseStat.wisdom) factor = 0.8437f * characterSelectScreen.wisdom;
+        else factor = 0.8437f * characterSelectScreen.luck;
+        foreach (var attribute in ability.attributes) if (attribute.type == "blunting") blunting += ((float)attribute.FindParameter("degree").value) * factor;
+        return ((int)blunting).ToString();
+    }
+
     private string GetHealingText(ActiveAbility ability, int baseAttributeScore) {
         float factor = characterSelectScreen.wisdom;
         factor *= 0.8437f;
@@ -91,6 +106,19 @@ public class AbilitySelectionScreenButton : MonoBehaviour {
         else if (stat == BaseStat.wisdom) factor = 0.8437f * characterSelectScreen.wisdom;
         else factor = 0.8437f * characterSelectScreen.luck;
         foreach (var attribute in ability.attributes) if (attribute.type == "shield") shield += (float)attribute.FindParameter("degree").value * factor;
+        return Mathf.FloorToInt(shield).ToString();
+    }
+
+    private string GetDamageShieldText(ActiveAbility ability, BaseStat stat) {
+        float shield = 0;
+        float factor = 0;
+        if (stat == BaseStat.strength) factor = 0.8437f * characterSelectScreen.strength;
+        else if (stat == BaseStat.dexterity) factor = 0.8437f * characterSelectScreen.dexterity;
+        else if (stat == BaseStat.constitution) factor = 0.8437f * characterSelectScreen.constitution;
+        else if (stat == BaseStat.intelligence) factor = 0.8437f * characterSelectScreen.intelligence;
+        else if (stat == BaseStat.wisdom) factor = 0.8437f * characterSelectScreen.wisdom;
+        else factor = 0.8437f * characterSelectScreen.luck;
+        foreach (var attribute in ability.attributes) if (attribute.type == "damageShield") shield += (float)attribute.FindParameter("degree").value * factor;
         return Mathf.FloorToInt(shield).ToString();
     }
 

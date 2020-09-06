@@ -24,10 +24,10 @@ public static class AttackAbilityDescriber {
             ["backstab"] = "Backstabs for 4x damage when in stealth mode.\n",
             ["stealthy"] = "Doesn't break stealth.\n",
             ["mpOverTime"] = "Restores MP over time.\n",
-            ["blunting"] = "Nullifies enemy ability to deal damage briefly.\n",
+            ["blunting"] = "Prevents the next {{blunting}} damage dealt by the enemy you hit.\n",
             ["inflictVulnerability"] = "Boosts damage taken by enemy afterwards.\n",
             ["delay"] = "Deals damage after a brief delay.\n",
-            ["damageShield"] = "Damage shield.\n",
+            ["damageShield"] = "Prevents the next {{shield}} damage you would take.\n",
             ["restoreMP"] = "Restores MP.\n",
             ["removeDebuff"] = "Removes a debuff.\n",
             ["addedDot"] = "Added damage over time.\n"

@@ -81,6 +81,9 @@ public class CharacterSelectScreen : MonoBehaviour {
         cgo.AddComponent<Health>();
         cgo.AddComponent<Mana>();
         cgo.AddComponent<PlayerCharacter>();
+        cgo.GetComponent<PlayerCharacter>().weapon = new MeleeWeapon {
+            attackPower = 0.8437f
+        };
         fakeCharacter = cgo.AddComponent<Character>();
     }
 

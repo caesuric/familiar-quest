@@ -294,7 +294,7 @@ public class Health : MonoBehaviour {
             { "pullTowards", (AbilityAttribute attribute) => AbilityEffects.PullTowards(attacker, GetComponent<Character>(), attribute) },
             { "mpOverTime", (AbilityAttribute attribute) => AbilityEffects.MpOverTime(attacker, attribute) },
             { "elementalDamageBuff", (AbilityAttribute attribute) => AbilityEffects.ElementalDamageBuff(attacker, attribute) },
-            { "blunting", (AbilityAttribute attribute) => AbilityEffects.Blunting(GetComponent<Character>(), attribute) },
+            { "blunting", (AbilityAttribute attribute) => AbilityEffects.Blunting(ability, attacker, GetComponent<Character>(), attribute) },
             { "inflictVulnerability", (AbilityAttribute attribute) => AbilityEffects.InflictVulnerability(GetComponent<Character>(), attribute) },
             { "delay", (AbilityAttribute attribute) => AbilityEffects.Delay(attacker, GetComponent<Character>(), ability, damage, attribute) },
             { "damageShield", (AbilityAttribute attribute) => AbilityEffects.DamageShield(attacker, ability, attribute) },

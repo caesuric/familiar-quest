@@ -78,8 +78,13 @@ public static class AbilityEffects {
         attacker.GetComponent<StatusEffectHost>().AddStatusEffect((string)attr.FindParameter("element").value + "DamageBuff", (float)attr.FindParameter("duration").value, (float)attr.FindParameter("degree").value, good: true);
     }
 
-    public static void Blunting(Character target, AbilityAttribute attr) {
-        target.GetComponent<StatusEffectHost>().AddStatusEffect("blunting", 60, (float)attr.FindParameter("degree").value);
+    public static void Blunting(AttackAbility ability, Character attacker, Character target, AbilityAttribute attr) {
+        float degree = (float)attr.FindParameter("degree").value;
+        float multiplier;
+        if (attacker.GetComponent<PlayerCharacter>() != null) multiplier = attacker.GetComponent<PlayerCharacter>().weapon.attackPower;
+        else multiplier = attacker.GetComponent<Monster>().attackFactor;
+        multiplier *= attacker.GetComponent<Attacker>().GetBaseDamage(ability.baseStat);
+        target.GetComponent<StatusEffectHost>().AddStatusEffect("blunting", 60, degree * multiplier);
     }
 
     public static void InflictVulnerability(Character target, AbilityAttribute attr) {
