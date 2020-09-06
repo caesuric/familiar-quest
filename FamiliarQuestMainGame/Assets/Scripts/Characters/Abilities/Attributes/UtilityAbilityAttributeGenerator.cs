@@ -9,6 +9,7 @@ public static class UtilityAbilityAttributeGenerator {
     private delegate AbilityAttribute AbilityAttributeDelegate(UtilityAbility ability);
     private static readonly List<string> simpleAttributes;
     private static readonly Dictionary<string, AbilityAttributeDelegate> attributes;
+    private static readonly List<string> negativeAttributes;
 
     static UtilityAbilityAttributeGenerator() {
         simpleAttributes = new List<string> {
@@ -34,6 +35,9 @@ public static class UtilityAbilityAttributeGenerator {
             ["immobilizeSelf"] = GetImmobilizeSelf,
             ["speed+"] = GetSpeedPlus
         };
+        negativeAttributes = new List<string> {
+            "immobilizeSelf"
+        };
     }
 
     public static AbilityAttribute Generate(UtilityAbility ability) {
@@ -46,12 +50,14 @@ public static class UtilityAbilityAttributeGenerator {
                 };
                 attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
                 attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                if (negativeAttributes.Contains(attribute.type) && attribute.priority < 50) continue;
                 return attribute;
             }
             attribute = attributes[roll](ability);
             if (attribute != null) {
                 attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
                 attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                if (negativeAttributes.Contains(attribute.type) && attribute.priority < 50) continue;
                 return attribute;
             }
         }
@@ -68,12 +74,14 @@ public static class UtilityAbilityAttributeGenerator {
                 };
                 attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
                 attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                if (negativeAttributes.Contains(attribute.type) && attribute.priority < 50) continue;
                 return attribute;
             }
             attribute = attributes[attributeType](ability);
             if (attribute != null) {
                 attribute.priority = UnityEngine.Random.Range(12.5f, 100f);
                 attribute.points = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                if (negativeAttributes.Contains(attribute.type) && attribute.priority < 50) continue;
                 return attribute;
             }
         }

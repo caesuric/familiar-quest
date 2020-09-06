@@ -43,6 +43,7 @@ class SkillTreeNodeRenderer : MonoBehaviour {
             node.ability.skillPoints--;
             foreach (var child in node.children) child.clickable = true;
             initStatus = 1;
+            AbilityMenu.instance.skillTreePointsText.text = "Skill points: " + node.ability.skillPoints.ToString();
         }
     }
 }

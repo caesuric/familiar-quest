@@ -77,6 +77,7 @@ public class AbilityMenu : MonoBehaviour {
     public Ability skillTreeAbility = null;
     public SkillTreeRenderer skillTreeRenderer;
     public AbilityScreenIcon skillTreeDropSlot;
+    public Text skillTreePointsText;
     public List<DuloGames.UI.UITab> tabs;
     public static AbilityMenu instance = null;
 
@@ -438,5 +439,6 @@ public class AbilityMenu : MonoBehaviour {
 
     public void UpdateSkillTree() {
         skillTreeRenderer.Initialize(skillTreeAbility.skillTree);
+        skillTreePointsText.text = "Skill points: " + skillTreeAbility.skillPoints.ToString();
     }
 }
