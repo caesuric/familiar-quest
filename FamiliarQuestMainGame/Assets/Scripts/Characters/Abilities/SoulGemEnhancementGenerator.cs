@@ -91,6 +91,7 @@ public static class SoulGemEnhancementGenerator {
             ["offGCD"] = "off GCD",
             ["grapplingHook"] = "grappling hook",
             ["boostElementalDamage"] = "boost elemental damage",
+            ["elementalDamageBuff"] = "boost elemental damage",
             ["chargeTowards"] = "charge"
         };
     }
@@ -333,7 +334,7 @@ public static class SoulGemEnhancementGenerator {
         if (icons.ContainsKey(attribute.type)) icon = icons[attribute.type].ToString();
         var friendlyName = attribute.type;
         if (friendlyAttributeNames.ContainsKey(friendlyName)) friendlyName = friendlyAttributeNames[friendlyName];
-        return new SoulGemEnhancement {
+        var output = new SoulGemEnhancement {
             name = "Add " + Capitalize(friendlyName),
             description = "Adds " + friendlyName + " to ability",
             generalType = "addAttribute",
@@ -341,6 +342,19 @@ public static class SoulGemEnhancementGenerator {
             target = attribute.type,
             icon = icon
         };
+        if (attribute.type == "boostElementalDamage") {
+            output.name = "Add Boost " + Capitalize((string)attribute.FindParameter("element").value);
+            output.description = "Add Boost " + Capitalize((string)attribute.FindParameter("element").value) + " to ability";
+        }
+        else if (attribute.type == "reduceElementalDamage") {
+            output.name = "Add Reduce " + Capitalize((string)attribute.FindParameter("element").value);
+            output.description = "Add Reduce " + Capitalize((string)attribute.FindParameter("element").value) + " to ability";
+        }
+        else if (attribute.type == "elementalDamageBuff") {
+            output.name = "Add Boost " + Capitalize((string)attribute.FindParameter("element").value);
+            output.description = "Add Boost " + Capitalize((string)attribute.FindParameter("element").value) + " to ability";
+        }
+        return output;
     }
 
     private static SoulGemEnhancement GetActivateAttribute(Ability ability) {
