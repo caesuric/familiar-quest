@@ -29,6 +29,7 @@ public class MinimapCameraLock : MonoBehaviour {
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
+        if (camera == null) return;
         camera.enabled = false;
         camera.enabled = true;
     }

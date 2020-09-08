@@ -1,1 +1,1 @@
-v0.17 - Ability Updates
+v0.17.1 - Bugfixes
