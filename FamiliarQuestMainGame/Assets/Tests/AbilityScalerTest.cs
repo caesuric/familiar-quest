@@ -84,6 +84,35 @@ namespace Tests
             var output = AbilityScaler.ScaleAttackAbility(AbilityCalculator.GetPointsFromLevel(2), Element.bashing, BaseStat.strength, 1, 0, 0, true, 0, 0, 0, 0, 0, 0, 0, 0, new List<AbilityAttribute>());
             Assert.AreEqual(output.level, 2);
         }
+
+        [Test]
+        [Description("When leveling a passive stat boost ability from 1 to 2, it boosts the stat increase by 5%.")]
+        public void CheckLevelPassiveStatBoost() {
+            var passive = new PassiveAbility {
+                level = 1,
+                xp = 0,
+                points = 70f,
+                attributes = new List<AbilityAttribute> {
+                    new AbilityAttribute {
+                        priority = 100f,
+                        type = "boostStat",
+                        parameters = new List<AbilityAttributeParameter> {
+                            new AbilityAttributeParameter {
+                                name = "stat",
+                                value = "strength"
+                            },
+                            new AbilityAttributeParameter {
+                                name = "degree",
+                                value = 3f
+                            }
+                        }
+                    }
+                }
+            };
+            passive.GainExperience(ExperienceGainer.xpTable[0]);
+            Assert.AreEqual(passive.level, 2);
+            Assert.Less((float)passive.FindAttribute("boostStat").FindParameter("degree").value, 4f);
+        }
     }
 
 }

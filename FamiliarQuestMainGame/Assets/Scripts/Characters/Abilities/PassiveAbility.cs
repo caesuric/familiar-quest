@@ -22,7 +22,7 @@ public class PassiveAbility: Ability {
         foreach (var attribute in attributes) {
             foreach (var parameter in attribute.parameters) {
                 if (parameter.value is float) parameter.value = (float)parameter.value * ratio;
-                else if (parameter.value is int) parameter.value = (int)((float)parameter.value * ratio);
+                else if (parameter.value is int) parameter.value = Mathf.FloorToInt((int)parameter.value * ratio);
             }
         }
         level = targetLevel;

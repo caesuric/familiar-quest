@@ -70,7 +70,7 @@ public abstract class Ability {
     }
 
     private void ShowLevelUpFloatingText() {
-        PlayerCharacter.localPlayer.GetComponent<ObjectSpawner>().CreateFloatingText(name.ToUpper() + " GAINED A LEVEL!", Color.green, 90, name + " gained a level!");
+        if (PlayerCharacter.localPlayer != null) PlayerCharacter.localPlayer.GetComponent<ObjectSpawner>().CreateFloatingText(name.ToUpper() + " GAINED A LEVEL!", Color.green, 90, name + " gained a level!");
     }
 
     protected void LevelUp () {
