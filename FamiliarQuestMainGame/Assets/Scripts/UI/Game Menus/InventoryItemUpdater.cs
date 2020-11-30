@@ -243,11 +243,13 @@ private void Equip() {
             new DuloGames.UI.UITooltipLineContent(),
             new DuloGames.UI.UITooltipLineContent(),
             new DuloGames.UI.UITooltipLineContent(),
+            new DuloGames.UI.UITooltipLineContent(),
             new DuloGames.UI.UITooltipLineContent()
             // name
             // type
             // stats
-            // comparison stats
+            // positive comparison stats
+            // negative comparison stats
             // flavor text
         };
         tooltip.contentLines[0].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Title;
@@ -263,25 +265,40 @@ private void Equip() {
         tooltip.contentLines[2].Content = description.Replace("{{AttackPower}}", EquipmentNamer.GetAttackPowerNumberFromItem(item).ToString() + " Attack");
         tooltip.contentLines[3].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
         tooltip.contentLines[3].CustomLineStyle = "ItemStat";
-        tooltip.contentLines[3].Content = GetComparisonStats();
+        tooltip.contentLines[3].Content = GetPositiveComparisonStats();
         tooltip.contentLines[4].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
-        tooltip.contentLines[4].CustomLineStyle = "ItemDescription";
-        tooltip.contentLines[4].Content = item.flavorText;
+        tooltip.contentLines[4].CustomLineStyle = "ItemNegativeStat";
+        tooltip.contentLines[4].Content = GetNegativeComparisonStats();
+        tooltip.contentLines[5].LineStyle = DuloGames.UI.UITooltipLines.LineStyle.Custom;
+        tooltip.contentLines[5].CustomLineStyle = "ItemDescription";
+        tooltip.contentLines[5].Content = item.flavorText;
     }
 
-    public string GetComparisonStats() {
+    public string GetPositiveComparisonStats() {
         var output = "";
         if (number < 0) return output;
         if (!(item is Equipment equipment)) return output;
-        output = GetArmorAndAttackPowerComparisons(equipment);
+        output = GetPositiveArmorAndAttackPowerComparisons(equipment);
         if (equipment.stats == null) return output;
         foreach (var kvp in CharacterAttribute.attributes) {
-            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment)!=null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key) && GetEquippedGear(equipment).GetStatValue(kvp.Key) > 0)) output += AddComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key) && GetEquippedGear(equipment).GetStatValue(kvp.Key) > 0)) output += AddPositiveComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
         }
         return output;
     }
 
-    private string GetArmorAndAttackPowerComparisons(Equipment equipment) {
+    public string GetNegativeComparisonStats() {
+        var output = "";
+        if (number < 0) return output;
+        if (!(item is Equipment equipment)) return output;
+        output = GetNegativeArmorAndAttackPowerComparisons(equipment);
+        if (equipment.stats == null) return output;
+        foreach (var kvp in CharacterAttribute.attributes) {
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key) && GetEquippedGear(equipment).GetStatValue(kvp.Key) > 0)) output += AddNegativeComparisonStat(GetStatOnEquippedGear(equipment, kvp.Key), equipment.GetStatValue(kvp.Key), kvp.Value.friendlyName);
+        }
+        return output;
+    }
+
+    private string GetPositiveArmorAndAttackPowerComparisons(Equipment equipment) {
         var output = "";
         var oldEquipment = GetEquippedGear(equipment);
         int numberChange = 0;
@@ -289,23 +306,48 @@ private void Equip() {
             if (equipment.armor > 0 && oldEquipment == null) numberChange = equipment.armor;
             else if (oldEquipment != null && oldEquipment.armor > 0) numberChange = equipment.armor - oldEquipment.armor;
             if (numberChange > 0) output += "+";
-            if (numberChange != 0) output += numberChange.ToString() + " Armor\n";
+            if (numberChange > 0) output += numberChange.ToString() + " Armor\n";
         }
         if (!(equipment is Weapon)) return output;
         var weapon = equipment as Weapon;
         var oldWeapon = oldEquipment as Weapon;
         numberChange = EquipmentNamer.GetAttackPowerNumberFromItem(weapon) - EquipmentNamer.GetAttackPowerNumberFromItem(oldWeapon);
         if (numberChange > 0) output += "+";
-        if (numberChange != 0) output += numberChange.ToString() + " Attack\n";
+        if (numberChange > 0) output += numberChange.ToString() + " Attack\n";
         return output;
     }
 
-    public string AddComparisonStat(int slotStat, int itemStat, string text) {
+    private string GetNegativeArmorAndAttackPowerComparisons(Equipment equipment) {
+        var output = "";
+        var oldEquipment = GetEquippedGear(equipment);
+        int numberChange = 0;
+        if (equipment.armor != 0 || (oldEquipment != null && oldEquipment.armor != 0)) {
+            if (equipment.armor > 0 && oldEquipment == null) numberChange = equipment.armor;
+            else if (oldEquipment != null && oldEquipment.armor > 0) numberChange = equipment.armor - oldEquipment.armor;
+            if (numberChange < 0) output += numberChange.ToString() + " Armor\n";
+        }
+        if (!(equipment is Weapon)) return output;
+        var weapon = equipment as Weapon;
+        var oldWeapon = oldEquipment as Weapon;
+        numberChange = EquipmentNamer.GetAttackPowerNumberFromItem(weapon) - EquipmentNamer.GetAttackPowerNumberFromItem(oldWeapon);
+        if (numberChange < 0) output += numberChange.ToString() + " Attack\n";
+        return output;
+    }
+
+    public string AddPositiveComparisonStat(int slotStat, int itemStat, string text) {
         var output = "";
         int numberChange = 0;
         if (slotStat > 0 || itemStat > 0) numberChange = itemStat - slotStat;
         if (numberChange > 0) output += "+";
-        if (numberChange != 0) output += (numberChange).ToString() + " " + text + "\n";
+        if (numberChange > 0) output += (numberChange).ToString() + " " + text + "\n";
+        return output;
+    }
+
+    public string AddNegativeComparisonStat(int slotStat, int itemStat, string text) {
+        var output = "";
+        int numberChange = 0;
+        if (slotStat > 0 || itemStat > 0) numberChange = itemStat - slotStat;
+        if (numberChange < 0) output += (numberChange).ToString() + " " + text + "\n";
         return output;
     }
 
