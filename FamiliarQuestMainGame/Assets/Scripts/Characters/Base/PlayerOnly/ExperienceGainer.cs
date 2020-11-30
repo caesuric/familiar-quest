@@ -153,6 +153,7 @@ public class ExperienceGainer : MonoBehaviour {
         //AddAllEquipmentBonuses();
         GetComponent<Character>().CalculateAll();
         GetComponent<Health>().hp = GetComponent<Health>().maxHP;
+        GetComponent<Mana>().mp = GetComponent<Mana>().maxMP;
     }
 
     //private void RemoveAllEquipmentBonuses() {
