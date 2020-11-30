@@ -14,7 +14,7 @@ public class InputController : MonoBehaviour {
     private GameObject fpsBar;
     public GameObject inventoryDetails = null;
     private GameObject abilityScreen = null;
-    private readonly GameObject settingsMenu = null;
+    private GameObject settingsMenu = null;
     private readonly GameObject controlsReference = null;
     private readonly GameObject abilityGuide = null;
     private GameObject changelog = null;
@@ -26,21 +26,13 @@ public class InputController : MonoBehaviour {
     private bool fpsActive = true;
     public bool dPadActive = false;
     private readonly Inventory inventoryController;
-    //[SyncVar]
     public bool moving = false;
-    //[SyncVar]
     public bool dead = false;
-    //[SyncVar]
     public bool stealthy = false;
-    //[SyncVar]
     public float posX;
-    //[SyncVar]
     public float posY;
-    //[SyncVar]
     public float rotation;
-    //[SyncVar]
     public int currentAbility = 0;
-    //[SyncVar]
     public int currentAltAbility = 1;
     public bool fusionMode = false;
     public int fusionTarget1 = -1;
@@ -56,7 +48,6 @@ public class InputController : MonoBehaviour {
     // Use this for initialization
     void Start() {
         animationController = new PlayerAnimation(gameObject);
-        //if (!isLocalPlayer) return;
         hotbarButtons = GameObject.FindGameObjectsWithTag("HotbarButton");
         foreach (var button in hotbarButtons) {
             var component = button.GetComponent<Button>();
@@ -66,7 +57,6 @@ public class InputController : MonoBehaviour {
             component.onClick.AddListener(() => AssignMouseToHotbarButton(mohb.number));
             if (button.GetComponent<RightClickHandler>() != null) button.GetComponent<RightClickHandler>().onClick = () => AssignAltMouseToHotbarButton(mohb.number);
         }
-        //inputs = new Dictionary<string, Action>() { { "SwitchTarget", CmdSwitchTarget }, { "Cancel", ToggleInventory }, { "SpiritScreen", ToggleSpiritScreen }, { "Minimap", ToggleMinimap }, { "Fuse", ToggleFusion }, { "Toggle Gamepad", ToggleGamepadMode }, { "Toggle FPS", ToggleFPS }, { "Character Sheet", ToggleCharacterSheet } };
         inputs = new Dictionary<string, Action>() {
             ["SwitchTarget"] = SwitchTarget,
             ["Cancel"] = ClearWindows,
@@ -77,7 +67,6 @@ public class InputController : MonoBehaviour {
     }
 
     public void Restart() {
-        //if (!isLocalPlayer) return;
         hotbarButtons = GameObject.FindGameObjectsWithTag("HotbarButton");
         foreach (var button in hotbarButtons) {
             var component = button.GetComponent<Button>();
@@ -99,7 +88,7 @@ public class InputController : MonoBehaviour {
         //fpsBar = GameObject.FindGameObjectWithTag("FPSBar");
         characterSheet = GameObject.FindGameObjectWithTag("CharacterSheet");
         abilityScreen = GameObject.FindGameObjectWithTag("AbilityScreen");
-        //settingsMenu = GameObject.FindGameObjectWithTag("SettingsMenu");
+        settingsMenu = GameObject.FindGameObjectWithTag("SettingsMenu");
         //controlsReference = GameObject.FindGameObjectWithTag("ControlsReference");
         //abilityGuide = GameObject.FindGameObjectWithTag("AbilityGuide");
         changelog = GameObject.FindGameObjectWithTag("Changelog");
@@ -116,7 +105,7 @@ public class InputController : MonoBehaviour {
         //settingsMenu.SetActive(false);
         //controlsReference.SetActive(false);
         //abilityGuide.SetActive(false);
-        if (inventory == null || inventoryDetails == null || characterSheet == null || abilityScreen == null || changelog == null || readingPane == null) return;
+        if (inventory == null || inventoryDetails == null || characterSheet == null || abilityScreen == null || changelog == null || readingPane == null || settingsMenu == null) return;
         changelog.SetActive(false);
         readingPane.SetActive(false);
         //mouseOverPanel.SetActive(false);
@@ -124,6 +113,7 @@ public class InputController : MonoBehaviour {
         inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
         characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
         abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        settingsMenu.GetComponent<DuloGames.UI.UIWindow>().Hide();
         rigidbody = GetComponent<Rigidbody>();
         character = GetComponent<Character>();
         GetComponent<InputAbilities>().Initialize(this);
@@ -187,34 +177,29 @@ public class InputController : MonoBehaviour {
         DropsArea.ClearDrops();
     }
 
-    //private void ToggleInventory() {
     private void ClearWindows() {
-        //inventoryActive = !inventoryActive;
-        //inventory.SetActive(inventoryActive);
-        //inventory.GetComponent<Inventory>().inventoryDetails.SetActive(false);
-        //spiritScreenActive = false;
-        //spiritScreen.SetActive(false);
-        //characterSheetActive = false;
-        //characterSheet.SetActive(false);
-        //inventoryController.Refresh();
-        //inventory.SetActive(false);
-        //spiritScreen.SetActive(false);
-        //characterSheet.SetActive(false);
-        //abilityScreen.SetActive(false);
-        //settingsMenu.SetActive(false);
-        //controlsReference.SetActive(false);
-        //abilityGuide.SetActive(false);
-        //changelog.SetActive(false);
-        readingPane.SetActive(false);
-        //mouseOverPanel.SetActive(false);
-        inventoryDetails.SetActive(false);
-        InputMovement.isDragging = false;
-        changelog.SetActive(false);
-        readingPane.SetActive(false);
-        //mouseOverPanel.SetActive(false);
-        inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
-        characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
-        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        if (AnythingActive()) {
+            readingPane.SetActive(false);
+            inventoryDetails.SetActive(false);
+            InputMovement.isDragging = false;
+            changelog.SetActive(false);
+            inventory.GetComponent<DuloGames.UI.UIWindow>().Hide();
+            characterSheet.GetComponent<DuloGames.UI.UIWindow>().Hide();
+            abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Hide();
+            settingsMenu.GetComponent<DuloGames.UI.UIWindow>().Hide();
+        }
+        else settingsMenu.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+    }
+
+    private bool AnythingActive() {
+        if (readingPane.activeSelf) return true;
+        if (inventoryDetails.activeSelf) return true;
+        if (changelog.activeSelf) return true;
+        if (inventory.GetComponent<DuloGames.UI.UIWindow>().IsVisible) return true;
+        if (characterSheet.GetComponent<DuloGames.UI.UIWindow>().IsVisible) return true;
+        if (abilityScreen.GetComponent<DuloGames.UI.UIWindow>().IsVisible) return true;
+        if (settingsMenu.GetComponent<DuloGames.UI.UIWindow>().IsVisible) return true;
+        return false;
     }
 
     private void ToggleMinimap() {
