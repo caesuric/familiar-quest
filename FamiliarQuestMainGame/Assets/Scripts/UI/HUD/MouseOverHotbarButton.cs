@@ -115,8 +115,8 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
 
     public void OnBeginDrag(PointerEventData eventData) {
         var canvas = FindInParents<Canvas>(gameObject);
-        if (canvas == null)
-            return;
+        if (canvas == null) return;
+        if (!HasAbility()) return;
         InputMovement.isDragging = true;
         transform.SetParent(canvas.transform);
         m_DraggingPlanes[eventData.pointerId] = canvas.transform as RectTransform;
@@ -127,6 +127,7 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
     }
 
     public void OnDrag(PointerEventData eventData) {
+        if (!HasAbility()) return;
         mouseOverCanvas.SetActive(false);
         SetDraggedPosition(eventData);
     }
@@ -144,6 +145,12 @@ public class MouseOverHotbarButton : MonoBehaviour, IBeginDragHandler, IDragHand
         if (RectTransformUtility.ScreenPointToWorldPointInRectangle(m_DraggingPlanes[eventData.pointerId], eventData.position, eventData.pressEventCamera, out Vector3 globalMousePos)) {
             rt.position = globalMousePos;
         }
+    }
+
+    private bool HasAbility() {
+        if (PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActives.Count <= number) return false;
+        if (PlayerCharacter.localPlayer.GetComponent<AbilityUser>().soulGemActives[number] == null) return false;
+        return true;
     }
 
     static public T FindInParents<T>(GameObject go) where T : Component {

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-    public Ability ability;
+    public Ability ability = null;
     public bool draggable = true;
     private string title = "";
     private string description = "";
@@ -204,7 +204,7 @@ public class AbilityScreenIcon : MonoBehaviour, IBeginDragHandler, IDragHandler,
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
-        if (!draggable) return;
+        if (!draggable || ability == null) return;
         var canvas = FindInParents<Canvas>(gameObject);
         if (canvas == null)
             return;
