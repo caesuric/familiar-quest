@@ -76,7 +76,7 @@ public class RewardGiver : MonoBehaviour {
         var statAdjusted1 = (int)statPreAdjusted1;
         var statAdjusted2 = (int)statPreAdjusted2;
         var statAdjusted3 = (int)statPreAdjusted3;
-        int armor = Random.Range(67 + (14 * intendedLevel), 135 + (29 * intendedLevel));
+        int armor = 100 + (21 * intendedLevel);
         Equipment item = null;
         if (SceneInitializer.instance != null && SceneInitializer.instance.inside && LevelGen.dungeonData != null) item = DropItemForLootAffinities(attacker, armor, quality);
         else item = DropItemDefault(attacker, armor, quality);
@@ -218,7 +218,7 @@ public class RewardGiver : MonoBehaviour {
         var statAdjusted1 = (int)statPreAdjusted1;
         var statAdjusted2 = (int)statPreAdjusted2;
         var statAdjusted3 = (int)statPreAdjusted3;
-        int armor = Random.Range(67 + (14 * level), 135 + (29 * level));
+        int armor = 100 + (21 * level);
         Equipment item = null;
         int roll = Random.Range(0, 12);
         if (roll == 1) item = GenerateArmorForShop(level, armor);
@@ -356,8 +356,7 @@ public class RewardGiver : MonoBehaviour {
     public Weapon DropWand(Character attacker) {
         float baseDamage = 0.8437f;
         if (intendedLevel > 1) for (int i = 1; i < intendedLevel; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomWand(baseDamage, damageRoll);
+        var weapon = GetRandomWand(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("WEAPON FOUND", "Weapon found.");
         return weapon;
@@ -366,8 +365,7 @@ public class RewardGiver : MonoBehaviour {
     public static Weapon GenerateWand(int level) {
         float baseDamage = 0.8437f;
         if (level > 1) for (int i = 1; i < level; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomWand(baseDamage, damageRoll);
+        var weapon = GetRandomWand(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         return weapon;
     }
@@ -375,8 +373,7 @@ public class RewardGiver : MonoBehaviour {
     public Weapon DropBow(Character attacker) {
         float baseDamage = 0.8437f;
         if (intendedLevel > 1) for (int i = 1; i < intendedLevel; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomBow(baseDamage, damageRoll);
+        var weapon = GetRandomBow(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("WEAPON FOUND", "Weapon found.");
         return weapon;
@@ -385,8 +382,7 @@ public class RewardGiver : MonoBehaviour {
     public static Weapon GenerateBow(int level) {
         float baseDamage = 0.8437f;
         if (level > 1) for (int i = 1; i < level; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomBow(baseDamage, damageRoll);
+        var weapon = GetRandomBow(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         return weapon;
     }
@@ -394,8 +390,7 @@ public class RewardGiver : MonoBehaviour {
     public Weapon DropSword(Character attacker) {
         float baseDamage = 0.8437f;
         if (intendedLevel > 1) for (int i = 1; i < intendedLevel; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomSword(baseDamage, damageRoll);
+        var weapon = GetRandomSword(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         attacker.GetComponent<ObjectSpawner>().CreateFloatingStatusText("WEAPON FOUND", "Weapon found.");
         return weapon;
@@ -404,8 +399,7 @@ public class RewardGiver : MonoBehaviour {
     public static Weapon GenerateSword(int level) {
         float baseDamage = 0.8437f;
         if (level > 1) for (int i = 1; i < level; i++) baseDamage *= 1.1f;
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        var weapon = GetRandomSword(baseDamage, damageRoll);
+        var weapon = GetRandomSword(baseDamage);
         weapon.description += "{{AttackPower}}\n";
         return weapon;
     }
@@ -421,33 +415,32 @@ public class RewardGiver : MonoBehaviour {
 
     private static Weapon GetRandomWeapon(float baseDamage) {
         int roll = Random.Range(0, 3);
-        float damageRoll = Random.Range(0.8f, 1.2f);
-        if (roll == 0) return GetRandomSword(baseDamage, damageRoll);
-        else if (roll == 1) return GetRandomBow(baseDamage, damageRoll);
-        else return GetRandomWand(baseDamage, damageRoll);
+        if (roll == 0) return GetRandomSword(baseDamage);
+        else if (roll == 1) return GetRandomBow(baseDamage);
+        else return GetRandomWand(baseDamage);
     }
 
-    private static Weapon GetRandomSword(float baseDamage, float damageRoll) {
+    private static Weapon GetRandomSword(float baseDamage) {
         Weapon weapon = new MeleeWeapon {
-            attackPower = baseDamage * damageRoll,
+            attackPower = baseDamage,
             name = "Random Sword",
             description = "Melee weapon:\n"
         };
         return weapon;
     }
 
-    private static Weapon GetRandomBow(float baseDamage, float damageRoll) {
+    private static Weapon GetRandomBow(float baseDamage) {
         Weapon weapon = new RangedWeapon {
-            attackPower = baseDamage * damageRoll,
+            attackPower = baseDamage,
             name = "Random Bow",
             description = "Ranged weapon:\n"
         };
         return weapon;
     }
 
-    private static Weapon GetRandomWand(float baseDamage, float damageRoll) {
+    private static Weapon GetRandomWand(float baseDamage) {
         Weapon weapon = RangedWeapon.Wand();
-        weapon.attackPower = baseDamage * damageRoll;
+        weapon.attackPower = baseDamage;
         weapon.name = "Random Wand";
         weapon.description = "Ranged weapon:\n";
         return weapon;
