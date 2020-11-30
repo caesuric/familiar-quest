@@ -62,7 +62,8 @@ public class InputController : MonoBehaviour {
             ["Cancel"] = ClearWindows,
             ["Use Item"] = UseWorldObject,
             ["Character Sheet"] = ToggleCharacterSheet,
-            ["Inventory"] = ToggleInventory
+            ["Inventory"] = ToggleInventory,
+            ["Ability Menu"] = ToggleAbilityMenu
         };
     }
 
@@ -174,6 +175,11 @@ public class InputController : MonoBehaviour {
         canvas.GetComponent<Inventory>().Refresh();
         //inventory.SetActive(!inventory.activeSelf);
         inventory.GetComponent<DuloGames.UI.UIWindow>().Toggle();
+        DropsArea.ClearDrops();
+    }
+
+    private void ToggleAbilityMenu() {
+        abilityScreen.GetComponent<DuloGames.UI.UIWindow>().Toggle();
         DropsArea.ClearDrops();
     }
 
