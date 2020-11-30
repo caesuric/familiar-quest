@@ -133,8 +133,10 @@ public class Health : MonoBehaviour {
         var critRate = CharacterAttribute.attributes["criticalHitChance"].instances[attacker.GetComponent<Character>()].TotalValue / 100f;
         if (ability != null && ability.FindAttribute("increasedCritChance") != null) critRate += (float)ability.FindAttribute("increasedCritChance").FindParameter("degree").value;
         if (amount < 0) GetComponent<ObjectSpawner>().CreateFloatingHealingText((int)amount * -1, name + " healed for " + amount.ToString() + ".");
-        else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate && amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
-        else if (amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
+        else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate && amount >= maxHP / 100f && name == "Player") GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
+        else if (attacker != null && attacker.GetComponent<Attacker>() != null && GetComponent<ObjectSpawner>() != null && criticalRoll > critRate && name != "Player") GetComponent<ObjectSpawner>().CreateFloatingDamageText((int)amount, attackerName, name);
+        else if (name == "Player" && amount >= maxHP / 100f) GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
+        else if (name != "Player") GetComponent<ObjectSpawner>().CreateCriticalFloatingDamageText((int)amount, attackerName, name);
     }
 
     private void CreateFloatingImmunityText(Character attacker) {
