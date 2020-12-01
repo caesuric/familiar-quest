@@ -19,6 +19,7 @@ public class InventoryItemUpdater : MonoBehaviour, IPointerClickHandler {
     public int quality;
     public GameObject upArrow;
     public GameObject downArrow;
+    public GameObject tildeSymbol;
     public GameObject arrowContainer;
     public GameObject statTextContainer;
     public GameObject attributeTextObj;
@@ -102,46 +103,66 @@ public class InventoryItemUpdater : MonoBehaviour, IPointerClickHandler {
                 UpdateArrowsForShopItem();
                 return;
             }
-            var pc = PlayerCharacter.localPlayer.GetComponent<Character>();
-            if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower > inventory.player.weapon.attackPower) Instantiate(upArrow, arrowContainer.transform);
-            else if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower < inventory.player.weapon.attackPower) Instantiate(downArrow, arrowContainer.transform);
-            if (type == "armor" || type == "shoes" || type == "hat") {
-                Equipment item = null;
-                if (type == "armor") item = inventory.player.armor;
-                else if (type == "shoes") item = inventory.player.shoes;
-                else item = inventory.player.hat;
-                if (item == null || ((Equipment)inventory.items[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
-                else if (item != null && ((Equipment)inventory.items[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
-            }
-            if (!(item is Equipment)) return;
-            var equipment = item as Equipment;
-
-            foreach (var kvp in CharacterAttribute.attributes) {
-                if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment)!=null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) AddArrow(equipment.GetStatValue(kvp.Key), GetStatOnEquippedGear(equipment, kvp.Key));
-            }
+            UpdateArrows();
         }
     }
 
-    private void UpdateArrowsForShopItem() {
-        var shop = GetComponent<ShopItemController>().shop;
-        number = shop.goods.IndexOf(item);
+    private void UpdateArrows() {
+        bool positives = false;
+        bool negatives = false;
         var pc = PlayerCharacter.localPlayer.GetComponent<Character>();
-        if (type == "weapon" && ((Weapon)shop.goods[number]).attackPower > inventory.player.weapon.attackPower) Instantiate(upArrow, arrowContainer.transform);
-        else if (type == "weapon" && ((Weapon)shop.goods[number]).attackPower < inventory.player.weapon.attackPower) Instantiate(downArrow, arrowContainer.transform);
+        if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower > inventory.player.weapon.attackPower) positives = true;
+        else if (type == "weapon" && ((Weapon)inventory.items[number]).attackPower < inventory.player.weapon.attackPower) negatives = true;
         if (type == "armor" || type == "shoes" || type == "hat") {
             Equipment item = null;
             if (type == "armor") item = inventory.player.armor;
             else if (type == "shoes") item = inventory.player.shoes;
             else item = inventory.player.hat;
-            if (item == null || ((Equipment)shop.goods[number]).armor > item.armor) Instantiate(upArrow, arrowContainer.transform);
-            else if (item != null && ((Equipment)shop.goods[number]).armor < item.armor) Instantiate(downArrow, arrowContainer.transform);
+            if (item == null || ((Equipment)inventory.items[number]).armor > item.armor) positives = true;
+            else if (item != null && ((Equipment)inventory.items[number]).armor < item.armor) negatives = true;
         }
         if (!(item is Equipment)) return;
         var equipment = item as Equipment;
 
         foreach (var kvp in CharacterAttribute.attributes) {
-            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) AddArrow(equipment.GetStatValue(kvp.Key), GetStatOnEquippedGear(equipment, kvp.Key));
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) {
+                if (equipment.GetStatValue(kvp.Key) > GetStatOnEquippedGear(equipment, kvp.Key)) positives = true;
+                else if (equipment.GetStatValue(kvp.Key) < GetStatOnEquippedGear(equipment, kvp.Key)) negatives = true;
+            }
         }
+        if (positives && !negatives) Instantiate(upArrow, arrowContainer.transform);
+        else if (negatives && !positives) Instantiate(downArrow, arrowContainer.transform);
+        else if (positives && negatives) Instantiate(tildeSymbol, arrowContainer.transform);
+    }
+
+    private void UpdateArrowsForShopItem() {
+        bool positives = false;
+        bool negatives = false;
+        var shop = GetComponent<ShopItemController>().shop;
+        number = shop.goods.IndexOf(item);
+        var pc = PlayerCharacter.localPlayer.GetComponent<Character>();
+        if (type == "weapon" && ((Weapon)shop.goods[number]).attackPower > inventory.player.weapon.attackPower) positives = true;
+        else if (type == "weapon" && ((Weapon)shop.goods[number]).attackPower < inventory.player.weapon.attackPower) negatives = true;
+        if (type == "armor" || type == "shoes" || type == "hat") {
+            Equipment item = null;
+            if (type == "armor") item = inventory.player.armor;
+            else if (type == "shoes") item = inventory.player.shoes;
+            else item = inventory.player.hat;
+            if (item == null || ((Equipment)shop.goods[number]).armor > item.armor) positives = true;
+            else if (item != null && ((Equipment)shop.goods[number]).armor < item.armor) negatives = true;
+        }
+        if (!(item is Equipment)) return;
+        var equipment = item as Equipment;
+
+        foreach (var kvp in CharacterAttribute.attributes) {
+            if (equipment.stats.ContainsKey(kvp.Key) || (GetEquippedGear(equipment) != null && GetEquippedGear(equipment).stats.ContainsKey(kvp.Key))) {
+                if (equipment.GetStatValue(kvp.Key) > GetStatOnEquippedGear(equipment, kvp.Key)) positives = true;
+                else if (equipment.GetStatValue(kvp.Key) < GetStatOnEquippedGear(equipment, kvp.Key)) negatives = true;
+            }
+        }
+        if (positives && !negatives) Instantiate(upArrow, arrowContainer.transform);
+        else if (negatives && !positives) Instantiate(downArrow, arrowContainer.transform);
+        else if (positives && negatives) Instantiate(tildeSymbol, arrowContainer.transform);
     }
 
     private int GetStatOnEquippedGear(Equipment originalEquipment, string stat) {
