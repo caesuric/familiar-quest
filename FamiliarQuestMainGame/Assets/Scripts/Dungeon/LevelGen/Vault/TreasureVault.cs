@@ -554,7 +554,7 @@ public class TreasureVault : Vault {
         difficulty /= 22;
         var monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
         while (monsterType == "Energy Wisplet" || monsterType == "Kobold") monsterType = RetrieveMonsterType(allMonsterTypes, allMonsterTypes, allMonsterTypes, difficulty);
-        var monster = new MonsterData(monsterType, monsterType, LevelGen.targetLevel + 2, 4, null); //ConvertDifficultyToLevel(difficulty) // HARDCODING TO DIFF + 5 FOR NOW
+        var monster = new MonsterData(monsterType, monsterType, LevelGen.targetLevel, 4, null); //ConvertDifficultyToLevel(difficulty) // HARDCODING TO DIFF + 0 FOR NOW
         monster.associatedRooms.Add(room);
         monsters.Add(monster);
     }
