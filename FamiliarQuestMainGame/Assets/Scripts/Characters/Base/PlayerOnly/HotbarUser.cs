@@ -141,6 +141,7 @@ public class HotbarUser : MonoBehaviour {
             if (item.quantity > 0) {
                 if (item.type == ConsumableType.health && GetComponent<Health>().hp < GetComponent<Health>().maxHP) UseHealthPotion(item);
                 else if (item.type == ConsumableType.mana && GetComponent<Mana>().mp < GetComponent<Mana>().maxMP) UseManaPotion(item);
+                if (item.quantity == 0) GetComponent<PlayerCharacter>().consumables[number] = null;
                 CmdRefreshAbilityInfo();
             }
         }
