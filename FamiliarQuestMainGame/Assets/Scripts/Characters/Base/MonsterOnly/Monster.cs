@@ -33,6 +33,10 @@ public class Monster : MonoBehaviour {
         }
         renderers = GetComponentsInChildren<Renderer>();
         monsterAi = GetComponent<MonsterAi>();
+        var nma = GetComponent<NavMeshAgent>();
+        nma.speed *= 3; // speed multiplier to make game harder
+        nma.acceleration = nma.speed * 1.5f;
+        nma.angularSpeed = 3600f;
     }
 
     private void Update() {

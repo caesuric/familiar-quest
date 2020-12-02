@@ -49,6 +49,7 @@ public class EnemyHealthBarUpdater : MonoBehaviour {
     private void UpdateName() {
         var name = Health.lastTargetHitByPlayer.name;
         name = name.Replace("(Clone)", "");
+        name = name.Replace(" (BOSS)", "");
         if (name == "GOBLIN") name = "Goblin";
         if (name == "SPIDER") name = "Spider";
         var quality = Health.lastTargetHitByPlayer.GetComponent<MonsterScaler>().quality;
