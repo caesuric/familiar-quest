@@ -1,1 +1,1 @@
-v0.17.1 - Bugfixes
+v0.17.2 - Major Adjustments and Bugfixes
