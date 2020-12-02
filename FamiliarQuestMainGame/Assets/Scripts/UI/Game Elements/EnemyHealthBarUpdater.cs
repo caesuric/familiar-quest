@@ -50,6 +50,7 @@ public class EnemyHealthBarUpdater : MonoBehaviour {
         var name = Health.lastTargetHitByPlayer.name;
         name = name.Replace("(Clone)", "");
         if (name == "GOBLIN") name = "Goblin";
+        if (name == "SPIDER") name = "Spider";
         var quality = Health.lastTargetHitByPlayer.GetComponent<MonsterScaler>().quality;
         var qualityNames = new List<string> {
             "",
@@ -63,6 +64,7 @@ public class EnemyHealthBarUpdater : MonoBehaviour {
     }
 
     private void UpdateHealth() {
-        healthBar.Value = 100 * targetHealth.hp / targetHealth.maxHP;
+        var value = 100f * targetHealth.hp / targetHealth.maxHP;
+        if (healthBar.Value != value) healthBar.Value = value;
     }
 }
