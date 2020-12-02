@@ -19,6 +19,7 @@ public class Health : MonoBehaviour {
     private delegate void Effect(AbilityAttribute Attribute);
     private bool initialCalculationComplete = false;
     public float bossHpFactor = 1f;
+    public static GameObject lastTargetHitByPlayer = null;
 
     // Use this for initialization
     void Start() {
@@ -67,6 +68,7 @@ public class Health : MonoBehaviour {
     }
 
     public void TakeDamage(float amount, Element type, Character attacker, bool silent = false, AttackAbility ability = null, Transform projectileTransform = null) {
+        if (GetComponent<MonsterMortal>() != null) lastTargetHitByPlayer = gameObject;
         var originalAmount = amount;
         if (GetComponent<MirrorImage>() != null) {
             Destroy(gameObject);

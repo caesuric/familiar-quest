@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-public class Monster : MonoBehaviour { //Hideable
+public class Monster : MonoBehaviour {
 
     public float attackFactor;
     public float hpFactor;
@@ -17,16 +17,11 @@ public class Monster : MonoBehaviour { //Hideable
     public GameObject unitFrame;
     public Renderer[] renderers;
     private MonsterAi monsterAi = null;
-    //private MonsterCombatant monsterCombatant;
-
+    
     // Use this for initialization
 
     void Start() {
-        if (unitFramePrefab != null) unitFrame = GameObject.Instantiate(unitFramePrefab, transform);
-        //monsterCombatant = GetComponent<MonsterCombatant>();
-        //if (!NetworkServer.active && GetComponent<NavMeshAgent>() != null) GetComponent<NavMeshAgent>().enabled = false;
-        //items.Add(this);
-        //if (NetworkServer.active) {
+        //if (unitFramePrefab != null) unitFrame = GameObject.Instantiate(unitFramePrefab, transform);
         monsters.Add(this);
         if (GetComponent<RewardGiver>().generatedMonster) return;
         int spiritRoll = Random.Range(0, 200);
@@ -38,7 +33,6 @@ public class Monster : MonoBehaviour { //Hideable
         }
         renderers = GetComponentsInChildren<Renderer>();
         monsterAi = GetComponent<MonsterAi>();
-        //}
     }
 
     private void Update() {
