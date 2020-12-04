@@ -112,7 +112,6 @@ public class Character : MonoBehaviour {
         CharacterAttribute.attributes["intelligence"].instances[this].BaseValue = intelligence;
         CharacterAttribute.attributes["wisdom"].instances[this].BaseValue = wisdom;
         CharacterAttribute.attributes["luck"].instances[this].BaseValue = luck;
-        GetComponent<ExperienceGainer>().sparePoints = 0;
         CalculateAll();
     }
 }
