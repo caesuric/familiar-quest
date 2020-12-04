@@ -65,6 +65,12 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     public Text newLightResist;
     public Text currentDarkResist;
     public Text newDarkResist;
+    public Text strengthNameText;
+    public Text dexterityNameText;
+    public Text constitutionNameText;
+    public Text intelligenceNameText;
+    public Text wisdomNameText;
+    public Text luckNameText;
     private float newReceivedHealingValue;
     private float newMoveSpeedValue;
     private float newHpValue;
@@ -92,27 +98,71 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     private int currentWisdom, minWisdom;
     private int currentLuck, minLuck;
     private int sparePoints;
+    private bool receivedHealingAtCap = false;
+    private bool moveSpeedAtCap = false;
+    private bool hpAtCap = false;
+    private bool hpRegenRateAtCap = false;
+    private bool armorMultiplierAtCap = false;
+    private bool physicalResistAtCap = false;
+    private bool mpAtCap = false;
+    private bool mentalResistAtCap = false;
+    private bool mpRegenRateAtCap = false;
+    private bool healingMultiplierAtCap = false;
+    private bool cooldownReductionAtCap = false;
+    private bool criticalHitRateAtCap = false;
+    private bool criticalDamageBonusAtCap = false;
+    private bool statusEffectDurationAtCap = false;
+    private bool itemFindRateAtCap = false;
+    private bool fireResistAtCap = false;
+    private bool iceResistAtCap = false;
+    private bool acidResistAtCap = false;
+    private bool lightResistAtCap = false;
+    private bool darkResistAtCap = false;
     public GameObject strengthAdvanced;
     public GameObject dexterityAdvanced;
     public GameObject constitutionAdvanced;
     public GameObject intelligenceAdvanced;
     public GameObject wisdomAdvanced;
     public GameObject luckAdvanced;
+    public Text baseStatStrength;
+    public Text fromGearStrength;
+    public Text fromAbilitiesStrength;
+    public Text baseStatDexterity;
+    public Text fromGearDexterity;
+    public Text fromAbilitiesDexterity;
+    public Text baseStatConstitution;
+    public Text fromGearConstitution;
+    public Text fromAbilitiesConstitution;
+    public Text baseStatIntelligence;
+    public Text fromGearIntelligence;
+    public Text fromAbilitiesIntelligence;
+    public Text baseStatWisdom;
+    public Text fromGearWisdom;
+    public Text fromAbilitiesWisdom;
+    public Text baseStatLuck;
+    public Text fromGearLuck;
+    public Text fromAbilitiesLuck;
     private GameObject currentAdvancedPanel = null;
     public List<GameObject> sparePointsInterface = new List<GameObject>();
     public List<GameObject> advancedStatIncreaseInterface = new List<GameObject>();
     private bool levelUpModeActive = false;
+    private Color originalColor;
+    private Color highlightedColor;
+    private Color capColor;
+    private List<Text> highlightedItems = new List<Text>();
 
     // Use this for initialization
     void Start() {
         character = PlayerCharacter.localPlayer.GetComponent<Character>();
         eg = character.GetComponent<ExperienceGainer>();
         currentAdvancedPanel = strengthAdvanced;
+        originalColor = strength.color;
+        highlightedColor = new Color(0, 206, 255);
+        capColor = Color.yellow;
     }
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(eg.sparePoints);
         if (eg.sparePoints == 0) {
             strength.text = CharacterAttribute.attributes["strength"].instances[character].TotalValue.ToString();
             dexterity.text = CharacterAttribute.attributes["dexterity"].instances[character].TotalValue.ToString();
@@ -184,6 +234,26 @@ public class CharacterAttributesUpdater : MonoBehaviour {
             newAcidResist.text = newAcidResistValue.ToString() + "%";
             newLightResist.text = newLightResistValue.ToString() + "%";
             newDarkResist.text = newDarkResistValue.ToString() + "%";
+            newReceivedHealing.color = receivedHealingAtCap ? capColor : originalColor;
+            newMoveSpeed.color = moveSpeedAtCap ? capColor : originalColor;
+            newHp.color = hpAtCap ? capColor : originalColor;
+            newHpRegenRate.color = hpRegenRateAtCap ? capColor : originalColor;
+            newArmorMultiplier.color = armorMultiplierAtCap ? capColor : originalColor;
+            newPhysicalResist.color = physicalResistAtCap ? capColor : originalColor;
+            newMp.color = mpAtCap ? capColor : originalColor;
+            newMentalResist.color = mentalResistAtCap ? capColor : originalColor;
+            newMpRegenRate.color = mpRegenRateAtCap ? capColor : originalColor;
+            newHealingMultiplier.color = healingMultiplierAtCap ? capColor : originalColor;
+            newCooldownReduction.color = cooldownReductionAtCap ? capColor : originalColor;
+            newCriticalHitRate.color = criticalHitRateAtCap ? capColor : originalColor;
+            newCriticalDamageBonus.color = criticalDamageBonusAtCap ? capColor : originalColor;
+            newStatusEffectDuration.color = statusEffectDurationAtCap ? capColor : originalColor;
+            newItemFindRate.color = itemFindRateAtCap ? capColor : originalColor;
+            newFireResist.color = fireResistAtCap ? capColor : originalColor;
+            newIceResist.color = iceResistAtCap ? capColor : originalColor;
+            newAcidResist.color = acidResistAtCap ? capColor : originalColor;
+            newLightResist.color = lightResistAtCap ? capColor : originalColor;
+            newDarkResist.color = darkResistAtCap ? capColor : originalColor;
         }
         currentReceivedHealing.text = ((int)CharacterAttribute.attributes["receivedHealing"].instances[character].TotalValue).ToString() + "%";
         currentMoveSpeed.text = ((int)CharacterAttribute.attributes["moveSpeed"].instances[character].TotalValue).ToString() + "%";
@@ -205,6 +275,24 @@ public class CharacterAttributesUpdater : MonoBehaviour {
         currentAcidResist.text = ((int)CharacterAttribute.attributes["acidResistance"].instances[character].TotalValue).ToString() + "%";
         currentLightResist.text = ((int)CharacterAttribute.attributes["lightResistance"].instances[character].TotalValue).ToString() + "%";
         currentDarkResist.text = ((int)CharacterAttribute.attributes["darkResistance"].instances[character].TotalValue).ToString() + "%";
+        baseStatStrength.text = "Base Stat: " + ((int)CharacterAttribute.attributes["strength"].instances[character].BaseValue).ToString();
+        fromGearStrength.text = "From Gear: " + ((int)CharacterAttribute.attributes["strength"].instances[character].ItemValue).ToString();
+        fromAbilitiesStrength.text = "From Abilities: " + ((int)CharacterAttribute.attributes["strength"].instances[character].AbilityValue).ToString();
+        baseStatDexterity.text = "Base Stat: " + ((int)CharacterAttribute.attributes["dexterity"].instances[character].BaseValue).ToString();
+        fromGearDexterity.text = "From Gear: " + ((int)CharacterAttribute.attributes["dexterity"].instances[character].ItemValue).ToString();
+        fromAbilitiesDexterity.text = "From Abilities: " + ((int)CharacterAttribute.attributes["dexterity"].instances[character].AbilityValue).ToString();
+        baseStatConstitution.text = "Base Stat: " + ((int)CharacterAttribute.attributes["constitution"].instances[character].BaseValue).ToString();
+        fromGearConstitution.text = "From Gear: " + ((int)CharacterAttribute.attributes["constitution"].instances[character].ItemValue).ToString();
+        fromAbilitiesConstitution.text = "From Abilities: " + ((int)CharacterAttribute.attributes["constitution"].instances[character].AbilityValue).ToString();
+        baseStatIntelligence.text = "Base Stat: " + ((int)CharacterAttribute.attributes["intelligence"].instances[character].BaseValue).ToString();
+        fromGearIntelligence.text = "From Gear: " + ((int)CharacterAttribute.attributes["intelligence"].instances[character].ItemValue).ToString();
+        fromAbilitiesIntelligence.text = "From Abilities: " + ((int)CharacterAttribute.attributes["intelligence"].instances[character].AbilityValue).ToString();
+        baseStatWisdom.text = "Base Stat: " + ((int)CharacterAttribute.attributes["wisdom"].instances[character].BaseValue).ToString();
+        fromGearWisdom.text = "From Gear: " + ((int)CharacterAttribute.attributes["wisdom"].instances[character].ItemValue).ToString();
+        fromAbilitiesWisdom.text = "From Abilities: " + ((int)CharacterAttribute.attributes["wisdom"].instances[character].AbilityValue).ToString();
+        baseStatLuck.text = "Base Stat: " + ((int)CharacterAttribute.attributes["luck"].instances[character].BaseValue).ToString();
+        fromGearLuck.text = "From Gear: " + ((int)CharacterAttribute.attributes["luck"].instances[character].ItemValue).ToString();
+        fromAbilitiesLuck.text = "From Abilities: " + ((int)CharacterAttribute.attributes["luck"].instances[character].AbilityValue).ToString();
         foreach (var item in sparePointsInterface) item.SetActive(eg.sparePoints > 0);
         foreach (var item in advancedStatIncreaseInterface) item.SetActive(eg.sparePoints > 0);
     }
@@ -333,6 +421,26 @@ public class CharacterAttributesUpdater : MonoBehaviour {
         newAcidResistValue = (int)CharacterAttribute.attributes["acidResistance"].instances[character].TotalValue;
         newLightResistValue = (int)CharacterAttribute.attributes["lightResistance"].instances[character].TotalValue;
         newDarkResistValue = (int)CharacterAttribute.attributes["darkResistance"].instances[character].TotalValue;
+        receivedHealingAtCap = newReceivedHealingValue == (int)CharacterAttribute.attributes["receivedHealing"].GetMaximum(eg.level);
+        moveSpeedAtCap = newMoveSpeedValue == (int)CharacterAttribute.attributes["moveSpeed"].GetMaximum(eg.level);
+        hpAtCap = newHpValue == (int)CharacterAttribute.attributes["bonusHp"].GetMaximum(eg.level);
+        hpRegenRateAtCap = newHpRegenRateValue == (int)CharacterAttribute.attributes["hpRegen"].GetMaximum(eg.level);
+        armorMultiplierAtCap = newArmorMultiplierValue == (int)CharacterAttribute.attributes["armorMultiplier"].GetMaximum(eg.level);
+        physicalResistAtCap = newPhysicalResistValue == (int)CharacterAttribute.attributes["physicalResistance"].GetMaximum(eg.level);
+        mpAtCap = newMpValue == (int)CharacterAttribute.attributes["bonusMp"].GetMaximum(eg.level);
+        mentalResistAtCap = newMentalResistValue == (int)CharacterAttribute.attributes["mentalResistance"].GetMaximum(eg.level);
+        mpRegenRateAtCap = newMpRegenRateValue == (int)CharacterAttribute.attributes["mpRegen"].GetMaximum(eg.level);
+        healingMultiplierAtCap = newHealingMultiplierValue == (int)CharacterAttribute.attributes["healingMultiplier"].GetMaximum(eg.level);
+        cooldownReductionAtCap = newCooldownReductionValue == (int)CharacterAttribute.attributes["cooldownReduction"].GetMaximum(eg.level);
+        criticalHitRateAtCap = newCriticalHitRateValue == (int)CharacterAttribute.attributes["criticalHitChance"].GetMaximum(eg.level);
+        criticalDamageBonusAtCap = newCriticalDamageBonusValue == (int)CharacterAttribute.attributes["criticalDamage"].GetMaximum(eg.level);
+        statusEffectDurationAtCap = newStatusEffectDurationValue == (int)CharacterAttribute.attributes["statusEffectDuration"].GetMaximum(eg.level);
+        itemFindRateAtCap = newItemFindRateValue == (int)CharacterAttribute.attributes["itemFindRate"].GetMaximum(eg.level);
+        fireResistAtCap = newFireResistValue == (int)CharacterAttribute.attributes["fireResistance"].GetMaximum(eg.level);
+        iceResistAtCap = newIceResistValue == (int)CharacterAttribute.attributes["iceResistance"].GetMaximum(eg.level);
+        acidResistAtCap = newAcidResistValue == (int)CharacterAttribute.attributes["acidResistance"].GetMaximum(eg.level);
+        lightResistAtCap = newLightResistValue == (int)CharacterAttribute.attributes["lightResistance"].GetMaximum(eg.level);
+        darkResistAtCap = newDarkResistValue == (int)CharacterAttribute.attributes["darkResistance"].GetMaximum(eg.level);
         character.CmdSetStats(oldStrength, oldDexterity, oldConstitution, oldIntelligence, oldWisdom, oldLuck);
     }
 
@@ -343,32 +451,39 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     }
 
     public void ActivateStrengthAdvanced() {
-        ActivatePanel(strengthAdvanced);
+        ActivatePanel(strengthAdvanced, strengthNameText, strength);
     }
 
     public void ActivateDexterityAdvanced() {
-        ActivatePanel(dexterityAdvanced);
+        ActivatePanel(dexterityAdvanced, dexterityNameText, dexterity);
     }
 
     public void ActivateConstitutionAdvanced() {
-        ActivatePanel(constitutionAdvanced);
+        ActivatePanel(constitutionAdvanced, constitutionNameText, constitution);
     }
 
     public void ActivateIntelligenceAdvanced() {
-        ActivatePanel(intelligenceAdvanced);
+        ActivatePanel(intelligenceAdvanced, intelligenceNameText, intelligence);
     }
 
     public void ActivateWisdomAdvanced() {
-        ActivatePanel(wisdomAdvanced);
+        ActivatePanel(wisdomAdvanced, wisdomNameText, wisdom);
     }
 
     public void ActivateLuckAdvanced() {
-        ActivatePanel(luckAdvanced);
+        ActivatePanel(luckAdvanced, luckNameText, luck);
     }
 
-    private void ActivatePanel(GameObject panel) {
+    private void ActivatePanel(GameObject panel, Text name, Text number) {
+        if (currentAdvancedPanel == panel) return;
         if (currentAdvancedPanel != null) currentAdvancedPanel.SetActive(false);
         panel.SetActive(true);
         currentAdvancedPanel = panel;
+        name.color = highlightedColor;
+        number.color = highlightedColor;
+        foreach (var text in highlightedItems) text.color = originalColor;
+        highlightedItems.Clear();
+        highlightedItems.Add(name);
+        highlightedItems.Add(number);
     }
 }
