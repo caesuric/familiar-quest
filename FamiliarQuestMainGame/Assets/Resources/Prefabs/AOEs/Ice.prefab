@@ -88,6 +88,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Effect22
       objectReference: {fileID: 0}
+    - target: {fileID: 126258, guid: 313e5c5f850e5be429d4a6787a725f73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 175576, guid: 313e5c5f850e5be429d4a6787a725f73, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 478400, guid: 313e5c5f850e5be429d4a6787a725f73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -143,6 +151,11 @@ PrefabInstance:
     - target: {fileID: 478400, guid: 313e5c5f850e5be429d4a6787a725f73, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 23646598538753468, guid: 313e5c5f850e5be429d4a6787a725f73,
+        type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 313e5c5f850e5be429d4a6787a725f73, type: 3}
