@@ -164,12 +164,12 @@ public class CharacterAttributesUpdater : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (eg.sparePoints == 0) {
-            strength.text = CharacterAttribute.attributes["strength"].instances[character].TotalValue.ToString();
-            dexterity.text = CharacterAttribute.attributes["dexterity"].instances[character].TotalValue.ToString();
-            constitution.text = CharacterAttribute.attributes["constitution"].instances[character].TotalValue.ToString();
-            intelligence.text = CharacterAttribute.attributes["intelligence"].instances[character].TotalValue.ToString();
-            wisdom.text = CharacterAttribute.attributes["wisdom"].instances[character].TotalValue.ToString();
-            luck.text = CharacterAttribute.attributes["luck"].instances[character].TotalValue.ToString();
+            strength.text = ((int)CharacterAttribute.attributes["strength"].instances[character].TotalValue).ToString();
+            dexterity.text = ((int)CharacterAttribute.attributes["dexterity"].instances[character].TotalValue).ToString();
+            constitution.text = ((int)CharacterAttribute.attributes["constitution"].instances[character].TotalValue).ToString();
+            intelligence.text = ((int)CharacterAttribute.attributes["intelligence"].instances[character].TotalValue).ToString();
+            wisdom.text = ((int)CharacterAttribute.attributes["wisdom"].instances[character].TotalValue).ToString();
+            luck.text = ((int)CharacterAttribute.attributes["luck"].instances[character].TotalValue).ToString();
             strengthDownButton.GetComponent<Image>().enabled = false;
             strengthUpButton.GetComponent<Image>().enabled = false;
             dexterityDownButton.GetComponent<Image>().enabled = false;

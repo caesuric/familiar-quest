@@ -1,3 +1,49 @@
+# v0.17.3 - Improved Stat Screen and Further Bugfixes
+
+* Implemented a new stat screen that breaks down secondary stats by primary stat and shows changes that will occur if you spend points in stats
+
+# v0.17.2 - Major Adjustments and Bugfixes
+
+* Enemy speed has been tripled to make the game more challenging
+* Enemy floating health bars have been replaced with a top-of-screen health bar that shows the last enemy you hit
+* Unequipped items now have a single icon to show general comparison with the item you have equipped in the appropriate slot
+* Potion icons will now disappear from the hotbar when you use the last potion of a given type
+* Bosses are now the same level as the base level for the dungeon they appear in
+* Equipment tooltips now show positive stat changes in green, followed by negative stat changes in red
+* Floating combat text will now always display when you hit an enemy, even if you deal less than 1% of their health in damage
+* You can no longer drag empty hotbar slots off the hotbar
+* Pressing the P key on your keyboard will now open the Soul Gems window
+* Pressing the escape key when there are no windows open now opens the system settings window
+* Leveling up will now restore your mana to full, not just your health
+
+# v0.17.1 - Bugfixes
+
+* Added a number in skill tree window showing how many skill points a gem has available to spend
+* Negative ability attributes should no longer appear as latent
+* Reduced brightness of physical ranged attacks by 50% to reduce the distraction they cause
+* Abilities can no longer be generated with two copies of the knockback attribute
+* There is now a back button on the character skill selection screen. Note that the skills will not change unless you cancel character creation entirely.
+* Monsters should no longer be visible on the minimap
+* Abilities with the damage shield attribute will now tell you how much damage it prevents
+* Boost stat, reduce elemental damage, and increase elemental damage skill tree nodes will now tell you what element they will affect
+* During character creation, abilities that cost more MP than the character will have to begin will no longer be generated
+* Fixed a bug where the player couldn't drag abilities to hotbar slots that hadn't been filled before
+* Fixed a bug where inactive passive abilities didn't level up
+* Charge attribute was not displaying its description correctly in skill trees
+* Grappling Hook attribute was not displaying its description correctly in skill trees
+* Burning Aura passive is now working as intended
+* Tooltips should now correctly update upon activating a skill tree node
+* Boss will now correctly reset back to the boss room if you kite them too far away
+* Reduce Mana Cost skill tree node should no longer cause MP usage to go up for certain edge cases
+* When abilities are leveled, damage should no longer go down for certain edge cases
+* The tooltip for the skill tree ability drop slot should now display correctly
+* Disabled and invisible UI elements should no longer block mouse clicks when clicking to use abilities
+* Attributes should no longer disappear upon leveling a skill
+* Fixed an issue where some hotbar buttons (2/5/-) could not be assigned to a mouse button
+* Tooltips for healing effects should now be accurate
+* Scaling for passive abilities upon leveling should be more reasonable now
+* Fixed an issue where the monster fade-out effect on death was not working properly in builds
+
 # v0.17 - Ability Updates
 
 * Abilities are now contained within "soul gems"
