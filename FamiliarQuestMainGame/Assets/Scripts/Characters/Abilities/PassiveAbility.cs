@@ -16,8 +16,8 @@ public class PassiveAbility: Ability {
         LevelUp();
         float originalPoints = 70f;
         float targetPoints = 70f;
-        for (int i = 1; i < originalLevel; i++) originalPoints *= 1.05f;
-        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
+        for (int i = 1; i < originalLevel; i++) originalPoints *= 1.05f * 1.05f; //double progression speed for passives for now
+        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f * 1.05f; //double progression speed for passives for now
         float ratio = targetPoints / originalPoints;
         foreach (var attribute in attributes) {
             foreach (var parameter in attribute.parameters) {
