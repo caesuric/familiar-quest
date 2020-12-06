@@ -279,7 +279,7 @@ public static class AttackAbilityAttributeGenerator {
             parameters = new List<AbilityAttributeParameter> {
                 new AbilityAttributeParameter {
                     name = "degree",
-                    value = ability.points * 0.5f / 32
+                    value = ability.points * 0.5f / 32f
                 }
             }
         };
