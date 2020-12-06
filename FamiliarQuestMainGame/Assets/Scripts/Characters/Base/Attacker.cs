@@ -160,6 +160,7 @@ public class Attacker : MonoBehaviour {
     private void UseMeleeAttack(AttackAbility ability, float damage, float calculatedDamage) {
         if (ability==null && GetComponent<AbilityUser>().GCDTime > 0) return;
         GetComponent<AbilityUser>().GCDTime = AbilityUser.maxGCDTime;
+        if (ability.FindAttribute("offGCD") != null) GetComponent<AbilityUser>().GCDTime = 0f;
         if ((ability.FindAttribute("chargeTowards") != null && ability.FindAttribute("chargeTowards").priority >= 50) || GetComponent<AbilityUser>().HasPassive("charge")) ChargeTowards();
         if (ability.FindAttribute("createDamageZone") != null) CreateMeleeDamageZone(ability);
         else if (ability.radius > 0) HitAllInRadius((int)calculatedDamage, ability.radius, ability);
