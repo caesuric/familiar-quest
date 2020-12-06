@@ -43,7 +43,7 @@ public static class AbilityCalculator {
         else if (cooldownRoll == 3) return new Tuple<float, float>(15f, 1.67f);
         else if (cooldownRoll == 4) return new Tuple<float, float>(30f, 2f);
         else if (cooldownRoll == 5) return new Tuple<float, float>(90f, 2.22f);
-        else return new Tuple<float, float>(150f, 5f);
+        else return new Tuple<float, float>(150f, 2.83f);
     }
 
     public static Element StringToElement(string text) {
