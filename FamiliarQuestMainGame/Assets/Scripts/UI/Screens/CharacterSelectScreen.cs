@@ -195,30 +195,30 @@ public class CharacterSelectScreen : MonoBehaviour {
         character.intelligence = intelligence;
         character.wisdom = wisdom;
         character.luck = luck;
-        foreach (var attribute in selectedAbilities[3].attributes) {
-            if (attribute.type == "boostStat") {
-                switch ((string)attribute.FindParameter("stat").value) {
-                    case "strength":
-                        character.strength += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                    case "dexterity":
-                        character.dexterity += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                    case "constitution":
-                        character.constitution += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                    case "intelligence":
-                        character.intelligence += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                    case "wisdom":
-                        character.wisdom += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                    case "luck":
-                        character.luck += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
-                        break;
-                }
-            }
-        }
+        //foreach (var attribute in selectedAbilities[3].attributes) {
+        //    if (attribute.type == "boostStat") {
+        //        switch ((string)attribute.FindParameter("stat").value) {
+        //            case "strength":
+        //                character.strength += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //            case "dexterity":
+        //                character.dexterity += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //            case "constitution":
+        //                character.constitution += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //            case "intelligence":
+        //                character.intelligence += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //            case "wisdom":
+        //                character.wisdom += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //            case "luck":
+        //                character.luck += Mathf.FloorToInt((float)attribute.FindParameter("degree").value);
+        //                break;
+        //        }
+        //    }
+        //}
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[0]));
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[1]));
         character.soulGemActives.Add(SavedActiveAbility.ConvertFrom((ActiveAbility)selectedAbilities[2]));

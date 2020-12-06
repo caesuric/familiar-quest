@@ -241,6 +241,8 @@ public class PlayerCharacter : MonoBehaviour {
         }
         CharacterSelectScreen.DeserializeCharacter(data);
         CharacterSelectScreen.loadedCharacter.ConvertTo(gameObject);
+        var au = GetComponent<AbilityUser>();
+        au.AddPassive(au.soulGemPassive);
         MonsterScaler.ScaleToLevel();
     }
 
