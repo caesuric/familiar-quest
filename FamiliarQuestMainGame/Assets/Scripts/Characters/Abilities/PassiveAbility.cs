@@ -13,7 +13,7 @@ public class PassiveAbility: Ability {
     }
 
     protected override void LevelUp(int originalLevel, int targetLevel) {
-        LevelUp();
+        LevelUp(targetLevel - originalLevel);
         float originalPoints = 70f;
         float targetPoints = 70f;
         for (int i = 1; i < originalLevel; i++) originalPoints *= 1.05f * 1.05f; //double progression speed for passives for now

@@ -113,6 +113,56 @@ namespace Tests
             Assert.AreEqual(passive.level, 2);
             Assert.Less((float)passive.FindAttribute("boostStat").FindParameter("degree").value, 4f);
         }
+
+        [Test]
+        [Description("Temporary - creates AttackAbility instances and tries to break them by leveling them up")]
+        public void ExploratoryTestForAttackAbilityBreakOnLevelUp() {
+            int dotCount = 0;
+            int count = 0;
+            int positiveDotCount = 0;
+            int positiveCount = 0;
+            for (int i=0; i<10000; i++) {
+                var attackAbility = AttackAbilityGenerator.Generate();
+                var damageBefore = attackAbility.damage + attackAbility.dotDamage;
+                attackAbility.GainExperience(ExperienceGainer.xpTable[0]);
+                var damageAfter = attackAbility.damage + attackAbility.dotDamage;
+                if (damageAfter < damageBefore) {
+                    if (attackAbility.dotDamage > 0) dotCount++;
+                    Debug.Log("---------------------");
+                    Debug.Log(attackAbility.name + " had lowered attack after leveling up.");
+                    Debug.Log("Cooldown: " + attackAbility.cooldown.ToString());
+                    Debug.Log("MP Cost:" + attackAbility.mpUsage.ToString());
+                    Debug.Log("Went from " + damageBefore.ToString() + " to " + damageAfter.ToString());
+                    Debug.Log("Attributes:");
+                    int attributeCount = 0;
+                    foreach (var attribute in attackAbility.attributes) {
+                        if (attribute.priority >= 50 && attributeCount < 4) {
+                            attributeCount++;
+                            Debug.Log(attribute.type);
+                        }
+                    }
+                    Debug.Log((attackAbility.attributes.Count - attributeCount).ToString() + " latent attributes hidden.");
+                    count++;
+                }
+                else if (damageAfter > damageBefore) {
+                    //Debug.Log("---------------------");
+                    //Debug.Log(attackAbility.name + " had INCREASED attack after leveling up.");
+                    //Debug.Log("Points: " + attackAbility.points.ToString());
+                    //Debug.Log("Cooldown: " + attackAbility.cooldown.ToString());
+                    //Debug.Log("MP Cost:" + attackAbility.mpUsage.ToString());
+                    //Debug.Log("Went from " + damageBefore.ToString() + " to " + damageAfter.ToString());
+                    //Debug.Log("Attributes:");
+                    //foreach (var attribute in attackAbility.attributes) Debug.Log(attribute.type);
+                    positiveCount++;
+                    if (attackAbility.dotDamage > 0) positiveDotCount++;
+                }
+            }
+            Debug.Log("---------------------");
+            Debug.Log(count.ToString() + " failures found.");
+            Debug.Log(dotCount.ToString() + " of those were DoTs.");
+            Debug.Log(positiveCount.ToString() + " successes found.");
+            Debug.Log(positiveDotCount.ToString() + " of those were DoTs.");
+        }
     }
 
 }

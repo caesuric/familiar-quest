@@ -56,21 +56,43 @@ public static class AttackAbilityGenerator {
                 damage = 0,
                 dotDamage = 0
             };
+            int count = 0;
             for (int j = 0; j < numAttributes; j++) {
                 for (int k = 0; k < 10000; k++) {
+                    count = 0;
                     var attribute = AbilityAttributeGenerator.Generate(ability);
                     if (attribute != null && attribute.points <= ability.points) {
                         ability.attributes.Add(attribute);
-                        if (attribute.priority >= 50) ability.points -= attribute.points;
-                        if (attribute.priority >= 50 && attribute.type == "createDamageZone") ability.aoe = AbilityTables.baseDamageZones[element];
+                        if (attribute.priority >= 50 && count < 4) {
+                            ability.points -= attribute.points;
+                            count++;
+                        }
+                        if (attribute.priority >= 50 && count < 4 && attribute.type == "createDamageZone") ability.aoe = AbilityTables.baseDamageZones[element];
                         break;
                     }
                 }
             }
+
+            // sort the abilities added and make sure they are processed in the order they will always be processed on future level ups, so that attributes dependent on order for cost will resolve correctly
+            ability.SortAttributes();
+            ability.points = startingPoints;
+            count = 0;
+            foreach (var attribute in ability.attributes) {
+                if (attribute.priority >= 50) {
+                    var pointCost = AbilityAttributeAppraiser.Appraise(ability, attribute);
+                    if (count < 4) ability.points -= pointCost;
+                    if (ability.points <= 0) {
+                        ability.attributes.Remove(attribute);
+                        ability.points += pointCost;
+                    }
+                    count++;
+                }
+            }
+
             var damage = CalculateDamage(ability.points);
             if (isDot) ability.dotDamage = damage;
             else ability.damage = damage;
-            ability.points = startingPoints;
+            ability.points = AbilityCalculator.GetPointsFromLevel(level);
             ability.SortAttributes();
             ability.icon = AbilityIconSelector.Select(ability);
             ability.name = AbilityNamer.Name(ability);
@@ -84,29 +106,36 @@ public static class AttackAbilityGenerator {
     }
 
     public static float CalculateDamage(float points) {
-        return Mathf.Max(1f / 70f * points, 0f);
+        return Mathf.Max(points / 70f, 0f);
     }
 
     private static Tuple<BaseStat, float> GetBaseStatAndPointsMod(bool isRanged, bool usesMp) {
-        if (isRanged && usesMp) return new Tuple<BaseStat, float>(BaseStat.intelligence, 1f);
-        else if (isRanged) return new Tuple<BaseStat, float>(BaseStat.dexterity, 1f);
-        else return new Tuple<BaseStat, float>(BaseStat.strength, 3f);
+        BaseStat baseStat;
+        if (isRanged && usesMp) baseStat = BaseStat.intelligence;
+        else if (isRanged) baseStat = BaseStat.dexterity;
+        else baseStat = BaseStat.strength;
+        return new Tuple<BaseStat, float>(baseStat, AbilityCalculator.pointsMultiplierByBaseStat[baseStat]);
     }
 
     private static Tuple<float, float> GetRadiusAndPointsMod() {
         var radiusRoll = RNG.Int(0, 300);
-        if (radiusRoll < 270) return new Tuple<float, float>(0f, 1f);
-        else if (radiusRoll < 291) return new Tuple<float, float>(2f, 0.5f);
-        else if (radiusRoll < 297) return new Tuple<float, float>(4f, 1f / 8f);
-        else if (radiusRoll < 299) return new Tuple<float, float>(6f, 1f / 18f);
-        else return new Tuple<float, float>(8f, 1f / 32f);
+        float radius;
+        if (radiusRoll < 270) radius = 0f;
+        else if (radiusRoll < 291) radius = 2f;
+        else if (radiusRoll < 297) radius = 4f;
+        else if (radiusRoll < 299) radius = 6f;
+        else radius = 8f;
+        return new Tuple<float, float>(radius, AbilityCalculator.pointsMultiplierByRadius[radius]);
     }
 
     private static Tuple<bool, float, float> GetDotStatusAndTimeAndPointsMod() {
         var dotRoll = RNG.Int(0, 10000);
-        if (dotRoll < 8500) return new Tuple<bool, float, float>(false, 0f, 1f);
-        else if (dotRoll < 8875) return new Tuple<bool, float, float>(true, 4f, 1.25f);
-        else if (dotRoll < 9625) return new Tuple<bool, float, float>(true, 8f, 2f);
-        else return new Tuple<bool, float, float>(true, 12f, 2.5f);
+        bool isDot = !(dotRoll < 8500);
+        float dotDuration;
+        if (dotRoll < 8500) dotDuration = 0f;
+        else if (dotRoll < 8875) dotDuration = 4f;
+        else if (dotRoll < 9625) dotDuration = 8f;
+        else dotDuration = 12f;
+        return new Tuple<bool, float, float>(isDot, dotDuration, AbilityCalculator.pointsMultiplierByDotTime[dotDuration]);
     }
 }

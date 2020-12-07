@@ -29,12 +29,12 @@ public class UtilityAbility: ActiveAbility {
     }
 
     protected override void LevelUp(int originalLevel, int targetLevel) {
-        LevelUp();
+        LevelUp(targetLevel - originalLevel);
         float targetPoints = 70f;
         for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
         var newAbility = AbilityScaler.ScaleUtilityAbility(targetPoints, cooldown, mpUsage, baseMpUsage, targetType, attributes);
         level = targetLevel;
-        points = (int)targetPoints;
+        points = targetPoints;
         mpUsage = newAbility.mpUsage;
         baseMpUsage = newAbility.baseMpUsage;
         attributes = newAbility.attributes;
