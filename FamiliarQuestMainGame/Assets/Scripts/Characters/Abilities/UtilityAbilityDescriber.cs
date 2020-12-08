@@ -53,7 +53,7 @@ public static class UtilityAbilityDescriber {
     private static string GetTopDescription(UtilityAbility ability) {
         string description = "L" + ability.level.ToString() + " <b>Utility, uses ";
         description += "{{baseStat}}</b>\n";
-        if (ability.mpUsage > 0) description += "<b>MP</b>: " + ability.mpUsage.ToString() + "\n";
+        if (ability.mpUsage > 0) description += "<b>MP</b>: " + ((int)ability.mpUsage).ToString() + "\n";
         if (ability.cooldown >= 60) description += "<b>Cooldown</b>: " + (ability.cooldown / 60).ToString() + "m\n";
         else if (ability.cooldown > 0) description += "<b>Cooldown</b>: " + ability.cooldown.ToString() + "s\n";
         return description;

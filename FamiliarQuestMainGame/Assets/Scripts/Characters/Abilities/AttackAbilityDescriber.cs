@@ -60,7 +60,7 @@ public static class AttackAbilityDescriber {
         if (!ability.isRanged) description += "<b>Melee";
         else description += "<b>Ranged";
         description += " " + ability.element.ToString() + " attack, uses {{baseStat}}</b>\n";
-        if (ability.mpUsage > 0) description += "<b>MP</b>: " + ability.mpUsage.ToString() + "\n";
+        if (ability.mpUsage > 0) description += "<b>MP</b>: " + ((int)ability.mpUsage).ToString() + "\n";
         if (ability.radius > 0) description += "<b>Radius</b>: " + ability.radius.ToString() + "\n";
         if (ability.cooldown >= 60) description += "<b>Cooldown</b>: " + (ability.cooldown / 60).ToString() + "m\n";
         else if (ability.cooldown > 0) description += "<b>Cooldown</b>: " + ability.cooldown.ToString() + "s\n";
