@@ -120,7 +120,7 @@ namespace Tests
             AttackAbility ability;
             while (true) {
                 ability = AttackAbilityGenerator.Generate();
-                if (AbilityHasReduceDotTime(ability)) break;
+                if (FindReduceDotTime(ability) != null) break;
             }
             var node = FindReduceDotTime(ability);
             ability.GainExperience(ExperienceGainer.xpTable[0]);
@@ -130,17 +130,6 @@ namespace Tests
             ability.GainExperience(ExperienceGainer.xpTable[1]);
             var dotTimeAfter = ability.dotTime;
             Assert.AreEqual(dotTimeBefore, dotTimeAfter);
-        }
-
-        private bool AbilityHasReduceDotTime(AttackAbility ability) {
-            foreach (var layer in ability.skillTree.nodesByLayer) {
-                foreach (var node in layer) {
-                    foreach (var effect in node.effects) {
-                        if (effect.type == "reduceDotTime") return true;
-                    }
-                }
-            }
-            return false;
         }
 
         private AbilitySkillTreeNode FindReduceDotTime(AttackAbility ability) {
