@@ -45,7 +45,9 @@ public class AbilityFusion {
         var baseMp = ability2.baseMpUsage;
         var radius = ((AttackAbility)ability1).radius;
         var attributes = GetCombinedAttributes(ability1, ability2);
-        return AbilityScaler.ScaleAttackAbility(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes);
+        var output = AbilityScaler.ScaleAttackAbility(points, element, baseStat, damageRatio, dotDamageRatio, dotTime, isRanged, cooldown, mp, baseMp, radius, icon, hitEffect, projectile, aoe, attributes, new AbilitySkillTree());
+        output.skillTree = new AbilitySkillTree(output);
+        return output;
     }
 
     public static UtilityAbility FuseUtility(float points, ActiveAbility ability1, ActiveAbility ability2) {
@@ -54,7 +56,9 @@ public class AbilityFusion {
         var baseMp = ability1.baseMpUsage;
         var targetType = ((UtilityAbility)ability1).targetType;
         var attributes = GetCombinedAttributes(ability1, ability2);
-        return AbilityScaler.ScaleUtilityAbility(points, cooldown, mp, baseMp, targetType, attributes);
+        var output = AbilityScaler.ScaleUtilityAbility(points, cooldown, mp, baseMp, targetType, attributes, new AbilitySkillTree());
+        output.skillTree = new AbilitySkillTree(output);
+        return output;
     }
 
     private static List<AbilityAttribute> GetCombinedAttributes(Ability ability1, Ability ability2) {

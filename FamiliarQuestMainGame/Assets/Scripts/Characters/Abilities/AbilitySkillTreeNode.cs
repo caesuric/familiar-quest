@@ -14,6 +14,7 @@ public class AbilitySkillTreeNode {
     public bool active = false;
     public Ability ability = null;
     private Dictionary<string, SoulGemEnhancementDelegate> enhancementLookup;
+    private Dictionary<string, SoulGemEnhancementDelegate> removeEnhancementLookup;
 
     public AbilitySkillTreeNode() {
         SetUpEnhancementDictionary();
@@ -43,6 +44,21 @@ public class AbilitySkillTreeNode {
             ["addAttribute"] = GetAddAttribute,
             ["activeLatentAttribute"] = GetActivateAttribute,
             ["removeDrawback"] = GetRemoveDrawback
+        };
+        removeEnhancementLookup = new Dictionary<string, SoulGemEnhancementDelegate> {
+            ["reduceDotTime"] = GetRemoveReduceDotTime,
+            ["reduceCooldown"] = GetRemoveReduceCooldown,
+            ["reduceMpUsage"] = GetRemoveReduceMpUsage,
+            ["increaseRadius"] = GetRemoveIncreasedAttackRadius,
+            ["increaseDamage"] = GetRemoveIncreaseDamage,
+            ["increaseDotDamage"] = GetRemoveIncreaseDotDamage,
+            ["increasedDegree"] = GetRemoveIncreasedParam,
+            ["increasedDuration"] = GetRemoveIncreasedParam,
+            ["increasedRadius"] = GetRemoveIncreasedParam,
+            ["decreaseDelay"] = GetRemoveDecreasedParam,
+            ["addAttribute"] = GetRemoveAddAttribute,
+            ["activeLatentAttribute"] = GetRemoveActivateAttribute,
+            ["removeDrawback"] = GetRemoveRemoveDrawback
         };
     }
 
@@ -74,19 +90,35 @@ public class AbilitySkillTreeNode {
         if (PlayerCharacter.localPlayer != null) PlayerCharacter.localPlayer.GetComponent<HotbarUser>().CmdRefreshAbilityInfo();
     }
 
+    public void Remove() {
+        foreach (var effect in effects) if (removeEnhancementLookup.ContainsKey(effect.type)) removeEnhancementLookup[effect.type](effect);
+    }
+
     private void GetReduceDotTime(SoulGemEnhancement effect) {
         if (ability is AttackAbility attackAbility) attackAbility.dotTime += effect.effect;
+    }
+
+    private void GetRemoveReduceDotTime(SoulGemEnhancement effect) {
+        if (ability is AttackAbility attackAbility) attackAbility.dotTime -= effect.effect;
     }
 
     private void GetReduceCooldown(SoulGemEnhancement effect) {
         if (ability is ActiveAbility activeAbility) activeAbility.cooldown += effect.effect;
     }
 
+    private void GetRemoveReduceCooldown(SoulGemEnhancement effect) {
+        if (ability is ActiveAbility activeAbility) activeAbility.cooldown -= effect.effect;
+    }
+
     private void GetReduceMpUsage(SoulGemEnhancement effect) {
         if (ability is ActiveAbility activeAbility) {
-            var oldMpUsage = activeAbility.mpUsage;
             activeAbility.mpUsage += effect.effect;
-            activeAbility.baseMpUsage *= activeAbility.mpUsage / oldMpUsage;
+        }
+    }
+
+    private void GetRemoveReduceMpUsage(SoulGemEnhancement effect) {
+        if (ability is ActiveAbility activeAbility) {
+            activeAbility.mpUsage -= effect.effect;
         }
     }
 
@@ -94,12 +126,24 @@ public class AbilitySkillTreeNode {
         if (ability is AttackAbility attackAbility) attackAbility.radius += effect.effect;
     }
 
+    private void GetRemoveIncreasedAttackRadius(SoulGemEnhancement effect) {
+        if (ability is AttackAbility attackAbility) attackAbility.radius -= effect.effect;
+    }
+
     private void GetIncreaseDamage(SoulGemEnhancement effect) {
         if (ability is AttackAbility attackAbility) attackAbility.damage += effect.effect;
     }
 
+    private void GetRemoveIncreaseDamage(SoulGemEnhancement effect) {
+        if (ability is AttackAbility attackAbility) attackAbility.damage -= effect.effect;
+    }
+
     private void GetIncreaseDotDamage(SoulGemEnhancement effect) {
         if (ability is AttackAbility attackAbility) attackAbility.dotDamage += effect.effect;
+    }
+
+    private void GetRemoveIncreaseDotDamage(SoulGemEnhancement effect) {
+        if (ability is AttackAbility attackAbility) attackAbility.dotDamage -= effect.effect;
     }
 
     private void GetIncreasedParam(SoulGemEnhancement effect) {
@@ -110,12 +154,28 @@ public class AbilitySkillTreeNode {
         parameter.value = (float)parameter.value + effect.effect;
     }
 
+    private void GetRemoveIncreasedParam(SoulGemEnhancement effect) {
+        var attribute = ability.FindAttribute(effect.target);
+        if (attribute == null) return;
+        var parameter = attribute.FindParameter(effect.subTarget);
+        if (parameter == null) return;
+        parameter.value = (float)parameter.value - effect.effect;
+    }
+
     private void GetDecreasedParam(SoulGemEnhancement effect) {
         var attribute = ability.FindAttribute(effect.target);
         if (attribute == null) return;
         var parameter = attribute.FindParameter(effect.subTarget);
         if (parameter == null) return;
         parameter.value = (float)parameter.value - effect.effect;
+    }
+
+    private void GetRemoveDecreasedParam(SoulGemEnhancement effect) {
+        var attribute = ability.FindAttribute(effect.target);
+        if (attribute == null) return;
+        var parameter = attribute.FindParameter(effect.subTarget);
+        if (parameter == null) return;
+        parameter.value = (float)parameter.value + effect.effect;
     }
 
     private void GetAddAttribute(SoulGemEnhancement effect) {
@@ -127,6 +187,12 @@ public class AbilitySkillTreeNode {
         ability.points += attribute.points;
     }
 
+    private void GetRemoveAddAttribute(SoulGemEnhancement effect) {
+        var attribute = ability.FindAttribute(effect.target);
+        ability.attributes.Remove(attribute);
+        ability.SortAttributes();
+    }
+
     private void GetActivateAttribute(SoulGemEnhancement effect) {
         var attribute = ability.FindAttribute(effect.target);
         if (attribute != null) {
@@ -135,8 +201,28 @@ public class AbilitySkillTreeNode {
         }
     }
 
+    private void GetRemoveActivateAttribute(SoulGemEnhancement effect) {
+        var attribute = ability.FindAttribute(effect.target);
+        if (attribute !=null) {
+            attribute.priority = RNG.Float(0, 49f);
+            ability.SortAttributes();
+        }
+    }
+
     private void GetRemoveDrawback(SoulGemEnhancement effect) {
         var attribute = ability.FindAttribute(effect.target);
-        if (attribute!=null) ability.attributes.Remove(attribute);
+        if (attribute != null) {
+            ability.attributes.Remove(attribute);
+            ability.SortAttributes();
+        }
+    }
+
+    private void GetRemoveRemoveDrawback(SoulGemEnhancement effect) {
+        var attribute = AbilityAttributeGenerator.Generate(ability, effect.target);
+        if (attribute != null) {
+            ability.attributes.Add(attribute);
+            attribute.priority = RNG.Float(50f, 100f);
+            ability.SortAttributes();
+        }
     }
 }

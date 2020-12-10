@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 public static class AbilityScaler {
-    public static AttackAbility ScaleAttackAbility(float points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, float mp, float baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes) {
+    public static AttackAbility ScaleAttackAbility(float points, Element element, BaseStat baseStat, float damageRatio, float dotDamageRatio, float dotTime, bool isRanged, float cooldown, float mp, float baseMp, float radius, int icon, int hitEffect, int projectile, int aoe, List<AbilityAttribute> abilityAttributes, AbilitySkillTree skillTree) {
         var startingPoints = points;
         List<AbilityAttribute> paralysis = new List<AbilityAttribute>();
         foreach (var attribute in abilityAttributes) if (attribute.type == "paralyze") paralysis.Add(attribute);
@@ -25,7 +25,8 @@ public static class AbilityScaler {
             hitEffect = hitEffect,
             rangedProjectile = projectile,
             aoe = aoe,
-            level = AbilityCalculator.GetLevelFromPoints(startingPoints)
+            level = AbilityCalculator.GetLevelFromPoints(startingPoints),
+            skillTree = skillTree
         };
         ModifyAttackAbilityPointsForQualities(newAbility);
         points = newAbility.points;
@@ -68,7 +69,7 @@ public static class AbilityScaler {
         ability.points *= AbilityCalculator.pointsMultiplierByMpUsage[(int)ability.baseMpUsage];
     }
 
-    public static UtilityAbility ScaleUtilityAbility(float points, float cooldown, float mp, float baseMp, string targetType, List<AbilityAttribute> abilityAttributes) {
+    public static UtilityAbility ScaleUtilityAbility(float points, float cooldown, float mp, float baseMp, string targetType, List<AbilityAttribute> abilityAttributes, AbilitySkillTree skillTree) {
         var startingPoints = points;
         var newAbility = new UtilityAbility {
             points = points,
@@ -76,7 +77,8 @@ public static class AbilityScaler {
             mpUsage = mp,
             baseMpUsage = baseMp,
             targetType = targetType,
-            level = AbilityCalculator.GetLevelFromPoints(startingPoints)
+            level = AbilityCalculator.GetLevelFromPoints(startingPoints),
+            skillTree = skillTree
         };
         ModifyUtilityAbilityPointsForQualities(newAbility);
         foreach (var attribute in abilityAttributes) {
@@ -104,5 +106,22 @@ public static class AbilityScaler {
         var mpUsage = ability.baseMpUsage;
         for (int i = 1; i < ability.level; i++) mpUsage *= 1.05f;
         ability.mpUsage = mpUsage;
+    }
+
+    public static void RemoveSkillTreeEnhancements(ActiveAbility ability) {
+        foreach (var layer in ability.skillTree.nodesByLayer) {
+            foreach (var node in layer) {
+                if (node.active) node.Remove();
+            }
+        }
+        
+    }
+
+    public static void AddSkillTreeEnhancements(ActiveAbility ability) {
+        foreach (var layer in ability.skillTree.nodesByLayer) {
+            foreach (var node in layer) {
+                if (node.active) node.Activate();
+            }
+        }
     }
 }

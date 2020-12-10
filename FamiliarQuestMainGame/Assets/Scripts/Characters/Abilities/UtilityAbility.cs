@@ -30,14 +30,15 @@ public class UtilityAbility: ActiveAbility {
 
     protected override void LevelUp(int originalLevel, int targetLevel) {
         LevelUp(targetLevel - originalLevel);
-        float targetPoints = 70f;
-        for (int i = 1; i < targetLevel; i++) targetPoints *= 1.05f;
-        var newAbility = AbilityScaler.ScaleUtilityAbility(targetPoints, cooldown, mpUsage, baseMpUsage, targetType, attributes);
+        float targetPoints = AbilityCalculator.GetPointsFromLevel(targetLevel);
+        AbilityScaler.RemoveSkillTreeEnhancements(this);
+        var newAbility = AbilityScaler.ScaleUtilityAbility(targetPoints, cooldown, mpUsage, baseMpUsage, targetType, attributes, skillTree);
         level = targetLevel;
         points = targetPoints;
         mpUsage = newAbility.mpUsage;
         baseMpUsage = newAbility.baseMpUsage;
         attributes = newAbility.attributes;
+        AbilityScaler.AddSkillTreeEnhancements(this);
         description = AbilityDescriber.Describe(this);
     }
 }

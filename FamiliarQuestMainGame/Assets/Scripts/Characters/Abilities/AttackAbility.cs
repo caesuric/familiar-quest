@@ -63,7 +63,8 @@ public class AttackAbility: ActiveAbility {
     protected override void LevelUp(int originalLevel, int targetLevel) {
         LevelUp(targetLevel - originalLevel);
         float targetPoints = AbilityCalculator.GetPointsFromLevel(targetLevel);
-        var newAbility = AbilityScaler.ScaleAttackAbility((int)targetPoints, element, baseStat, damage, dotDamage, dotTime, isRanged, cooldown, mpUsage, baseMpUsage, radius, icon, hitEffect, rangedProjectile, aoe, attributes);
+        AbilityScaler.RemoveSkillTreeEnhancements(this);
+        var newAbility = AbilityScaler.ScaleAttackAbility((int)targetPoints, element, baseStat, damage, dotDamage, dotTime, isRanged, cooldown, mpUsage, baseMpUsage, radius, icon, hitEffect, rangedProjectile, aoe, attributes, skillTree);
         level = targetLevel;
         points = targetPoints;
         damage = newAbility.damage;
@@ -71,6 +72,7 @@ public class AttackAbility: ActiveAbility {
         mpUsage = newAbility.mpUsage;
         baseMpUsage = newAbility.baseMpUsage;
         attributes = newAbility.attributes;
+        AbilityScaler.AddSkillTreeEnhancements(this);
         description = AbilityDescriber.Describe(this);
     }
 }
