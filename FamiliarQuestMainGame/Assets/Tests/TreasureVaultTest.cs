@@ -35,7 +35,7 @@ namespace Tests
         public void LayoutRoomsRuns() {
             int iterations = 100;
             for (int i=0; i<iterations; i++) {
-                TestContext.WriteLine("Completeted iteration " + (i + 1).ToString() + "/" + iterations.ToString());
+                TestContext.WriteLine("Completed iteration " + (i + 1).ToString() + "/" + iterations.ToString());
                 treasureVault = new TreasureVault();
                 Assert.IsTrue(Task.Factory.StartNew(treasureVault.Initialize).Wait(TimeSpan.FromSeconds(1)));
             }
