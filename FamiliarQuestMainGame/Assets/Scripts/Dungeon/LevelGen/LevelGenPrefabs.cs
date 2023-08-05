@@ -233,6 +233,11 @@ public class LevelGenPrefabs {
                 { "Dressing/Tables/Fancy/5", null },
                 { "Dressing/Tables/Fancy/6", null }
             } }
+        }},
+        { "cave", new Dictionary<string, Dictionary<string, GameObject>> {
+            { "floor", new Dictionary<string, GameObject> {
+                { "Cave/Floor1", null }
+            } }
         } }
     };
     public static Dictionary<string, Dictionary<string, Dictionary<string, float>>> prefabProbability = new Dictionary<string, Dictionary<string, Dictionary<string, float>>> {
@@ -465,6 +470,11 @@ public class LevelGenPrefabs {
                 { "Dressing/Tables/Fancy/4", 0.166f },
                 { "Dressing/Tables/Fancy/5", 0.166f },
                 { "Dressing/Tables/Fancy/6", 0.166f }
+            } }
+        }},
+        { "cave", new Dictionary<string, Dictionary<string, float>> {
+            { "floor", new Dictionary<string, float> {
+                ["Cave/Floor1"] = 1f
             } }
         } }
     };

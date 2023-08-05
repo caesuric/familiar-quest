@@ -70,7 +70,7 @@ public class LevelGen : MonoBehaviour {
         dungeonType = dungeonTypes[roll];
 
         //dungeonType = dungeonTypes[4]; // TEMP TO SEE MONSTERS
-        dungeonType = dungeonTypes[6]; // TEMP FOR TESTING
+        dungeonType = dungeonTypes[0]; // TEMP FOR TESTING
 
         roll = Random.Range(0, 2);
         if (roll == 0) resettled = true;
@@ -152,7 +152,41 @@ public class LevelGen : MonoBehaviour {
     }
 
     private void GenerateCaveLayout() {
-        // STUB: TODO
+        dungeonInstance = Instantiate(dungeonPrefab);
+        navMeshSurface = dungeonInstance.GetComponentInChildren<NavMeshSurface>();
+        layout = new Cave();
+        var caveLayout = (Cave)layout;
+        caveLayout.Initialize();
+        levelName = "Cave";
+        SetPlayerLocation();
+        //foreach (Transform child in navMeshSurface.transform) child.gameObject.SetActive(false);
+
+        //var vaultLayout = (TreasureVault)layout;
+        //vaultLayout.Initialize();
+        //float ruinLevel = Random.Range(0f, 0.25f);
+        //if (resettled) {
+        //    var numStructures = Random.Range(3, 11);
+        //    for (int i = 0; i < numStructures; i++) socialStructures.Add(new SocialStructure(180 / numStructures, true));
+        //    layout.ResettleRooms(socialStructures);
+        //    layout.layout.ApplyRuin(ruinLevel);
+        //}
+        //else {
+        //    vaultLayout.AddMonsters(targetLevel);
+        //}
+        //vaultLayout.CreateAffinities();
+        //vaultLayout.CreateRandomEnemyBuffs(targetLevel);
+        //var obj = Instantiate(darkRuinsLighting);
+        //obj.transform.parent = dungeonInstance.transform;
+        //foreach (var socialStruture in socialStructures) Debug.Log(socialStruture.Print());
+        ////Debug.Log(layout.PrintGrid());
+        //for (int i = 0; i < layout.numFloors; i++) seeds.Add(Random.Range(int.MinValue, int.MaxValue));
+        //if (dungeonData != null) {
+        //    dungeonData.entered = true;
+        //    dungeonData.dungeonData = vaultLayout;
+        //    dungeonData.seeds = seeds;
+        //    SavedWorld.OverwriteDungeonData(dungeonData);
+        //}
+        //InstantiateVaultDungeonLayout();
     }
 
     private void GenerateMineLayout() {
