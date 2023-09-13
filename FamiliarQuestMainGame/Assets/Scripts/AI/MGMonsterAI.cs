@@ -355,7 +355,7 @@ public class MGMonsterAI : MonoBehaviour {
         var started = false;
         return (agent, action) => {
             var playerMemory = agent.Memory["characters"] as AI.Data.MemoryOfCharacters;
-            var player = playerMemory.GetClosestPlayerMemory(this);
+            var player = playerMemory.GetClosestPlayerMemory(transform.position);
             if (player == null) return ExecutionStatus.Failed;
             if (!started) {
                 started = true;
@@ -525,5 +525,37 @@ public class MGMonsterAI : MonoBehaviour {
         var fov = agent.Memory["fieldOfVision"] as AI.Data.FieldOfVision;
         foreach (var player in fov.players) if (player.GetComponent<Health>().hp > 0) return true;
         return previousState;
+    }
+
+    private bool CanHitPlayer(Agent agent) {
+        var fov = agent.Memory["fieldOfVision"] as AI.Data.FieldOfVision;
+        foreach (var player in fov.players) if (CanSeeSpecificPlayer(player.GetComponent<PlayerCharacter>(), range: GetComponent<MonsterScaler>().colliderSize + 2.5f)) return true;
+        return false;
+    }
+
+    private bool CanSeePlayer(Agent agent, float range = 25f) {
+        foreach (var player in PlayerCharacter.players) if (CanSeeSpecificPlayer(player, range)) return true;
+        return false;
+    }
+
+    private bool CanSeeSpecificPlayer(PlayerCharacter player, float range = 25f) {
+        if (RaycastCheck(player, transform.position, range)) return true;
+        if (RaycastCheck(player, transform.position + new Vector3(-0.1f, 0, -0.1f), range)) return true;
+        if (RaycastCheck(player, transform.position + new Vector3(-0.1f, 0, 0.1f), range)) return true;
+        if (RaycastCheck(player, transform.position + new Vector3(0.1f, 0, -0.1f), range)) return true;
+        if (RaycastCheck(player, transform.position + new Vector3(0.1f, 0, 0.1f), range)) return true;
+        return false;
+    }
+
+    private bool RaycastCheck(PlayerCharacter player, Vector3 position, float range) {
+        var rayDirection = player.transform.position - position;
+        rayDirection.y = 0;
+        var hits = Physics.RaycastAll(position, rayDirection, range);
+        bool found = false;
+        foreach (var hit in hits) {
+            if (hit.transform.gameObject.CompareTag("Wall") && Vector3.Distance(hit.transform.position, position) < Vector3.Distance(player.transform.position, position)) return false;
+            if (hit.transform.gameObject.CompareTag("Player")) found = true;
+        }
+        return found;
     }
 }

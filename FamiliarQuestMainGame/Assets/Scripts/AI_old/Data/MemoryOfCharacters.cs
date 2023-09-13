@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MountainGoap;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,12 +22,12 @@ namespace AI.Data {
             memories.Add(new IndividualCharacterMemory(player, player.transform.position, true));
         }
 
-        public IndividualCharacterMemory GetClosestPlayerMemory(GoapAgent agent) {
+        public IndividualCharacterMemory GetClosestPlayerMemory(Vector3 position) {
             float distance = Mathf.Infinity;
             IndividualCharacterMemory target = null;
             foreach (var memory in memories) {
                 if (memory.isEnemy) {
-                    var distanceToPlayerPosition = Vector3.Distance(agent.transform.position, memory.position);
+                    var distanceToPlayerPosition = Vector3.Distance(position, memory.position);
                     if (distanceToPlayerPosition < distance) {
                         distance = distanceToPlayerPosition;
                         target = memory;
