@@ -172,7 +172,6 @@ public class MGMonsterAI : MonoBehaviour {
         var gcdTrackingSensor = new Sensor((agent) => {
             agent.State["gcdReady"] = abilityUser.GCDTime <= 0;
         });
-        var monsterScaler = GetComponent<MonsterScaler>();
         var sightSensor = new Sensor((agent) => {
             UpdateFov(agent);
             var fov = agent.Memory["fieldOfVision"] as AI.Data.FieldOfVision;
@@ -184,6 +183,7 @@ public class MGMonsterAI : MonoBehaviour {
             agent.State["facingPlayerPrecisely"] = IsFacingPlayer(agent, 10f);
             agent.State["playerAlive"] = IsPlayerAlive(agent, (bool)agent.State["playerAlive"]);
             agent.State["playerHurt"] = !(agent.State["playerAlive"].Equals(true));
+            agent.State["awareOfSurroundings"] = false;
         });
         var memorySensor = new Sensor((agent) => {
             if (!agent.Memory.ContainsKey("character")) agent.Memory["characters"] = new AI.Data.MemoryOfCharacters();
@@ -236,6 +236,7 @@ public class MGMonsterAI : MonoBehaviour {
         var timer = 0f;
         var turnTime = 0.1f;
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
                 started = true;
@@ -262,6 +263,7 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (monsterBaseAbilities == null || abilityUser == null) return ExecutionStatus.Failed;
             if (UseMeleeAttack(new List<List<ActiveAbility>>() { monsterBaseAbilities.baseAbilities, abilityUser.soulGemActives }, abilityUser)) {
                 monsterAnimationController.attacking = true;
@@ -276,6 +278,7 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (monsterBaseAbilities == null || abilityUser == null) return ExecutionStatus.Failed;
             if (UseRangedAttack(new List<List<ActiveAbility>>() { monsterBaseAbilities.baseAbilities, abilityUser.soulGemActives }, abilityUser)) {
                 monsterAnimationController.attacking = true;
@@ -295,6 +298,7 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
                 started = true;
@@ -322,6 +326,7 @@ public class MGMonsterAI : MonoBehaviour {
         var navMeshAgent = GetComponent<NavMeshAgent>();
         var monsterAnimationController = GetComponent<MonsterAnimationController>();
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             var target = action.GetParameter("target") as GameObject;
             if (!started) {
                 started = true;
@@ -344,6 +349,7 @@ public class MGMonsterAI : MonoBehaviour {
 
     private ExecutorCallback GetWaitForGcdExecutor() {
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (agent.State["gcdReady"].Equals(true)) return ExecutionStatus.Succeeded;
             return ExecutionStatus.Executing;
         };
@@ -354,6 +360,7 @@ public class MGMonsterAI : MonoBehaviour {
         var navMeshAgent = GetComponent<NavMeshAgent>();
         var started = false;
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             var playerMemory = agent.Memory["characters"] as AI.Data.MemoryOfCharacters;
             var player = playerMemory.GetClosestPlayerMemory(transform.position);
             if (player == null) return ExecutionStatus.Failed;
@@ -405,6 +412,7 @@ public class MGMonsterAI : MonoBehaviour {
             actions[movePhase]();
         };
         return (agent, action) => {
+            Debug.Log($"executing {action.Name}");
             if (!started) {
                 started = true;
                 movePhase = 0;
@@ -419,7 +427,11 @@ public class MGMonsterAI : MonoBehaviour {
                 timer += Time.deltaTime;
                 transform.rotation = Quaternion.Slerp(Quaternion.Euler(startRotation), Quaternion.Euler(targetLookRotation), timer / turnTime);
                 if (timer >= turnTime) finishTurn();
-                if (movePhase == 2) return ExecutionStatus.Succeeded;
+                if (movePhase >= 3) {
+                    Debug.Log("terminating look around");
+                    started = false;
+                    return ExecutionStatus.Succeeded;
+                }
                 return ExecutionStatus.Executing;
             }
         };
