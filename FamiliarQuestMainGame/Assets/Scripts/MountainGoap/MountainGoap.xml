@@ -1,0 +1,1445 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MountainGoap</name>
+    </assembly>
+    <members>
+        <member name="T:MountainGoap.Action">
+            <summary>
+            Represents an action in a GOAP system.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.Name">
+            <summary>
+            Name of the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.cost">
+            <summary>
+            Cost of the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.permutationSelectors">
+            <summary>
+            The permutation selector callbacks for the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.executor">
+            <summary>
+            The executor callback for the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.costCallback">
+            <summary>
+            The cost callback for the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.preconditions">
+            <summary>
+            Preconditions for the action. These things are required for the action to execute.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.comparativePreconditions">
+            <summary>
+            Comnparative preconditions for the action. Indicates that a value must be greater than or less than a certain value for the action to execute.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.postconditions">
+            <summary>
+            Postconditions for the action. These will be set when the action has executed.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.arithmeticPostconditions">
+            <summary>
+            Arithmetic postconditions for the action. These will be added to the current value when the action has executed.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.parameterPostconditions">
+            <summary>
+            Parameter postconditions for the action. When the action has executed, the value of the parameter given in the key will be copied to the state with the name given in the value.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Action.parameters">
+            <summary>
+            Parameters to be passed to the action.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Action.#ctor(System.String,System.Collections.Generic.Dictionary{System.String,MountainGoap.PermutationSelectorCallback},MountainGoap.ExecutorCallback,System.Single,MountainGoap.CostCallback,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,MountainGoap.ComparisonValuePair},System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.Action"/> class.
+            </summary>
+            <param name="name">Name for the action, for eventing and logging purposes.</param>
+            <param name="permutationSelectors">The permutation selector callback for the action's parameters.</param>
+            <param name="executor">The executor callback for the action.</param>
+            <param name="cost">Cost of the action.</param>
+            <param name="costCallback">Callback for determining the cost of the action.</param>
+            <param name="preconditions">Preconditions required in the world state in order for the action to occur.</param>
+            <param name="comparativePreconditions">Preconditions indicating relative value requirements needed for the action to occur.</param>
+            <param name="postconditions">Postconditions applied after the action is successfully executed.</param>
+            <param name="arithmeticPostconditions">Arithmetic postconditions added to state after the action is successfully executed.</param>
+            <param name="parameterPostconditions">Parameter postconditions copied to state after the action is successfully executed.</param>
+        </member>
+        <member name="E:MountainGoap.Action.OnBeginExecuteAction">
+            <summary>
+            Event that triggers when an action begins executing.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Action.OnFinishExecuteAction">
+            <summary>
+            Event that triggers when an action finishes executing.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Action.ExecutionStatus">
+            <summary>
+            Gets or sets the execution status of the action.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Action.Copy">
+            <summary>
+            Makes a copy of the action.
+            </summary>
+            <returns>A copy of the action.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.SetParameter(System.String,System.Object)">
+            <summary>
+            Sets a parameter to the action.
+            </summary>
+            <param name="key">Key to be set.</param>
+            <param name="value">Value to be set.</param>
+        </member>
+        <member name="M:MountainGoap.Action.GetParameter(System.String)">
+            <summary>
+            Gets a parameter to the action.
+            </summary>
+            <param name="key">Key for the value to be retrieved.</param>
+            <returns>The value stored at the key specified.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.GetCost(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Gets the cost of the action.
+            </summary>
+            <param name="currentState">State as it will be when cost is relevant.</param>
+            <returns>The cost of the action.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.Execute(MountainGoap.Agent)">
+            <summary>
+            Executes a step of work for the agent.
+            </summary>
+            <param name="agent">Agent executing the action.</param>
+            <returns>The execution status of the action.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.IsPossible(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Determines whether or not an action is possible.
+            </summary>
+            <param name="state">The current world state.</param>
+            <returns>True if the action is possible, otherwise false.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.GetPermutations(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Gets all permutations of parameters possible for an action.
+            </summary>
+            <param name="state">World state when the action would be performed.</param>
+            <returns>A list of possible parameter dictionaries that could be used.</returns>
+        </member>
+        <member name="M:MountainGoap.Action.ApplyEffects(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Applies the effects of the action.
+            </summary>
+            <param name="state">World state to which to apply effects.</param>
+        </member>
+        <member name="M:MountainGoap.Action.SetParameters(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Sets all parameters to the action.
+            </summary>
+            <param name="parameters">Dictionary of parameters to be passed to the action.</param>
+        </member>
+        <member name="M:MountainGoap.Action.DefaultExecutorCallback(MountainGoap.Agent,MountainGoap.Action)">
+            <summary>
+            Default executor callback to be used if no callback is passed in.
+            </summary>
+            <param name="agent">Agent executing the action.</param>
+            <param name="action">Action to be executed.</param>
+            <returns>A Failed status, since the action cannot execute without a callback.</returns>
+        </member>
+        <member name="T:MountainGoap.Agent">
+            <summary>
+            GOAP agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Agent.Name">
+            <summary>
+            Name of the agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Agent.CurrentActionSequences">
+            <summary>
+            Chains of actions currently being performed by the agent.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Agent.#ctor(System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.List{MountainGoap.BaseGoal},System.Collections.Generic.List{MountainGoap.Action},System.Collections.Generic.List{MountainGoap.Sensor})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.Agent"/> class.
+            </summary>
+            <param name="name">Name of the agent.</param>
+            <param name="state">Initial agent state.</param>
+            <param name="memory">Initial agent memory.</param>
+            <param name="goals">Initial agent goals.</param>
+            <param name="actions">Actions available to the agent.</param>
+            <param name="sensors">Sensors available to the agent.</param>
+        </member>
+        <member name="E:MountainGoap.Agent.OnAgentStep">
+            <summary>
+            Event that fires when the agent executes a step of work.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Agent.OnAgentActionSequenceCompleted">
+            <summary>
+            Event that fires when an action sequence completes.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Agent.OnPlanningStarted">
+            <summary>
+            Event that fires when planning begins.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Agent.OnPlanningFinishedForSingleGoal">
+            <summary>
+            Event that fires when planning for a single goal finishes.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Agent.OnPlanningFinished">
+            <summary>
+            Event that fires when planning finishes.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.State">
+            <summary>
+            Gets or sets the current world state from the agent perspective.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.Memory">
+            <summary>
+            Gets or sets the memory storage object for the agent.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.Goals">
+            <summary>
+            Gets or sets the list of active goals for the agent.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.Actions">
+            <summary>
+            Gets or sets the actions available to the agent.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.Sensors">
+            <summary>
+            Gets or sets the sensors available to the agent.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.IsBusy">
+            <summary>
+            Gets or sets a value indicating whether the agent is currently executing one or more actions.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.IsPlanning">
+            <summary>
+            Gets or sets a value indicating whether the agent is currently planning.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Agent.Step(MountainGoap.StepMode)">
+            <summary>
+            You should call this every time your game state updates.
+            </summary>
+            <param name="mode">Mode to be used for executing the step of work.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.TriggerOnPlanningStarted(MountainGoap.Agent)">
+            <summary>
+            Triggers OnPlanningStarted event.
+            </summary>
+            <param name="agent">Agent that started planning.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.TriggerOnPlanningFinishedForSingleGoal(MountainGoap.Agent,MountainGoap.BaseGoal,System.Single)">
+            <summary>
+            Triggers OnPlanningFinishedForSingleGoal event.
+            </summary>
+            <param name="agent">Agent that finished planning.</param>
+            <param name="goal">Goal for which planning was completed.</param>
+            <param name="utility">Utility of the plan.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.TriggerOnPlanningFinished(MountainGoap.Agent,MountainGoap.BaseGoal,System.Single)">
+            <summary>
+            Triggers OnPlanningFinished event.
+            </summary>
+            <param name="agent">Agent that finished planning.</param>
+            <param name="goal">Goal that was selected.</param>
+            <param name="utility">Utility of the plan.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.StepAsync">
+            <summary>
+            Executes an asynchronous step of agent work.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Agent.Execute">
+            <summary>
+            Executes the current action sequences.
+            </summary>
+        </member>
+        <member name="T:MountainGoap.BaseGoal">
+            <summary>
+            Represents an abstract class for a goal to be achieved for an agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.BaseGoal.Name">
+            <summary>
+            Name of the goal.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.BaseGoal.Weight">
+            <summary>
+            Weight to give the goal.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.BaseGoal.#ctor(System.String,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.BaseGoal"/> class.
+            </summary>
+            <param name="name">Name of the goal.</param>
+            <param name="weight">Weight to give the goal.</param>
+        </member>
+        <member name="T:MountainGoap.CostCallback">
+            <summary>
+            Delegate type for a callback that defines the cost of an action.
+            </summary>
+            <param name="action">Action being executed.</param>
+            <param name="currentState">State as it will be when cost is relevant.</param>
+            <returns>Cost of the action.</returns>
+        </member>
+        <member name="T:MountainGoap.ExecutorCallback">
+            <summary>
+            Delegate type for a callback that defines a list of all possible parameter states for the given state.
+            </summary>
+            <param name="agent">Agent executing the action.</param>
+            <param name="action">Action being executed.</param>
+            <returns>New execution status of the action.</returns>
+        </member>
+        <member name="T:MountainGoap.PermutationSelectorCallback">
+            <summary>
+            Delegate type for a callback that defines a list of all possible parameter states for the given state.
+            </summary>
+            <param name="state">Current world state.</param>
+            <returns>A list with each parameter set to be tried for the action.</returns>
+        </member>
+        <member name="T:MountainGoap.SensorRunCallback">
+            <summary>
+            Delegate type for a callback that runs a sensor during a game loop.
+            </summary>
+            <param name="agent">Agent using the sensor.</param>
+        </member>
+        <member name="T:MountainGoap.ComparativeGoal">
+            <summary>
+            Represents a goal to be achieved for an agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparativeGoal.DesiredState">
+            <summary>
+            Desired state for the comparative goal.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ComparativeGoal.#ctor(System.String,System.Single,System.Collections.Generic.Dictionary{System.String,MountainGoap.ComparisonValuePair})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.ComparativeGoal"/> class.
+            </summary>
+            <param name="name">Name of the goal.</param>
+            <param name="weight">Weight to give the goal.</param>
+            <param name="desiredState">Desired state for the comparative goal.</param>
+        </member>
+        <member name="T:MountainGoap.ComparisonOperator">
+            <summary>
+            List of operators that can be used for comparison.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.Undefined">
+            <summary>
+            Undefined comparison operator (will not do anything).
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.Equals">
+            <summary>
+            Equality (==) operator.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.LessThan">
+            <summary>
+            Less than (&lt;) operator.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.LessThanOrEquals">
+            <summary>
+            Less than or equals (&lt;=) operator.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.GreaterThan">
+            <summary>
+            Greater than (>) operator).
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ComparisonOperator.GreaterThanOrEquals">
+            <summary>
+            Greater than or equals (>=) operator.
+            </summary>
+        </member>
+        <member name="T:MountainGoap.ComparisonValuePair">
+            <summary>
+            List of operators that can be used for comparison.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.ComparisonValuePair.Value">
+            <summary>
+            Gets or sets the value to be compared against.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.ComparisonValuePair.Operator">
+            <summary>
+            Gets or sets the operator to be used for comparison.
+            </summary>
+        </member>
+        <member name="T:MountainGoap.AgentActionSequenceCompletedEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent completes an action sequence.
+            </summary>
+            <param name="agent">Agent executing the action sequence.</param>
+        </member>
+        <member name="T:MountainGoap.AgentStepEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent executes a step of work.
+            </summary>
+            <param name="agent">Agent executing the step of work.</param>
+        </member>
+        <member name="T:MountainGoap.BeginExecuteActionEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an action begins executing.
+            </summary>
+            <param name="agent">Agent executing the action.</param>
+            <param name="action">Action being executed.</param>
+            <param name="parameters">Parameters to the action being executed.</param>
+        </member>
+        <member name="T:MountainGoap.FinishExecuteActionEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an action finishes executing.
+            </summary>
+            <param name="agent">Agent executing the action.</param>
+            <param name="action">Action being executed.</param>
+            <param name="status">Execution status of the action.</param>
+            <param name="parameters">Parameters to the action being executed.</param>
+        </member>
+        <member name="T:MountainGoap.PlanningFinishedEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent finishes planning.
+            </summary>
+            <param name="agent">Agent doing the planning.</param>
+            /// <param name="goal">Goal selected, or null if no valid plan was selected.</param>
+            <param name="utility">Calculated utility of the plan.</param>
+        </member>
+        <member name="T:MountainGoap.PlanningFinishedForSingleGoalEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent finishes planning for a single goal.
+            </summary>
+            <param name="agent">Agent doing the planning.</param>
+            <param name="goal">Goal for which planning was finished.</param>
+            <param name="utility">Calculated utility of the plan.</param>
+        </member>
+        <member name="T:MountainGoap.PlanningStartedEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent begins planning.
+            </summary>
+            <param name="agent">Agent doing the planning.</param>
+        </member>
+        <member name="T:MountainGoap.SensorRunEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent sensor is about to run.
+            </summary>
+            <param name="agent">Agent running the sensor.</param>
+            <param name="sensor">Sensor that is about to run.</param>
+        </member>
+        <member name="T:MountainGoap.ExecutionStatus">
+            <summary>
+            Possible execution status for an action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExecutionStatus.NotYetExecuted">
+            <summary>
+            Indicates that the action is not currently executing.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExecutionStatus.Executing">
+            <summary>
+            Indicates that the action is currently executing.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExecutionStatus.Succeeded">
+            <summary>
+            Indicates that the action has succeeded.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExecutionStatus.Failed">
+            <summary>
+            Indicates that the action has failed.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExecutionStatus.NotPossible">
+            <summary>
+            Indicates that the action is not possible due to preconditions.
+            </summary>
+        </member>
+        <member name="T:MountainGoap.ExtremeGoal">
+            <summary>
+            Represents a goal requiring an extreme value to be achieved for an agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ExtremeGoal.DesiredState">
+            <summary>
+            Dictionary of states to be maximized or minimized. A value of true indicates to maximize the goal, a value of false indicates to minimize it.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ExtremeGoal.#ctor(System.String,System.Single,System.Collections.Generic.Dictionary{System.String,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.ExtremeGoal"/> class.
+            </summary>
+            <param name="name">Name of the goal.</param>
+            <param name="weight">Weight to give the goal.</param>
+            <param name="desiredState">States to be maximized or minimized.</param>
+        </member>
+        <member name="T:MountainGoap.Goal">
+            <summary>
+            Represents a goal to be achieved for an agent.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Goal.DesiredState">
+            <summary>
+            Desired world state to be achieved.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Goal.#ctor(System.String,System.Single,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.Goal"/> class.
+            </summary>
+            <param name="name">Name of the goal.</param>
+            <param name="weight">Weight to give the goal.</param>
+            <param name="desiredState">Desired end state of the goal.</param>
+        </member>
+        <member name="T:MountainGoap.ActionAStar">
+            <summary>
+            AStar calculator for an action graph.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionAStar.FinalPoint">
+            <summary>
+            Final point at which the calculation arrived.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionAStar.CostSoFar">
+            <summary>
+            Cost so far to get to each node.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionAStar.CameFrom">
+            <summary>
+            Dictionary giving the path from start to goal.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionAStar.goal">
+            <summary>
+            Goal state that AStar is trying to achieve.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ActionAStar.#ctor(MountainGoap.ActionGraph,MountainGoap.ActionNode,MountainGoap.BaseGoal)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.ActionAStar"/> class.
+            </summary>
+            <param name="graph">Graph to be traversed.</param>
+            <param name="start">Action from which to start.</param>
+            <param name="goal">Goal state to be achieved.</param>
+        </member>
+        <member name="T:MountainGoap.ActionGraph">
+            <summary>
+            Represents a traversable action graph.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionGraph.ActionNodes">
+            <summary>
+            The set of actions for the graph.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ActionGraph.#ctor(System.Collections.Generic.List{MountainGoap.Action},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.ActionGraph"/> class.
+            </summary>
+            <param name="actions">List of actions to include in the graph.</param>
+            <param name="state">Initial state to be used.</param>
+        </member>
+        <member name="M:MountainGoap.ActionGraph.Neighbors(MountainGoap.ActionNode)">
+            <summary>
+            Gets the list of neighbors for a node.
+            </summary>
+            <param name="node">Node for which to retrieve neighbors.</param>
+            <returns>The set of action/state combinations that can be executed after the current action/state combination.</returns>
+        </member>
+        <member name="T:MountainGoap.ActionNode">
+            <summary>
+            Represents an action node in an action graph.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionNode.State">
+            <summary>
+            The state of the world for this action node.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionNode.Parameters">
+            <summary>
+            Parameters to be passed to the action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.ActionNode.Action">
+            <summary>
+            The action to be executed when the world is in the defined <see cref="F:MountainGoap.ActionNode.State"/>.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ActionNode.#ctor(MountainGoap.Action,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.ActionNode"/> class.
+            </summary>
+            <param name="action">Action to be assigned to the node.</param>
+            <param name="state">State to be assigned to the node.</param>
+            <param name="parameters">Paramters to be passed to the action in the node.</param>
+        </member>
+        <member name="M:MountainGoap.ActionNode.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:MountainGoap.ActionNode.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:MountainGoap.ActionNode.Cost(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Cost to traverse this node.
+            </summary>
+            <param name="currentState">Current state after previous node is executed.</param>
+            <returns>The cost of the action to be executed.</returns>
+        </member>
+        <member name="T:MountainGoap.CopyDictionaryExtensionMethod">
+            <summary>
+            Extension method to copy a dictionary of strings and objects.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.CopyDictionaryExtensionMethod.Copy(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Copies the dictionary to a shallow clone.
+            </summary>
+            <param name="dictionary">Dictionary to be copied.</param>
+            <returns>A shallow copy of the dictionary.</returns>
+        </member>
+        <member name="M:MountainGoap.CopyDictionaryExtensionMethod.Copy(System.Collections.Generic.Dictionary{System.String,MountainGoap.ComparisonValuePair})">
+            <summary>
+            Copies the dictionary to a shallow clone.
+            </summary>
+            <param name="dictionary">Dictionary to be copied.</param>
+            <returns>A shallow copy of the dictionary.</returns>
+        </member>
+        <member name="M:MountainGoap.CopyDictionaryExtensionMethod.Copy(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Copies the dictionary to a shallow clone.
+            </summary>
+            <param name="dictionary">Dictionary to be copied.</param>
+            <returns>A shallow copy of the dictionary.</returns>
+        </member>
+        <member name="M:MountainGoap.CopyDictionaryExtensionMethod.CopyNonNullable(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Copies the dictionary to a shallow clone.
+            </summary>
+            <param name="dictionary">Dictionary to be copied.</param>
+            <returns>A shallow copy of the dictionary.</returns>
+        </member>
+        <member name="T:MountainGoap.Planner">
+            <summary>
+            Planner for an agent.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Planner.Plan(MountainGoap.Agent)">
+            <summary>
+            Makes a plan to achieve the agent's goals.
+            </summary>
+            <param name="agent">Agent using the planner.</param>
+        </member>
+        <member name="M:MountainGoap.Planner.UpdateAgentActionList(MountainGoap.ActionNode,MountainGoap.ActionAStar,MountainGoap.Agent)">
+            <summary>
+            Updates the agent action list with the new plan. Only supports executing one sequence of events at a time for now.
+            </summary>
+            <param name="start">Starting node.</param>
+            <param name="astar">AStar object used to calculate plan.</param>
+            <param name="agent">Agent that will implement the plan.</param>
+        </member>
+        <member name="T:MountainGoap.Utils">
+            <summary>
+            Utilities for the MountainGoap library.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Utils.IsLowerThan(System.Object,System.Object)">
+            <summary>
+            Indicates whether a is lower than b.
+            </summary>
+            <param name="a">First element to be compared.</param>
+            <param name="b">Second element to be compared.</param>
+            <returns>True if lower, false otherwise.</returns>
+        </member>
+        <member name="M:MountainGoap.Utils.IsHigherThan(System.Object,System.Object)">
+            <summary>
+            Indicates whether a is higher than b.
+            </summary>
+            <param name="a">First element to be compared.</param>
+            <param name="b">Second element to be compared.</param>
+            <returns>True if higher, false otherwise.</returns>
+        </member>
+        <member name="M:MountainGoap.Utils.IsLowerThanOrEquals(System.Object,System.Object)">
+            <summary>
+            Indicates whether a is lower than or equal to b.
+            </summary>
+            <param name="a">First element to be compared.</param>
+            <param name="b">Second element to be compared.</param>
+            <returns>True if lower or equal, false otherwise.</returns>
+        </member>
+        <member name="M:MountainGoap.Utils.IsHigherThanOrEquals(System.Object,System.Object)">
+            <summary>
+            Indicates whether a is higher than or equal to b.
+            </summary>
+            <param name="a">First element to be compared.</param>
+            <param name="b">Second element to be compared.</param>
+            <returns>True if higher or equal, false otherwise.</returns>
+        </member>
+        <member name="T:MountainGoap.PermutationSelectorGenerators">
+            <summary>
+            Generators for default permutation selectors for convenience.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.PermutationSelectorGenerators.SelectFromCollection``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Generates a permutation selector that returns all elements of an enumerable.
+            </summary>
+            <typeparam name="T">Type of the <see cref="T:System.Collections.Generic.IEnumerable`1"/>.</typeparam>
+            <param name="values">Set of values to be included in permutations.</param>
+            <returns>A lambda function that returns all elements from the collection passed in.</returns>
+        </member>
+        <member name="M:MountainGoap.PermutationSelectorGenerators.SelectFromCollectionInState``1(System.String)">
+            <summary>
+            Generates a permutation selector that returns all elements of an enumerable within the agent state.
+            </summary>
+            <typeparam name="T">Type of the <see cref="T:System.Collections.Generic.IEnumerable`1"/>.</typeparam>
+            <param name="key">Key of the state to check for the collection.</param>
+            <returns>A lambda function that returns all elements from the collection in the state.</returns>
+        </member>
+        <member name="M:MountainGoap.PermutationSelectorGenerators.SelectFromIntegerRange(System.Int32,System.Int32)">
+            <summary>
+            Generates a permutation selector that returns all integer elements in a range.
+            </summary>
+            <param name="lowerBound">Lower bound from which to start.</param>
+            <param name="upperBound">Upper bound, non-inclusive.</param>
+            <returns>A lambda function that returns all elements in the range given.</returns>
+        </member>
+        <member name="T:MountainGoap.Sensor">
+            <summary>
+            Sensor for getting information about world state.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Sensor.Name">
+            <summary>
+            Name of the sensor.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.Sensor.runCallback">
+            <summary>
+            Callback to be executed when the sensor runs.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Sensor.#ctor(MountainGoap.SensorRunCallback,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MountainGoap.Sensor"/> class.
+            </summary>
+            <param name="runCallback">Callback to be executed when the sensor runs.</param>
+            <param name="name">Name of the sensor.</param>
+        </member>
+        <member name="E:MountainGoap.Sensor.OnSensorRun">
+            <summary>
+            Event that triggers when a sensor runs.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.Sensor.Run(MountainGoap.Agent)">
+            <summary>
+            Runs the sensor during a game loop.
+            </summary>
+            <param name="agent">Agent for which the sensor is being run.</param>
+        </member>
+        <member name="T:MountainGoap.StepMode">
+            <summary>
+            Different modes with which MountainGoap can execute an agent step.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.StepMode.Default">
+            <summary>
+            Default step mode. Runs async, doesn't necessitate taking action.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.StepMode.OneAction">
+            <summary>
+            Turn-based step mode, plans synchronously, executes at least one action if possible.
+            </summary>
+        </member>
+        <member name="F:MountainGoap.StepMode.AllActions">
+            <summary>
+            Turn-based step mode, plans synchronously, executes all actions in planned action sequence.
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.FastPriorityQueue`1">
+            <summary>
+            An implementation of a min-Priority Queue using a heap.  Has O(1) .Contains()!
+            See https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/Getting-Started for more information
+            </summary>
+            <typeparam name="T">The values in the queue.  Must extend the FastPriorityQueueNode class</typeparam>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.#ctor(System.Int32)">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
+        </member>
+        <member name="P:Priority_Queue.FastPriorityQueue`1.Count">
+            <summary>
+            Returns the number of nodes in the queue.
+            O(1)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.FastPriorityQueue`1.MaxSize">
+            <summary>
+            Returns the maximum number of items that can be enqueued at once in this queue.  Once you hit this number (ie. once Count == MaxSize),
+            attempting to enqueue another item will cause undefined behavior.  O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Clear">
+            <summary>
+            Removes every node from the queue.
+            O(n) (So, don't do this often!)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Contains(`0)">
+            <summary>
+            Returns (in O(1)!) whether the given node is in the queue.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Enqueue(`0,System.Single)">
+            <summary>
+            Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken arbitrarily.
+            If the queue is full, the result is undefined.
+            If the node is already enqueued, the result is undefined.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.HasHigherPriority(`0,`0)">
+            <summary>
+            Returns true if 'higher' has higher priority than 'lower', false otherwise.
+            Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.HasHigherOrEqualPriority(`0,`0)">
+            <summary>
+            Returns true if 'higher' has higher priority than 'lower', false otherwise.
+            Note that calling HasHigherOrEqualPriority(node, node) (ie. both arguments the same node) will return true
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Dequeue">
+            <summary>
+            Removes the head of the queue and returns it.
+            If queue is empty, result is undefined
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Resize(System.Int32)">
+            <summary>
+            Resize the queue so it can accept more nodes.  All currently enqueued nodes are remain.
+            Attempting to decrease the queue size to a size too small to hold the existing nodes results in undefined behavior
+            O(n)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.FastPriorityQueue`1.First">
+            <summary>
+            Returns the head of the queue, without removing it (use Dequeue() for that).
+            If the queue is empty, behavior is undefined.
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.UpdatePriority(`0,System.Single)">
+            <summary>
+            This method must be called on a node every time its priority changes while it is in the queue.  
+            <b>Forgetting to call this method will result in a corrupted queue!</b>
+            Calling this method on a node not in the queue results in undefined behavior
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.Remove(`0)">
+            <summary>
+            Removes a node from the queue.  The node does not need to be the head of the queue.  
+            If the node is not in the queue, the result is undefined.  If unsure, check Contains() first
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.ResetNode(`0)">
+            <summary>
+            By default, nodes that have been previously added to one queue cannot be added to another queue.
+            If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+            If the node is currently in the queue or belongs to another queue, the result is undefined
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.FastPriorityQueue`1.IsValidQueue">
+            <summary>
+            <b>Should not be called in production code.</b>
+            Checks to make sure the queue is still in a valid state.  Used for testing/debugging the queue.
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.FastPriorityQueueNode.Priority">
+            <summary>
+            The Priority to insert this node at.
+            Cannot be manually edited - see queue.Enqueue() and queue.UpdatePriority() instead
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.FastPriorityQueueNode.QueueIndex">
+            <summary>
+            Represents the current position in the queue
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.GenericPriorityQueue`2">
+            <summary>
+            A copy of StablePriorityQueue which also has generic priority-type
+            </summary>
+            <typeparam name="TItem">The values in the queue.  Must extend the GenericPriorityQueueNode class</typeparam>
+            <typeparam name="TPriority">The priority-type.  Must extend IComparable&lt;TPriority&gt;</typeparam>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.#ctor(System.Int32)">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.#ctor(System.Int32,System.Collections.Generic.IComparer{`1})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
+            <param name="comparer">The comparer used to compare TPriority values.</param>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.#ctor(System.Int32,System.Comparison{`1})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
+            <param name="comparer">The comparison function to use to compare TPriority values</param>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueue`2.Count">
+            <summary>
+            Returns the number of nodes in the queue.
+            O(1)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueue`2.MaxSize">
+            <summary>
+            Returns the maximum number of items that can be enqueued at once in this queue.  Once you hit this number (ie. once Count == MaxSize),
+            attempting to enqueue another item will cause undefined behavior.  O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Clear">
+            <summary>
+            Removes every node from the queue.
+            O(n) (So, don't do this often!)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Contains(`0)">
+            <summary>
+            Returns (in O(1)!) whether the given node is in the queue.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Enqueue(`0,`1)">
+            <summary>
+            Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken by first-in-first-out.
+            If the queue is full, the result is undefined.
+            If the node is already enqueued, the result is undefined.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.HasHigherPriority(`0,`0)">
+            <summary>
+            Returns true if 'higher' has higher priority than 'lower', false otherwise.
+            Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Dequeue">
+            <summary>
+            Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
+            If queue is empty, result is undefined
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Resize(System.Int32)">
+            <summary>
+            Resize the queue so it can accept more nodes.  All currently enqueued nodes are remain.
+            Attempting to decrease the queue size to a size too small to hold the existing nodes results in undefined behavior
+            O(n)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueue`2.First">
+            <summary>
+            Returns the head of the queue, without removing it (use Dequeue() for that).
+            If the queue is empty, behavior is undefined.
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.UpdatePriority(`0,`1)">
+            <summary>
+            This method must be called on a node every time its priority changes while it is in the queue.  
+            <b>Forgetting to call this method will result in a corrupted queue!</b>
+            Calling this method on a node not in the queue results in undefined behavior
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.Remove(`0)">
+            <summary>
+            Removes a node from the queue.  The node does not need to be the head of the queue.  
+            If the node is not in the queue, the result is undefined.  If unsure, check Contains() first
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.ResetNode(`0)">
+            <summary>
+            By default, nodes that have been previously added to one queue cannot be added to another queue.
+            If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.GenericPriorityQueue`2.IsValidQueue">
+            <summary>
+            <b>Should not be called in production code.</b>
+            Checks to make sure the queue is still in a valid state.  Used for testing/debugging the queue.
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueueNode`1.Priority">
+            <summary>
+            The Priority to insert this node at.
+            Cannot be manually edited - see queue.Enqueue() and queue.UpdatePriority() instead
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueueNode`1.QueueIndex">
+            <summary>
+            Represents the current position in the queue
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.GenericPriorityQueueNode`1.InsertionIndex">
+            <summary>
+            Represents the order the node was inserted in
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.IFixedSizePriorityQueue`2">
+            <summary>
+            A helper-interface only needed to make writing unit tests a bit easier (hence the 'internal' access modifier)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IFixedSizePriorityQueue`2.Resize(System.Int32)">
+            <summary>
+            Resize the queue so it can accept more nodes.  All currently enqueued nodes are remain.
+            Attempting to decrease the queue size to a size too small to hold the existing nodes results in undefined behavior
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.IFixedSizePriorityQueue`2.MaxSize">
+            <summary>
+            Returns the maximum number of items that can be enqueued at once in this queue.  Once you hit this number (ie. once Count == MaxSize),
+            attempting to enqueue another item will cause undefined behavior.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IFixedSizePriorityQueue`2.ResetNode(`0)">
+            <summary>
+            By default, nodes that have been previously added to one queue cannot be added to another queue.
+            If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.IPriorityQueue`2">
+            <summary>
+            The IPriorityQueue interface.  This is mainly here for purists, and in case I decide to add more implementations later.
+            For speed purposes, it is actually recommended that you *don't* access the priority queue through this interface, since the JIT can
+            (theoretically?) optimize method calls from concrete-types slightly better.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.Enqueue(`0,`1)">
+            <summary>
+            Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken by first-in-first-out.
+            See implementation for how duplicates are handled.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.Dequeue">
+            <summary>
+            Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.Clear">
+            <summary>
+            Removes every node from the queue.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.Contains(`0)">
+            <summary>
+            Returns whether the given node is in the queue.
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.Remove(`0)">
+            <summary>
+            Removes a node from the queue.  The node does not need to be the head of the queue.  
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.IPriorityQueue`2.UpdatePriority(`0,`1)">
+            <summary>
+            Call this method to change the priority of a node.  
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.IPriorityQueue`2.First">
+            <summary>
+            Returns the head of the queue, without removing it (use Dequeue() for that).
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.IPriorityQueue`2.Count">
+            <summary>
+            Returns the number of nodes in the queue.
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.SimplePriorityQueue`2">
+            <summary>
+            A simplified priority queue implementation.  Is stable, auto-resizes, and thread-safe, at the cost of being slightly slower than
+            FastPriorityQueue
+            Methods tagged as O(1) or O(log n) are assuming there are no duplicates.  Duplicates may increase the algorithmic complexity.
+            </summary>
+            <typeparam name="TItem">The type to enqueue</typeparam>
+            <typeparam name="TPriority">The priority-type to use for nodes.  Must extend IComparable&lt;TPriority&gt;</typeparam>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor(System.Collections.Generic.IComparer{`1})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="priorityComparer">The comparer used to compare TPriority values.  Defaults to Comparer&lt;TPriority&gt;.default</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor(System.Comparison{`1})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="priorityComparer">The comparison function to use to compare TPriority values</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Instantiate a new Priority Queue       
+            </summary>
+            <param name="itemEquality">The equality comparison function to use to compare TItem values</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor(System.Collections.Generic.IComparer{`1},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="priorityComparer">The comparer used to compare TPriority values.  Defaults to Comparer&lt;TPriority&gt;.default</param>
+            <param name="itemEquality">The equality comparison function to use to compare TItem values</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.#ctor(System.Comparison{`1},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="priorityComparer">The comparison function to use to compare TPriority values</param>
+            <param name="itemEquality">The equality comparison function to use to compare TItem values</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.GetExistingNode(`0)">
+            <summary>
+            Given an item of type T, returns the existing SimpleNode in the queue
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.AddToNodeCache(Priority_Queue.SimplePriorityQueue{`0,`1}.SimpleNode)">
+            <summary>
+            Adds an item to the Node-cache to allow for many methods to be O(1) or O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.RemoveFromNodeCache(Priority_Queue.SimplePriorityQueue{`0,`1}.SimpleNode)">
+            <summary>
+            Removes an item to the Node-cache to allow for many methods to be O(1) or O(log n) (assuming no duplicates)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.SimplePriorityQueue`2.Count">
+            <summary>
+            Returns the number of nodes in the queue.
+            O(1)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.SimplePriorityQueue`2.First">
+            <summary>
+            Returns the head of the queue, without removing it (use Dequeue() for that).
+            Throws an exception when the queue is empty.
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.Clear">
+            <summary>
+            Removes every node from the queue.
+            O(n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.Contains(`0)">
+            <summary>
+            Returns whether the given item is in the queue.
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.Dequeue">
+            <summary>
+            Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
+            If queue is empty, throws an exception
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.EnqueueNoLockOrCache(`0,`1)">
+            <summary>
+            Enqueue the item with the given priority, without calling lock(_queue) or AddToNodeCache(node)
+            </summary>
+            <param name="item"></param>
+            <param name="priority"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.Enqueue(`0,`1)">
+            <summary>
+            Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken by first-in-first-out.
+            This queue automatically resizes itself, so there's no concern of the queue becoming 'full'.
+            Duplicates and null-values are allowed.
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.EnqueueWithoutDuplicates(`0,`1)">
+            <summary>
+            Enqueue a node to the priority queue if it doesn't already exist.  Lower values are placed in front. Ties are broken by first-in-first-out.
+            This queue automatically resizes itself, so there's no concern of the queue becoming 'full'.  Null values are allowed.
+            Returns true if the node was successfully enqueued; false if it already exists.
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.Remove(`0)">
+            <summary>
+            Removes an item from the queue.  The item does not need to be the head of the queue.  
+            If the item is not in the queue, an exception is thrown.  If unsure, check Contains() first.
+            If multiple copies of the item are enqueued, only the first one is removed. 
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.UpdatePriority(`0,`1)">
+            <summary>
+            Call this method to change the priority of an item.
+            Calling this method on a item not in the queue will throw an exception.
+            If the item is enqueued multiple times, only the first one will be updated.
+            (If your requirements are complex enough that you need to enqueue the same item multiple times <i>and</i> be able
+            to update all of them, please wrap your items in a wrapper class so they can be distinguished).
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.GetPriority(`0)">
+            <summary>
+            Returns the priority of the given item.
+            Calling this method on a item not in the queue will throw an exception.
+            If the item is enqueued multiple times, only the priority of the first will be returned.
+            (If your requirements are complex enough that you need to enqueue the same item multiple times <i>and</i> be able
+            to query all their priorities, please wrap your items in a wrapper class so they can be distinguished).
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.TryFirst(`0@)">
+            Get the head of the queue, without removing it (use TryDequeue() for that).
+            Useful for multi-threading, where the queue may become empty between calls to Contains() and First
+            Returns true if successful, false otherwise
+            O(1)
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.TryDequeue(`0@)">
+            <summary>
+            Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and sets it to first.
+            Useful for multi-threading, where the queue may become empty between calls to Contains() and Dequeue()
+            Returns true if successful; false if queue was empty
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.TryRemove(`0)">
+            <summary>
+            Attempts to remove an item from the queue.  The item does not need to be the head of the queue.  
+            Useful for multi-threading, where the queue may become empty between calls to Contains() and Remove()
+            Returns true if the item was successfully removed, false if it wasn't in the queue.
+            If multiple copies of the item are enqueued, only the first one is removed. 
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.TryUpdatePriority(`0,`1)">
+            <summary>
+            Call this method to change the priority of an item.
+            Useful for multi-threading, where the queue may become empty between calls to Contains() and UpdatePriority()
+            If the item is enqueued multiple times, only the first one will be updated.
+            (If your requirements are complex enough that you need to enqueue the same item multiple times <i>and</i> be able
+            to update all of them, please wrap your items in a wrapper class so they can be distinguished).
+            Returns true if the item priority was updated, false otherwise.
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`2.TryGetPriority(`0,`1@)">
+            <summary>
+            Attempt to get the priority of the given item.
+            Useful for multi-threading, where the queue may become empty between calls to Contains() and GetPriority()
+            If the item is enqueued multiple times, only the priority of the first will be returned.
+            (If your requirements are complex enough that you need to enqueue the same item multiple times <i>and</i> be able
+            to query all their priorities, please wrap your items in a wrapper class so they can be distinguished).
+            Returns true if the item was found in the queue, false otherwise
+            O(1)
+            </summary>
+        </member>
+        <member name="T:Priority_Queue.SimplePriorityQueue`1">
+            <summary>
+            A simplified priority queue implementation.  Is stable, auto-resizes, and thread-safe, at the cost of being slightly slower than
+            FastPriorityQueue
+            This class is kept here for backwards compatibility.  It's recommended you use SimplePriorityQueue&lt;TItem, TPriority&gt;
+            </summary>
+            <typeparam name="TItem">The type to enqueue</typeparam>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`1.#ctor">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`1.#ctor(System.Collections.Generic.IComparer{System.Single})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="comparer">The comparer used to compare priority values.  Defaults to Comparer&lt;float&gt;.default</param>
+        </member>
+        <member name="M:Priority_Queue.SimplePriorityQueue`1.#ctor(System.Comparison{System.Single})">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="comparer">The comparison function to use to compare priority values</param>
+        </member>
+        <member name="T:Priority_Queue.StablePriorityQueue`1">
+            <summary>
+            A copy of FastPriorityQueue which is also stable - that is, when two nodes are enqueued with the same priority, they
+            are always dequeued in the same order.
+            See https://github.com/BlueRaja/High-Speed-Priority-Queue-for-C-Sharp/wiki/Getting-Started for more information
+            </summary>
+            <typeparam name="T">The values in the queue.  Must extend the StablePriorityQueueNode class</typeparam>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.#ctor(System.Int32)">
+            <summary>
+            Instantiate a new Priority Queue
+            </summary>
+            <param name="maxNodes">The max nodes ever allowed to be enqueued (going over this will cause undefined behavior)</param>
+        </member>
+        <member name="P:Priority_Queue.StablePriorityQueue`1.Count">
+            <summary>
+            Returns the number of nodes in the queue.
+            O(1)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.StablePriorityQueue`1.MaxSize">
+            <summary>
+            Returns the maximum number of items that can be enqueued at once in this queue.  Once you hit this number (ie. once Count == MaxSize),
+            attempting to enqueue another item will cause undefined behavior.  O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Clear">
+            <summary>
+            Removes every node from the queue.
+            O(n) (So, don't do this often!)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Contains(`0)">
+            <summary>
+            Returns (in O(1)!) whether the given node is in the queue.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Enqueue(`0,System.Single)">
+            <summary>
+            Enqueue a node to the priority queue.  Lower values are placed in front. Ties are broken by first-in-first-out.
+            If the queue is full, the result is undefined.
+            If the node is already enqueued, the result is undefined.
+            If node is or has been previously added to another queue, the result is undefined unless oldQueue.ResetNode(node) has been called
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.HasHigherPriority(`0,`0)">
+            <summary>
+            Returns true if 'higher' has higher priority than 'lower', false otherwise.
+            Note that calling HasHigherPriority(node, node) (ie. both arguments the same node) will return false
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Dequeue">
+            <summary>
+            Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
+            If queue is empty, result is undefined
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Resize(System.Int32)">
+            <summary>
+            Resize the queue so it can accept more nodes.  All currently enqueued nodes are remain.
+            Attempting to decrease the queue size to a size too small to hold the existing nodes results in undefined behavior
+            O(n)
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.StablePriorityQueue`1.First">
+            <summary>
+            Returns the head of the queue, without removing it (use Dequeue() for that).
+            If the queue is empty, behavior is undefined.
+            O(1)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.UpdatePriority(`0,System.Single)">
+            <summary>
+            This method must be called on a node every time its priority changes while it is in the queue.  
+            <b>Forgetting to call this method will result in a corrupted queue!</b>
+            Calling this method on a node not in the queue results in undefined behavior
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.Remove(`0)">
+            <summary>
+            Removes a node from the queue.  The node does not need to be the head of the queue.  
+            If the node is not in the queue, the result is undefined.  If unsure, check Contains() first
+            O(log n)
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.ResetNode(`0)">
+            <summary>
+            By default, nodes that have been previously added to one queue cannot be added to another queue.
+            If you need to do this, please call originalQueue.ResetNode(node) before attempting to add it in the new queue
+            </summary>
+        </member>
+        <member name="M:Priority_Queue.StablePriorityQueue`1.IsValidQueue">
+            <summary>
+            <b>Should not be called in production code.</b>
+            Checks to make sure the queue is still in a valid state.  Used for testing/debugging the queue.
+            </summary>
+        </member>
+        <member name="P:Priority_Queue.StablePriorityQueueNode.InsertionIndex">
+            <summary>
+            Represents the order the node was inserted in
+            </summary>
+        </member>
+    </members>
+</doc>

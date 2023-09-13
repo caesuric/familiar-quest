@@ -1,0 +1,35 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.1/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.1": {},
+    ".NETStandard,Version=v2.1/": {
+      "MountainGoap/0.8.0": {
+        "dependencies": {
+          "StyleCop.Analyzers": "1.1.118"
+        },
+        "runtime": {
+          "MountainGoap.dll": {}
+        }
+      },
+      "StyleCop.Analyzers/1.1.118": {}
+    }
+  },
+  "libraries": {
+    "MountainGoap/0.8.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "StyleCop.Analyzers/1.1.118": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw==",
+      "path": "stylecop.analyzers/1.1.118",
+      "hashPath": "stylecop.analyzers.1.1.118.nupkg.sha512"
+    }
+  }
+}
