@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 2567981692455336468}
   - component: {fileID: 213911810320887396}
   - component: {fileID: 53149044348225376}
-  - component: {fileID: -838105543556704413}
+  - component: {fileID: 614092526435257174}
   m_Layer: 8
   m_Name: Dark Knight
   m_TagString: Enemy
@@ -543,7 +543,7 @@ MonoBehaviour:
   intelligence: 7
   wisdom: 6
   luck: 7
---- !u!114 &-838105543556704413
+--- !u!114 &614092526435257174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,12 +552,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1022047379689582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1032786529163378
 GameObject:
   m_ObjectHideFlags: 0

@@ -5209,7 +5209,7 @@ GameObject:
   - component: {fileID: 1870662210670043545}
   - component: {fileID: -1359801084515316532}
   - component: {fileID: 5094492208795690282}
-  - component: {fileID: -659986658072841684}
+  - component: {fileID: 5358903407898011205}
   m_Layer: 8
   m_Name: Phantom Fungus
   m_TagString: Enemy
@@ -5703,7 +5703,7 @@ MonoBehaviour:
   intelligence: 8
   wisdom: 8
   luck: 6
---- !u!114 &-659986658072841684
+--- !u!114 &5358903407898011205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5712,9 +5712,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768916044510094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 

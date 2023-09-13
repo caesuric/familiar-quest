@@ -7340,7 +7340,7 @@ GameObject:
   - component: {fileID: 358765606746320642}
   - component: {fileID: 4069880106122571361}
   - component: {fileID: -7333561700024372654}
-  - component: {fileID: -4256989231926250018}
+  - component: {fileID: -7400395637531062456}
   m_Layer: 8
   m_Name: Slime
   m_TagString: Enemy
@@ -7829,7 +7829,7 @@ MonoBehaviour:
   intelligence: 6
   wisdom: 10
   luck: 10
---- !u!114 &-4256989231926250018
+--- !u!114 &-7400395637531062456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7838,12 +7838,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964647456302574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1965008511100508
 GameObject:
   m_ObjectHideFlags: 0

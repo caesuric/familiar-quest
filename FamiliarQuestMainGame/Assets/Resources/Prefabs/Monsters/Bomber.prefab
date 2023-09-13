@@ -5068,7 +5068,7 @@ GameObject:
   - component: {fileID: 4937909541752524891}
   - component: {fileID: -1498960286793323365}
   - component: {fileID: 3284647490160856989}
-  - component: {fileID: 7263756860104212974}
+  - component: {fileID: 3595790882027613216}
   m_Layer: 8
   m_Name: Bomber
   m_TagString: Enemy
@@ -5543,7 +5543,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &7263756860104212974
+--- !u!114 &3595790882027613216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5552,12 +5552,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350755591798254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1353190638872794
 GameObject:
   m_ObjectHideFlags: 0

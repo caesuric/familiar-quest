@@ -2246,7 +2246,7 @@ GameObject:
   - component: {fileID: -8328457560036425260}
   - component: {fileID: -8652680660011819595}
   - component: {fileID: 7437509447104477274}
-  - component: {fileID: 8269735457230970783}
+  - component: {fileID: 3538910863096784225}
   m_Layer: 8
   m_Name: Young Dragon
   m_TagString: Enemy
@@ -2721,7 +2721,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &8269735457230970783
+--- !u!114 &3538910863096784225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2730,12 +2730,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1729203033476750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1741093928404908
 GameObject:
   m_ObjectHideFlags: 0

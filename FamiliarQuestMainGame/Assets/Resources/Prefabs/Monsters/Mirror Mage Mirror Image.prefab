@@ -16420,7 +16420,7 @@ GameObject:
   - component: {fileID: -5161424035626175522}
   - component: {fileID: -3466476505378036861}
   - component: {fileID: 3296618948395966589}
-  - component: {fileID: 8844036687217073556}
+  - component: {fileID: -2062572167170540012}
   m_Layer: 8
   m_Name: Mirror Mage Mirror Image
   m_TagString: Enemy
@@ -16896,7 +16896,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &8844036687217073556
+--- !u!114 &-2062572167170540012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16905,12 +16905,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1698218741147000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1705481586248872
 GameObject:
   m_ObjectHideFlags: 0

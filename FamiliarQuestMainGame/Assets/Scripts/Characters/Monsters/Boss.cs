@@ -38,12 +38,12 @@ public class Boss : MonoBehaviour {
         AddRandomElementalStrengths();
         SetupBossPatterns();
         gameObject.name += " (BOSS)";
-        var tm = GetComponent<MonsterAi>();
-        tm.sensors.Add(new AI.Sensors.BossAbilityTracking());
-        tm.availableActions.Add(new AI.Actions.HitPlayerWithBossMeleeAttack());
-        tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
-        tm.availableActions.Add(new AI.Actions.FacePlayerWhileUsingBossRangedAttack());
-        tm.availableActions.Add(new AI.Actions.UseBossUtilityAbility());
+        var tm = GetComponent<MGMonsterAI>();
+        //tm.Agent.Sensors.Add(new AI.Sensors.BossAbilityTracking());
+        //tm.availableActions.Add(new AI.Actions.HitPlayerWithBossMeleeAttack());
+        //tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
+        //tm.availableActions.Add(new AI.Actions.FacePlayerWhileUsingBossRangedAttack());
+        //tm.availableActions.Add(new AI.Actions.UseBossUtilityAbility());
         element = RNG.EnumValue<Element>();
         if (!phasesTimeBased) SetupHealthThresholds();
     }
@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //if (!NetworkServer.active) return;
-        var canSeePlayer = GetComponent<MonsterAi>().state["seePlayer"].Equals(true);
+        var canSeePlayer = GetComponent<MGMonsterAI>().Agent.State["seePlayer"].Equals(true);
         if (canSeePlayer && !fightStarted) {
             if (PlayersInRoom() && Vector3.Distance(transform.position, originalLocation) <= 150f) {
                 fightStarted = true;

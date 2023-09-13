@@ -9861,7 +9861,7 @@ GameObject:
   - component: {fileID: 8717891837306169457}
   - component: {fileID: 888381602478751670}
   - component: {fileID: 8093390618712005769}
-  - component: {fileID: -2313751297174570155}
+  - component: {fileID: -7524404088779178187}
   m_Layer: 8
   m_Name: Jittery Wisplet
   m_TagString: Enemy
@@ -10336,7 +10336,7 @@ MonoBehaviour:
   intelligence: 12
   wisdom: 10
   luck: 10
---- !u!114 &-2313751297174570155
+--- !u!114 &-7524404088779178187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10345,12 +10345,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1151364228151392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1221008846932496
 GameObject:
   m_ObjectHideFlags: 0

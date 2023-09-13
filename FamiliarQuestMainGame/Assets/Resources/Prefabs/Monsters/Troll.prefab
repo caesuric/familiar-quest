@@ -1622,7 +1622,7 @@ GameObject:
   - component: {fileID: -6152138984825308955}
   - component: {fileID: -1018017840897480041}
   - component: {fileID: 3221428621018472967}
-  - component: {fileID: -7502832394677515669}
+  - component: {fileID: 2842467482560872980}
   m_Layer: 8
   m_Name: Troll
   m_TagString: Enemy
@@ -2109,7 +2109,7 @@ MonoBehaviour:
   intelligence: 8
   wisdom: 8
   luck: 10
---- !u!114 &-7502832394677515669
+--- !u!114 &2842467482560872980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2118,12 +2118,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1353711140592610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1372227418662026
 GameObject:
   m_ObjectHideFlags: 0

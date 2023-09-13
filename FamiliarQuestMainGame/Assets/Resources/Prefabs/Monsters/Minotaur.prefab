@@ -7707,7 +7707,7 @@ GameObject:
   - component: {fileID: -4903647342840772321}
   - component: {fileID: 7573042976959921801}
   - component: {fileID: -1114894048218348085}
-  - component: {fileID: 350032396849645505}
+  - component: {fileID: 6532206816408405963}
   m_Layer: 8
   m_Name: Minotaur
   m_TagString: Enemy
@@ -8182,7 +8182,7 @@ MonoBehaviour:
   intelligence: 8
   wisdom: 8
   luck: 10
---- !u!114 &350032396849645505
+--- !u!114 &6532206816408405963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8191,12 +8191,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1929085920392420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1934155839028394
 GameObject:
   m_ObjectHideFlags: 0

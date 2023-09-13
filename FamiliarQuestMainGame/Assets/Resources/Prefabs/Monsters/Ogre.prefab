@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 3705265588361380976}
   - component: {fileID: -3286992944564482367}
   - component: {fileID: 8986750033546959556}
-  - component: {fileID: -9045539244343896940}
+  - component: {fileID: 3272116971925974854}
   m_Layer: 8
   m_Name: Ogre
   m_TagString: Enemy
@@ -2096,7 +2096,7 @@ MonoBehaviour:
   intelligence: 8
   wisdom: 8
   luck: 10
---- !u!114 &-9045539244343896940
+--- !u!114 &3272116971925974854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2105,12 +2105,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1353711140592610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1372227418662026
 GameObject:
   m_ObjectHideFlags: 0

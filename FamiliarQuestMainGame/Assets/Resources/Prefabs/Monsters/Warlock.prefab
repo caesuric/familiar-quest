@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 4492518016980461747}
   - component: {fileID: 3651192018025527154}
   - component: {fileID: 6758825493990284076}
-  - component: {fileID: -6324320609853854026}
+  - component: {fileID: -7245775805697839874}
   m_Layer: 8
   m_Name: Warlock
   m_TagString: Enemy
@@ -635,7 +635,7 @@ MonoBehaviour:
   intelligence: 14
   wisdom: 12
   luck: 10
---- !u!114 &-6324320609853854026
+--- !u!114 &-7245775805697839874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -644,12 +644,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1100665969931618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1106124104467664
 GameObject:
   m_ObjectHideFlags: 0

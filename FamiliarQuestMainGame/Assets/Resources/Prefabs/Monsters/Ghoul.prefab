@@ -8361,7 +8361,7 @@ GameObject:
   - component: {fileID: 8302694290020307511}
   - component: {fileID: -7282018753349266852}
   - component: {fileID: 8737448824170324921}
-  - component: {fileID: -2767758825435759548}
+  - component: {fileID: -5006262365736283331}
   m_Layer: 8
   m_Name: Ghoul
   m_TagString: Enemy
@@ -8836,7 +8836,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 8
   luck: 10
---- !u!114 &-2767758825435759548
+--- !u!114 &-5006262365736283331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8845,9 +8845,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1992158986572322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 

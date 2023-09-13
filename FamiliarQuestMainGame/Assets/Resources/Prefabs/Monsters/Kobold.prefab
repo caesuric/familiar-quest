@@ -7275,7 +7275,7 @@ GameObject:
   - component: {fileID: -7265498429506729968}
   - component: {fileID: -6378103852131887421}
   - component: {fileID: 8915178149470852362}
-  - component: {fileID: -3969782000076794869}
+  - component: {fileID: 5780315513126468619}
   m_Layer: 8
   m_Name: Kobold
   m_TagString: Enemy
@@ -7750,7 +7750,7 @@ MonoBehaviour:
   intelligence: 4
   wisdom: 4
   luck: 4
---- !u!114 &-3969782000076794869
+--- !u!114 &5780315513126468619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7759,12 +7759,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1864289163717516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1868023112957486
 GameObject:
   m_ObjectHideFlags: 0

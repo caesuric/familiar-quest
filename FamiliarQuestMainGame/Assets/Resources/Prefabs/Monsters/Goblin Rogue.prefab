@@ -14561,7 +14561,7 @@ GameObject:
   - component: {fileID: -1976807043153270017}
   - component: {fileID: 3376001992276478201}
   - component: {fileID: 2271334280869078306}
-  - component: {fileID: -4679002559251265601}
+  - component: {fileID: 3724809339946055122}
   m_Layer: 8
   m_Name: Goblin Rogue
   m_TagString: Enemy
@@ -15059,7 +15059,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &-4679002559251265601
+--- !u!114 &3724809339946055122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15068,12 +15068,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1815426703232434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1819415954217234
 GameObject:
   m_ObjectHideFlags: 0

@@ -383,15 +383,15 @@ public class MGMonsterAI : MonoBehaviour {
         var timer = 0f;
         var turnTime = 0.25f;
         var rotationAmount = 0f;
-        var completeMovePhase1 = () => {
+        System.Action completeMovePhase1 = () => {
             startRotation = transform.eulerAngles;
             targetLookRotation = new Vector3(originalRotation.x, originalRotation.y + rotationAmount, originalRotation.z);
         };
-        var completeMovePhase2 = () => {
+        System.Action completeMovePhase2 = () => {
             startRotation = transform.eulerAngles;
             targetLookRotation = originalRotation;
         };
-        var completeMovePhase3 = () => {
+        System.Action completeMovePhase3 = () => {
             started = false;
         };
         var actions = new Dictionary<int, System.Action>() {
@@ -399,7 +399,7 @@ public class MGMonsterAI : MonoBehaviour {
             { 2,  () => completeMovePhase2() },
             { 3,  () => completeMovePhase3() }
         };
-        var finishTurn = () => {
+        System.Action finishTurn = () => {
             movePhase++;
             timer = 0f;
             actions[movePhase]();

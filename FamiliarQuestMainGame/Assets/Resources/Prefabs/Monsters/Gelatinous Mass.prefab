@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: -1322499834434239944}
   - component: {fileID: 3800931715021151701}
   - component: {fileID: -6343822819140597309}
-  - component: {fileID: 5702858960273899923}
+  - component: {fileID: 6815951880309542400}
   m_Layer: 8
   m_Name: Gelatinous Mass
   m_TagString: Enemy
@@ -625,7 +625,7 @@ MonoBehaviour:
   intelligence: 4
   wisdom: 4
   luck: 8
---- !u!114 &5702858960273899923
+--- !u!114 &6815951880309542400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -634,12 +634,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1216377730207854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1237208633735526
 GameObject:
   m_ObjectHideFlags: 0

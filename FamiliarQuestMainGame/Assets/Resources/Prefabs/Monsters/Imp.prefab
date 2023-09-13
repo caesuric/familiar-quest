@@ -12696,7 +12696,7 @@ GameObject:
   - component: {fileID: 7870456755394407964}
   - component: {fileID: -3325602540586151124}
   - component: {fileID: -4234958358500037701}
-  - component: {fileID: -4779501092384478962}
+  - component: {fileID: -9079212782194680746}
   m_Layer: 8
   m_Name: Imp
   m_TagString: Enemy
@@ -13172,7 +13172,7 @@ MonoBehaviour:
   intelligence: 9
   wisdom: 10
   luck: 10
---- !u!114 &-4779501092384478962
+--- !u!114 &-9079212782194680746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13181,12 +13181,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855928076943358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1864053522102478
 GameObject:
   m_ObjectHideFlags: 0

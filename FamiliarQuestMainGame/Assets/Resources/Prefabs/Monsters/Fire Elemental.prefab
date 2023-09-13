@@ -6031,7 +6031,7 @@ GameObject:
   - component: {fileID: -7356377495207383994}
   - component: {fileID: -2935737927255590642}
   - component: {fileID: 5197667160806071163}
-  - component: {fileID: 335093163275633659}
+  - component: {fileID: 655555488805414157}
   m_Layer: 8
   m_Name: Fire Elemental
   m_TagString: Enemy
@@ -6506,7 +6506,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &335093163275633659
+--- !u!114 &655555488805414157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6515,12 +6515,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1603361124138068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1707061090984542
 GameObject:
   m_ObjectHideFlags: 0

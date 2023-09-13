@@ -5447,7 +5447,7 @@ GameObject:
   - component: {fileID: 8437337855574517866}
   - component: {fileID: -3385165120729713577}
   - component: {fileID: -1382096408057585398}
-  - component: {fileID: 1746792114581198017}
+  - component: {fileID: 5212840686190622352}
   m_Layer: 8
   m_Name: Bound Archon
   m_TagString: Enemy
@@ -5922,7 +5922,7 @@ MonoBehaviour:
   intelligence: 8
   wisdom: 11
   luck: 7
---- !u!114 &1746792114581198017
+--- !u!114 &5212840686190622352
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5931,12 +5931,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1194696009677936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1197203903696410
 GameObject:
   m_ObjectHideFlags: 0

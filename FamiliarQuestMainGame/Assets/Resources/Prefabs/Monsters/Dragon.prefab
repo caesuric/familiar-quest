@@ -8134,7 +8134,7 @@ GameObject:
   - component: {fileID: -4342638272892782853}
   - component: {fileID: 4469497324371188717}
   - component: {fileID: -2951207984663063531}
-  - component: {fileID: 5201054995922116675}
+  - component: {fileID: -4670195380383106103}
   m_Layer: 8
   m_Name: Dragon
   m_TagString: Enemy
@@ -8609,7 +8609,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &5201054995922116675
+--- !u!114 &-4670195380383106103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8618,12 +8618,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1890253663245154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1941999283844042
 GameObject:
   m_ObjectHideFlags: 0

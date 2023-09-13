@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 1796778604234154138}
   - component: {fileID: -8418565396747651860}
   - component: {fileID: 7306114013052450474}
-  - component: {fileID: 3860530091719098138}
+  - component: {fileID: -3879695071833090512}
   m_Layer: 8
   m_Name: Golem
   m_TagString: Enemy
@@ -604,7 +604,7 @@ MonoBehaviour:
   intelligence: 1
   wisdom: 1
   luck: 1
---- !u!114 &3860530091719098138
+--- !u!114 &-3879695071833090512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -613,12 +613,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1040067436685960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1051001706062948
 GameObject:
   m_ObjectHideFlags: 0

@@ -6191,7 +6191,7 @@ GameObject:
   - component: {fileID: 922824511606608512}
   - component: {fileID: 8344147733418711024}
   - component: {fileID: 2387153582761158359}
-  - component: {fileID: 7891134568764258177}
+  - component: {fileID: -837060972984500094}
   m_Layer: 8
   m_Name: Land Squid
   m_TagString: Enemy
@@ -6666,7 +6666,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &7891134568764258177
+--- !u!114 &-837060972984500094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6675,12 +6675,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1757708974260342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1759228983166236
 GameObject:
   m_ObjectHideFlags: 0

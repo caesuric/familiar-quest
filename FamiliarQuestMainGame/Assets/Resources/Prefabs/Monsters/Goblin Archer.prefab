@@ -1390,7 +1390,7 @@ GameObject:
   - component: {fileID: -5092754440249405666}
   - component: {fileID: -8738955263964196559}
   - component: {fileID: -5783512470145648472}
-  - component: {fileID: 4939427638435460788}
+  - component: {fileID: 81598235308860706}
   m_Layer: 8
   m_Name: Goblin Archer
   m_TagString: Enemy
@@ -1887,7 +1887,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &4939427638435460788
+--- !u!114 &81598235308860706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1896,12 +1896,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1143552021506428}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1148236106849394
 GameObject:
   m_ObjectHideFlags: 0

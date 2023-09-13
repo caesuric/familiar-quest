@@ -16,7 +16,7 @@ public class Monster : MonoBehaviour {
     public GameObject unitFramePrefab;
     public GameObject unitFrame;
     public Renderer[] renderers;
-    private MonsterAi monsterAi = null;
+    private MGMonsterAI monsterAi = null;
     
     // Use this for initialization
 
@@ -32,7 +32,7 @@ public class Monster : MonoBehaviour {
             if (GetComponent<AbilityUser>().soulGemPassive != null) GetComponent<AbilityUser>().AddPassive(GetComponent<AbilityUser>().soulGemPassive);
         }
         renderers = GetComponentsInChildren<Renderer>();
-        monsterAi = GetComponent<MonsterAi>();
+        monsterAi = GetComponent<MGMonsterAI>();
         var nma = GetComponent<NavMeshAgent>();
         nma.speed *= 3; // speed multiplier to make game harder
         nma.acceleration = nma.speed * 1.5f;
@@ -40,7 +40,7 @@ public class Monster : MonoBehaviour {
     }
 
     private void Update() {
-        var inCombat = (bool)monsterAi.state["seePlayer"];
+        var inCombat = (bool)monsterAi.Agent.State["seePlayer"];
         if (inCombat && unitFrame!=null && !unitFrame.activeSelf) unitFrame.SetActive(true);
         else if (!inCombat && unitFrame!=null && unitFrame.activeSelf) unitFrame.SetActive(false);
     }

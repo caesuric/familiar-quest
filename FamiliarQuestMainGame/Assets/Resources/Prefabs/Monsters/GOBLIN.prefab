@@ -3699,7 +3699,7 @@ GameObject:
   - component: {fileID: 280833290219896991}
   - component: {fileID: -3661068424171552078}
   - component: {fileID: 26380330306912388}
-  - component: {fileID: 5828280694256011150}
+  - component: {fileID: -2395525042812516037}
   m_Layer: 8
   m_Name: GOBLIN
   m_TagString: Enemy
@@ -4196,7 +4196,7 @@ MonoBehaviour:
   intelligence: 10
   wisdom: 10
   luck: 10
---- !u!114 &5828280694256011150
+--- !u!114 &-2395525042812516037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4205,12 +4205,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1266137720512372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa7adc5abb5a514a9242c5fd55117e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 47b113c4f1edada4a9ee9f2ce68b7233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  busy: 0
-  planning: 0
-  currentAction: 
 --- !u!1 &1266815831557990
 GameObject:
   m_ObjectHideFlags: 0
