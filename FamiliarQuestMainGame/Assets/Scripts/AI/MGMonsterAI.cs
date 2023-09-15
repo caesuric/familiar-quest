@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class MGMonsterAI : MonoBehaviour {
     public Agent Agent;
+    public float timer = 0;
 
     // Start is called before the first frame update
     void Start() {
@@ -25,11 +26,13 @@ public class MGMonsterAI : MonoBehaviour {
         };
         var hurtPlayerGoal = new Goal(
             weight: 1f,
-            desiredState: new Dictionary<string, object> { { "playerHurt", true } }
+            desiredState: new Dictionary<string, object> { { "playerHurt", true } },
+            name: "Hurt Player"
         );
         var stayAlertGoal = new Goal(
             weight: 0.01f,
-            desiredState: new Dictionary<string, object> { { "awareOfSurroundings", true } }
+            desiredState: new Dictionary<string, object> { { "awareOfSurroundings", true } },
+            name: "Stay Alert"
         );
         var facePlayerAction = new Action(
             name: "Face Player",
@@ -135,7 +138,8 @@ public class MGMonsterAI : MonoBehaviour {
             postconditions: new Dictionary<string, object> {
                 { "gcdReady", true }
             },
-            executor: GetWaitForGcdExecutor()
+            executor: GetWaitForGcdExecutor(),
+            cost: 1f
         );
         var pursuePlayerAction = new Action(
             name: "Pursue Player",
@@ -165,44 +169,65 @@ public class MGMonsterAI : MonoBehaviour {
         );
         var abilityUser = GetComponent<AbilityUser>();
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
-        var abilityTrackingSensor = new Sensor((agent) => {
-            agent.State["meleeAttackAvailable"] = IsMeleeAttackAvailable(new List<List<ActiveAbility>> { abilityUser.soulGemActives, monsterBaseAbilities.baseAbilities });
-            agent.State["rangedAttackAvailable"] = IsRangedAttackAvailable(new List<List<ActiveAbility>> { abilityUser.soulGemActives, monsterBaseAbilities.baseAbilities });
-        });
-        var gcdTrackingSensor = new Sensor((agent) => {
-            agent.State["gcdReady"] = abilityUser.GCDTime <= 0;
-        });
-        var sightSensor = new Sensor((agent) => {
-            UpdateFov(agent);
-            var fov = agent.Memory["fieldOfVision"] as AI.Data.FieldOfVision;
-            UpdateLastSeen(fov, agent);
-            agent.State["seePlayer"] = (fov.players.Count > 0);
-            if (fov.players.Count > 0) agent.State["haveSeenPlayer"] = true;
-            agent.State["inMeleeRangeOfPlayer"] = CanHitPlayer(agent);
-            agent.State["facingPlayer"] = IsFacingPlayer(agent);
-            agent.State["facingPlayerPrecisely"] = IsFacingPlayer(agent, 10f);
-            agent.State["playerAlive"] = IsPlayerAlive(agent, (bool)agent.State["playerAlive"]);
-            agent.State["playerHurt"] = !(agent.State["playerAlive"].Equals(true));
-            agent.State["awareOfSurroundings"] = false;
-        });
-        var memorySensor = new Sensor((agent) => {
-            if (!agent.Memory.ContainsKey("character")) agent.Memory["characters"] = new AI.Data.MemoryOfCharacters();
-            var moc = agent.Memory["characters"] as AI.Data.MemoryOfCharacters;
-            var rememberAlive = false;
-            foreach (var memory in moc.memories) {
-                if (memory.isEnemy && memory.character.GetComponent<Health>().hp > 0) {
-                    rememberAlive = true;
-                    break;
+        var abilityTrackingSensor = new Sensor(
+            (agent) => {
+                agent.State["meleeAttackAvailable"] = IsMeleeAttackAvailable(new List<List<ActiveAbility>> { abilityUser.soulGemActives, monsterBaseAbilities.baseAbilities });
+                agent.State["rangedAttackAvailable"] = IsRangedAttackAvailable(new List<List<ActiveAbility>> { abilityUser.soulGemActives, monsterBaseAbilities.baseAbilities });
+            },
+            name: "Ability Tracking Sensor"
+        );
+        var gcdTrackingSensor = new Sensor(
+            (agent) => {
+                agent.State["gcdReady"] = abilityUser.GCDTime <= 0;
+            },
+            name: "GCD Tracking Sensor"
+        );
+        var sightSensor = new Sensor(
+            (agent) => {
+                UpdateFov(agent);
+                var fov = agent.Memory["fieldOfVision"] as AI.Data.FieldOfVision;
+                UpdateLastSeen(fov, agent);
+                agent.State["seePlayer"] = (fov.players.Count > 0);
+                if (fov.players.Count > 0) agent.State["haveSeenPlayer"] = true;
+                agent.State["inMeleeRangeOfPlayer"] = CanHitPlayer(agent);
+                agent.State["facingPlayer"] = IsFacingPlayer(agent);
+                agent.State["facingPlayerPrecisely"] = IsFacingPlayer(agent, 10f);
+                agent.State["playerAlive"] = IsPlayerAlive(agent, (bool)agent.State["playerAlive"]);
+                agent.State["playerHurt"] = !(agent.State["playerAlive"].Equals(true));
+                //agent.State["playerHurt"] = false;
+                agent.State["awareOfSurroundings"] = false;
+                agent.State["playersInFieldOfVision"] = fov.players;
+            },
+            name: "Sight Sensor"
+        );
+        var memorySensor = new Sensor(
+            (agent) => {
+                if (!agent.Memory.ContainsKey("character")) agent.Memory["characters"] = new AI.Data.MemoryOfCharacters();
+                var moc = agent.Memory["characters"] as AI.Data.MemoryOfCharacters;
+                var rememberAlive = false;
+                foreach (var memory in moc.memories) {
+                    if (memory.isEnemy && memory.character.GetComponent<Health>().hp > 0) {
+                        rememberAlive = true;
+                        break;
+                    }
                 }
-            }
-            if (!rememberAlive && !agent.State["seePlayer"].Equals(true)) agent.State["playerAlive"] = false;
-        });
+                if (!rememberAlive && !agent.State["seePlayer"].Equals(true)) agent.State["playerAlive"] = false;
+            },
+            name: "Memory Sensor"
+        );
         var statusEffectHost = GetComponent<StatusEffectHost>();
-        var effectTrackingSensor = new Sensor((agent) => {
-            agent.State["paralyzed"] = statusEffectHost.CheckForEffect("paralysis");
-        });
+        var effectTrackingSensor = new Sensor(
+            (agent) => {
+                agent.State["paralyzed"] = statusEffectHost.CheckForEffect("paralysis");
+            },
+            name: "Effect Tracking Sensor"
+        );
         Agent = new Agent(
-            goals: new List<BaseGoal> { hurtPlayerGoal, stayAlertGoal },
+            name: gameObject.name,
+            goals: new List<BaseGoal> {
+                hurtPlayerGoal,
+                stayAlertGoal
+            },
             actions: new List<Action> {
                 facePlayerAction,
                 hitPlayerWithMeleeAttackAction,
@@ -222,18 +247,79 @@ public class MGMonsterAI : MonoBehaviour {
             },
             state: state
         );
+        Agent.OnAgentActionSequenceCompleted += (agent) => {
+            Debug.Log($"Agent {agent.Name} completed action sequence.");
+        };
+        Agent.OnAgentStep += (agent) => {
+            Debug.Log($"Agent {agent.Name} is working.");
+            //Debug.Log("STATE:");
+            //foreach (var kvp in agent.State) Debug.Log($"{kvp.Key}: {kvp.Value}");
+            //Debug.Log("---------------");
+        };
+        Action.OnBeginExecuteAction += (agent, action, parameters) => {
+            Debug.Log($"Agent {agent.Name} began executing action {action.Name}.");
+            if (parameters.Count == 0) return;
+            Debug.Log("\tAction parameters:");
+            foreach (var kvp in parameters) Debug.Log($"\t\t{kvp.Key}: {kvp.Value}");
+        };
+        Action.OnFinishExecuteAction += (agent, action, status, parameters) => {
+            Debug.Log($"Agent {agent.Name} finished executing action {action.Name} with status {status}.");
+        };
+        Agent.OnPlanningFinished += (agent, goal, utility) => {
+            if (goal is null) Debug.LogWarning($"Agent {agent.Name} finished planning and found no possible goal.");
+            else Debug.Log($"Agent {agent.Name} finished planning with goal {goal.Name}, utility value {utility}.");
+            //if (!(bool)agent.State["seePlayer"]) Debug.LogError("seePlayer false");
+            //if (!(bool)agent.State["inMeleeRangeOfPlayer"]) Debug.LogError("inMeleeRangeOfPlayer false");
+            //if (!(bool)agent.State["meleeAttackAvailable"]) Debug.LogError("meleeAttackAvailable false");
+            //if (!(bool)agent.State["gcdReady"]) Debug.LogError("gcdReady false");
+            //if (!(bool)agent.State["facingPlayer"]) Debug.LogError("facingPlayer false");
+            //if (!(bool)agent.State["playerAlive"]) Debug.LogError("playerAlive false");
+            //if ((bool)agent.State["paralyzed"]) Debug.LogError("paralyzed true");
+            if ((bool)agent.State["seePlayer"] && (bool)agent.State["inMeleeRangeOfPlayer"] && (bool)agent.State["meleeAttackAvailable"] && (bool)agent.State["gcdReady"] && (bool)agent.State["facingPlayer"] && (bool)agent.State["playerAlive"] && !(bool)agent.State["paralyzed"]) Debug.Log("ready to RUMBLE");
+        };
+        Agent.OnPlanningFinishedForSingleGoal += (agent, goal, utility) => {
+            Debug.Log($"Agent {agent.Name} finished planning for goal {goal.Name}, utility value {utility}.");
+        };
+        Agent.OnPlanningStarted += (agent) => {
+            Debug.Log($"Agent {agent.Name} started planning.");
+        };
+        Agent.OnPlanUpdated += (agent, actionList) => {
+            Debug.Log($"Agent {agent.Name} has a new plan:");
+            var count = 1;
+            foreach (var action in actionList) {
+                Debug.Log($"\tStep #{count}: {action.Name}");
+                count++;
+            }
+        };
+        Agent.OnEvaluatedActionNode += (node, nodes) => {
+            var cameFromList = new List<ActionNode>();
+            var traceback = node;
+            while (nodes.ContainsKey(traceback) && traceback.Action != nodes[traceback].Action) {
+                cameFromList.Add(traceback);
+                traceback = nodes[traceback];
+            }
+            cameFromList.Reverse();
+            Debug.Log($"Evaluating node {node.Action?.Name} with {cameFromList.Count - 1} nodes leading to it.");
+        };
+        Sensor.OnSensorRun += (agent, sensor) => {
+            Debug.Log($"Agent {agent.Name} ran sensor {sensor.Name}.");
+        };
     }
 
     // Update is called once per frame
     void Update() {
-        Agent.Step();
+        timer+= Time.deltaTime;
+        if (timer >= 1) {
+            Agent.Step();
+            timer = 0;
+        }
     }
 
     private ExecutorCallback GetFacePlayerExecutor() {
         var started = false;
         var originalRotation = new Quaternion();
         var targetLookRotation = new Quaternion();
-        var timer = 0f;
+        var facePlayerTimer = 0f;
         var turnTime = 0.1f;
         return (agent, action) => {
             Debug.Log($"executing {action.Name}");
@@ -242,14 +328,14 @@ public class MGMonsterAI : MonoBehaviour {
                 started = true;
                 originalRotation = transform.rotation;
                 targetLookRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-                timer = 0f;
+                facePlayerTimer = 0f;
                 return ExecutionStatus.Executing;
             }
             else {
-                timer += Time.deltaTime;
-                transform.rotation = Quaternion.Slerp(originalRotation, targetLookRotation, timer / turnTime);
-                if (timer > turnTime) {
-                    timer = 0f;
+                facePlayerTimer += Time.deltaTime;
+                transform.rotation = Quaternion.Slerp(originalRotation, targetLookRotation, facePlayerTimer / turnTime);
+                if (facePlayerTimer > turnTime) {
+                    facePlayerTimer = 0f;
                     started = false;
                     return ExecutionStatus.Succeeded;
                 }

@@ -213,6 +213,16 @@
             Event that fires when planning finishes.
             </summary>
         </member>
+        <member name="E:MountainGoap.Agent.OnPlanUpdated">
+            <summary>
+            Event that fires when a new plan is finalized for the agent.
+            </summary>
+        </member>
+        <member name="E:MountainGoap.Agent.OnEvaluatedActionNode">
+            <summary>
+            Event that fires when the pathfinder evaluates a single node in the action graph.
+            </summary>
+        </member>
         <member name="P:MountainGoap.Agent.State">
             <summary>
             Gets or sets the current world state from the agent perspective.
@@ -275,6 +285,20 @@
             <param name="agent">Agent that finished planning.</param>
             <param name="goal">Goal that was selected.</param>
             <param name="utility">Utility of the plan.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.TriggerOnPlanUpdated(MountainGoap.Agent,System.Collections.Generic.List{MountainGoap.Action})">
+            <summary>
+            Triggers OnPlanUpdated event.
+            </summary>
+            <param name="agent">Agent for which the plan was updated.</param>
+            <param name="actionList">New action list for the agent.</param>
+        </member>
+        <member name="M:MountainGoap.Agent.TriggerOnEvaluatedActionNode(MountainGoap.ActionNode,System.Collections.Generic.Dictionary{MountainGoap.ActionNode,MountainGoap.ActionNode})">
+            <summary>
+            Triggers OnEvaluatedActionNode event.
+            </summary>
+            <param name="node">Action node being evaluated.</param>
+            <param name="nodes">List of nodes in the path that led to this point.</param>
         </member>
         <member name="M:MountainGoap.Agent.StepAsync">
             <summary>
@@ -425,6 +449,13 @@
             <param name="action">Action being executed.</param>
             <param name="parameters">Parameters to the action being executed.</param>
         </member>
+        <member name="T:MountainGoap.EvaluatedActionNodeEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent is evaluating a path for a potential action plan.
+            </summary>
+            <param name="node">Node being evaluated.</param>
+            <param name="nodes">All nodes in the plan being evaluated.</param>
+        </member>
         <member name="T:MountainGoap.FinishExecuteActionEvent">
             <summary>
             Delegate type for a listener to the event that fires when an action finishes executing.
@@ -455,6 +486,13 @@
             Delegate type for a listener to the event that fires when an agent begins planning.
             </summary>
             <param name="agent">Agent doing the planning.</param>
+        </member>
+        <member name="T:MountainGoap.PlanUpdatedEvent">
+            <summary>
+            Delegate type for a listener to the event that fires when an agent has a new plan.
+            </summary>
+            <param name="agent">Agent executing the step of work.</param>
+            <param name="plan">Plan determined to be optimal for the agent.</param>
         </member>
         <member name="T:MountainGoap.SensorRunEvent">
             <summary>
@@ -591,21 +629,6 @@
             Represents an action node in an action graph.
             </summary>
         </member>
-        <member name="F:MountainGoap.ActionNode.State">
-            <summary>
-            The state of the world for this action node.
-            </summary>
-        </member>
-        <member name="F:MountainGoap.ActionNode.Parameters">
-            <summary>
-            Parameters to be passed to the action.
-            </summary>
-        </member>
-        <member name="F:MountainGoap.ActionNode.Action">
-            <summary>
-            The action to be executed when the world is in the defined <see cref="F:MountainGoap.ActionNode.State"/>.
-            </summary>
-        </member>
         <member name="M:MountainGoap.ActionNode.#ctor(MountainGoap.Action,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             Initializes a new instance of the <see cref="T:MountainGoap.ActionNode"/> class.
@@ -613,6 +636,37 @@
             <param name="action">Action to be assigned to the node.</param>
             <param name="state">State to be assigned to the node.</param>
             <param name="parameters">Paramters to be passed to the action in the node.</param>
+        </member>
+        <member name="P:MountainGoap.ActionNode.State">
+            <summary>
+            Gets or sets the state of the world for this action node.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.ActionNode.Parameters">
+            <summary>
+            Gets or sets parameters to be passed to the action.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.ActionNode.Action">
+            <summary>
+            Gets or sets the action to be executed when the world is in the defined <see cref="P:MountainGoap.ActionNode.State"/>.
+            </summary>
+        </member>
+        <member name="M:MountainGoap.ActionNode.op_Equality(MountainGoap.ActionNode,MountainGoap.ActionNode)">
+            <summary>
+            Overrides the equality operator on ActionNodes.
+            </summary>
+            <param name="node1">First node to be compared.</param>
+            <param name="node2">Second node to be compared.</param>
+            <returns>True if equal, otherwise false.</returns>
+        </member>
+        <member name="M:MountainGoap.ActionNode.op_Inequality(MountainGoap.ActionNode,MountainGoap.ActionNode)">
+            <summary>
+            Overrides the inequality operator on ActionNodes.
+            </summary>
+            <param name="node1">First node to be compared.</param>
+            <param name="node2">Second node to be compared.</param>
+            <returns>True if unequal, otherwise false.</returns>
         </member>
         <member name="M:MountainGoap.ActionNode.Equals(System.Object)">
             <inheritdoc/>
