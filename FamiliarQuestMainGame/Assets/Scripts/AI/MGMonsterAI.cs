@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class MGMonsterAI : MonoBehaviour {
     public Agent Agent;
     public float timer = 0;
+    public Vector3 position = Vector3.zero;
+    public Vector3 destination = Vector3.zero;
+    public List<GameObject> fovList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start() {
@@ -22,7 +25,7 @@ public class MGMonsterAI : MonoBehaviour {
             { "bossRangedAttackAvailable", false },
             { "bossUtilityAbilityAvailable", false },
             { "paralyzed", false },
-            { "playersInFieldOfVision", new List<GameObject>() }
+            { "playersInFieldOfVision", fovList }
         };
         var hurtPlayerGoal = new Goal(
             weight: 1f,
@@ -159,7 +162,7 @@ public class MGMonsterAI : MonoBehaviour {
             name: "Look Around",
             cost: 1f,
             preconditions: new Dictionary<string, object> {
-                { "seePlayer", false },
+                //{ "seePlayer", false },
                 { "paralyzed", false }
             },
             postconditions: new Dictionary<string, object> {
@@ -196,7 +199,9 @@ public class MGMonsterAI : MonoBehaviour {
                 agent.State["playerHurt"] = !(agent.State["playerAlive"].Equals(true));
                 //agent.State["playerHurt"] = false;
                 agent.State["awareOfSurroundings"] = false;
-                agent.State["playersInFieldOfVision"] = fov.players;
+                //agent.State["playersInFieldOfVision"] = fov.players;
+                fovList.Clear();
+                fovList.AddRange(fov.players);
             },
             name: "Sight Sensor"
         );
@@ -252,6 +257,14 @@ public class MGMonsterAI : MonoBehaviour {
         };
         Agent.OnAgentStep += (agent) => {
             Debug.Log($"Agent {agent.Name} is working.");
+            //if (!(bool)agent.State["seePlayer"]) Debug.LogError("seePlayer false");
+            //if (!(bool)agent.State["inMeleeRangeOfPlayer"]) Debug.LogError("inMeleeRangeOfPlayer false");
+            //if (!(bool)agent.State["meleeAttackAvailable"]) Debug.LogError("meleeAttackAvailable false");
+            //if (!(bool)agent.State["gcdReady"]) Debug.LogError("gcdReady false");
+            //if (!(bool)agent.State["facingPlayer"]) Debug.LogError("facingPlayer false");
+            //if (!(bool)agent.State["playerAlive"]) Debug.LogError("playerAlive false");
+            //if ((bool)agent.State["paralyzed"]) Debug.LogError("paralyzed true");
+            if ((bool)agent.State["seePlayer"] && (bool)agent.State["inMeleeRangeOfPlayer"] && (bool)agent.State["meleeAttackAvailable"] && (bool)agent.State["gcdReady"] && (bool)agent.State["facingPlayer"] && (bool)agent.State["playerAlive"] && !(bool)agent.State["paralyzed"]) Debug.Log("ready to RUMBLE");
             //Debug.Log("STATE:");
             //foreach (var kvp in agent.State) Debug.Log($"{kvp.Key}: {kvp.Value}");
             //Debug.Log("---------------");
@@ -268,14 +281,6 @@ public class MGMonsterAI : MonoBehaviour {
         Agent.OnPlanningFinished += (agent, goal, utility) => {
             if (goal is null) Debug.LogWarning($"Agent {agent.Name} finished planning and found no possible goal.");
             else Debug.Log($"Agent {agent.Name} finished planning with goal {goal.Name}, utility value {utility}.");
-            //if (!(bool)agent.State["seePlayer"]) Debug.LogError("seePlayer false");
-            //if (!(bool)agent.State["inMeleeRangeOfPlayer"]) Debug.LogError("inMeleeRangeOfPlayer false");
-            //if (!(bool)agent.State["meleeAttackAvailable"]) Debug.LogError("meleeAttackAvailable false");
-            //if (!(bool)agent.State["gcdReady"]) Debug.LogError("gcdReady false");
-            //if (!(bool)agent.State["facingPlayer"]) Debug.LogError("facingPlayer false");
-            //if (!(bool)agent.State["playerAlive"]) Debug.LogError("playerAlive false");
-            //if ((bool)agent.State["paralyzed"]) Debug.LogError("paralyzed true");
-            if ((bool)agent.State["seePlayer"] && (bool)agent.State["inMeleeRangeOfPlayer"] && (bool)agent.State["meleeAttackAvailable"] && (bool)agent.State["gcdReady"] && (bool)agent.State["facingPlayer"] && (bool)agent.State["playerAlive"] && !(bool)agent.State["paralyzed"]) Debug.Log("ready to RUMBLE");
         };
         Agent.OnPlanningFinishedForSingleGoal += (agent, goal, utility) => {
             Debug.Log($"Agent {agent.Name} finished planning for goal {goal.Name}, utility value {utility}.");
@@ -302,17 +307,18 @@ public class MGMonsterAI : MonoBehaviour {
             Debug.Log($"Evaluating node {node.Action?.Name} with {cameFromList.Count - 1} nodes leading to it.");
         };
         Sensor.OnSensorRun += (agent, sensor) => {
-            Debug.Log($"Agent {agent.Name} ran sensor {sensor.Name}.");
+            //Debug.Log($"Agent {agent.Name} ran sensor {sensor.Name}.");
         };
     }
 
-    // Update is called once per frame
-    void Update() {
-        timer+= Time.deltaTime;
-        if (timer >= 1) {
+    void FixedUpdate() {
+        //timer+= Time.deltaTime;
+        //if (timer >= 1f) {
+            position = transform.position;
+            destination = GetComponent<NavMeshAgent>().destination;
             Agent.Step();
-            timer = 0;
-        }
+        //    timer = 0;
+        //}
     }
 
     private ExecutorCallback GetFacePlayerExecutor() {
@@ -325,6 +331,7 @@ public class MGMonsterAI : MonoBehaviour {
             Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
+                //var target = PlayerCharacter.localPlayer.gameObject;
                 started = true;
                 originalRotation = transform.rotation;
                 targetLookRotation = Quaternion.LookRotation(target.transform.position - transform.position);
@@ -387,6 +394,7 @@ public class MGMonsterAI : MonoBehaviour {
             Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
+                //var target = PlayerCharacter.localPlayer.gameObject;
                 started = true;
                 originalRotation = transform.rotation;
                 targetLookRotation = Quaternion.LookRotation(target.transform.position - transform.position);
@@ -414,6 +422,7 @@ public class MGMonsterAI : MonoBehaviour {
         return (agent, action) => {
             Debug.Log($"executing {action.Name}");
             var target = action.GetParameter("target") as GameObject;
+            //var target = PlayerCharacter.localPlayer.gameObject;
             if (!started) {
                 started = true;
                 SetDestination(navMeshAgent, target);
@@ -524,17 +533,15 @@ public class MGMonsterAI : MonoBehaviour {
     }
 
     private CostCallback GetPursuePlayerCostCallback() {
-        var navMeshAgent = GetComponent<NavMeshAgent>();
         return (action, state) => {
-            var distance = Vector3.Distance(transform.position, navMeshAgent.destination);
+            var distance = Vector3.Distance(position, destination);
             return 1f + (distance / 2f);
         };
     }
 
     private CostCallback GetMoveToPlayerCostCallback() {
-        var navMeshAgent = GetComponent<NavMeshAgent>();
         return (action, state) => {
-            var distanceToTarget = Vector3.Distance(transform.position, navMeshAgent.destination);
+            var distanceToTarget = Vector3.Distance(position, destination);
             return 1f + (distanceToTarget / 2f);
         };
     }
