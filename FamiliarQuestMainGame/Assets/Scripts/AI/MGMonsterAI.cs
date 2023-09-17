@@ -264,7 +264,6 @@ public class MGMonsterAI : MonoBehaviour {
         var facePlayerTimer = 0f;
         var turnTime = 0.1f;
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
                 started = true;
@@ -291,7 +290,6 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (monsterBaseAbilities == null || abilityUser == null) return ExecutionStatus.Failed;
             if (UseMeleeAttack(new List<List<ActiveAbility>>() { monsterBaseAbilities.baseAbilities, abilityUser.soulGemActives }, abilityUser)) {
                 monsterAnimationController.attacking = true;
@@ -306,7 +304,6 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (monsterBaseAbilities == null || abilityUser == null) return ExecutionStatus.Failed;
             if (UseRangedAttack(new List<List<ActiveAbility>>() { monsterBaseAbilities.baseAbilities, abilityUser.soulGemActives }, abilityUser)) {
                 monsterAnimationController.attacking = true;
@@ -326,7 +323,6 @@ public class MGMonsterAI : MonoBehaviour {
         var monsterBaseAbilities = GetComponent<MonsterBaseAbilities>();
         var abilityUser = GetComponent<AbilityUser>();
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (!started) {
                 var target = action.GetParameter("target") as GameObject;
                 started = true;
@@ -354,7 +350,6 @@ public class MGMonsterAI : MonoBehaviour {
         var navMeshAgent = GetComponent<NavMeshAgent>();
         var monsterAnimationController = GetComponent<MonsterAnimationController>();
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             var target = action.GetParameter("target") as GameObject;
             if (!started) {
                 started = true;
@@ -377,7 +372,6 @@ public class MGMonsterAI : MonoBehaviour {
 
     private ExecutorCallback GetWaitForGcdExecutor() {
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (agent.State["gcdReady"].Equals(true)) return ExecutionStatus.Succeeded;
             return ExecutionStatus.Executing;
         };
@@ -388,7 +382,6 @@ public class MGMonsterAI : MonoBehaviour {
         var navMeshAgent = GetComponent<NavMeshAgent>();
         var started = false;
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             var playerMemory = agent.Memory["characters"] as AI.Data.MemoryOfCharacters;
             var player = playerMemory.GetClosestPlayerMemory(transform.position);
             if (player == null) return ExecutionStatus.Failed;
@@ -440,7 +433,6 @@ public class MGMonsterAI : MonoBehaviour {
             actions[movePhase]();
         };
         return (agent, action) => {
-            Debug.Log($"executing {action.Name}");
             if (!started) {
                 started = true;
                 movePhase = 0;
@@ -456,7 +448,6 @@ public class MGMonsterAI : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(Quaternion.Euler(startRotation), Quaternion.Euler(targetLookRotation), lookAroundTimer / turnTime);
                 if (lookAroundTimer >= turnTime) finishTurn();
                 if (movePhase >= 3) {
-                    Debug.Log("terminating look around");
                     started = false;
                     return ExecutionStatus.Succeeded;
                 }
@@ -513,7 +504,7 @@ public class MGMonsterAI : MonoBehaviour {
     private bool IsMeleeAttackAvailable(List<List<ActiveAbility>> lists) {
         foreach (var list in lists) {
             foreach (var ability in list) {
-                if (IsMeleeAttack(ability)) return true;
+                if (IsMeleeAttack(ability) && ability.currentCooldown == 0) return true;
             }
         }
         return false;
@@ -522,7 +513,7 @@ public class MGMonsterAI : MonoBehaviour {
     private bool IsRangedAttackAvailable(List<List<ActiveAbility>> lists) {
         foreach (var list in lists) {
             foreach (var ability in list) {
-                if (IsRangedAttack(ability)) return true;
+                if (IsRangedAttack(ability) && ability.currentCooldown == 0) return true;
             }
         }
         return false;

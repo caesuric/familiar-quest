@@ -41,8 +41,8 @@ public class Monster : MonoBehaviour {
 
     private void Update() {
         var inCombat = (bool)monsterAi.Agent.State["seePlayer"];
-        if (inCombat && unitFrame!=null && !unitFrame.activeSelf) unitFrame.SetActive(true);
-        else if (!inCombat && unitFrame!=null && unitFrame.activeSelf) unitFrame.SetActive(false);
+        if (inCombat && unitFrame != null && !unitFrame.activeSelf) unitFrame.SetActive(true);
+        else if (!inCombat && unitFrame != null && unitFrame.activeSelf) unitFrame.SetActive(false);
     }
 
     void OnDestroy() {
