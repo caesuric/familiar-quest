@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MountainGoap;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -39,9 +40,101 @@ public class Boss : MonoBehaviour {
         SetupBossPatterns();
         gameObject.name += " (BOSS)";
         var tm = GetComponent<MGMonsterAI>();
-        //tm.Agent.Sensors.Add(new AI.Sensors.BossAbilityTracking());
-        //tm.availableActions.Add(new AI.Actions.HitPlayerWithBossMeleeAttack());
-        //tm.availableActions.Add(new AI.Actions.HitPlayerWithBossRangedAttack());
+        var boss = this;
+        var IsMeleeAbility = (ActiveAbility ability) => {
+            if (ability is AttackAbility) {
+                var attackAbility = ability as AttackAbility;
+                if (attackAbility.isRanged == false) return true;
+            }
+            return false;
+        };
+        var IsRangedAbility = (ActiveAbility ability) => {
+            if (ability is AttackAbility) {
+                var attackAbility = ability as AttackAbility;
+                if (attackAbility.isRanged || attackAbility.FindAttribute("chargeTowards") != null) return true;
+            }
+            return false;
+        };
+        var IsUtilityAbility = (ActiveAbility ability) => {
+            if (ability is UtilityAbility) return true;
+            return false;
+        };
+        var IsMeleeAttackAvailable = () => {
+            foreach (var ability in boss.bossAbilities) if (IsMeleeAbility(ability) && ability.currentCooldown == 0) return true;
+            return false;
+        };
+        var IsRangedAttackAvailable = () => {
+            foreach (var ability in boss.bossAbilities) if (IsRangedAbility(ability) && ability.currentCooldown == 0) return true;
+            return false;
+        };
+        var IsUtilityAbilityAvailable = () => {
+            foreach (var ability in boss.bossAbilities) if (IsUtilityAbility(ability) && ability.currentCooldown == 0) return true;
+            return false;
+        };
+        tm.Agent.Sensors.Add(new(
+            (agent) => {
+                agent.State["bossMeleeAttackAvailable"] = IsMeleeAttackAvailable();
+                agent.State["bossRangedAttackAvailable"] = IsRangedAttackAvailable();
+                agent.State["bossUtilityAbilityAvailable"] = IsUtilityAbilityAvailable();
+            },
+            name: "Boss Ability Tracking Sensor"
+        ));
+        var monsterAnimationController = GetComponent<MonsterAnimationController>();
+        var abilityUser = GetComponent<AbilityUser>();
+        var HitPlayerWithMeleeAttack = () => {
+            foreach (var ability in boss.bossAbilities) if (IsMeleeAbility(ability) && ability.currentCooldown == 0) {
+                abilityUser.UseAbility(ability);
+                return;
+            }
+        };
+        var HitPlayerWithRangedAttack = () => {
+            foreach (var ability in boss.bossAbilities) if (IsRangedAbility(ability) && ability.currentCooldown == 0) {
+                abilityUser.UseAbility(ability);
+                return;
+            }
+        };
+        tm.Agent.Actions.Add(new(
+            name: "Hit Player With Boss Melee Attack",
+            preconditions: new Dictionary<string, object>() {
+                { "seePlayer", true },
+                { "inMeleeRangeOfPlayer", true },
+                { "bossMeleeAttackAvailable", true },
+                { "gcdReady", true },
+                { "facingPlayer", true },
+                { "playerAlive", true }
+            },
+            postconditions: new Dictionary<string, object>() {
+                { "playerHurt", true },
+                { "gcdReady", false }
+            },
+            cost:  1f,
+            executor: (agent, action) => {
+                monsterAnimationController.attacking = true;
+                HitPlayerWithMeleeAttack();
+                return ExecutionStatus.Succeeded;
+            }
+        ));
+        tm.Agent.Actions.Add(new(
+            name: "Hit Player With Boss Ranged Attack",
+            preconditions: new Dictionary<string, object>() {
+                { "seePlayer", true },
+                { "bossRangedAttackAvailable", true },
+                { "gcdReady", true },
+                { "facingPlayer", true },
+                { "facingPlayerPrecisely", true },
+                { "playerAlive", true }
+            },
+            postconditions: new Dictionary<string, object>() {
+                { "playerHurt", true },
+                { "gcdReady", false }
+            },
+            cost: 1f,
+            executor: (Agent, Action) => {
+                monsterAnimationController.attacking = true;
+                HitPlayerWithRangedAttack();
+                return ExecutionStatus.Succeeded;
+            }
+        ));
         //tm.availableActions.Add(new AI.Actions.FacePlayerWhileUsingBossRangedAttack());
         //tm.availableActions.Add(new AI.Actions.UseBossUtilityAbility());
         element = RNG.EnumValue<Element>();
