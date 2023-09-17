@@ -21,7 +21,7 @@ public class MGMonsterAI : MonoBehaviour {
             { "gcdReady", true },
             { "meleeAttackAvailable", false },
             { "rangedAttackAvailable", false },
-            { "bossMeleeAttackAvailable", false },
+            { "bossMeleeAttackAvailable", false }, 
             { "bossRangedAttackAvailable", false },
             { "bossUtilityAbilityAvailable", false },
             { "paralyzed", false },
@@ -49,7 +49,7 @@ public class MGMonsterAI : MonoBehaviour {
                 { "facingPlayerPrecisely", true }
             },
             permutationSelectors: new Dictionary<string, PermutationSelectorCallback> {
-                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<List<GameObject>>("playersInFieldOfVision") }
+                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<GameObject>("playersInFieldOfVision") }
             },
             executor: GetFacePlayerExecutor()
         );
@@ -70,7 +70,7 @@ public class MGMonsterAI : MonoBehaviour {
                 { "gcdReady", false }
             },
             permutationSelectors: new Dictionary<string, PermutationSelectorCallback> {
-                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<List<GameObject>>("playersInFieldOfVision") }
+                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<GameObject>("playersInFieldOfVision") }
             },
             executor: GetHitPlayerWithMeleeAttackExecutor()
         );
@@ -91,7 +91,7 @@ public class MGMonsterAI : MonoBehaviour {
                 { "gcdReady", false }
             },
             permutationSelectors: new Dictionary<string, PermutationSelectorCallback> {
-                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<List<GameObject>>("playersInFieldOfVision") }
+                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<GameObject>("playersInFieldOfVision") }
             },
             executor: GetHitPlayerWithRangedAttackExecutor()
         );
@@ -111,7 +111,7 @@ public class MGMonsterAI : MonoBehaviour {
                 { "gcdReady", false }
             },
             permutationSelectors: new Dictionary<string, PermutationSelectorCallback> {
-                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<List<GameObject>>("playersInFieldOfVision") }
+                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<GameObject>("playersInFieldOfVision") }
             },
             executor: GetFacePlayerWhileUsingRangedAttackExecutor()
         );
@@ -128,7 +128,7 @@ public class MGMonsterAI : MonoBehaviour {
                 { "facingPlayer", true }
             },
             permutationSelectors: new Dictionary<string, PermutationSelectorCallback> {
-                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<List<GameObject>>("playersInFieldOfVision") }
+                { "target", PermutationSelectorGenerators.SelectFromCollectionInState<GameObject>("playersInFieldOfVision") }
             },
             executor: GetMoveToPlayerExecutor(),
             costCallback: GetMoveToPlayerCostCallback()
@@ -162,7 +162,7 @@ public class MGMonsterAI : MonoBehaviour {
             name: "Look Around",
             cost: 1f,
             preconditions: new Dictionary<string, object> {
-                //{ "seePlayer", false },
+                { "seePlayer", false },
                 { "paralyzed", false }
             },
             postconditions: new Dictionary<string, object> {
@@ -199,9 +199,9 @@ public class MGMonsterAI : MonoBehaviour {
                 agent.State["playerHurt"] = !(agent.State["playerAlive"].Equals(true));
                 //agent.State["playerHurt"] = false;
                 agent.State["awareOfSurroundings"] = false;
-                //agent.State["playersInFieldOfVision"] = fov.players;
-                fovList.Clear();
-                fovList.AddRange(fov.players);
+                agent.State["playersInFieldOfVision"] = fov.players;
+                //fovList.Clear();
+                //fovList.AddRange(fov.players);
             },
             name: "Sight Sensor"
         );
@@ -229,6 +229,7 @@ public class MGMonsterAI : MonoBehaviour {
         );
         Agent = new Agent(
             name: gameObject.name,
+            costMaximum: 5f,
             goals: new List<BaseGoal> {
                 hurtPlayerGoal,
                 stayAlertGoal
@@ -482,7 +483,7 @@ public class MGMonsterAI : MonoBehaviour {
         var startRotation = new Vector3();
         var targetLookRotation = new Vector3();
         var movePhase = 0;
-        var timer = 0f;
+        var lookAroundTimer = 0f;
         var turnTime = 0.25f;
         var rotationAmount = 0f;
         System.Action completeMovePhase1 = () => {
@@ -503,7 +504,7 @@ public class MGMonsterAI : MonoBehaviour {
         };
         System.Action finishTurn = () => {
             movePhase++;
-            timer = 0f;
+            lookAroundTimer = 0f;
             actions[movePhase]();
         };
         return (agent, action) => {
@@ -514,14 +515,14 @@ public class MGMonsterAI : MonoBehaviour {
                 startRotation = originalRotation = transform.eulerAngles;
                 rotationAmount = Random.Range(30f, 90f);
                 targetLookRotation = new Vector3(originalRotation.x, originalRotation.y - rotationAmount, originalRotation.z);
-                timer = 0f;
+                lookAroundTimer = 0f;
                 turnTime = Random.Range(2f, 4f);
                 return ExecutionStatus.Executing;
             }
             else {
-                timer += Time.deltaTime;
-                transform.rotation = Quaternion.Slerp(Quaternion.Euler(startRotation), Quaternion.Euler(targetLookRotation), timer / turnTime);
-                if (timer >= turnTime) finishTurn();
+                lookAroundTimer += Time.deltaTime;
+                transform.rotation = Quaternion.Slerp(Quaternion.Euler(startRotation), Quaternion.Euler(targetLookRotation), lookAroundTimer / turnTime);
+                if (lookAroundTimer >= turnTime) finishTurn();
                 if (movePhase >= 3) {
                     Debug.Log("terminating look around");
                     started = false;

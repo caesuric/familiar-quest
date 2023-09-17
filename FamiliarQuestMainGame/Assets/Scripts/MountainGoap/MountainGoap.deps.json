@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "MountainGoap/0.9.0": {
+      "MountainGoap/0.10.0": {
         "dependencies": {
           "StyleCop.Analyzers": "1.1.118"
         },
@@ -19,7 +19,7 @@
     }
   },
   "libraries": {
-    "MountainGoap/0.9.0": {
+    "MountainGoap/0.10.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

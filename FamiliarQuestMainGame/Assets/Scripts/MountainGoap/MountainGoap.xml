@@ -177,7 +177,7 @@
             Chains of actions currently being performed by the agent.
             </summary>
         </member>
-        <member name="M:MountainGoap.Agent.#ctor(System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.List{MountainGoap.BaseGoal},System.Collections.Generic.List{MountainGoap.Action},System.Collections.Generic.List{MountainGoap.Sensor})">
+        <member name="M:MountainGoap.Agent.#ctor(System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.List{MountainGoap.BaseGoal},System.Collections.Generic.List{MountainGoap.Action},System.Collections.Generic.List{MountainGoap.Sensor},System.Single)">
             <summary>
             Initializes a new instance of the <see cref="T:MountainGoap.Agent"/> class.
             </summary>
@@ -187,6 +187,7 @@
             <param name="goals">Initial agent goals.</param>
             <param name="actions">Actions available to the agent.</param>
             <param name="sensors">Sensors available to the agent.</param>
+            <param name="costMaximum">Maximum cost of an allowable plan.</param>
         </member>
         <member name="E:MountainGoap.Agent.OnAgentStep">
             <summary>
@@ -246,6 +247,11 @@
         <member name="P:MountainGoap.Agent.Sensors">
             <summary>
             Gets or sets the sensors available to the agent.
+            </summary>
+        </member>
+        <member name="P:MountainGoap.Agent.CostMaximum">
+            <summary>
+            Gets or sets the plan cost maximum for the agent.
             </summary>
         </member>
         <member name="P:MountainGoap.Agent.IsBusy">
@@ -592,13 +598,14 @@
             Goal state that AStar is trying to achieve.
             </summary>
         </member>
-        <member name="M:MountainGoap.ActionAStar.#ctor(MountainGoap.ActionGraph,MountainGoap.ActionNode,MountainGoap.BaseGoal)">
+        <member name="M:MountainGoap.ActionAStar.#ctor(MountainGoap.ActionGraph,MountainGoap.ActionNode,MountainGoap.BaseGoal,System.Single)">
             <summary>
             Initializes a new instance of the <see cref="T:MountainGoap.ActionAStar"/> class.
             </summary>
             <param name="graph">Graph to be traversed.</param>
             <param name="start">Action from which to start.</param>
             <param name="goal">Goal state to be achieved.</param>
+            <param name="costMaximum">Maximum allowable cost for a plan.</param>
         </member>
         <member name="T:MountainGoap.ActionGraph">
             <summary>
@@ -719,11 +726,12 @@
             Planner for an agent.
             </summary>
         </member>
-        <member name="M:MountainGoap.Planner.Plan(MountainGoap.Agent)">
+        <member name="M:MountainGoap.Planner.Plan(MountainGoap.Agent,System.Single)">
             <summary>
             Makes a plan to achieve the agent's goals.
             </summary>
             <param name="agent">Agent using the planner.</param>
+            <param name="costMaximum">Maximum allowable cost for a plan.</param>
         </member>
         <member name="M:MountainGoap.Planner.UpdateAgentActionList(MountainGoap.ActionNode,MountainGoap.ActionAStar,MountainGoap.Agent)">
             <summary>
@@ -769,6 +777,15 @@
             <param name="a">First element to be compared.</param>
             <param name="b">Second element to be compared.</param>
             <returns>True if higher or equal, false otherwise.</returns>
+        </member>
+        <member name="M:MountainGoap.Utils.MeetsGoal(MountainGoap.BaseGoal,MountainGoap.ActionNode,MountainGoap.ActionNode)">
+            <summary>
+            Indicates whether or not a goal is met by an action node.
+            </summary>
+            <param name="goal">Goal to be met.</param>
+            <param name="actionNode">Action node being tested.</param>
+            <param name="current">Prior node in the action chain.</param>
+            <returns>True if the goal is met, otherwise false.</returns>
         </member>
         <member name="T:MountainGoap.PermutationSelectorGenerators">
             <summary>
