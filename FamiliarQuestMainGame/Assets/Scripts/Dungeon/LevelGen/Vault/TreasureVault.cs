@@ -228,7 +228,7 @@ public class TreasureVault : Vault {
         conceptsUsed.Add(conceptList);
         for (int i = 1; i < numPathEncounters; i++) {
             conceptList = new List<bool>();
-            float chanceOfNew = i / numPathEncounters;
+            float chanceOfNew = (float)i / numPathEncounters;
             float roll = RNG.Float(0, 1);
             if (roll <= chanceOfNew && HasUnintroducedConcepts(conceptsIntroduced)) {
                 //introduce new concept
